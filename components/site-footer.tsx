@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import type { MouseEvent } from "react";
 import { ButtonLink } from "./button-link";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
@@ -9,6 +12,15 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 export function SiteFooter() {
+  const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    const top = document.getElementById("top");
+    if (!top) return;
+
+    event.preventDefault();
+    top.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.pushState(null, "", "#top");
+  };
+
   return (
     <>
       <section className="section-pad border-t border-stone-100/10">
@@ -28,8 +40,8 @@ export function SiteFooter() {
             </div>
           </div>
           <div className="footer-cta-center">
-            <p className="footer-cta-date copy-wide text-xs text-red-300">
-              Vol. 1 | 6.8.26 | NYC
+            <p className="footer-cta-date copy-wide text-xs font-extrabold text-red-300">
+              Film Show | Vol. 1 | October 8th, 2026 | New York City
             </p>
             <div className="footer-cta-buttons mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href={LUMA_EVENT_URL} newTab>
@@ -49,6 +61,7 @@ export function SiteFooter() {
             <Link
               href="/#top"
               data-scroll-top
+              onClick={handleTopClick}
               className="footer-logo-link inline-flex w-fit cursor-pointer items-center transition hover:opacity-80"
               aria-label="Scroll to the top of Film Show home page"
               title="Back to top"
@@ -65,6 +78,7 @@ export function SiteFooter() {
             <Link
               href="/#top"
               data-scroll-top
+              onClick={handleTopClick}
               className="footer-cowboy-link inline-flex w-fit cursor-pointer items-center transition hover:opacity-80"
               aria-label="Scroll to the top of Film Show home page"
               title="Back to top"

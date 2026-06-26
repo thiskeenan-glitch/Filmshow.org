@@ -51,6 +51,16 @@ export function SiteHeader() {
     setActiveHash(hash);
   };
 
+  const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    const top = document.getElementById("top");
+    if (!top) return;
+
+    event.preventDefault();
+    top.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.pushState(null, "", "#top");
+    setActiveHash("");
+  };
+
   useEffect(() => {
     let frame = 0;
 
@@ -171,6 +181,7 @@ export function SiteHeader() {
           <Link
             href="/#top"
             data-scroll-top
+            onClick={handleTopClick}
             className={`header-brand ${showFullLogo ? "is-logo-visible" : "is-cowboy-visible"}`}
             aria-label="Scroll to the top of Film Show home page"
             title="Back to top"
