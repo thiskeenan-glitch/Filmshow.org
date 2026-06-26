@@ -562,8 +562,15 @@ body::before {
   margin-top: clamp(2.25rem, 5vw, 4.75rem);
 }
 
+.footer-cta-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(4rem, 9vw, 8rem);
+  text-align: center;
+}
+
 .footer-cta-date {
-  margin-top: clamp(2.25rem, 5vw, 4.75rem);
   text-align: center;
 }
 
@@ -581,7 +588,7 @@ body::before {
 .footer-brand-row {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: clamp(2rem, 6vw, 5rem);
 }
 

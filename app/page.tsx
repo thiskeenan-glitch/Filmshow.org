@@ -13,12 +13,6 @@ const SUBMIT_VIDEO = "/videos/submit-loop.mp4";
 
 const galleryPhotos = [
   {
-    src: "/images/tfs-poster.png",
-    alt: "Film Show Volume 1 poster",
-    position: "center",
-    square: true,
-  },
-  {
     src: "/images/the-space.heic",
     alt: "Film Show event space before the screening",
     position: "center",
@@ -57,6 +51,12 @@ const galleryPhotos = [
     alt: "Performers high five beside a ladder during a live performance",
     position: "center top",
     portrait: true,
+  },
+  {
+    src: "/images/tfs-poster.png",
+    alt: "Film Show Volume 1 poster",
+    position: "center",
+    square: true,
   },
 ];
 

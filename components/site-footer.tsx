@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "./button-link";
 
+const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
 const CONTACT_EMAIL = "info@thisbird.org";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
@@ -24,17 +25,19 @@ export function SiteFooter() {
               >
                 {CONTACT_EMAIL}
               </a>
-              <p className="footer-cta-date copy-wide text-xs text-red-300">
-                Vol. 1 | 6.8.26 | NYC
-              </p>
-              <div className="footer-cta-buttons mt-8 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href={LUMA_EVENT_URL} newTab>
-                  Get Tickets
-                </ButtonLink>
-                <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
-                  Submit Film
-                </ButtonLink>
-              </div>
+            </div>
+          </div>
+          <div className="footer-cta-center">
+            <p className="footer-cta-date copy-wide text-xs text-red-300">
+              Vol. 1 | 6.8.26 | NYC
+            </p>
+            <div className="footer-cta-buttons mt-8 flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href={LUMA_EVENT_URL} newTab>
+                Get Tickets
+              </ButtonLink>
+              <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
+                Submit Film
+              </ButtonLink>
             </div>
           </div>
         </div>
@@ -43,6 +46,22 @@ export function SiteFooter() {
       <footer className="poster-field border-t border-stone-100/10 py-14">
         <div className="container-page text-stone-300">
           <div className="footer-brand-row">
+            <Link
+              href="/#top"
+              data-scroll-top
+              className="footer-logo-link inline-flex w-fit cursor-pointer items-center transition hover:opacity-80"
+              aria-label="Scroll to the top of Film Show home page"
+              title="Back to top"
+            >
+              <Image
+                src={LOGO_SRC}
+                alt="Film Show"
+                width={3400}
+                height={1362}
+                unoptimized
+                className="site-logo-footer"
+              />
+            </Link>
             <Link
               href="/#top"
               data-scroll-top
