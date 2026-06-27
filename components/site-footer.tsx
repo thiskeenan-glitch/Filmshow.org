@@ -40,8 +40,8 @@ export function SiteFooter() {
             </div>
           </div>
           <div className="footer-cta-center">
-            <p className="footer-cta-date copy-wide text-xs font-extrabold text-red-300">
-              Film Show | Vol. 1 | October 8th, 2026 | New York City
+            <p className="footer-cta-date copy-wide font-extrabold text-red-300">
+              FILM SHOW VOL. 1 | OCTOBER 8TH | NEW YORK CITY
             </p>
             <div className="footer-cta-buttons mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href={LUMA_EVENT_URL} newTab>

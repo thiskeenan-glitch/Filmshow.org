@@ -11,9 +11,9 @@ Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 - `/tickets` - Branded ticket information page with purchase handled by Luma
 - `/sponsors` - Sponsor information and inquiry form
 
-## Poster
+## Images
 
-The site is intentionally typography-first. The rendered imagery is limited to the official logo, the header mascot, and the featured poster.
+The site uses the official Film Show logo, the red cowboy mascot, the featured poster, and curated event photos in the homepage gallery.
 
 ## Run locally
 

@@ -13,7 +13,7 @@ const SUBMIT_VIDEO = "/videos/submit-loop.mp4";
 
 const galleryPhotos = [
   {
-    src: "/images/the-space.heic",
+    src: "/images/the-space.jpg",
     alt: "Film Show event space before the screening",
     position: "center",
   },
@@ -89,7 +89,7 @@ const works = [
 ];
 
 const cashAwards = [
-  ["1st Place", "$3,000", "Selected by a jury of established filmmakers and artists. Winner gets $3,000 cash."],
+  ["1st Place", "$3,000", "Selected by The Film Show jury. Winner gets $3,000 cash."],
   ["2nd Place", "$2,000", "Determined by live audience vote. Winner gets $2,000 cash."],
   ["3rd Place", "$1,000", "Determined by live audience vote. Winner gets $1,000 cash."],
 ];
@@ -166,6 +166,20 @@ export default function Home() {
       <section id="top" className="og-hero relative isolate overflow-hidden">
         <div className="container-page relative z-10">
           <div className="hero-lockup mx-auto flex w-full flex-col">
+            <div className="hero-mobile-actions">
+              <p className="hero-mobile-event-line">
+                THE FILM SHOW | VOL. 1 | OCTOBER 8TH 2026 | NEW YORK CITY
+              </p>
+              <div className="hero-mobile-buttons">
+                <ButtonLink href={LUMA_EVENT_URL} newTab>
+                  Get Tickets
+                </ButtonLink>
+                <ButtonLink href="https://filmfreeway.com/TheFilmShow" variant="secondary" newTab>
+                  Submit Film
+                </ButtonLink>
+              </div>
+            </div>
+
             <div className="hero-brand-row">
               <p className="hero-eyebrow copy-wide small-label text-red-500">
                 VOL. 1 | 6.8.26 | NYC
@@ -186,9 +200,14 @@ export default function Home() {
 
             <div className="hero-text-block mx-auto flex max-w-3xl flex-col items-center text-center">
               <p className="hero-copy body-large mt-12 text-stone-300">
-                A live NYC short film event featuring curated shorts, live performances,
-                $6,000 cash, jury-selected 1st Place, and live audience
-                voting for 2nd and 3rd.
+                <span className="hero-copy-desktop">
+                  A live NYC short film event featuring curated shorts, live performances,
+                  $6,000 cash, jury-selected 1st Place, and live audience
+                  voting for 2nd and 3rd.
+                </span>
+                <span className="hero-copy-mobile">
+                  A live NYC short film event with performances, audience voting, and $6,000 cash.
+                </span>
               </p>
 
               <p className="hero-manifesto copy-wide mt-8 w-fit border-y border-red-500/35 py-3 text-[0.75rem] text-red-300">

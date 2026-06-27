@@ -40,8 +40,9 @@ export default function TicketsPage() {
             1st Place, live audience voting for 2nd and 3rd, and $6,000 cash.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
-            Film Show website is the home base. Luma handles ticket
-            purchase, confirmations, guest list, and check in.
+            Film Show website is the home base. Ticket purchase,
+            confirmations, guest list, and check in are handled by our partner
+            Luma.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href={LUMA_EVENT_URL} newTab>
@@ -91,8 +92,8 @@ export default function TicketsPage() {
             <div>
               <p className="copy-wide small-label text-red-300">Ticketing</p>
               <p className="body-copy mt-5 max-w-2xl text-stone-300">
-                Luma handles ticket purchase, confirmations, guest list, and
-                check in.
+                Ticket purchase, confirmations, guest list, and check in are
+                handled by our partner Luma.
               </p>
             </div>
             <ButtonLink href={LUMA_EVENT_URL} newTab>

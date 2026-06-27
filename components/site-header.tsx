@@ -12,11 +12,11 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 const navItems = [
-  { href: "/#about", label: "About" },
-  { href: "/#photos", label: "Photos" },
-  { href: "/#cash", label: "Cash" },
-  { href: "/#submit", label: "Submit" },
   { href: "/#tickets", label: "Tickets" },
+  { href: "/#submit", label: "Submit" },
+  { href: "/#photos", label: "Photos" },
+  { href: "/#about", label: "About" },
+  { href: "/#cash", label: "Cash" },
   { href: "/#faq", label: "FAQ" },
 ];
 
@@ -25,13 +25,14 @@ export function SiteHeader() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showFullLogo, setShowFullLogo] = useState(false);
   const [activeHash, setActiveHash] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navTrackRef = useRef<HTMLDivElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [dotStyle, setDotStyle] = useState({ left: 0, visible: false });
   const isActive = (href: string) => {
     if (href.includes("#")) {
       const hash = href.slice(href.indexOf("#"));
-      return (pathname === "/" || pathname.endsWith("index.html")) && activeHash === hash;
+      return activeHash === hash;
     }
 
     return href === pathname;
@@ -49,6 +50,7 @@ export function SiteHeader() {
     section.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.pushState(null, "", hash);
     setActiveHash(hash);
+    setIsMobileMenuOpen(false);
   };
 
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -59,7 +61,24 @@ export function SiteHeader() {
     top.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.pushState(null, "", "#top");
     setActiveHash("");
+    setIsMobileMenuOpen(false);
   };
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     let frame = 0;
@@ -76,31 +95,42 @@ export function SiteHeader() {
           : heroBottom < viewportHeight * 0.42,
       );
 
-      if (!(pathname === "/" || pathname.endsWith("index.html"))) {
-        setActiveHash("");
-        return;
-      }
-
-      if (heroBottom > viewportHeight * 0.58) {
-        setActiveHash("");
-        return;
-      }
-
-      const headerOffset = 132;
-      const activeSection = navItems
+      const sections = navItems
         .map((item) => {
           const id = item.href.slice(item.href.indexOf("#") + 1);
           const el = document.getElementById(id);
           if (!el) return null;
 
-          const rect = el.getBoundingClientRect();
           return {
             hash: `#${id}`,
+            el,
+          };
+        })
+        .filter((section): section is { hash: string; el: HTMLElement } => Boolean(section));
+
+      if (!sections.length) {
+        setActiveHash("");
+        return;
+      }
+
+      const headerHeight =
+        document.querySelector<HTMLElement>(".texture-header")?.getBoundingClientRect().height ?? 108;
+      const headerOffset = Math.min(window.innerHeight * 0.42, headerHeight + 28);
+
+      if (hero && heroBottom > headerOffset + 80) {
+        setActiveHash("");
+        return;
+      }
+
+      const activeSection = sections
+        .map((section) => {
+          const rect = section.el.getBoundingClientRect();
+          return {
+            hash: section.hash,
             top: rect.top,
             bottom: rect.bottom,
           };
         })
-        .filter((section): section is { hash: string; top: number; bottom: number } => Boolean(section))
         .find((section) => section.top <= headerOffset && section.bottom > headerOffset);
 
       if (activeSection) {
@@ -108,18 +138,11 @@ export function SiteHeader() {
         return;
       }
 
-      const nearestSection = navItems
-        .map((item) => {
-          const id = item.href.slice(item.href.indexOf("#") + 1);
-          const el = document.getElementById(id);
-          if (!el) return null;
-
-          return {
-            hash: `#${id}`,
-            distance: Math.abs(el.getBoundingClientRect().top - headerOffset),
-          };
-        })
-        .filter((section): section is { hash: string; distance: number } => Boolean(section))
+      const nearestSection = sections
+        .map((section) => ({
+          hash: section.hash,
+          distance: Math.abs(section.el.getBoundingClientRect().top - headerOffset),
+        }))
         .sort((a, b) => a.distance - b.distance)[0];
 
       setActiveHash(nearestSection?.hash ?? "");
@@ -152,7 +175,7 @@ export function SiteHeader() {
     const track = navTrackRef.current;
     const link = hash ? navLinkRefs.current[hash] : null;
 
-    if (!track || !link || !(pathname === "/" || pathname.endsWith("index.html"))) {
+    if (!track || !link) {
       setDotStyle((current) => ({ ...current, visible: false }));
       return;
     }
@@ -172,7 +195,7 @@ export function SiteHeader() {
     return () => {
       window.removeEventListener("resize", updateDot);
     };
-  }, [activeHash, pathname]);
+  }, [activeHash]);
 
   return (
     <header className={`texture-header top-0 z-40 w-full border-b ${hasScrolled ? "is-scrolled" : ""}`}>
@@ -227,7 +250,7 @@ export function SiteHeader() {
                 </Link>
               ))}
             </div>
-            <div className="flex shrink-0 items-center gap-2">
+            <div className="hidden shrink-0 items-center gap-2 lg:flex">
               <Link
                 href={LUMA_EVENT_URL}
                 target="_blank"
@@ -245,9 +268,22 @@ export function SiteHeader() {
                 Submit Film
               </Link>
             </div>
+            <button
+              type="button"
+              className="mobile-menu-toggle lg:hidden"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+            >
+              {isMobileMenuOpen ? "Close" : "Menu"}
+            </button>
           </div>
         </div>
-        <div className="mobile-header-links lg:hidden" aria-label="Section navigation">
+        <div
+          id="mobile-menu"
+          className={`mobile-header-menu lg:hidden ${isMobileMenuOpen ? "is-open" : ""}`}
+          aria-label="Section navigation"
+        >
           {navItems.map((item) => (
             <Link
               key={item.href}
