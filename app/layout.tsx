@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://filmshow.org"),
   title: "Film Show | NYC Short Film Event",
   description:
-    "A live NYC short film event with a jury selected 1st Place, audience voted 2nd and 3rd, live performances, and $6,000 cash.",
+    "A live NYC short film event with a jury selected 1st Place, audience voted 2nd and 3rd, live performances, and a $6,000 cash prize.",
   openGraph: {
     title: "Film Show | NYC Short Film Event",
     description:
-      "A live NYC short film event with a jury selected 1st Place, audience voted 2nd and 3rd, live performances, and $6,000 cash.",
+      "A live NYC short film event with a jury selected 1st Place, audience voted 2nd and 3rd, live performances, and a $6,000 cash prize.",
     images: [
       {
         url: "/images/tfs-poster.png",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Film Show | NYC Short Film Event",
     description:
-      "A live NYC short film event with a jury selected 1st Place, audience voted 2nd and 3rd, live performances, and $6,000 cash.",
+      "A live NYC short film event with a jury selected 1st Place, audience voted 2nd and 3rd, live performances, and a $6,000 cash prize.",
     images: ["/images/tfs-poster.png"],
   },
   icons: {

@@ -11,10 +11,10 @@ const details = [
   ["Date", "Vol. 1 | 6.8.26 | NYC"],
   ["Location", "New York City"],
   ["Films", "6 to 8, depending on length of live show"],
-  ["Cash", "$6,000"],
-  ["1st Place", "$3,000 cash, selected by a jury"],
-  ["2nd Place", "$2,000 cash, audience vote"],
-  ["3rd Place", "$1,000 cash, audience vote"],
+  ["Prize", "$6,000 cash prize"],
+  ["1st Place", "$3,000 cash prize, selected by The Film Show jury"],
+  ["2nd Place", "$2,000 cash prize, audience vote"],
+  ["3rd Place", "$1,000 cash prize, audience vote"],
 ];
 
 export default function AboutPage() {

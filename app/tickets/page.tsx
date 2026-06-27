@@ -10,7 +10,7 @@ export const metadata = {
 const eventFacts = [
   ["Date and time", "Vol. 1 | 6.8.26 | NYC"],
   ["Venue", "New York City location TBA"],
-  ["Cash", "$6,000"],
+  ["Prize", "$6,000 cash prize"],
   ["Voting", "The audience votes live for 2nd and 3rd Place"],
 ];
 
@@ -19,7 +19,7 @@ const nightIncludes = [
   "Live performance moments between films",
   "A jury-selected 1st Place",
   "Live audience voting for 2nd and 3rd Place",
-  "Winners announced in the room. Cash paid the night of the event.",
+  "Winners announced in the room. Cash prizes are awarded at the event.",
   "Drinks, sponsors, and a real night out feeling",
 ];
 
@@ -37,7 +37,7 @@ export default function TicketsPage() {
           <p className="body-large mt-10 max-w-2xl text-stone-300">
             Film Show is a live NYC screening event for Vol. 1 | 6.8.26 | NYC
             featuring curated short films, live performances, a jury-selected
-            1st Place, live audience voting for 2nd and 3rd, and $6,000 cash.
+            1st Place, live audience voting for 2nd and 3rd, and a $6,000 cash prize.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
             Film Show website is the home base. Ticket purchase,

@@ -1,6 +1,6 @@
 # Film Show
 
-A polished landing website for **Film Show**, an NYC short film event with live screenings, performances, a jury selected 1st Place, audience voted 2nd and 3rd, and $6,000 cash.
+A polished landing website for **Film Show**, an NYC short film event with live screenings, performances, a jury selected 1st Place, audience voted 2nd and 3rd, and a $6,000 cash prize.
 
 Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 

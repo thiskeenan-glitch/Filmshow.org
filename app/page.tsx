@@ -84,14 +84,14 @@ const works = [
   [
     "05",
     "The winners",
-    "The top three films are announced in the room. The cash is paid to each winning filmmaker the night of the event.",
+    "The top three films are announced in the room. Cash prizes are awarded to the winning filmmakers the night of the event.",
   ],
 ];
 
 const cashAwards = [
-  ["1st Place", "$3,000", "Selected by The Film Show jury. Winner gets $3,000 cash."],
-  ["2nd Place", "$2,000", "Determined by live audience vote. Winner gets $2,000 cash."],
-  ["3rd Place", "$1,000", "Determined by live audience vote. Winner gets $1,000 cash."],
+  ["1st Place", "$3,000", "Selected by The Film Show jury. Winner receives a $3,000 cash prize."],
+  ["2nd Place", "$2,000", "Determined by live audience vote. Winner receives a $2,000 cash prize."],
+  ["3rd Place", "$1,000", "Determined by live audience vote. Winner receives a $1,000 cash prize."],
 ];
 
 const filmmakerDetails = [
@@ -99,7 +99,7 @@ const filmmakerDetails = [
   ["Genres", "All genres welcome"],
   ["Location", "Filmmakers anywhere can submit"],
   ["Selected films", "6 to 8, depending on length of live show"],
-  ["Cash", "$6,000"],
+  ["Prize", "$6,000 cash prize"],
   ["Event", "New York City"],
 ];
 
@@ -126,8 +126,8 @@ const faqs = [
   ],
   [
     "05",
-    "When is the cash paid?",
-    "Cash is paid to the winning filmmaker the night of the event.",
+    "When is the cash prize awarded?",
+    "Cash prizes are awarded to the winning filmmakers the night of the event.",
   ],
   [
     "06",
@@ -202,16 +202,16 @@ export default function Home() {
               <p className="hero-copy body-large mt-12 text-stone-300">
                 <span className="hero-copy-desktop">
                   A live NYC short film event featuring curated shorts, live performances,
-                  $6,000 cash, jury-selected 1st Place, and live audience
+                  a $6,000 cash prize, jury-selected 1st Place, and live audience
                   voting for 2nd and 3rd.
                 </span>
                 <span className="hero-copy-mobile">
-                  A live NYC short film event with performances, audience voting, and $6,000 cash.
+                  A live NYC short film event with performances, audience voting, and a $6,000 cash prize.
                 </span>
               </p>
 
               <p className="hero-manifesto copy-wide mt-8 w-fit border-y border-red-500/35 py-3 text-[0.75rem] text-red-300">
-                Good art should make money.
+                Good art should be awarded.
               </p>
             </div>
           </div>
@@ -230,7 +230,7 @@ export default function Home() {
                 Film Show will be a live NYC screening event for Vol. 1 |
                 6.8.26 | NYC with curated short films, performance moments,
                 a jury-selected 1st Place, live audience voting for 2nd and
-                3rd, winners announced live, and cash paid the night of the event.
+                3rd, winners announced live, with cash prizes awarded at the event.
               </p>
               <p className="body-copy mt-5 max-w-xl text-stone-500">
                 Ticket purchase, confirmations, guest list, and check in are
@@ -350,19 +350,19 @@ export default function Home() {
 
       <Divider />
 
-      <section id="cash" className="section-pad cash-section">
+      <section id="prize" className="section-pad cash-section">
         <div className="container-page relative z-10">
-          <SectionLabel number="04" title="The money" />
+          <SectionLabel number="04" title="The prize" />
           <div className="cash-content">
             <div className="max-w-sm" data-reveal="text">
               <p className="cash-total-number text-stone-100">
                 $6,000
               </p>
               <p className="copy-wide mt-4 text-sm text-red-300">
-                Cash
+                Cash prize
               </p>
               <p className="mt-8 max-w-md text-sm leading-6 text-stone-500">
-                Cash paid to the winning filmmaker the night of the event.
+                Cash prizes are awarded to the winning filmmakers the night of the event.
               </p>
             </div>
             <div className="cash-cards">

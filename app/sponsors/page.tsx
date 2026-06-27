@@ -8,7 +8,7 @@ export const metadata = {
 const tiers = [
   ["Friend of the Show", "$500"],
   ["Supporting Sponsor", "$1,000"],
-  ["Cash Sponsor", "$2,500+"],
+  ["Prize Sponsor", "$2,500+"],
   ["Presenting Sponsor", "Custom"],
 ];
 

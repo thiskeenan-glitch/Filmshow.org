@@ -555,6 +555,54 @@ body::before {
   transition-delay: 90ms;
 }
 
+.header-cta {
+  display: inline-flex;
+  min-height: 2.375rem;
+  height: 2.375rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding-inline: clamp(0.95rem, 1.25vw, 1.3rem);
+  border: 1px solid transparent;
+  color: rgba(248, 244, 235, 0.88);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.header-cta--tickets {
+  border-color: rgba(248, 244, 235, 0.22);
+  background: rgba(5, 5, 5, 0.08);
+}
+
+.header-cta--tickets:hover {
+  border-color: rgba(248, 244, 235, 0.48);
+  background: rgba(248, 244, 235, 0.06);
+  color: rgba(248, 244, 235, 0.98);
+}
+
+.header-cta--submit {
+  border-color: #ef150f;
+  background: #ef150f;
+  color: #050505;
+}
+
+.header-cta--submit:hover {
+  border-color: #ff3028;
+  background: #ff3028;
+  color: #050505;
+}
+
+.header-cta.button-shift:hover {
+  letter-spacing: 0.18em;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 8px 18px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
 .site-logo-footer {
   height: auto;
   object-fit: contain;
@@ -589,8 +637,12 @@ body::before {
   margin-bottom: 1.25rem;
 }
 
+.footer-cowboy-link {
+  flex: 0 0 auto;
+}
+
 .footer-cowboy {
-  width: clamp(2rem, 3vw, 2.8rem);
+  width: clamp(3rem, 5vw, 4.75rem);
   height: auto;
   object-fit: contain;
 }
@@ -605,6 +657,17 @@ body::before {
   align-items: center;
   justify-content: space-between;
   gap: clamp(2rem, 6vw, 5rem);
+}
+
+.footer-event-line {
+  max-width: min(42rem, 52vw);
+  color: var(--accent-soft);
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1.35;
+  text-align: right;
+  text-transform: uppercase;
 }
 
 .poster-note {
@@ -913,20 +976,6 @@ body::before {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
     filter: blur(0);
-  }
-}
-
-@keyframes premium-money {
-  0% {
-    opacity: 0;
-    transform: translateY(26px) scale(0.985);
-  }
-  72% {
-    transform: translateY(0) scale(1.012);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
   }
 }
 
@@ -1270,6 +1319,17 @@ body::before {
     align-items: center;
     gap: 1.75rem;
     text-align: center;
+  }
+
+  .footer-cowboy-link {
+    justify-content: center;
+  }
+
+  .footer-event-line {
+    max-width: 22rem;
+    text-align: center;
+    font-size: clamp(0.72rem, 3.2vw, 0.88rem);
+    line-height: 1.5;
   }
 
   .footer-cta-center {

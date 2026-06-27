@@ -16,7 +16,7 @@ const navItems = [
   { href: "/#submit", label: "Submit" },
   { href: "/#photos", label: "Photos" },
   { href: "/#about", label: "About" },
-  { href: "/#cash", label: "Cash" },
+  { href: "/#prize", label: "Prize" },
   { href: "/#faq", label: "FAQ" },
 ];
 
@@ -255,7 +255,7 @@ export function SiteHeader() {
                 href={LUMA_EVENT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="button-shift header-ticket-button inline-flex min-h-11 shrink-0 items-center justify-center border border-stone-100/25 bg-stone-100 px-3 text-[0.6rem] font-bold uppercase tracking-[0.1em] text-black hover:border-stone-100/60 hover:bg-transparent hover:text-stone-100 sm:px-5 sm:text-[0.64rem] sm:tracking-[0.12em]"
+                className="button-shift header-cta header-cta--tickets"
               >
                 Get Tickets
               </Link>
@@ -263,7 +263,7 @@ export function SiteHeader() {
                 href={FILMFREEWAY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="button-shift inline-flex min-h-11 shrink-0 items-center justify-center bg-red-700 px-3 text-[0.6rem] font-bold uppercase tracking-[0.1em] text-black hover:bg-stone-100 sm:px-5 sm:text-[0.64rem] sm:tracking-[0.12em]"
+                className="button-shift header-cta header-cta--submit"
               >
                 Submit Film
               </Link>
