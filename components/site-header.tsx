@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { CSSProperties, MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
@@ -29,10 +29,6 @@ export function SiteHeader() {
   const navTrackRef = useRef<HTMLDivElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
-  const cowboyMaskSrc =
-    typeof window !== "undefined" && window.location.protocol === "file:"
-      ? "./images/header-cowboy.png"
-      : COWBOY_SRC;
   const isActive = (href: string) => {
     if (href.includes("#")) {
       const hash = href.slice(href.indexOf("#"));
@@ -237,15 +233,19 @@ export function SiteHeader() {
             <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
               <span
                 className={`nav-active-cowboy ${indicatorStyle.visible ? "is-visible" : ""}`}
-                style={
-                  {
-                    transform: `translate3d(${indicatorStyle.left}px, 0, 0) translateX(-50%)`,
-                    "--cowboy-mask": `url("${cowboyMaskSrc}")`,
-                  } as CSSProperties
-                }
+                style={{ transform: `translate3d(${indicatorStyle.left}px, 0, 0) translateX(-50%)` }}
                 aria-hidden="true"
               >
-                <span key={activeHash} className="nav-active-cowboy-image" />
+                <Image
+                  key={activeHash}
+                  src={COWBOY_SRC}
+                  alt=""
+                  width={620}
+                  height={820}
+                  unoptimized
+                  aria-hidden="true"
+                  className="nav-active-cowboy-image"
+                />
               </span>
               {navItems.map((item) => (
                 <Link
