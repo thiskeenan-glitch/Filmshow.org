@@ -69,7 +69,7 @@ export function ScrollFadeVideo({ src, className, label }: ScrollFadeVideoProps)
       loop
       muted
       playsInline
-      preload="auto"
+      preload="metadata"
     />
   );
 }

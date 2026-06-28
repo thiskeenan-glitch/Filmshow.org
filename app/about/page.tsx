@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 const details = [
-  ["Date", "Vol. 1 | 6.8.26 | NYC"],
+  ["Date", "Vol. 1 | 10.8.26 | NYC"],
   ["Location", "New York City"],
   ["Films", "6 to 8, depending on length of live show"],
   ["Prize", "$6,000 cash prize"],
@@ -23,13 +23,13 @@ export default function AboutPage() {
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 6.8.26 | NYC
+            Vol. 1 | 10.8.26 | NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
             About Film Show.
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            A live NYC short film event for Vol. 1 | 6.8.26 | NYC featuring
+            A live NYC short film event for Vol. 1 | 10.8.26 | NYC featuring
             curated shorts, live performances, jury-selected 1st Place, and
             live audience voting for 2nd and 3rd.
           </p>

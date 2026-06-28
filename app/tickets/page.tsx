@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 const eventFacts = [
-  ["Date and time", "Vol. 1 | 6.8.26 | NYC"],
+  ["Date and time", "Vol. 1 | 10.8.26 | NYC"],
   ["Venue", "New York City location TBA"],
   ["Prize", "$6,000 cash prize"],
   ["Voting", "The audience votes live for 2nd and 3rd Place"],
@@ -29,13 +29,13 @@ export default function TicketsPage() {
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 6.8.26 | NYC
+            Vol. 1 | 10.8.26 | NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
             Tickets
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            Film Show is a live NYC screening event for Vol. 1 | 6.8.26 | NYC
+            Film Show is a live NYC screening event for Vol. 1 | 10.8.26 | NYC
             featuring curated short films, live performances, a jury-selected
             1st Place, live audience voting for 2nd and 3rd, and a $6,000 cash prize.
           </p>

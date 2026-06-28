@@ -13,47 +13,47 @@ const SUBMIT_VIDEO = "/videos/submit-loop.mp4";
 
 const galleryPhotos = [
   {
-    src: "/images/the-space.jpg",
+    src: "/images/optimized/gallery-space.jpg",
     alt: "Film Show event space before the screening",
     position: "center",
   },
   {
-    src: "/images/the-team.jpg",
+    src: "/images/optimized/gallery-team.jpg",
     alt: "Film Show team seated in front of a film poster",
     position: "center",
     portrait: true,
   },
   {
-    src: "/images/hq-ladder-pic.png",
+    src: "/images/optimized/gallery-ladder.jpg",
     alt: "Performer balancing on a ladder in red costume",
     position: "center top",
     portrait: true,
   },
   {
-    src: "/images/the-crowd.jpg",
+    src: "/images/optimized/gallery-crowd.jpg",
     alt: "Audience watching a film projected in a dark room",
     position: "center",
     portrait: true,
   },
   {
-    src: "/images/hq-3-people.png",
+    src: "/images/optimized/gallery-3-people.jpg",
     alt: "Three performers during a live performance beside a ladder",
     position: "center",
     square: true,
   },
   {
-    src: "/images/lots-of-people.jpg",
+    src: "/images/optimized/gallery-lots-of-people.jpg",
     alt: "A full audience seated for a screening",
     position: "center",
   },
   {
-    src: "/images/hq-high-five.png",
+    src: "/images/optimized/gallery-high-five.jpg",
     alt: "Performers high five beside a ladder during a live performance",
     position: "center top",
     portrait: true,
   },
   {
-    src: "/images/tfs-poster.png",
+    src: "/images/optimized/tfs-poster-gallery.jpg",
     alt: "Film Show Volume 1 poster",
     position: "center",
     square: true,
@@ -69,7 +69,7 @@ const works = [
   [
     "02",
     "Screening",
-    "Selected films screen live in New York City for Vol. 1 | 6.8.26 | NYC as part of a curated event with short live performance moments between films.",
+    "Selected films screen live in New York City for Vol. 1 | 10.8.26 | NYC as part of a curated event with short live performance moments between films.",
   ],
   [
     "03",
@@ -168,7 +168,7 @@ export default function Home() {
           <div className="hero-lockup mx-auto flex w-full flex-col">
             <div className="hero-mobile-actions">
               <p className="hero-mobile-event-line">
-                THE FILM SHOW | VOL. 1 | OCTOBER 8TH 2026 | NEW YORK CITY
+                FILM SHOW | VOL. 1 | 10.8.26 | NEW YORK CITY
               </p>
               <div className="hero-mobile-buttons">
                 <ButtonLink href={LUMA_EVENT_URL} newTab>
@@ -182,7 +182,7 @@ export default function Home() {
 
             <div className="hero-brand-row">
               <p className="hero-eyebrow copy-wide small-label text-red-500">
-                VOL. 1 | 6.8.26 | NYC
+                VOL. 1 | 10.8.26 | NYC
               </p>
 
               <div className="hero-logo-wrap">
@@ -211,7 +211,7 @@ export default function Home() {
               </p>
 
               <p className="hero-manifesto copy-wide mt-8 w-fit border-y border-red-500/35 py-3 text-[0.75rem] text-red-300">
-                Good art should be awarded.
+                GOOD ART SHOULD MAKE MONEY.
               </p>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function Home() {
               </p>
               <p className="body-copy mt-8 max-w-xl text-stone-300">
                 Film Show will be a live NYC screening event for Vol. 1 |
-                6.8.26 | NYC with curated short films, performance moments,
+                10.8.26 | NYC with curated short films, performance moments,
                 a jury-selected 1st Place, live audience voting for 2nd and
                 3rd, winners announced live, with cash prizes awarded at the event.
               </p>
@@ -270,7 +270,7 @@ export default function Home() {
                 Seen in a room. On a big screen.
               </p>
               <p className="copy-wide mt-6 text-xs text-red-300">
-                Vol. 1 | 6.8.26 | NYC
+                Vol. 1 | 10.8.26 | NYC
               </p>
               <div className="mt-10">
                 <ButtonLink href="https://filmfreeway.com/TheFilmShow" newTab>

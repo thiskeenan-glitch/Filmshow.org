@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { MouseEvent } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
@@ -28,7 +28,11 @@ export function SiteHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navTrackRef = useRef<HTMLDivElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
-  const [dotStyle, setDotStyle] = useState({ left: 0, visible: false });
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
+  const cowboyMaskSrc =
+    typeof window !== "undefined" && window.location.protocol === "file:"
+      ? "./images/header-cowboy.png"
+      : COWBOY_SRC;
   const isActive = (href: string) => {
     if (href.includes("#")) {
       const hash = href.slice(href.indexOf("#"));
@@ -176,24 +180,24 @@ export function SiteHeader() {
     const link = hash ? navLinkRefs.current[hash] : null;
 
     if (!track || !link) {
-      setDotStyle((current) => ({ ...current, visible: false }));
+      setIndicatorStyle((current) => ({ ...current, visible: false }));
       return;
     }
 
-    const updateDot = () => {
+    const updateIndicator = () => {
       const trackRect = track.getBoundingClientRect();
       const linkRect = link.getBoundingClientRect();
-      setDotStyle({
+      setIndicatorStyle({
         left: linkRect.left - trackRect.left + linkRect.width / 2,
         visible: true,
       });
     };
 
-    updateDot();
-    window.addEventListener("resize", updateDot);
+    updateIndicator();
+    window.addEventListener("resize", updateIndicator);
 
     return () => {
-      window.removeEventListener("resize", updateDot);
+      window.removeEventListener("resize", updateIndicator);
     };
   }, [activeHash]);
 
@@ -232,10 +236,17 @@ export function SiteHeader() {
           <div className="flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
             <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
               <span
-                className={`nav-active-dot ${dotStyle.visible ? "is-visible" : ""}`}
-                style={{ transform: `translate3d(${dotStyle.left}px, 0, 0) translateX(-50%)` }}
+                className={`nav-active-cowboy ${indicatorStyle.visible ? "is-visible" : ""}`}
+                style={
+                  {
+                    transform: `translate3d(${indicatorStyle.left}px, 0, 0) translateX(-50%)`,
+                    "--cowboy-mask": `url("${cowboyMaskSrc}")`,
+                  } as CSSProperties
+                }
                 aria-hidden="true"
-              />
+              >
+                <span key={activeHash} className="nav-active-cowboy-image" />
+              </span>
               {navItems.map((item) => (
                 <Link
                   key={item.href}
