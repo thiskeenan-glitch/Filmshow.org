@@ -20,15 +20,41 @@ const navItems = [
   { href: "/#faq", label: "FAQ" },
 ];
 
+const getIndicatorSrc = () =>
+  typeof window !== "undefined" && window.location.protocol === "file:"
+    ? "./images/header-cowboy.png"
+    : COWBOY_SRC;
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showFullLogo, setShowFullLogo] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [indicatorAssetOk, setIndicatorAssetOk] = useState(false);
+  const [indicatorSrc] = useState(getIndicatorSrc);
   const navTrackRef = useRef<HTMLDivElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
+  const manualActiveUntilRef = useRef(0);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
+
+  const measureIndicatorForLink = (link: HTMLAnchorElement | null) => {
+    const track = navTrackRef.current;
+
+    if (!track || !link || window.innerWidth < 1024) {
+      setIndicatorStyle((current) => ({ ...current, visible: false }));
+      return;
+    }
+
+    const trackRect = track.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+
+    setIndicatorStyle({
+      left: linkRect.left - trackRect.left + linkRect.width / 2,
+      visible: true,
+    });
+  };
+
   const isActive = (href: string) => {
     if (href.includes("#")) {
       const hash = href.slice(href.indexOf("#"));
@@ -47,9 +73,18 @@ export function SiteHeader() {
     if (!section) return;
 
     event.preventDefault();
+    const clickedLink = event.currentTarget;
+    manualActiveUntilRef.current = window.performance.now() + 900;
     section.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.pushState(null, "", hash);
     setActiveHash(hash);
+    measureIndicatorForLink(clickedLink);
+    window.setTimeout(() => measureIndicatorForLink(clickedLink), 120);
+    window.setTimeout(() => measureIndicatorForLink(navLinkRefs.current[hash] ?? clickedLink), 520);
+    window.setTimeout(() => {
+      manualActiveUntilRef.current = 0;
+      measureIndicatorForLink(navLinkRefs.current[hash] ?? clickedLink);
+    }, 940);
     setIsMobileMenuOpen(false);
   };
 
@@ -79,6 +114,14 @@ export function SiteHeader() {
       window.removeEventListener("resize", handleResize);
     };
   }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    const image = new window.Image();
+
+    image.onload = () => setIndicatorAssetOk(true);
+    image.onerror = () => setIndicatorAssetOk(false);
+    image.src = indicatorSrc;
+  }, [indicatorSrc]);
 
   useEffect(() => {
     let frame = 0;
@@ -116,6 +159,10 @@ export function SiteHeader() {
       const headerHeight =
         document.querySelector<HTMLElement>(".texture-header")?.getBoundingClientRect().height ?? 108;
       const headerOffset = Math.min(window.innerHeight * 0.42, headerHeight + 28);
+
+      if (window.performance.now() < manualActiveUntilRef.current) {
+        return;
+      }
 
       if (hero && heroBottom > headerOffset + 80) {
         setActiveHash("");
@@ -180,14 +227,7 @@ export function SiteHeader() {
       return;
     }
 
-    const updateIndicator = () => {
-      const trackRect = track.getBoundingClientRect();
-      const linkRect = link.getBoundingClientRect();
-      setIndicatorStyle({
-        left: linkRect.left - trackRect.left + linkRect.width / 2,
-        visible: true,
-      });
-    };
+    const updateIndicator = () => measureIndicatorForLink(link);
 
     updateIndicator();
     window.addEventListener("resize", updateIndicator);
@@ -232,19 +272,22 @@ export function SiteHeader() {
           <div className="flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
             <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
               <span
-                className={`nav-active-cowboy ${indicatorStyle.visible ? "is-visible" : ""}`}
+                className={`nav-active-cowboy ${
+                  indicatorStyle.visible && indicatorAssetOk ? "is-visible" : ""
+                }`}
                 style={{ transform: `translate3d(${indicatorStyle.left}px, 0, 0) translateX(-50%)` }}
                 aria-hidden="true"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   key={activeHash}
-                  src={COWBOY_SRC}
+                  src={indicatorSrc}
                   alt=""
-                  width={620}
-                  height={820}
-                  unoptimized
                   aria-hidden="true"
+                  draggable={false}
                   className="nav-active-cowboy-image"
+                  onLoad={() => setIndicatorAssetOk(true)}
+                  onError={() => setIndicatorAssetOk(false)}
                 />
               </span>
               {navItems.map((item) => (
@@ -305,6 +348,29 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <div className="mobile-menu-cta">
+            <p className="mobile-menu-event-line">Film Show | Vol. 1 | 10.8.26 | New York City</p>
+            <div className="mobile-menu-buttons">
+              <Link
+                href={LUMA_EVENT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-menu-button mobile-menu-button--tickets"
+              >
+                Get Tickets
+              </Link>
+              <Link
+                href={FILMFREEWAY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-menu-button mobile-menu-button--submit"
+              >
+                Submit Film
+              </Link>
+            </div>
+          </div>
         </div>
       </nav>
     </header>

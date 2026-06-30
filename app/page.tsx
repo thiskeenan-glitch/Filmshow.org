@@ -16,45 +16,40 @@ const galleryPhotos = [
     src: "/images/optimized/gallery-space.jpg",
     alt: "Film Show event space before the screening",
     position: "center",
+    portrait: true,
   },
   {
     src: "/images/optimized/gallery-team.jpg",
-    alt: "Film Show team seated in front of a film poster",
-    position: "center",
+    alt: "Film Show team gathered near a Toy Gun poster",
+    position: "center 58%",
     portrait: true,
   },
   {
     src: "/images/optimized/gallery-ladder.jpg",
-    alt: "Performer balancing on a ladder in red costume",
-    position: "center top",
+    alt: "Live performance with a ladder and red costumes",
+    position: "center",
+    portrait: true,
+  },
+  {
+    src: "/images/optimized/gallery-lots-of-people.jpg",
+    alt: "A full room watching short films in New York City",
+    position: "center",
+  },
+  {
+    src: "/images/optimized/gallery-high-five.jpg",
+    alt: "Performers jumping for a high five beside a ladder",
+    position: "center",
     portrait: true,
   },
   {
     src: "/images/optimized/gallery-crowd.jpg",
-    alt: "Audience watching a film projected in a dark room",
+    alt: "Audience watching a film screening in a dark room",
     position: "center",
     portrait: true,
   },
   {
     src: "/images/optimized/gallery-3-people.jpg",
-    alt: "Three performers during a live performance beside a ladder",
-    position: "center",
-    square: true,
-  },
-  {
-    src: "/images/optimized/gallery-lots-of-people.jpg",
-    alt: "A full audience seated for a screening",
-    position: "center",
-  },
-  {
-    src: "/images/optimized/gallery-high-five.jpg",
-    alt: "Performers high five beside a ladder during a live performance",
-    position: "center top",
-    portrait: true,
-  },
-  {
-    src: "/images/optimized/tfs-poster-gallery.jpg",
-    alt: "Film Show Volume 1 poster",
+    alt: "Three performers on stage under a projected play symbol",
     position: "center",
     square: true,
   },
@@ -164,22 +159,19 @@ export default function Home() {
     <main className="home-page-shell">
       <MotionEffects />
       <section id="top" className="og-hero relative isolate overflow-hidden">
+        <Image
+          src="/assets/optimized/hero-background.jpg"
+          alt=""
+          fill
+          priority
+          unoptimized
+          sizes="100vw"
+          className="hero-bg-image"
+          aria-hidden="true"
+        />
+        <div className="hero-bg-overlay" aria-hidden="true" />
         <div className="container-page relative z-10">
           <div className="hero-lockup mx-auto flex w-full flex-col">
-            <div className="hero-mobile-actions">
-              <p className="hero-mobile-event-line">
-                FILM SHOW | VOL. 1 | 10.8.26 | NEW YORK CITY
-              </p>
-              <div className="hero-mobile-buttons">
-                <ButtonLink href={LUMA_EVENT_URL} newTab>
-                  Get Tickets
-                </ButtonLink>
-                <ButtonLink href="https://filmfreeway.com/TheFilmShow" variant="secondary" newTab>
-                  Submit Film
-                </ButtonLink>
-              </div>
-            </div>
-
             <div className="hero-brand-row">
               <p className="hero-eyebrow copy-wide small-label text-red-500">
                 VOL. 1 | 10.8.26 | NYC
@@ -206,7 +198,7 @@ export default function Home() {
                   voting for 2nd and 3rd.
                 </span>
                 <span className="hero-copy-mobile">
-                  A live NYC short film event with performances, audience voting, and a $6,000 cash prize.
+                  A live show in New York City featuring curated short films, live performances and a $6,000 cash prize.
                 </span>
               </p>
 

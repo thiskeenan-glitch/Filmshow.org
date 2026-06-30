@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef } from "react";
 import type { CSSProperties, WheelEvent } from "react";
 
@@ -165,15 +164,13 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
               data-reveal="photo"
               data-edge={index === 0 ? "first" : index === photos.length - 1 ? "last" : undefined}
             >
-              <Image
+              <img
                 src={photo.src}
                 alt={photo.alt}
-                width={photo.portrait ? 1400 : 1800}
-                height={photo.portrait ? 1800 : 1050}
-                unoptimized
-                sizes="(max-width: 768px) 84vw, 58vw"
                 className="photo-gallery-image"
                 style={{ objectPosition: photo.position }}
+                loading={index < 2 ? "eager" : "lazy"}
+                decoding="async"
               />
             </figure>
           ))}
