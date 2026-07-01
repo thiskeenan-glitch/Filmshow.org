@@ -5,6 +5,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
 
+const META_PIXEL_ID = "1365964182304663";
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.filmshow.org"),
   title: "Film Show | Live Short Film Event in NYC",
@@ -60,6 +62,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
         <MetaPixel />
         <RouteScrollManager />
         <SiteHeader />

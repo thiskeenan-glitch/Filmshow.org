@@ -1,6 +1,5 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
@@ -14,8 +13,60 @@ declare global {
   }
 }
 
+type FbqBootstrap = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  loaded?: boolean;
+  push: (args: unknown[]) => void;
+  queue: unknown[][];
+  version?: string;
+};
+
 function isFilmFreewaySubmissionLink(href: string) {
   return href.startsWith(FILMFREEWAY_SUBMISSION_URL);
+}
+
+function ensureMetaPixelLoaded() {
+  if (typeof window === "undefined") return;
+
+  const existing = document.getElementById("meta-pixel-base");
+  if (!existing) {
+    const marker = document.createElement("script");
+    marker.id = "meta-pixel-base";
+    marker.text = "/* Meta Pixel bootstrap marker */";
+    document.head.appendChild(marker);
+  }
+
+  if (typeof window.fbq === "function") return;
+
+  const fbq: FbqBootstrap = function (...args: unknown[]) {
+    if (typeof fbq.callMethod === "function") {
+      fbq.callMethod(...args);
+      return;
+    }
+
+    fbq.queue.push(args);
+  };
+
+  fbq.push = (args: unknown[]) => {
+    fbq.queue.push(Array.isArray(args) ? args : [args]);
+  };
+  fbq.queue = [];
+  fbq.loaded = true;
+  fbq.version = "2.0";
+
+  window.fbq = fbq;
+  window._fbq = fbq;
+
+  if (!document.getElementById("meta-pixel-network")) {
+    const networkScript = document.createElement("script");
+    networkScript.id = "meta-pixel-network";
+    networkScript.async = true;
+    networkScript.src = "https://connect.facebook.net/en_US/fbevents.js";
+    document.head.appendChild(networkScript);
+  }
+
+  window.fbq("init", META_PIXEL_ID);
+  window.fbq("track", "PageView");
 }
 
 export function MetaPixel() {
@@ -23,7 +74,13 @@ export function MetaPixel() {
   const lastTrackedUrlRef = useRef<string | null>(null);
 
   useEffect(() => {
+    ensureMetaPixelLoaded();
+  }, []);
+
+  useEffect(() => {
     const url = `${pathname}${window.location.search}`;
+
+    ensureMetaPixelLoaded();
 
     if (!window.fbq || lastTrackedUrlRef.current === url) {
       return;
@@ -65,35 +122,5 @@ export function MetaPixel() {
     };
   }, []);
 
-  return (
-    <>
-      <Script
-        id="meta-pixel-base"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${META_PIXEL_ID}');
-            fbq('track', 'PageView');
-          `,
-        }}
-      />
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: "none" }}
-          src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-          alt=""
-        />
-      </noscript>
-    </>
-  );
+  return <span hidden aria-hidden="true" data-meta-pixel-root />;
 }
