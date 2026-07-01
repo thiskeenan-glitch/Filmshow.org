@@ -6,18 +6,26 @@ type ScrollFadeVideoProps = {
   src: string;
   className?: string;
   label: string;
+  silent?: boolean;
 };
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
-export function ScrollFadeVideo({ src, className, label }: ScrollFadeVideoProps) {
+export function ScrollFadeVideo({ src, className, label, silent = false }: ScrollFadeVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    if (silent) {
+      video.volume = 0;
+      video.muted = true;
+      video.play().catch(() => {});
+      return;
+    }
 
     let frame = 0;
 
@@ -57,7 +65,7 @@ export function ScrollFadeVideo({ src, className, label }: ScrollFadeVideoProps)
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
     };
-  }, []);
+  }, [silent]);
 
   return (
     <video

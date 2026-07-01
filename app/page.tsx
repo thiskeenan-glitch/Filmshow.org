@@ -236,6 +236,7 @@ export default function Home() {
                   src={SUBMIT_VIDEO}
                   label="Film Show submit section video"
                   className="submit-image submit-video"
+                  silent
                 />
               </div>
             </div>

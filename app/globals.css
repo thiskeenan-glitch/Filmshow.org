@@ -1237,13 +1237,19 @@ body::before {
   }
 
   .hero-bg-image {
-    object-position: 32% center;
+    object-position: 24% center;
+    opacity: 0.84;
   }
 
   .hero-bg-overlay {
     background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0.42) 42%, rgba(0, 0, 0, 0.86) 100%),
-      radial-gradient(circle at center, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.58) 78%);
+      linear-gradient(180deg, rgba(0, 0, 0, 0.48) 0%, rgba(0, 0, 0, 0.22) 42%, rgba(0, 0, 0, 0.62) 100%),
+      radial-gradient(circle at center, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.38) 78%);
+  }
+
+  .og-hero::after {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.06), transparent 24%, transparent 72%, rgba(0, 0, 0, 0.18));
   }
 
   .hero-lockup {
@@ -1260,7 +1266,7 @@ body::before {
   }
 
   .hero-logo-wrap {
-    width: min(90vw, 28rem);
+    width: min(124vw, 39rem);
   }
 
   .hero-eyebrow {
@@ -1315,9 +1321,12 @@ body::before {
   }
 
   .hero-manifesto {
-    margin-top: 0.35rem;
+    margin-top: 1.15rem;
     width: 100%;
-    max-width: min(20.5rem, 90vw);
+    max-width: min(22rem, 92vw);
+    padding-block: 0.9rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.28em;
     text-align: center;
   }
 
@@ -1362,6 +1371,10 @@ body::before {
   .submit-facts {
     justify-content: stretch;
     margin-top: 2.5rem;
+  }
+
+  #submit .submit-side-panel {
+    display: none;
   }
 
   .submit-fact-card {
