@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { CSSProperties, WheelEvent } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 
 export type GalleryPhoto = {
   src: string;
@@ -55,114 +55,43 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
 
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
-  const clampTimeoutRef = useRef<number | null>(null);
-
-  const getMaxScrollLeft = (el: HTMLDivElement) => Math.max(0, el.scrollWidth - el.clientWidth);
-
-  const clampScrollPosition = useCallback((behavior: ScrollBehavior = "smooth") => {
-    const el = galleryRef.current;
-    if (!el) return;
-
-    const maxScrollLeft = getMaxScrollLeft(el);
-    if (el.scrollLeft < 0) {
-      el.scrollTo({ left: 0, behavior });
-    } else if (el.scrollLeft > maxScrollLeft) {
-      el.scrollTo({ left: maxScrollLeft, behavior });
-    }
-  }, []);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [trackOffset, setTrackOffset] = useState(0);
 
   useEffect(() => {
-    const el = galleryRef.current;
-    if (!el) return;
-
-    const handleScroll = () => {
-      if (clampTimeoutRef.current) {
-        window.clearTimeout(clampTimeoutRef.current);
-      }
-      clampTimeoutRef.current = window.setTimeout(() => clampScrollPosition(), 90);
-    };
-
     const handleResize = () => {
-      clampScrollPosition("auto");
+      const rail = galleryRef.current;
+      const track = trackRef.current;
+      if (!rail || !track) return;
+
+      const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
+      const activeCard = cards[activeIndex];
+      if (!activeCard) {
+        setTrackOffset(0);
+        return;
+      }
+
+      const maxOffset = Math.max(0, track.scrollWidth - rail.clientWidth);
+      setTrackOffset(Math.min(activeCard.offsetLeft, maxOffset));
     };
 
-    el.addEventListener("scroll", handleScroll, { passive: true });
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {
-      if (clampTimeoutRef.current) {
-        window.clearTimeout(clampTimeoutRef.current);
-      }
-      el.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, [clampScrollPosition]);
-
-  const reboundAtEdge = (direction: "left" | "right") => {
-    const el = galleryRef.current;
-    if (!el) return;
-
-    el.dataset.rebound = direction;
-    window.setTimeout(() => {
-      if (galleryRef.current) {
-        delete galleryRef.current.dataset.rebound;
-      }
-    }, 220);
-  };
+  }, [activeIndex]);
 
   const scrollGallery = (direction: "left" | "right") => {
-    const el = galleryRef.current;
-    if (!el) return;
+    setActiveIndex((current) => {
+      if (direction === "left") {
+        return current === 0 ? photos.length - 1 : current - 1;
+      }
 
-    const maxScrollLeft = getMaxScrollLeft(el);
-
-    if (direction === "left" && el.scrollLeft <= 8) {
-      el.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
-      return;
-    }
-
-    if (direction === "right" && el.scrollLeft >= maxScrollLeft - 8) {
-      el.scrollTo({ left: 0, behavior: "smooth" });
-      return;
-    }
-
-    const card = el.querySelector<HTMLElement>(".photo-gallery-card");
-    const track = el.querySelector<HTMLElement>(".photo-gallery-track");
-    const gap = track ? Number.parseFloat(window.getComputedStyle(track).columnGap) || 0 : 0;
-    const amount = card ? card.offsetWidth + gap : el.clientWidth * 0.82;
-    const target = Math.min(
-      maxScrollLeft,
-      Math.max(0, el.scrollLeft + (direction === "right" ? amount : -amount)),
-    );
-
-    el.scrollTo({
-      left: target,
-      behavior: "smooth",
+      return current === photos.length - 1 ? 0 : current + 1;
     });
-  };
-
-  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
-    const el = galleryRef.current;
-    if (!el) return;
-
-    const maxScrollLeft = getMaxScrollLeft(el);
-    const horizontalIntent = Math.abs(event.deltaX) >= Math.abs(event.deltaY);
-    const atStart = el.scrollLeft <= 8;
-    const atEnd = el.scrollLeft >= maxScrollLeft - 8;
-
-    if (!horizontalIntent) return;
-
-    if (atStart && event.deltaX < 0) {
-      event.preventDefault();
-      reboundAtEdge("left");
-      el.scrollTo({ left: 0, behavior: "smooth" });
-    }
-
-    if (atEnd && event.deltaX > 0) {
-      event.preventDefault();
-      reboundAtEdge("right");
-      el.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
-    }
   };
 
   return (
@@ -189,11 +118,12 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       <div
         ref={galleryRef}
         className="photo-gallery-rail"
-        onWheel={handleWheel}
-        onTouchEnd={() => clampScrollPosition()}
-        onPointerUp={() => clampScrollPosition()}
       >
-        <div className="photo-gallery-track">
+        <div
+          ref={trackRef}
+          className="photo-gallery-track"
+          style={{ transform: `translate3d(${-trackOffset}px, 0, 0)` }}
+        >
           {photos.map((photo, index) => (
             <PhotoGalleryItem
               key={photo.src}

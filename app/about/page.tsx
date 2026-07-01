@@ -44,6 +44,19 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <section className="container-page mt-18">
+        <div className="max-w-3xl border-y border-stone-100/10 py-8 md:py-10">
+          <p className="copy-wide small-label text-red-300">Mission</p>
+          <p className="body-large mt-6 text-stone-300">
+            Film Show was created to give independent filmmakers a real room, a real
+            audience, and a real chance to earn meaningful prize money. It is built
+            for films that deserve concentration, atmosphere, and a crowd that is
+            actually there for the work. The goal is simple: make a screening here
+            feel like it matters.
+          </p>
+        </div>
+      </section>
+
       <section className="container-page mt-20 grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
         <div>
           <p className="section-title text-stone-100">

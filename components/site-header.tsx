@@ -320,7 +320,7 @@ export function SiteHeader() {
                 rel="noopener noreferrer"
                 className="button-shift header-cta header-cta--submit"
               >
-                Submit Film
+                Submit Your Film
               </Link>
             </div>
             <button
@@ -359,7 +359,7 @@ export function SiteHeader() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="mobile-menu-button mobile-menu-button--submit"
               >
-                Submit Film
+                Submit Your Film
               </Link>
               <Link
                 href={LUMA_EVENT_URL}

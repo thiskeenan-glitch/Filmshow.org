@@ -7,10 +7,11 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
+const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const TICKETS_VIDEO = "/videos/tickets-loop.mp4";
-const CONTACT_EMAIL = "info@thisbird.org";
+const CONTACT_EMAIL = "info@filmshow.org";
 const SOCIAL_URLS: string[] = [];
 
 const structuredData = {
@@ -131,9 +132,9 @@ const works = [
 ];
 
 const cashAwards = [
-  ["1st Place", "$3,000", "Selected by The Film Show jury. Winner receives a $3,000 cash prize."],
-  ["2nd Place", "$2,000", "Determined by live audience vote. Winner receives a $2,000 cash prize."],
-  ["3rd Place", "$1,000", "Determined by live audience vote. Winner receives a $1,000 cash prize."],
+  ["First Prize", "$3,000", "Selected by judges."],
+  ["Second Prize", "$2,000", "Audience vote."],
+  ["Third Prize", "$1,000", "Audience vote."],
 ];
 
 const filmmakerDetails = [
@@ -143,6 +144,25 @@ const filmmakerDetails = [
   ["Selected films", "6 to 8, depending on length of live show"],
   ["Prize", "$6,000 cash prize"],
   ["Event", "New York City"],
+];
+
+const whySubmitReasons = [
+  [
+    "Not a traditional festival.",
+    "Film Show is built as a live screening event, not a long list of blocks and badges.",
+  ],
+  [
+    "Only 6 to 8 films.",
+    "The lineup stays tight so each selected film has weight in the room.",
+  ],
+  [
+    "Real attention.",
+    "Every selected film is watched with an audience that is there for the work.",
+  ],
+  [
+    "Film, performance, audience, prize money.",
+    "The night brings together live performance, audience energy, and a meaningful cash prize.",
+  ],
 ];
 
 const faqs = [
@@ -286,8 +306,8 @@ export default function Home() {
                 Vol. 1 | 10.8.26 | NYC
               </p>
               <div className="mt-10">
-                <ButtonLink href="https://filmfreeway.com/TheFilmShow" newTab>
-                  Submit Film
+                <ButtonLink href={FILMFREEWAY_URL} newTab>
+                  Submit Your Film
                 </ButtonLink>
               </div>
             </div>
@@ -312,9 +332,45 @@ export default function Home() {
 
       <Divider />
 
+      <section id="why-submit" className="section-pad">
+        <div className="container-page">
+          <SectionLabel number="02" title="Why submit" />
+          <div className="why-submit-grid">
+            <div data-reveal="text">
+              <p className="section-kicker max-w-xl text-stone-100">
+                Why submit to Film Show?
+              </p>
+              <p className="body-large mt-8 max-w-xl text-stone-300">
+                Not every room feels the same. This one is designed to make a selected film land.
+              </p>
+              <div className="mt-10">
+                <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
+                  Submit Your Film
+                </ButtonLink>
+              </div>
+            </div>
+            <div className="why-submit-list">
+              {whySubmitReasons.map(([title, copy], index) => (
+                <article
+                  key={title}
+                  data-reveal="row"
+                  className="why-submit-item"
+                  style={{ "--reveal-delay": `${index * 60}ms` } as CSSProperties}
+                >
+                  <h3 className="why-submit-title text-stone-100">{title}</h3>
+                  <p className="body-copy mt-3 max-w-2xl text-stone-400">{copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+
       <section id="prize" className="section-pad cash-section">
         <div className="container-page relative z-10">
-          <SectionLabel number="02" title="The prize" />
+          <SectionLabel number="03" title="The prize" />
           <div className="cash-content">
             <div className="max-w-sm" data-reveal="text">
               <p className="cash-total-number text-stone-100">
@@ -351,7 +407,7 @@ export default function Home() {
 
       <section id="how-it-works" className="section-pad">
         <div className="container-page">
-          <SectionLabel number="03" title="How it works" />
+          <SectionLabel number="04" title="How it works" />
           <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
             {works.map(([number, title, copy]) => (
               <article
@@ -393,7 +449,7 @@ export default function Home() {
 
       <section className="section-pad" id="tickets">
         <div className="container-page">
-          <SectionLabel number="04" title="TICKETS" />
+          <SectionLabel number="05" title="TICKETS" />
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div data-reveal="text">
               <p className="section-kicker text-stone-100">
@@ -428,7 +484,7 @@ export default function Home() {
 
       <section id="faq" className="section-pad">
         <div className="container-page">
-          <SectionLabel number="05" title="Questions" />
+          <SectionLabel number="06" title="Questions" />
           <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
             <p className="section-kicker text-stone-100" data-reveal="text">
               FAQ
@@ -482,8 +538,8 @@ export default function Home() {
               <ButtonLink href={LUMA_EVENT_URL} newTab>
                 Get Tickets
               </ButtonLink>
-              <ButtonLink href="https://filmfreeway.com/TheFilmShow" variant="secondary" newTab>
-                Submit Film
+              <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
+                Submit Your Film
               </ButtonLink>
             </div>
           </div>

@@ -8,7 +8,7 @@ import { ButtonLink } from "./button-link";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
-const CONTACT_EMAIL = "info@thisbird.org";
+const CONTACT_EMAIL = "info@filmshow.org";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
@@ -102,7 +102,7 @@ export function SiteFooter() {
                 Get Tickets
               </ButtonLink>
               <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
-                Submit Film
+                Submit Your Film
               </ButtonLink>
             </div>
           </div>

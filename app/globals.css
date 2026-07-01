@@ -408,6 +408,34 @@ body::before {
   line-height: 1.28;
 }
 
+.why-submit-grid {
+  display: grid;
+  gap: clamp(2.75rem, 6vw, 5.5rem);
+  align-items: start;
+}
+
+.why-submit-list {
+  border-top: 1px solid rgba(248, 244, 235, 0.1);
+  border-bottom: 1px solid rgba(248, 244, 235, 0.1);
+}
+
+.why-submit-item {
+  padding-block: clamp(1.35rem, 2.1vw, 1.8rem);
+}
+
+.why-submit-item + .why-submit-item {
+  border-top: 1px solid rgba(248, 244, 235, 0.1);
+}
+
+.why-submit-title {
+  font-family: var(--font-sans);
+  font-size: clamp(1.18rem, 1.6vw, 1.45rem);
+  font-weight: 740;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
 .tickets-video-wrapper {
   position: relative;
   width: 100%;
@@ -426,6 +454,10 @@ body::before {
 @media (min-width: 1024px) {
   .submit-facts {
     grid-template-columns: repeat(3, minmax(0, 14rem));
+  }
+
+  .why-submit-grid {
+    grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
   }
 
   .tickets-video-wrapper {
@@ -746,16 +778,7 @@ body::before {
 }
 
 .photo-gallery-rail {
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 0;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.photo-gallery-rail::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
 }
 
 .photo-gallery-track {
@@ -774,20 +797,7 @@ body::before {
   overflow: hidden;
   border-radius: 0.45rem;
   background: rgba(255, 255, 255, 0.025);
-  scroll-snap-align: start;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.36);
-}
-
-.photo-gallery-card[data-edge="last"] {
-  scroll-snap-align: end;
-}
-
-.photo-gallery-rail[data-rebound="left"] .photo-gallery-track {
-  transform: translateX(14px);
-}
-
-.photo-gallery-rail[data-rebound="right"] .photo-gallery-track {
-  transform: translateX(-14px);
 }
 
 .photo-gallery-card.is-portrait {
