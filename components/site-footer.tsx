@@ -15,10 +15,6 @@ const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 export function SiteFooter() {
   const pathname = usePathname();
 
-  if (pathname === "/") {
-    return null;
-  }
-
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const top = document.getElementById("top");
     if (!top) return;
@@ -27,6 +23,54 @@ export function SiteFooter() {
     top.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.pushState(null, "", "#top");
   };
+
+  const footerOnly = (
+    <footer className="poster-field border-t border-stone-100/10 py-14">
+      <div className="container-page text-stone-300">
+        <div className="footer-brand-row">
+          <Link
+            href="/#top"
+            data-scroll-top
+            onClick={handleTopClick}
+            className="footer-logo-link inline-flex w-fit cursor-pointer items-center transition hover:opacity-80"
+            aria-label="Scroll to the top of Film Show home page"
+            title="Back to top"
+          >
+            <Image
+              src={LOGO_SRC}
+              alt="Film Show"
+              width={3400}
+              height={1362}
+              unoptimized
+              className="site-logo-footer"
+            />
+          </Link>
+          <Link
+            href="/#top"
+            data-scroll-top
+            onClick={handleTopClick}
+            className="footer-cowboy-link inline-flex w-fit cursor-pointer items-center justify-center transition hover:opacity-80"
+            aria-label="Scroll to the top of Film Show home page"
+            title="Back to top"
+          >
+            <Image
+              src={COWBOY_SRC}
+              alt=""
+              width={620}
+              height={820}
+              unoptimized
+              aria-hidden="true"
+              className="footer-cowboy"
+            />
+          </Link>
+        </div>
+      </div>
+    </footer>
+  );
+
+  if (pathname === "/") {
+    return footerOnly;
+  }
 
   return (
     <>
@@ -65,47 +109,7 @@ export function SiteFooter() {
         </div>
       </section>
 
-      <footer className="poster-field border-t border-stone-100/10 py-14">
-        <div className="container-page text-stone-300">
-          <div className="footer-brand-row">
-            <Link
-              href="/#top"
-              data-scroll-top
-              onClick={handleTopClick}
-              className="footer-logo-link inline-flex w-fit cursor-pointer items-center transition hover:opacity-80"
-              aria-label="Scroll to the top of Film Show home page"
-              title="Back to top"
-            >
-              <Image
-                src={LOGO_SRC}
-                alt="Film Show"
-                width={3400}
-                height={1362}
-                unoptimized
-                className="site-logo-footer"
-              />
-            </Link>
-            <Link
-              href="/#top"
-              data-scroll-top
-              onClick={handleTopClick}
-              className="footer-cowboy-link inline-flex w-fit cursor-pointer items-center justify-center transition hover:opacity-80"
-              aria-label="Scroll to the top of Film Show home page"
-              title="Back to top"
-            >
-              <Image
-                src={COWBOY_SRC}
-                alt=""
-                width={620}
-                height={820}
-                unoptimized
-                aria-hidden="true"
-                className="footer-cowboy"
-              />
-            </Link>
-          </div>
-        </div>
-      </footer>
+      {footerOnly}
     </>
   );
 }
