@@ -352,15 +352,6 @@ export function SiteHeader() {
             <p className="mobile-menu-event-line">Film Show | Vol. 1 | 10.8.26 | New York City</p>
             <div className="mobile-menu-buttons">
               <Link
-                href={LUMA_EVENT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mobile-menu-button mobile-menu-button--tickets"
-              >
-                Get Tickets
-              </Link>
-              <Link
                 href={FILMFREEWAY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -368,6 +359,15 @@ export function SiteHeader() {
                 className="mobile-menu-button mobile-menu-button--submit"
               >
                 Submit Film
+              </Link>
+              <Link
+                href={LUMA_EVENT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-menu-button mobile-menu-button--tickets"
+              >
+                Get Tickets
               </Link>
             </div>
           </div>

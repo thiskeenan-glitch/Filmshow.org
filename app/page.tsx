@@ -9,7 +9,6 @@ import type { CSSProperties } from "react";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const TICKETS_VIDEO = "/videos/tickets-loop.mp4";
-const SUBMIT_VIDEO = "/videos/submit-loop.mp4";
 
 const galleryPhotos = [
   {
@@ -19,10 +18,11 @@ const galleryPhotos = [
     portrait: true,
   },
   {
-    src: "/images/optimized/gallery-team.jpg",
+    src: "/images/the-team.jpg",
     alt: "Film Show team gathered near a Toy Gun poster",
     position: "center 58%",
     portrait: true,
+    fallbackSrc: "/images/optimized/gallery-space.jpg",
   },
   {
     src: "/images/optimized/gallery-ladder.jpg",
@@ -31,9 +31,10 @@ const galleryPhotos = [
     portrait: true,
   },
   {
-    src: "/images/optimized/gallery-lots-of-people.jpg",
+    src: "/images/lots-of-people.jpg",
     alt: "A full room watching short films in New York City",
     position: "center",
+    fallbackSrc: "/images/optimized/gallery-space.jpg",
   },
   {
     src: "/images/optimized/gallery-high-five.jpg",
@@ -42,10 +43,11 @@ const galleryPhotos = [
     portrait: true,
   },
   {
-    src: "/images/optimized/gallery-crowd.jpg",
+    src: "/images/the-crowd.jpg",
     alt: "Audience watching a film screening in a dark room",
     position: "center",
     portrait: true,
+    fallbackSrc: "/images/optimized/gallery-high-five.jpg",
   },
   {
     src: "/images/optimized/gallery-3-people.jpg",
@@ -213,8 +215,8 @@ export default function Home() {
       <section id="submit" className="section-pad">
         <div className="container-page">
           <SectionLabel number="02" title="Filmmakers" />
-          <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
-            <div data-reveal="text">
+          <div className="submit-intro" data-reveal="text">
+            <div>
               <p className="section-kicker text-stone-100">
                 Submit your film.
               </p>
@@ -228,16 +230,6 @@ export default function Home() {
                 <ButtonLink href="https://filmfreeway.com/TheFilmShow" newTab>
                   Submit Film
                 </ButtonLink>
-              </div>
-            </div>
-            <div className="submit-side-panel">
-              <div className="submit-image-frame" data-reveal="photo">
-                <ScrollFadeVideo
-                  src={SUBMIT_VIDEO}
-                  label="Film Show submit section video"
-                  className="submit-image submit-video"
-                  silent
-                />
               </div>
             </div>
           </div>
@@ -327,11 +319,11 @@ export default function Home() {
             <div data-reveal="text">
               <p className="copy-wide small-label text-red-300">Photos</p>
               <h2 className="section-kicker mt-5 text-stone-100">
-                Seen in a room.
+                Inside the space.
               </h2>
             </div>
           <p className="body-large max-w-2xl text-stone-300" data-reveal="text">
-            short films | live performances
+            An industrial New York space built for films, performances, and a crowd.
           </p>
           </div>
         </div>

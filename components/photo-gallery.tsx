@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, WheelEvent } from "react";
 
 export type GalleryPhoto = {
@@ -9,11 +9,49 @@ export type GalleryPhoto = {
   position: string;
   portrait?: boolean;
   square?: boolean;
+  fallbackSrc?: string;
 };
 
 type PhotoGalleryProps = {
   photos: GalleryPhoto[];
 };
+
+function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index: number; total: number }) {
+  const [currentSrc, setCurrentSrc] = useState(photo.src);
+  const [isHidden, setIsHidden] = useState(false);
+  const attemptedFallbackRef = useRef(false);
+
+  if (isHidden) {
+    return null;
+  }
+
+  return (
+    <figure
+      className={`photo-gallery-card ${photo.portrait ? "is-portrait" : ""} ${photo.square ? "is-square" : ""}`}
+      style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
+      data-reveal="photo"
+      data-edge={index === 0 ? "first" : index === total - 1 ? "last" : undefined}
+    >
+      <img
+        src={currentSrc}
+        alt={photo.alt}
+        className="photo-gallery-image"
+        style={{ objectPosition: photo.position }}
+        loading={index < 2 ? "eager" : "lazy"}
+        decoding="async"
+        onError={() => {
+          if (!attemptedFallbackRef.current && photo.fallbackSrc && currentSrc !== photo.fallbackSrc) {
+            attemptedFallbackRef.current = true;
+            setCurrentSrc(photo.fallbackSrc);
+            return;
+          }
+
+          setIsHidden(true);
+        }}
+      />
+    </figure>
+  );
+}
 
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -157,22 +195,12 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       >
         <div className="photo-gallery-track">
           {photos.map((photo, index) => (
-            <figure
+            <PhotoGalleryItem
               key={photo.src}
-              className={`photo-gallery-card ${photo.portrait ? "is-portrait" : ""} ${photo.square ? "is-square" : ""}`}
-              style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
-              data-reveal="photo"
-              data-edge={index === 0 ? "first" : index === photos.length - 1 ? "last" : undefined}
-            >
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                className="photo-gallery-image"
-                style={{ objectPosition: photo.position }}
-                loading={index < 2 ? "eager" : "lazy"}
-                decoding="async"
-              />
-            </figure>
+              photo={photo}
+              index={index}
+              total={photos.length}
+            />
           ))}
         </div>
       </div>
