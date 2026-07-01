@@ -66,6 +66,11 @@ export function SiteHeader() {
   };
 
   const handleSectionClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname !== "/") {
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
     const hashIndex = href.indexOf("#");
     if (hashIndex === -1) return;
 

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { MetaPixel } from "@/components/meta-pixel";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { RouteScrollManager } from "@/components/route-scroll-manager";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.filmshow.org"),
@@ -58,6 +60,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        <MetaPixel />
+        <RouteScrollManager />
         <SiteHeader />
         {children}
         <SiteFooter />
