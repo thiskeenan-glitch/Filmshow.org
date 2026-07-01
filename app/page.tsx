@@ -210,46 +210,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section-pad" id="tickets">
-        <div className="container-page">
-          <SectionLabel number="01" title="Tickets" />
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div data-reveal="text">
-              <p className="section-kicker text-stone-100">
-                Be in the room.
-              </p>
-              <p className="body-copy mt-8 max-w-xl text-stone-300">
-                Film Show will be a live NYC screening event for Vol. 1 |
-                10.8.26 | NYC with curated short films, performance moments,
-                a jury-selected 1st Place, live audience voting for 2nd and
-                3rd, winners announced live, with cash prizes awarded at the event.
-              </p>
-              <p className="body-copy mt-5 max-w-xl text-stone-500">
-                Ticket purchase, confirmations, guest list, and check in are
-                handled by our partner Luma.
-              </p>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href={LUMA_EVENT_URL} newTab>
-                  Get Tickets
-                </ButtonLink>
-                <ButtonLink href="/tickets" variant="secondary">
-                  Ticket info
-                </ButtonLink>
-              </div>
-            </div>
-            <div className="submit-image-frame lg:self-center" data-reveal="photo">
-              <ScrollFadeVideo
-                src={TICKETS_VIDEO}
-                label="Film Show event video"
-                className="submit-image"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
       <section id="submit" className="section-pad">
         <div className="container-page">
           <SectionLabel number="02" title="Filmmakers" />
@@ -300,48 +260,6 @@ export default function Home() {
 
       <Divider />
 
-      <section id="photos" className="photo-gallery-section section-pad">
-        <div className="container-page">
-          <div className="grid gap-5 md:grid-cols-[0.72fr_1.28fr] md:items-end">
-            <div data-reveal="text">
-              <p className="copy-wide small-label text-red-300">Photos</p>
-              <h2 className="section-kicker mt-5 text-stone-100">
-                Seen in a room.
-              </h2>
-            </div>
-          <p className="body-large max-w-2xl text-stone-300" data-reveal="text">
-            short films | live performances
-          </p>
-          </div>
-        </div>
-        <PhotoGallery photos={galleryPhotos} />
-      </section>
-
-      <Divider />
-
-      <section id="about" className="section-pad">
-        <div className="container-page">
-          <SectionLabel number="03" title="How it works" />
-          <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
-            {works.map(([number, title, copy]) => (
-              <article
-                key={title}
-                data-reveal="row"
-                className="grid gap-4 py-8 md:grid-cols-[4rem_14rem_1fr] md:items-start md:gap-6 md:py-10"
-              >
-                <p className="copy-wide small-label text-red-500">{number}</p>
-                <h3 className="font-sans text-[clamp(1.2rem,1.7vw,1.55rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-stone-100">
-                  {title}
-                </h3>
-                <p className="body-copy max-w-3xl text-stone-300">{copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
       <section id="prize" className="section-pad cash-section">
         <div className="container-page relative z-10">
           <SectionLabel number="04" title="The prize" />
@@ -379,6 +297,48 @@ export default function Home() {
 
       <Divider />
 
+      <section id="about" className="section-pad">
+        <div className="container-page">
+          <SectionLabel number="03" title="How it works" />
+          <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
+            {works.map(([number, title, copy]) => (
+              <article
+                key={title}
+                data-reveal="row"
+                className="grid gap-4 py-8 md:grid-cols-[4rem_14rem_1fr] md:items-start md:gap-6 md:py-10"
+              >
+                <p className="copy-wide small-label text-red-500">{number}</p>
+                <h3 className="font-sans text-[clamp(1.2rem,1.7vw,1.55rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-stone-100">
+                  {title}
+                </h3>
+                <p className="body-copy max-w-3xl text-stone-300">{copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+
+      <section id="photos" className="photo-gallery-section section-pad">
+        <div className="container-page">
+          <div className="grid gap-5 md:grid-cols-[0.72fr_1.28fr] md:items-end">
+            <div data-reveal="text">
+              <p className="copy-wide small-label text-red-300">Photos</p>
+              <h2 className="section-kicker mt-5 text-stone-100">
+                Seen in a room.
+              </h2>
+            </div>
+          <p className="body-large max-w-2xl text-stone-300" data-reveal="text">
+            short films | live performances
+          </p>
+          </div>
+        </div>
+        <PhotoGallery photos={galleryPhotos} />
+      </section>
+
+      <Divider />
+
       <section id="faq" className="section-pad">
         <div className="container-page">
           <SectionLabel number="05" title="Questions" />
@@ -410,6 +370,46 @@ export default function Home() {
                   </p>
                 </details>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+
+      <section className="section-pad" id="tickets">
+        <div className="container-page">
+          <SectionLabel number="01" title="Tickets" />
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div data-reveal="text">
+              <p className="section-kicker text-stone-100">
+                Be in the room.
+              </p>
+              <p className="body-copy mt-8 max-w-xl text-stone-300">
+                Film Show will be a live NYC screening event for Vol. 1 |
+                10.8.26 | NYC with curated short films, performance moments,
+                a jury-selected 1st Place, live audience voting for 2nd and
+                3rd, winners announced live, with cash prizes awarded at the event.
+              </p>
+              <p className="body-copy mt-5 max-w-xl text-stone-500">
+                Ticket purchase, confirmations, guest list, and check in are
+                handled by our partner Luma.
+              </p>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href={LUMA_EVENT_URL} newTab>
+                  Get Tickets
+                </ButtonLink>
+                <ButtonLink href="/tickets" variant="secondary">
+                  Ticket info
+                </ButtonLink>
+              </div>
+            </div>
+            <div className="submit-image-frame lg:self-center" data-reveal="photo">
+              <ScrollFadeVideo
+                src={TICKETS_VIDEO}
+                label="Film Show event video"
+                className="submit-image"
+              />
             </div>
           </div>
         </div>
