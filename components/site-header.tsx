@@ -14,10 +14,11 @@ const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 const navItems = [
   { href: "/#submit", label: "Submit" },
   { href: "/#prize", label: "Prize" },
-  { href: "/#about", label: "How It Works" },
+  { href: "/#how-it-works", label: "How It Works" },
   { href: "/#photos", label: "Photos" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/#tickets", label: "Tickets" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 const getIndicatorSrc = () =>
@@ -158,37 +159,37 @@ export function SiteHeader() {
 
       const headerHeight =
         document.querySelector<HTMLElement>(".texture-header")?.getBoundingClientRect().height ?? 108;
-      const headerOffset = Math.min(window.innerHeight * 0.42, headerHeight + 28);
+      const activationOffset = headerHeight + (window.innerWidth >= 1024 ? 150 : 118);
 
       if (window.performance.now() < manualActiveUntilRef.current) {
         return;
       }
 
-      if (hero && heroBottom > headerOffset + 80) {
+      if (hero && heroBottom > activationOffset + 80) {
         setActiveHash("");
         return;
       }
 
-      const activeSection = sections
+      const passedSections = sections
         .map((section) => {
           const rect = section.el.getBoundingClientRect();
           return {
             hash: section.hash,
             top: rect.top,
-            bottom: rect.bottom,
           };
         })
-        .find((section) => section.top <= headerOffset && section.bottom > headerOffset);
+        .filter((section) => section.top <= activationOffset)
+        .sort((a, b) => b.top - a.top);
 
-      if (activeSection) {
-        setActiveHash(activeSection.hash);
+      if (passedSections.length) {
+        setActiveHash(passedSections[0]?.hash ?? "");
         return;
       }
 
       const nearestSection = sections
         .map((section) => ({
           hash: section.hash,
-          distance: Math.abs(section.el.getBoundingClientRect().top - headerOffset),
+          distance: Math.abs(section.el.getBoundingClientRect().top - activationOffset),
         }))
         .sort((a, b) => a.distance - b.distance)[0];
 

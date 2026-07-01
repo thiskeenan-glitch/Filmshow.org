@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
 import { ButtonLink } from "./button-link";
 
@@ -12,6 +13,12 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 export function SiteFooter() {
+  const pathname = usePathname();
+
+  if (pathname === "/") {
+    return null;
+  }
+
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const top = document.getElementById("top");
     if (!top) return;
@@ -23,10 +30,13 @@ export function SiteFooter() {
 
   return (
     <>
-      <section className="section-pad border-t border-stone-100/10">
+      <section id="contact" className="section-pad border-t border-stone-100/10">
         <div className="container-page">
           <div className="grid gap-8 md:grid-cols-[0.72fr_1.28fr] md:items-start">
-            <h2 className="section-kicker text-stone-100">Get in touch</h2>
+            <div>
+              <p className="copy-wide small-label text-red-300">Contact</p>
+              <h2 className="section-kicker mt-5 text-stone-100">Get in touch</h2>
+            </div>
             <div>
               <p className="body-large max-w-2xl text-stone-300">
                 For submissions, sponsorships, venue questions, press, or anything else:

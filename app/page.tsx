@@ -7,8 +7,53 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
+const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const TICKETS_VIDEO = "/videos/tickets-loop.mp4";
+const CONTACT_EMAIL = "info@thisbird.org";
+const SOCIAL_URLS: string[] = [];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "Film Show",
+      alternateName: "The Film Show",
+      url: SITE_URL,
+      logo: `${SITE_URL}${LOGO_IMAGE}`,
+      description:
+        "A live short-film event in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
+      ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
+    },
+    {
+      "@type": "Event",
+      name: "Film Show Vol. 1",
+      startDate: "2026-10-08",
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      location: {
+        "@type": "Place",
+        name: "New York City",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "New York City",
+          addressRegion: "NY",
+          addressCountry: "US",
+        },
+      },
+      organizer: {
+        "@type": "Organization",
+        name: "Film Show",
+        url: SITE_URL,
+      },
+      url: SITE_URL,
+      image: [`${SITE_URL}/images/optimized/tfs-poster-social.jpg`],
+      description:
+        "A live show in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
+    },
+  ],
+};
 
 const galleryPhotos = [
   {
@@ -159,6 +204,10 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
 export default function Home() {
   return (
     <main className="home-page-shell">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <MotionEffects />
       <section id="top" className="og-hero relative isolate overflow-hidden">
         <Image
@@ -224,7 +273,7 @@ export default function Home() {
 
       <section id="submit" className="section-pad">
         <div className="container-page">
-          <SectionLabel number="02" title="Filmmakers" />
+          <SectionLabel number="01" title="Filmmakers" />
           <div className="submit-intro" data-reveal="text">
             <div>
               <p className="section-kicker text-stone-100">
@@ -265,7 +314,7 @@ export default function Home() {
 
       <section id="prize" className="section-pad cash-section">
         <div className="container-page relative z-10">
-          <SectionLabel number="04" title="The prize" />
+          <SectionLabel number="02" title="The prize" />
           <div className="cash-content">
             <div className="max-w-sm" data-reveal="text">
               <p className="cash-total-number text-stone-100">
@@ -300,7 +349,7 @@ export default function Home() {
 
       <Divider />
 
-      <section id="about" className="section-pad">
+      <section id="how-it-works" className="section-pad">
         <div className="container-page">
           <SectionLabel number="03" title="How it works" />
           <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
@@ -338,6 +387,41 @@ export default function Home() {
           </div>
         </div>
         <PhotoGallery photos={galleryPhotos} />
+      </section>
+
+      <Divider />
+
+      <section className="section-pad" id="tickets">
+        <div className="container-page">
+          <SectionLabel number="04" title="TICKETS" />
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <div data-reveal="text">
+              <p className="section-kicker text-stone-100">
+                Be in the room.
+              </p>
+              <p className="body-copy mt-8 max-w-xl text-stone-300">
+                Vol. 1 happens October 8th in New York City. Tickets include
+                the full live screening, performances, audience voting, and the
+                winner announcement.
+              </p>
+              <p className="body-copy mt-5 max-w-xl text-stone-500">
+                Guest list and check-in are handled through Luma.
+              </p>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href={LUMA_EVENT_URL} newTab>
+                  Get Tickets
+                </ButtonLink>
+              </div>
+            </div>
+            <div className="tickets-video-wrapper lg:self-center" data-reveal="photo">
+              <ScrollFadeVideo
+                src={TICKETS_VIDEO}
+                label="Film Show event video"
+                className="tickets-video"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
       <Divider />
@@ -380,39 +464,27 @@ export default function Home() {
 
       <Divider />
 
-      <section className="section-pad" id="tickets">
+      <section id="contact" className="section-pad border-t border-stone-100/10">
         <div className="container-page">
-          <SectionLabel number="01" title="Tickets" />
-          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div data-reveal="text">
-              <p className="section-kicker text-stone-100">
-                Be in the room.
-              </p>
-              <p className="body-copy mt-8 max-w-xl text-stone-300">
-                Film Show will be a live NYC screening event for Vol. 1 |
-                10.8.26 | NYC with curated short films, performance moments,
-                a jury-selected 1st Place, live audience voting for 2nd and
-                3rd, winners announced live, with cash prizes awarded at the event.
-              </p>
-              <p className="body-copy mt-5 max-w-xl text-stone-500">
-                Ticket purchase, confirmations, guest list, and check in are
-                handled by our partner Luma.
-              </p>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href={LUMA_EVENT_URL} newTab>
-                  Get Tickets
-                </ButtonLink>
-                <ButtonLink href="/tickets" variant="secondary">
-                  Ticket info
-                </ButtonLink>
-              </div>
-            </div>
-            <div className="submit-image-frame lg:self-center" data-reveal="photo">
-              <ScrollFadeVideo
-                src={TICKETS_VIDEO}
-                label="Film Show event video"
-                className="submit-image"
-              />
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            <p className="copy-wide small-label text-red-300">CONTACT</p>
+            <h2 className="section-kicker mt-5 text-stone-100">Get in touch.</h2>
+            <p className="body-large mt-8 max-w-2xl text-stone-300">
+              For submissions, sponsorships, venue questions, press, or anything else.
+            </p>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="copy-wide mt-8 inline-block text-sm font-bold text-red-300 transition hover:text-stone-100"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            <div className="footer-cta-buttons mt-12 flex w-full max-w-sm flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+              <ButtonLink href={LUMA_EVENT_URL} newTab>
+                Get Tickets
+              </ButtonLink>
+              <ButtonLink href="https://filmfreeway.com/TheFilmShow" variant="secondary" newTab>
+                Submit Film
+              </ButtonLink>
             </div>
           </div>
         </div>

@@ -408,9 +408,31 @@ body::before {
   line-height: 1.28;
 }
 
+.tickets-video-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(248, 244, 235, 0.14);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.tickets-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (min-width: 1024px) {
   .submit-facts {
     grid-template-columns: repeat(3, minmax(0, 14rem));
+  }
+
+  .tickets-video-wrapper {
+    aspect-ratio: 1 / 1;
+    width: min(42vw, 520px);
+    max-width: 520px;
+    margin-left: auto;
   }
 }
 
@@ -1156,12 +1178,20 @@ body::before {
 
 @media (max-width: 767px) {
   html {
+    background: #000 !important;
     scroll-padding-top: 5.6rem;
     overscroll-behavior-y: none;
   }
 
   body {
+    background: #000 !important;
     overscroll-behavior-y: none;
+  }
+
+  #__next,
+  #root,
+  .home-page-shell {
+    background: #000 !important;
   }
 
   body::before,
