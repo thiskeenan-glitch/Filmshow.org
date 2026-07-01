@@ -168,7 +168,17 @@ export default function Home() {
           priority
           unoptimized
           sizes="100vw"
-          className="hero-bg-image"
+          className="hero-bg-image hero-bg-image--desktop"
+          aria-hidden="true"
+        />
+        <Image
+          src="/images/audience-wrapped-in-plastic.jpg"
+          alt=""
+          fill
+          priority
+          unoptimized
+          sizes="100vw"
+          className="hero-bg-image hero-bg-image--mobile"
           aria-hidden="true"
         />
         <div className="hero-bg-overlay" aria-hidden="true" />

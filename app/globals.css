@@ -182,6 +182,10 @@ body::before {
   filter: grayscale(100%) contrast(1.08) brightness(1.04);
 }
 
+.hero-bg-image--mobile {
+  display: none;
+}
+
 .hero-bg-overlay {
   z-index: 1;
   background:
@@ -1247,11 +1251,19 @@ body::before {
   }
 
   .hero-bg-image {
-    object-position: 100% 78% !important;
+    object-position: center center !important;
     opacity: 1;
-    filter: grayscale(100%) contrast(1) brightness(1.28);
-    transform: scale(0.96);
-    transform-origin: right bottom;
+    filter: grayscale(100%) contrast(1) brightness(0.59);
+    transform: none !important;
+  }
+
+  .hero-bg-image--desktop {
+    display: none !important;
+  }
+
+  .hero-bg-image--mobile {
+    display: block !important;
+    object-position: center center !important;
   }
 
   .hero-bg-overlay {
