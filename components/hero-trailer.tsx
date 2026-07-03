@@ -22,6 +22,7 @@ export function HeroTrailer({
   const [reducedMotion, setReducedMotion] = useState(false);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -32,6 +33,18 @@ export function HeroTrailer({
 
     return () => {
       mediaQuery.removeEventListener("change", updatePreference);
+    };
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewport);
     };
   }, []);
 
@@ -134,15 +147,17 @@ export function HeroTrailer({
       </div>
 
       <div className="hero-trailer-stage">
-        <div className="hero-trailer-logo-row">
-          <div className="hero-trailer-wordmark-wrap">
-            <img
-              src={logoImage}
-              alt="Film Show"
-              className="hero-trailer-wordmark"
-            />
+        {!isMobileViewport ? (
+          <div className="hero-trailer-logo-row">
+            <div className="hero-trailer-wordmark-wrap">
+              <img
+                src={logoImage}
+                alt="Film Show"
+                className="hero-trailer-wordmark"
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className="hero-trailer-frame-shell">
           <div className="hero-trailer-frame">
             <div className="hero-trailer-media">
@@ -180,12 +195,16 @@ export function HeroTrailer({
                 <span>One night.</span>
                 <span>$6,000 in cash.</span>
               </p>
-              <p className="hero-trailer-description">
+              <p className="hero-trailer-description hero-trailer-description--desktop">
                 A curated live show featuring six short films and live
                 performances.
               </p>
             </div>
           </div>
+          <p className="hero-trailer-description hero-trailer-description--mobile">
+            A curated live show featuring six short films and live
+            performances.
+          </p>
           <div className="hero-trailer-actions">
             <Link
               href={submitHref}

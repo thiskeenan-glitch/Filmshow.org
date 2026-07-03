@@ -251,11 +251,63 @@ export function SiteHeader() {
     >
       <nav className="container-page py-3 sm:py-4">
         <div className="header-bar flex items-center justify-between gap-x-4">
+          <div className="mobile-header-left lg:hidden">
+            <Link
+              href="/#top"
+              data-scroll-top
+              onClick={handleTopClick}
+              className="mobile-header-cowboy-link"
+              aria-label="Scroll to the top of Film Show home page"
+              title="Back to top"
+            >
+              <Image
+                src={COWBOY_SRC}
+                alt=""
+                width={620}
+                height={820}
+                priority
+                unoptimized
+                aria-hidden="true"
+                className="mobile-header-cowboy"
+              />
+            </Link>
+          </div>
+          <div className="mobile-header-center lg:hidden">
+            <Link
+              href="/#top"
+              data-scroll-top
+              onClick={handleTopClick}
+              className="mobile-header-wordmark"
+              aria-label="Scroll to the top of Film Show home page"
+              title="Back to top"
+            >
+              <Image
+                src={LOGO_SRC}
+                alt="Film Show"
+                width={3400}
+                height={1362}
+                priority
+                unoptimized
+                className="mobile-header-wordmark-image"
+              />
+            </Link>
+          </div>
+          <div className="mobile-header-right lg:hidden">
+            <button
+              type="button"
+              className="mobile-menu-toggle"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+            >
+              {isMobileMenuOpen ? "Close" : "Menu"}
+            </button>
+          </div>
           <Link
             href="/#top"
             data-scroll-top
             onClick={handleTopClick}
-            className="header-brand"
+            className="header-brand hidden lg:block"
             aria-label="Scroll to the top of Film Show home page"
             title="Back to top"
           >
@@ -332,15 +384,6 @@ export function SiteHeader() {
                 Submit Your Film
               </Link>
             </div>
-            <button
-              type="button"
-              className="mobile-menu-toggle lg:hidden"
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-menu"
-              onClick={() => setIsMobileMenuOpen((open) => !open)}
-            >
-              {isMobileMenuOpen ? "Close" : "Menu"}
-            </button>
           </div>
         </div>
         <div
