@@ -135,13 +135,13 @@ export function SiteHeader() {
     const update = () => {
       const hero = document.getElementById("top");
       const heroBottom = hero?.getBoundingClientRect().bottom ?? window.innerHeight;
-      const viewportHeight = window.innerHeight;
+      const scrollY = window.scrollY;
 
       setHasScrolled(window.scrollY > 10);
       setShowFullLogo((current) =>
         current
-          ? heroBottom < viewportHeight * 0.62
-          : heroBottom < viewportHeight * 0.42,
+          ? scrollY > 120
+          : scrollY > 145,
       );
 
       const sections = navItems
@@ -244,14 +244,18 @@ export function SiteHeader() {
   }, [activeHash]);
 
   return (
-    <header className={`texture-header top-0 z-40 w-full border-b ${hasScrolled ? "is-scrolled" : ""}`}>
+    <header
+      className={`texture-header top-0 z-40 w-full border-b ${
+        hasScrolled ? "is-scrolled" : ""
+      } ${showFullLogo ? "is-brand-swapped" : ""}`}
+    >
       <nav className="container-page py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-x-4">
+        <div className="header-bar flex items-center justify-between gap-x-4">
           <Link
             href="/#top"
             data-scroll-top
             onClick={handleTopClick}
-            className={`header-brand ${showFullLogo ? "is-logo-visible" : "is-cowboy-visible"}`}
+            className="header-brand"
             aria-label="Scroll to the top of Film Show home page"
             title="Back to top"
           >
@@ -263,7 +267,7 @@ export function SiteHeader() {
               priority
               unoptimized
               aria-hidden="true"
-              className="header-brand-image header-brand-cowboy"
+              className="header-brand-image header-cowboy"
             />
             <Image
               src={LOGO_SRC}
@@ -272,10 +276,10 @@ export function SiteHeader() {
               height={1362}
               priority
               unoptimized
-              className="header-brand-image header-brand-logo"
+              className="header-brand-image header-logo"
             />
           </Link>
-          <div className="flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
+          <div className="header-actions flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
             <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
               <span
                 className={`nav-active-cowboy ${

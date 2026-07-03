@@ -1,9 +1,9 @@
 import { ButtonLink } from "@/components/button-link";
+import { HeroTrailer } from "@/components/hero-trailer";
 import { MotionEffects } from "@/components/motion-effects";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
 import { ScrollFadeVideo } from "@/components/scroll-fade-video";
-import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
@@ -11,6 +11,8 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const TICKETS_VIDEO = "/videos/tickets-loop.mp4";
+const HERO_TRAILER_VIDEO = "/videos/filmshow-web-trailer-cropped.mov";
+const HERO_TRAILER_FALLBACK = "/images/hero/filmshow-trailer-fallback.jpg";
 const CONTACT_EMAIL = "info@filmshow.org";
 const SOCIAL_URLS: string[] = [];
 
@@ -229,67 +231,13 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <MotionEffects />
-      <section id="top" className="og-hero relative isolate overflow-hidden">
-        <Image
-          src="/assets/optimized/hero-background.jpg"
-          alt=""
-          fill
-          priority
-          unoptimized
-          sizes="100vw"
-          className="hero-bg-image hero-bg-image--desktop"
-          aria-hidden="true"
-        />
-        <Image
-          src="/images/audience-wrapped-in-plastic.jpg"
-          alt=""
-          fill
-          priority
-          unoptimized
-          sizes="100vw"
-          className="hero-bg-image hero-bg-image--mobile"
-          aria-hidden="true"
-        />
-        <div className="hero-bg-overlay" aria-hidden="true" />
-        <div className="container-page relative z-10">
-          <div className="hero-lockup mx-auto flex w-full flex-col">
-            <div className="hero-brand-row">
-              <p className="hero-eyebrow copy-wide small-label text-red-500">
-                VOL. 1 | 10.8.26 | NYC
-              </p>
-
-              <div className="hero-logo-wrap">
-                <Image
-                  src={LOGO_IMAGE}
-                  alt="Film Show"
-                  width={3400}
-                  height={1362}
-                  priority
-                  unoptimized
-                  className="hero-logo-main"
-                />
-              </div>
-            </div>
-
-            <div className="hero-text-block mx-auto flex max-w-3xl flex-col items-center text-center">
-              <p className="hero-copy body-large mt-12 text-stone-300">
-                <span className="hero-copy-desktop">
-                  A live NYC short film event featuring curated shorts, live performances,
-                  a $6,000 cash prize, jury-selected 1st Place, and live audience
-                  voting for 2nd and 3rd.
-                </span>
-                <span className="hero-copy-mobile">
-                  A live show in New York City featuring curated short films, live performances and a $6,000 cash prize.
-                </span>
-              </p>
-
-              <p className="hero-manifesto copy-wide mt-8 w-fit border-y border-red-500/35 py-3 text-[0.75rem] text-red-300">
-                GOOD ART SHOULD MAKE MONEY.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroTrailer
+        fallbackImage={HERO_TRAILER_FALLBACK}
+        learnMoreHref="#submit"
+        logoImage={LOGO_IMAGE}
+        submitHref={FILMFREEWAY_URL}
+        videoSrc={HERO_TRAILER_VIDEO}
+      />
 
       <section id="submit" className="section-pad">
         <div className="container-page">
@@ -341,7 +289,7 @@ export default function Home() {
                 Why submit to Film Show?
               </p>
               <p className="body-large mt-8 max-w-xl text-stone-300">
-                Not every room feels the same. This one is designed to make a selected film land.
+                Not every room feels the same. This one is designed to make every selected film feel valuable.
               </p>
               <div className="mt-10">
                 <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>

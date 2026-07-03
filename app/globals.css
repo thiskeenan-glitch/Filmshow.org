@@ -286,6 +286,300 @@ body::before {
   max-width: 12ch;
 }
 
+.hero-trailer-shell {
+  position: relative;
+  min-height: calc(100svh + 96px);
+  background:
+    radial-gradient(circle at top, rgba(118, 17, 28, 0.14), rgba(118, 17, 28, 0) 30%),
+    #020202;
+  overflow: visible;
+}
+
+.hero-trailer-backdrop,
+.hero-trailer-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-trailer-backdrop {
+  pointer-events: none;
+}
+
+.hero-trailer-backdrop-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(100%) contrast(1.02) brightness(0.42);
+  transform: scale(1.04);
+}
+
+.hero-trailer-stage {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  padding: clamp(7rem, 9vw, 8.5rem) clamp(1.2rem, 4vw, 3rem) clamp(7rem, 9vw, 8rem);
+}
+
+.hero-trailer-logo-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-trailer-frame-shell {
+  position: relative;
+  display: grid;
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  grid-template-columns: 500px 360px;
+  grid-template-areas:
+    "logo logo"
+    "frame copy"
+    "frame actions";
+  column-gap: 80px;
+  row-gap: 0;
+  align-items: start;
+  justify-content: center;
+  text-align: left;
+}
+
+.hero-trailer-copy {
+  grid-area: copy;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  width: 360px;
+  max-width: 360px;
+  margin-top: clamp(4.25rem, 7vw, 5.5rem);
+}
+
+.hero-trailer-frame {
+  grid-area: frame;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(440px, 33vw, 500px);
+  max-width: 500px;
+  margin-top: 0;
+  justify-self: center;
+  align-self: center;
+}
+
+.hero-trailer-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border-radius: 1.25rem;
+  background: rgba(4, 4, 4, 0.94);
+  box-shadow:
+    0 2.5rem 5rem rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 2.5rem rgba(162, 30, 40, 0.08);
+}
+
+.hero-trailer-video,
+.hero-trailer-poster,
+.hero-trailer-overlay {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-trailer-video,
+.hero-trailer-poster {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-trailer-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.035) 0%, rgba(0, 0, 0, 0.012) 34%, rgba(0, 0, 0, 0.03) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.016), rgba(0, 0, 0, 0.004) 50%, rgba(0, 0, 0, 0.016));
+}
+
+.hero-trailer-wordmark {
+  display: block;
+  width: clamp(28rem, 32vw, 36rem);
+  height: auto;
+  object-fit: contain;
+  overflow: visible;
+  margin-bottom: 0;
+  transition: opacity 280ms ease;
+  margin-top: clamp(0.25rem, 1vw, 0.75rem);
+}
+
+.hero-trailer-wordmark-wrap {
+  padding-top: 32px;
+  padding-bottom: clamp(2.5rem, 3.8vw, 3.5rem);
+}
+
+.hero-trailer-copy-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.hero-trailer-headline {
+  max-width: 12ch;
+  color: #f5f5f4;
+  font-size: clamp(1.55rem, 1.8vw, 1.85rem);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+  margin-bottom: 1.1rem;
+  text-align: left;
+}
+
+.hero-trailer-headline span,
+.hero-trailer-subheadline span {
+  display: block;
+}
+
+.hero-trailer-subheadline {
+  color: rgba(252, 211, 211, 0.95);
+  font-size: clamp(1.15rem, 1.45vw, 1.28rem);
+  line-height: 1.34;
+  letter-spacing: 0.02em;
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.hero-trailer-description {
+  max-width: 22rem;
+  color: rgba(231, 229, 228, 0.74);
+  font-size: clamp(1rem, 1.08vw, 1.06rem);
+  line-height: 1.68;
+  text-align: left;
+}
+
+.hero-trailer-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 22vh;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(2, 2, 2, 0), rgba(2, 2, 2, 0.58));
+}
+
+.hero-trailer-actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  width: 360px;
+  max-width: 360px;
+  margin-top: clamp(1.8rem, 2.4vw, 2.3rem);
+}
+
+.hero-trailer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease;
+}
+
+.hero-trailer-button-primary {
+  border: 0;
+  background: #a21e28;
+  color: #fff;
+}
+
+.hero-trailer-button-primary:hover {
+  transform: translateY(-1px);
+  background: #b52833;
+  color: #fff;
+}
+
+.hero-trailer-button-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: #fff;
+}
+
+.hero-trailer-button-secondary:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.hero-trailer-shell.is-animated .hero-trailer-wordmark,
+.hero-trailer-shell.is-animated .hero-trailer-frame,
+.hero-trailer-shell.is-animated .hero-trailer-copy,
+.hero-trailer-shell.is-animated .hero-trailer-actions {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeUp 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-trailer-shell.is-animated .hero-trailer-wordmark {
+  animation-delay: 120ms;
+}
+
+.hero-trailer-shell.is-animated .hero-trailer-frame {
+  animation-delay: 320ms;
+}
+
+.hero-trailer-shell.is-animated .hero-trailer-copy {
+  animation-delay: 520ms;
+}
+
+.hero-trailer-shell.is-animated .hero-trailer-actions {
+  animation-delay: 700ms;
+}
+
+.hero-trailer-shell.is-reduced-motion .hero-trailer-wordmark,
+.hero-trailer-shell.is-reduced-motion .hero-trailer-frame,
+.hero-trailer-shell.is-reduced-motion .hero-trailer-copy,
+.hero-trailer-shell.is-reduced-motion .hero-trailer-actions {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-trailer-shell.is-logo-dim .hero-trailer-wordmark {
+  opacity: 0.62;
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .section-title {
   font-family: var(--font-sans);
   font-size: clamp(2rem, 3.2vw, 3.5rem);
@@ -536,10 +830,18 @@ body::before {
   display: block;
 }
 
+.header-bar {
+  position: relative;
+}
+
+.header-actions {
+  display: flex;
+}
+
 .header-brand {
   position: relative;
-  width: clamp(10rem, 17vw, 19rem);
-  height: clamp(4.15rem, 6.8vw, 7rem);
+  width: clamp(12rem, 19vw, 22rem);
+  height: clamp(4.5rem, 7.2vw, 7.6rem);
   cursor: pointer;
   transition: opacity 180ms ease;
 }
@@ -561,45 +863,57 @@ body::before {
   will-change: opacity, transform;
 }
 
-.header-brand-logo {
+.header-logo {
   width: 100%;
   height: 100%;
   opacity: 0;
-  transform: translate3d(0, 0.55rem, 0) scale(0.96);
-  transition-delay: 0ms;
+  transform: translateY(8px) scale(0.92);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.header-brand-cowboy {
+.header-cowboy {
   width: clamp(1.8rem, 2.35vw, 2.35rem);
   height: clamp(2.75rem, 3.7vw, 3.65rem);
   opacity: 1;
   mix-blend-mode: screen;
-  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  transition-duration: 640ms;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.header-brand.is-logo-visible .header-brand-logo {
+.texture-header.is-brand-swapped .header-logo {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  transition-delay: 150ms;
+  transform: translateY(0) scale(1);
 }
 
-.header-brand.is-logo-visible .header-brand-cowboy {
+.texture-header.is-brand-swapped .header-cowboy {
   opacity: 0;
-  transform: translate3d(2.1rem, -3.2rem, 0) rotate(22deg) scale(0.84);
-  transition-delay: 0ms;
+  transform: translateY(-8px) scale(0.88);
 }
 
-.header-brand.is-cowboy-visible .header-brand-logo {
+.texture-header:not(.is-brand-swapped) .header-logo {
   opacity: 0;
-  transform: translate3d(0, 0.55rem, 0) scale(0.96);
-  transition-delay: 0ms;
+  transform: translateY(8px) scale(0.92);
 }
 
-.header-brand.is-cowboy-visible .header-brand-cowboy {
+.texture-header:not(.is-brand-swapped) .header-cowboy {
   opacity: 1;
-  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  transition-delay: 90ms;
+  transform: translateY(0) scale(1);
+}
+
+.hero-trailer-wordmark-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow: visible;
+  padding-top: 32px;
+  padding-bottom: 28px;
 }
 
 .header-cta {
@@ -850,6 +1164,7 @@ body::before {
 .desktop-nav-track {
   position: relative;
   overflow: visible;
+  gap: 1.25rem;
 }
 
 .nav-active-cowboy {
@@ -907,6 +1222,7 @@ body::before {
 
 .poster-link {
   position: relative;
+  white-space: nowrap;
 }
 
 .poster-link::after {
@@ -1235,25 +1551,39 @@ body::before {
   }
 
   .texture-header .container-page {
-    padding-top: 0.58rem;
-    padding-bottom: 0.58rem;
+    padding-top: 0.92rem;
+    padding-bottom: 0.92rem;
+    padding-inline: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+
+  .header-bar {
+    justify-content: space-between;
+    min-height: 4.5rem;
+  }
+
+  .header-actions {
+    position: static;
+    transform: none;
   }
 
   .header-brand {
-    width: 6.9rem;
-    height: 2.8rem;
+    width: 148px;
+    height: 56px;
   }
 
-  .header-brand-logo {
-    display: block;
+  .header-logo {
     width: 100%;
     height: 100%;
-    opacity: 1 !important;
-    transform: none !important;
+    max-height: 52px;
+    transition-duration: 250ms;
   }
 
-  .header-brand-cowboy {
-    display: none;
+  .header-cowboy {
+    display: block;
+    width: auto;
+    height: 41px;
+    transition-duration: 250ms;
   }
 
   .section-pad {
@@ -1288,6 +1618,142 @@ body::before {
     min-height: 100svh;
     padding-block: clamp(5.25rem, 16vw, 6.5rem) clamp(3.5rem, 12vw, 4.5rem);
     background-image: none !important;
+  }
+
+  .hero-trailer-shell {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .hero-trailer-backdrop-image {
+    filter: grayscale(100%) contrast(1.01) brightness(0.34);
+    transform: scale(1.08);
+  }
+
+  .hero-trailer-stage {
+    position: relative;
+    inset: auto;
+    padding: clamp(6rem, 18vw, 7rem) 1rem 4rem;
+    place-items: start center;
+  }
+
+  .hero-trailer-frame-shell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 0;
+    padding-inline: 0;
+  }
+
+  .hero-trailer-copy {
+    display: flex;
+    max-width: 340px;
+    gap: 0;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .hero-trailer-frame {
+    width: 84vw;
+    max-width: 380px;
+    margin-top: 18px;
+    margin-bottom: 36px;
+    justify-self: center;
+  }
+
+  .hero-trailer-media {
+    border-radius: 1rem;
+    box-shadow:
+      0 2rem 4rem rgba(0, 0, 0, 0.42),
+      0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  .hero-trailer-video,
+  .hero-trailer-poster {
+    max-height: none;
+    object-position: center;
+  }
+
+  .hero-trailer-overlay {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.065) 0%, rgba(0, 0, 0, 0.02) 38%, rgba(0, 0, 0, 0.07) 100%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.01) 50%, rgba(0, 0, 0, 0.03));
+  }
+
+  .hero-trailer-shell::after {
+    height: 22svh;
+  }
+
+  .hero-trailer-wordmark-wrap {
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+
+  .hero-trailer-wordmark {
+    display: block;
+    width: min(440px, 88vw);
+  }
+
+  .hero-trailer-copy-block {
+    align-items: center;
+    gap: 0;
+  }
+
+  .hero-trailer-headline {
+    font-size: clamp(34px, 8vw, 40px);
+    max-width: 340px;
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: 0.005em;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .hero-trailer-subheadline {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.42;
+    letter-spacing: 0.01em;
+    text-align: center;
+    margin-bottom: 22px;
+    max-width: 280px;
+  }
+
+  .hero-trailer-subheadline span + span {
+    margin-top: 0.18rem;
+  }
+
+  .hero-trailer-description {
+    max-width: 272px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: rgba(231, 229, 228, 0.66);
+    text-align: center;
+    margin-top: 18px;
+  }
+
+  .hero-trailer-actions {
+    width: auto;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 260px;
+    margin-top: 28px;
+    margin-bottom: 64px;
+  }
+
+  .hero-trailer-button {
+    width: auto;
+    min-width: min(260px, calc(100vw - 2rem));
+    height: 45px;
+    padding: 0 22px;
+  }
+
+  .hero-trailer-shell::after {
+    display: none;
   }
 
   .hero-bg-image {
@@ -1508,18 +1974,19 @@ body::before {
 
 @media (max-width: 560px) {
   .header-brand {
-    width: 6.3rem;
-    height: 2.55rem;
+    width: 110px;
+    height: 42px;
   }
 
-  .header-brand-cowboy {
-    display: none;
-  }
-
-  .header-brand-logo {
+  .header-cowboy {
     display: block;
-    opacity: 1 !important;
-    transform: none !important;
+    height: 40px;
+  }
+
+  .header-logo {
+    display: block;
+    width: 100px;
+    max-height: 42px;
   }
 
   .texture-header .container-page {
@@ -1530,8 +1997,8 @@ body::before {
 
 @media (max-width: 380px) {
   .header-brand {
-    width: 5.9rem;
-    height: 2.4rem;
+    width: 96px;
+    height: 40px;
   }
 
   .mobile-header-menu {
@@ -1567,13 +2034,13 @@ body::before {
     transform: none !important;
   }
 
-  .header-brand.is-logo-visible .header-brand-logo,
-  .header-brand.is-cowboy-visible .header-brand-cowboy {
+  .texture-header.is-brand-swapped .header-logo,
+  .texture-header:not(.is-brand-swapped) .header-cowboy {
     opacity: 1 !important;
   }
 
-  .header-brand.is-logo-visible .header-brand-cowboy,
-  .header-brand.is-cowboy-visible .header-brand-logo {
+  .texture-header.is-brand-swapped .header-cowboy,
+  .texture-header:not(.is-brand-swapped) .header-logo {
     opacity: 0 !important;
   }
 }
