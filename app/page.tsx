@@ -10,6 +10,8 @@ const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
+const SITE_DESCRIPTION =
+  "Six films. One night. $6,000 in cash. A curated live show for short films and live performances.";
 const TICKETS_VIDEO = "/videos/tickets-loop.mp4";
 const HERO_TRAILER_VIDEO = "/videos/filmshow-web-trailer-cropped.mov";
 const HERO_TRAILER_FALLBACK = "/images/hero/filmshow-trailer-fallback.jpg";
@@ -23,17 +25,15 @@ const structuredData = {
   "@graph": [
     {
       "@type": "Organization",
-      name: "Film Show",
-      alternateName: "The Film Show",
+      name: "Filmshow",
       url: SITE_URL,
       logo: `${SITE_URL}${LOGO_IMAGE}`,
-      description:
-        "A live short-film event in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
+      description: SITE_DESCRIPTION,
       ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
     },
     {
       "@type": "Event",
-      name: "Film Show Vol. 1",
+      name: "Filmshow Vol. 1",
       startDate: "2026-10-08",
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
       eventStatus: "https://schema.org/EventScheduled",
@@ -49,13 +49,12 @@ const structuredData = {
       },
       organizer: {
         "@type": "Organization",
-        name: "Film Show",
+        name: "Filmshow",
         url: SITE_URL,
       },
       url: SITE_URL,
-      image: [`${SITE_URL}/images/optimized/tfs-poster-social.jpg`],
-      description:
-        "A live show in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
+      image: [`${SITE_URL}/images/filmshow-social-logo-black-bg.png`],
+      description: SITE_DESCRIPTION,
     },
   ],
 };
@@ -63,13 +62,13 @@ const structuredData = {
 const galleryPhotos = [
   {
     src: "/images/optimized/gallery-space.jpg",
-    alt: "Film Show event space before the screening",
+    alt: "Filmshow event space before the screening",
     position: "center",
     portrait: true,
   },
   {
     src: "/images/the-team.jpg",
-    alt: "Film Show team gathered near a Toy Gun poster",
+    alt: "Filmshow team gathered near a Toy Gun poster",
     position: "center 58%",
     portrait: true,
     fallbackSrc: "/images/optimized/gallery-space.jpg",
@@ -153,7 +152,7 @@ const filmmakerDetails = [
 const whySubmitReasons = [
   [
     "Not a traditional festival.",
-    "Film Show is built as a live screening event, not a long list of blocks and badges.",
+    "Filmshow is built as a live screening event, not a long list of blocks and badges.",
   ],
   [
     "Only 6 to 8 films.",
@@ -251,7 +250,7 @@ export default function Home() {
           <div className="why-submit-grid">
             <div data-reveal="text">
               <p className="section-kicker max-w-xl text-stone-100">
-                Why submit to Film Show?
+                Why submit to Filmshow?
               </p>
               <p className="body-large mt-8 max-w-xl text-stone-300">
                 Not every room feels the same. This one is designed to make every selected film feel valuable.
@@ -381,7 +380,7 @@ export default function Home() {
             <div className="tickets-video-wrapper lg:self-center" data-reveal="photo">
               <ScrollFadeVideo
                 src={TICKETS_VIDEO}
-                label="Film Show event video"
+                label="Filmshow event video"
                 className="tickets-video"
               />
             </div>

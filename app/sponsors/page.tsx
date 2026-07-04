@@ -1,8 +1,24 @@
 import { SponsorInquiryForm } from "@/components/sponsor-inquiry-form";
 import { PlasticCard } from "@/components/plastic-card";
 
+const pageDescription =
+  "Sponsor Filmshow, a visually exciting New York City film event built for filmmakers, audiences, and the creative community.";
+
 export const metadata = {
-  title: "Sponsors | Film Show",
+  title: "Sponsors | Filmshow",
+  description: pageDescription,
+  alternates: {
+    canonical: "https://www.filmshow.org/sponsors",
+  },
+  openGraph: {
+    title: "Sponsors | Filmshow",
+    description: pageDescription,
+    url: "https://www.filmshow.org/sponsors",
+  },
+  twitter: {
+    title: "Sponsors | Filmshow",
+    description: pageDescription,
+  },
 };
 
 const tiers = [
@@ -25,10 +41,10 @@ export default function SponsorsPage() {
     <main className="hero-pad">
       <section className="container-page relative">
         <p className="copy-wide small-label mb-8 text-red-300">
-          Film Show · Sponsors
+          Filmshow · Sponsors
         </p>
         <h1 className="section-kicker max-w-5xl text-stone-100">
-          Sponsor Film Show.
+          Sponsor Filmshow.
         </h1>
         <p className="body-large mt-10 max-w-3xl text-stone-300">
           Support a visually exciting NYC film event built for filmmakers,

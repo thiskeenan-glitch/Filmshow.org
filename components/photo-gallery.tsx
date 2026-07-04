@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 
@@ -32,9 +33,17 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
       data-reveal="photo"
       data-edge={index === 0 ? "first" : index === total - 1 ? "last" : undefined}
     >
-      <img
+      <Image
         src={currentSrc}
         alt={photo.alt}
+        fill
+        sizes={
+          photo.portrait
+            ? "(max-width: 767px) 76vw, 32rem"
+            : photo.square
+              ? "(max-width: 767px) 82vw, 44rem"
+              : "(max-width: 767px) 84vw, 54rem"
+        }
         className="photo-gallery-image"
         style={{ objectPosition: photo.position }}
         loading={index < 2 ? "eager" : "lazy"}

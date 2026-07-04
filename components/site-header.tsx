@@ -270,7 +270,7 @@ export function SiteHeader() {
               data-scroll-top
               onClick={handleTopClick}
               className="mobile-header-cowboy-link"
-              aria-label="Scroll to the top of Film Show home page"
+              aria-label="Scroll to the top of Filmshow home page"
               title="Back to top"
             >
               <Image
@@ -291,12 +291,12 @@ export function SiteHeader() {
               data-scroll-top
               onClick={handleTopClick}
               className="mobile-header-wordmark"
-              aria-label="Scroll to the top of Film Show home page"
+              aria-label="Scroll to the top of Filmshow home page"
               title="Back to top"
             >
               <Image
                 src={LOGO_SRC}
-                alt="Film Show"
+                alt="Filmshow"
                 width={3400}
                 height={1362}
                 priority
@@ -322,7 +322,7 @@ export function SiteHeader() {
               data-scroll-top
               onClick={handleTopClick}
               className="header-brand hidden lg:block"
-              aria-label="Scroll to the top of Film Show home page"
+              aria-label="Scroll to the top of Filmshow home page"
               title="Back to top"
             >
               <Image
@@ -337,7 +337,7 @@ export function SiteHeader() {
               />
               <Image
                 src={LOGO_SRC}
-                alt="Film Show"
+                alt="Filmshow"
                 width={3400}
                 height={1362}
                 priority
@@ -419,7 +419,7 @@ export function SiteHeader() {
             </Link>
           ))}
           <div className="mobile-menu-cta">
-            <p className="mobile-menu-event-line">Film Show | Vol. 1 | 10.8.26 | New York City</p>
+            <p className="mobile-menu-event-line">Filmshow | Vol. 1 | 10.8.26 | New York City</p>
             <div className="mobile-menu-buttons">
               <Link
                 href={FILMFREEWAY_URL}

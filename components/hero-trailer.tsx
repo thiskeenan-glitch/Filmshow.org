@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -158,9 +159,13 @@ export function HeroTrailer({
         {!isMobileViewport ? (
           <div className="hero-trailer-logo-row">
             <div className="hero-trailer-wordmark-wrap">
-              <img
+              <Image
                 src={logoImage}
-                alt="Film Show"
+                alt="Filmshow"
+                width={3400}
+                height={1362}
+                priority
+                sizes="(max-width: 767px) 260px, 36rem"
                 className="hero-trailer-wordmark"
               />
             </div>
@@ -212,7 +217,7 @@ export function HeroTrailer({
                   ref={videoRef}
                   className="hero-trailer-video"
                   src={videoSrc}
-                  aria-label="Film Show trailer"
+                  aria-label="Filmshow trailer"
                   autoPlay
                   muted
                   loop
@@ -221,9 +226,12 @@ export function HeroTrailer({
                   poster={fallbackImage}
                 />
               ) : (
-                <img
+                <Image
                   src={fallbackImage}
-                  alt="Film Show trailer still"
+                  alt="Filmshow trailer still"
+                  width={1200}
+                  height={1200}
+                  sizes="(max-width: 767px) 86vw, 500px"
                   className="hero-trailer-poster"
                 />
               )}

@@ -33,12 +33,12 @@ export function SiteFooter() {
             data-scroll-top
             onClick={handleTopClick}
             className="footer-logo-link inline-flex w-fit cursor-pointer items-center transition hover:opacity-80"
-            aria-label="Scroll to the top of Film Show home page"
+            aria-label="Scroll to the top of Filmshow home page"
             title="Back to top"
           >
             <Image
               src={LOGO_SRC}
-              alt="Film Show"
+              alt="Filmshow"
               width={3400}
               height={1362}
               unoptimized
@@ -50,7 +50,7 @@ export function SiteFooter() {
             data-scroll-top
             onClick={handleTopClick}
             className="footer-cowboy-link inline-flex w-fit cursor-pointer items-center justify-center transition hover:opacity-80"
-            aria-label="Scroll to the top of Film Show home page"
+            aria-label="Scroll to the top of Filmshow home page"
             title="Back to top"
           >
             <Image
@@ -95,7 +95,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-cta-center">
             <p className="footer-cta-date copy-wide font-extrabold text-red-300">
-              FILM SHOW | VOL. 1 | 10.8.26 | NEW YORK CITY
+              FILMSHOW | VOL. 1 | 10.8.26 | NEW YORK CITY
             </p>
             <div className="footer-cta-buttons mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href={LUMA_EVENT_URL} newTab>

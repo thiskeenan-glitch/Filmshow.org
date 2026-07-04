@@ -4,37 +4,50 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
 
+const siteTitle = "Filmshow — This Is Not A Festival";
+const siteDescription =
+  "Six films. One night. $6,000 in cash. A curated live show for short films and live performances.";
+const socialImage = "/images/filmshow-social-logo-black-bg.png";
+
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.filmshow.org"),
-  title: "Film Show | Live Short Film Event in NYC",
-  description:
-    "Film Show is a live short-film event in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
+  applicationName: "Filmshow",
+  title: siteTitle,
+  description: siteDescription,
+  keywords: [
+    "Filmshow",
+    "short film event",
+    "NYC film event",
+    "live performances",
+    "FilmFreeway",
+    "independent filmmakers",
+  ],
   alternates: {
     canonical: "https://www.filmshow.org",
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "Film Show | Live Short Film Event in NYC",
-    description:
-      "Film Show is a live short-film event in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
+    title: siteTitle,
+    description: siteDescription,
     url: "https://www.filmshow.org",
-    siteName: "Film Show",
+    siteName: "Filmshow",
+    type: "website",
+    locale: "en_US",
     images: [
       {
-        url: "/images/optimized/tfs-poster-social.jpg",
-        width: 1200,
-        height: 1200,
-        alt: "Film Show Volume 1 poster",
-        type: "image/jpeg",
+        url: socialImage,
+        width: 4000,
+        height: 4000,
+        alt: "Filmshow logo on a black background",
+        type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Film Show | Live Short Film Event in NYC",
-    description:
-      "Film Show is a live short-film event in New York City featuring curated short films, live performances, and a $6,000 cash prize.",
-    images: ["/images/optimized/tfs-poster-social.jpg"],
+    title: siteTitle,
+    description: siteDescription,
+    images: [socialImage],
   },
   icons: {
     icon: [

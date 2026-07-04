@@ -2,9 +2,24 @@ import { ButtonLink } from "@/components/button-link";
 import { PlasticCard } from "@/components/plastic-card";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
+const pageDescription =
+  "Filmshow gives independent filmmakers a real room, a real audience, and a real chance to earn meaningful prize money.";
 
 export const metadata = {
-  title: "About | Film Show",
+  title: "About | Filmshow",
+  description: pageDescription,
+  alternates: {
+    canonical: "https://www.filmshow.org/about",
+  },
+  openGraph: {
+    title: "About | Filmshow",
+    description: pageDescription,
+    url: "https://www.filmshow.org/about",
+  },
+  twitter: {
+    title: "About | Filmshow",
+    description: pageDescription,
+  },
 };
 
 const details = [
@@ -12,7 +27,7 @@ const details = [
   ["Location", "New York City"],
   ["Films", "6 to 8, depending on length of live show"],
   ["Prize", "$6,000 cash prize"],
-  ["1st Place", "$3,000 cash prize, selected by The Film Show jury"],
+  ["1st Place", "$3,000 cash prize, selected by the Filmshow jury"],
   ["2nd Place", "$2,000 cash prize, audience vote"],
   ["3rd Place", "$1,000 cash prize, audience vote"],
 ];
@@ -26,7 +41,7 @@ export default function AboutPage() {
             Vol. 1 | 10.8.26 | NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
-            About Film Show.
+            About Filmshow.
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
             A live NYC short film event for Vol. 1 | 10.8.26 | NYC featuring
@@ -35,7 +50,7 @@ export default function AboutPage() {
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="https://filmfreeway.com/TheFilmShow" newTab>
-              Submit Film
+              Submit Your Film
             </ButtonLink>
             <ButtonLink href={LUMA_EVENT_URL} variant="secondary" newTab>
               Get tickets
@@ -48,7 +63,7 @@ export default function AboutPage() {
         <div className="max-w-3xl border-y border-stone-100/10 py-8 md:py-10">
           <p className="copy-wide small-label text-red-300">Mission</p>
           <p className="body-large mt-6 text-stone-300">
-            Film Show was created to give independent filmmakers a real room, a real
+            Filmshow was created to give independent filmmakers a real room, a real
             audience, and a real chance to earn meaningful prize money. It is built
             for films that deserve concentration, atmosphere, and a crowd that is
             actually there for the work. The goal is simple: make a screening here

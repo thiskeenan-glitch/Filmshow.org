@@ -2,9 +2,24 @@ import { ButtonLink } from "@/components/button-link";
 import { PlasticCard } from "@/components/plastic-card";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
+const pageDescription =
+  "Be in the room for Filmshow Vol. 1 in New York City, with live screening, performances, audience voting, and the winner announcement.";
 
 export const metadata = {
-  title: "Tickets | Film Show",
+  title: "Tickets | Filmshow",
+  description: pageDescription,
+  alternates: {
+    canonical: "https://www.filmshow.org/tickets",
+  },
+  openGraph: {
+    title: "Tickets | Filmshow",
+    description: pageDescription,
+    url: "https://www.filmshow.org/tickets",
+  },
+  twitter: {
+    title: "Tickets | Filmshow",
+    description: pageDescription,
+  },
 };
 
 const eventFacts = [
@@ -35,14 +50,13 @@ export default function TicketsPage() {
             Tickets
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            Film Show is a live NYC screening event for Vol. 1 | 10.8.26 | NYC
+            Filmshow is a live NYC screening event for Vol. 1 | 10.8.26 | NYC
             featuring curated short films, live performances, a jury-selected
             1st Place, live audience voting for 2nd and 3rd, and a $6,000 cash prize.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
-            Film Show website is the home base. Ticket purchase,
-            confirmations, guest list, and check in are handled by our partner
-            Luma.
+            This website is the home base. Ticket purchase, confirmations,
+            guest list, and check in are handled by our partner Luma.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href={LUMA_EVENT_URL} newTab>

@@ -1,6 +1,6 @@
-# Film Show
+# Filmshow
 
-A polished landing website for **Film Show**, an NYC short film event with live screenings, performances, a jury selected 1st Place, audience voted 2nd and 3rd, and a $6,000 cash prize.
+A polished landing website for **Filmshow**, an NYC short film event with live screenings, performances, a jury selected 1st Place, audience voted 2nd and 3rd, and a $6,000 cash prize.
 
 Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 
@@ -13,7 +13,7 @@ Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 
 ## Images
 
-The site uses the official Film Show logo, the red cowboy mascot, the featured poster, and curated event photos in the homepage gallery.
+The site uses the official Filmshow logo, the red cowboy mascot, the featured trailer, and curated event photos in the homepage gallery.
 
 ## Run locally
 

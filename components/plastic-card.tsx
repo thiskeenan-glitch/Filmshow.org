@@ -5,8 +5,6 @@ type PlasticCardProps = {
   className?: string;
   style?: CSSProperties;
   reveal?: boolean;
-  texture?: "plastic1" | "plastic2" | "noise";
-  opacity?: number;
 };
 
 export function PlasticCard({

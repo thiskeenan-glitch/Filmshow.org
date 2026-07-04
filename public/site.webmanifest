@@ -1,6 +1,7 @@
 {
-  "name": "Film Show",
-  "short_name": "Film Show",
+  "name": "Filmshow",
+  "short_name": "Filmshow",
+  "description": "Six films. One night. $6,000 in cash. A curated live show for short films and live performances.",
   "icons": [
     {
       "src": "/favicon-cowboy-192x192.png",
