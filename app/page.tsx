@@ -13,6 +13,8 @@ const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const TICKETS_VIDEO = "/videos/tickets-loop.mp4";
 const HERO_TRAILER_VIDEO = "/videos/filmshow-web-trailer-cropped.mov";
 const HERO_TRAILER_FALLBACK = "/images/hero/filmshow-trailer-fallback.jpg";
+const HERO_BACKGROUND_IMAGE = "/images/optimized/gallery-space.jpg";
+const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/audience-wrapped-in-plastic.jpg";
 const CONTACT_EMAIL = "info@filmshow.org";
 const SOCIAL_URLS: string[] = [];
 
@@ -232,8 +234,9 @@ export default function Home() {
       />
       <MotionEffects />
       <HeroTrailer
+        backgroundImage={HERO_BACKGROUND_IMAGE}
+        desktopBackgroundImage={HERO_DESKTOP_BACKGROUND_IMAGE}
         fallbackImage={HERO_TRAILER_FALLBACK}
-        learnMoreHref="#submit"
         logoImage={LOGO_IMAGE}
         submitHref={FILMFREEWAY_URL}
         videoSrc={HERO_TRAILER_VIDEO}

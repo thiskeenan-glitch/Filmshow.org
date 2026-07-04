@@ -4,16 +4,18 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type HeroTrailerProps = {
+  backgroundImage?: string;
+  desktopBackgroundImage?: string;
   fallbackImage: string;
-  learnMoreHref: string;
   logoImage: string;
   submitHref: string;
   videoSrc: string;
 };
 
 export function HeroTrailer({
+  backgroundImage,
+  desktopBackgroundImage,
   fallbackImage,
-  learnMoreHref,
   logoImage,
   submitHref,
   videoSrc,
@@ -139,11 +141,17 @@ export function HeroTrailer({
       } ${isHeroDimmed ? "is-logo-dim" : ""}`}
     >
       <div className="hero-trailer-backdrop" aria-hidden="true">
-        <img
-          src={fallbackImage}
-          alt=""
-          className="hero-trailer-backdrop-image"
-        />
+        <picture>
+          <source
+            media="(min-width: 768px)"
+            srcSet={desktopBackgroundImage ?? backgroundImage ?? fallbackImage}
+          />
+          <img
+            src={backgroundImage ?? fallbackImage}
+            alt=""
+            className="hero-trailer-backdrop-image"
+          />
+        </picture>
       </div>
 
       <div className="hero-trailer-stage">
@@ -159,6 +167,36 @@ export function HeroTrailer({
           </div>
         ) : null}
         <div className="hero-trailer-frame-shell">
+          <div className="hero-trailer-copy">
+            <div className="hero-trailer-copy-block">
+              <h1 className="hero-trailer-headline">
+                <span>THIS IS NOT</span>
+                <span>A FESTIVAL.</span>
+              </h1>
+              <p className="hero-trailer-mobile-intro">
+                <span>Six films.</span>{" "}
+                <span>One night.</span>{" "}
+                <span className="hero-trailer-mobile-prize-text">$6,000 in cash.</span>
+              </p>
+              <p className="hero-trailer-subheadline hero-trailer-subheadline--desktop">
+                <span>Six films.</span>
+                <span>One night.</span>
+                <span>$6,000 in cash.</span>
+              </p>
+              <p className="hero-trailer-description hero-trailer-description--desktop">
+                A curated live show featuring six short films and live
+                performances.
+              </p>
+            </div>
+          </div>
+          <Link
+            href={submitHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-trailer-button hero-trailer-button-primary hero-trailer-mobile-primary"
+          >
+            Submit Your Film
+          </Link>
           <div className="hero-trailer-frame">
             <div className="hero-trailer-media">
               {!reducedMotion && !autoplayBlocked ? (
@@ -184,43 +222,10 @@ export function HeroTrailer({
               <div className="hero-trailer-overlay" aria-hidden="true" />
             </div>
           </div>
-          <div className="hero-trailer-copy">
-            <div className="hero-trailer-copy-block">
-              <h1 className="hero-trailer-headline">
-                <span>THIS IS NOT</span>
-                <span>A FESTIVAL.</span>
-              </h1>
-              <p className="hero-trailer-subheadline">
-                <span>Six films.</span>
-                <span>One night.</span>
-                <span>$6,000 in cash.</span>
-              </p>
-              <p className="hero-trailer-description hero-trailer-description--desktop">
-                A curated live show featuring six short films and live
-                performances.
-              </p>
-            </div>
-          </div>
           <p className="hero-trailer-description hero-trailer-description--mobile">
             A curated live show featuring six short films and live
             performances.
           </p>
-          <div className="hero-trailer-actions">
-            <Link
-              href={submitHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-trailer-button hero-trailer-button-primary"
-            >
-              Submit Your Film
-            </Link>
-            <Link
-              href={learnMoreHref}
-              className="hero-trailer-button hero-trailer-button-secondary"
-            >
-              Learn More
-            </Link>
-          </div>
         </div>
       </div>
     </section>

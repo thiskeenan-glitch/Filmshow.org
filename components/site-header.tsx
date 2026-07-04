@@ -32,6 +32,7 @@ export function SiteHeader() {
   const [showFullLogo, setShowFullLogo] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [renderDesktopChrome, setRenderDesktopChrome] = useState(true);
   const [indicatorAssetOk, setIndicatorAssetOk] = useState(false);
   const [indicatorSrc] = useState(getIndicatorSrc);
   const navTrackRef = useRef<HTMLDivElement>(null);
@@ -104,6 +105,18 @@ export function SiteHeader() {
     setActiveHash("");
     setIsMobileMenuOpen(false);
   };
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const updateViewport = () => setRenderDesktopChrome(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewport);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isMobileMenuOpen) return;
@@ -303,35 +316,38 @@ export function SiteHeader() {
               {isMobileMenuOpen ? "Close" : "Menu"}
             </button>
           </div>
-          <Link
-            href="/#top"
-            data-scroll-top
-            onClick={handleTopClick}
-            className="header-brand hidden lg:block"
-            aria-label="Scroll to the top of Film Show home page"
-            title="Back to top"
-          >
-            <Image
-              src={COWBOY_SRC}
-              alt=""
-              width={620}
-              height={820}
-              priority
-              unoptimized
-              aria-hidden="true"
-              className="header-brand-image header-cowboy"
-            />
-            <Image
-              src={LOGO_SRC}
-              alt="Film Show"
-              width={3400}
-              height={1362}
-              priority
-              unoptimized
-              className="header-brand-image header-logo"
-            />
-          </Link>
-          <div className="header-actions flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
+          {renderDesktopChrome ? (
+            <Link
+              href="/#top"
+              data-scroll-top
+              onClick={handleTopClick}
+              className="header-brand hidden lg:block"
+              aria-label="Scroll to the top of Film Show home page"
+              title="Back to top"
+            >
+              <Image
+                src={COWBOY_SRC}
+                alt=""
+                width={620}
+                height={820}
+                priority
+                unoptimized
+                aria-hidden="true"
+                className="header-brand-image header-cowboy"
+              />
+              <Image
+                src={LOGO_SRC}
+                alt="Film Show"
+                width={3400}
+                height={1362}
+                priority
+                unoptimized
+                className="header-brand-image header-logo"
+              />
+            </Link>
+          ) : null}
+          {renderDesktopChrome ? (
+            <div className="header-actions flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
             <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
               <span
                 className={`nav-active-cowboy ${
@@ -385,6 +401,7 @@ export function SiteHeader() {
               </Link>
             </div>
           </div>
+          ) : null}
         </div>
         <div
           id="mobile-menu"
