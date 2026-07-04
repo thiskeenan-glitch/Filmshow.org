@@ -13,11 +13,11 @@ const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 const navItems = [
   { href: "/#submit", label: "Submit" },
+  { href: "/#why-submit", label: "Why?" },
   { href: "/#prize", label: "Prize" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#photos", label: "Photos" },
   { href: "/#tickets", label: "Tickets" },
-  { href: "/#faq", label: "FAQ" },
   { href: "/#contact", label: "Contact" },
 ];
 

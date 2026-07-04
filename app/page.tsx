@@ -169,44 +169,6 @@ const whySubmitReasons = [
   ],
 ];
 
-const faqs = [
-  [
-    "01",
-    "What kind of films can I submit?",
-    "Films must be 15 minutes or under, including credits. All genres are welcome.",
-  ],
-  [
-    "02",
-    "Do I need to live in New York?",
-    "No. Filmmakers anywhere can submit. Selected filmmakers are encouraged to attend, but it is not required.",
-  ],
-  [
-    "03",
-    "How is 1st Place chosen?",
-    "1st Place is selected by a jury of established filmmakers and artists.",
-  ],
-  [
-    "04",
-    "How are 2nd and 3rd Place chosen?",
-    "2nd Place and 3rd Place are determined by live audience vote at the event.",
-  ],
-  [
-    "05",
-    "When is the cash prize awarded?",
-    "Cash prizes are awarded to the winning filmmakers the night of the event.",
-  ],
-  [
-    "06",
-    "Does Film Show own my film?",
-    "No. Filmmakers keep ownership. Film Show only receives permission to screen selected films and use excerpts, stills, trailers, posters, filmmaker names, and film titles for promotion related to the event.",
-  ],
-  [
-    "07",
-    "Are submission fees refundable?",
-    "Submission fees are nonrefundable unless the event is canceled.",
-  ],
-];
-
 function Divider() {
   return (
     <div className="container-page">
@@ -242,7 +204,7 @@ export default function Home() {
         videoSrc={HERO_TRAILER_VIDEO}
       />
 
-      <section id="submit" className="section-pad">
+      <section id="submit" className="section-pad submit-section">
         <div className="container-page">
           <SectionLabel number="01" title="Filmmakers" />
           <div className="submit-intro" data-reveal="text">
@@ -281,9 +243,9 @@ export default function Home() {
         </div>
       </section>
 
-      <Divider />
+      <div className="submit-why-fade" aria-hidden="true" />
 
-      <section id="why-submit" className="section-pad">
+      <section id="why-submit" className="section-pad why-submit-section">
         <div className="container-page">
           <SectionLabel number="02" title="Why submit" />
           <div className="why-submit-grid">
@@ -354,9 +316,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Divider />
-
-      <section id="how-it-works" className="section-pad">
+      <section id="how-it-works" className="section-pad how-it-works-section">
         <div className="container-page">
           <SectionLabel number="04" title="How it works" />
           <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
@@ -376,8 +336,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Divider />
 
       <section id="photos" className="photo-gallery-section section-pad">
         <div className="container-page">
@@ -426,44 +384,6 @@ export default function Home() {
                 label="Film Show event video"
                 className="tickets-video"
               />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
-      <section id="faq" className="section-pad">
-        <div className="container-page">
-          <SectionLabel number="06" title="Questions" />
-          <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr]">
-            <p className="section-kicker text-stone-100" data-reveal="text">
-              FAQ
-            </p>
-            <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
-              {faqs.map(([number, question, answer], index) => (
-                <details
-                  key={question}
-                  className="faq-row group"
-                  data-reveal="row"
-                  style={{ "--reveal-delay": `${index * 55}ms` } as CSSProperties}
-                >
-                  <summary className="flex cursor-pointer list-none gap-5 py-7 text-left text-base text-stone-100 transition sm:gap-7 sm:py-8">
-                    <span className="copy-wide small-label min-w-8 pt-1.5 text-red-400">
-                      {number}
-                    </span>
-                    <span className="faq-question flex-1">
-                      {question}
-                    </span>
-                    <span className="pt-1 text-red-400 transition-transform group-open:rotate-45">
-                      +
-                    </span>
-                  </summary>
-                  <p className="body-copy pb-8 pl-10 text-stone-300 sm:pl-14">
-                    {answer}
-                  </p>
-                </details>
-              ))}
             </div>
           </div>
         </div>
