@@ -179,10 +179,18 @@ export function HeroTrailer({
                 <span className="hero-trailer-mobile-prize-text">$6,000 in cash.</span>
               </p>
               <p className="hero-trailer-subheadline hero-trailer-subheadline--desktop">
-                <span>Six films.</span>
-                <span>One night.</span>
-                <span>$6,000 in cash.</span>
+                <span>Six films.</span>{" "}
+                <span>One night.</span>{" "}
+                <span className="hero-trailer-desktop-prize-text">$6,000 in cash.</span>
               </p>
+              <Link
+                href={submitHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-trailer-button hero-trailer-button-primary hero-trailer-desktop-primary"
+              >
+                Submit Your Film
+              </Link>
               <p className="hero-trailer-description hero-trailer-description--desktop">
                 A curated live show featuring six short films and live
                 performances.
