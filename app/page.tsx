@@ -4,6 +4,7 @@ import { MotionEffects } from "@/components/motion-effects";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
 import { ScrollFadeVideo } from "@/components/scroll-fade-video";
+import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
@@ -17,6 +18,7 @@ const HERO_TRAILER_VIDEO = "/videos/filmshow-web-trailer-cropped.mov";
 const HERO_TRAILER_FALLBACK = "/images/hero/filmshow-trailer-fallback.jpg";
 const HERO_BACKGROUND_IMAGE = "/images/optimized/gallery-space.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/audience-wrapped-in-plastic.jpg";
+const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
 const CONTACT_EMAIL = "info@filmshow.org";
 const SOCIAL_URLS: string[] = [];
 
@@ -149,23 +151,14 @@ const filmmakerDetails = [
   ["Event", "New York City"],
 ];
 
-const whySubmitReasons = [
-  [
-    "Not a traditional festival.",
-    "Filmshow is built as a live screening event, not a long list of blocks and badges.",
-  ],
-  [
-    "Only 6 to 8 films.",
-    "The lineup stays tight so each selected film has weight in the room.",
-  ],
-  [
-    "Real attention.",
-    "Every selected film is watched with an audience that is there for the work.",
-  ],
-  [
-    "Film, performance, audience, prize money.",
-    "The night brings together live performance, audience energy, and a meaningful cash prize.",
-  ],
+const whySubmitBody = [
+  "I started Filmshow after screening one of my own short films.",
+  "Instead of a traditional screening, we built an entire show around it. Experimental theater. Surprises. The film became part of an experience instead of just another screening.",
+  "That night made me realize something.",
+  "I've spent years on the festival circuit, and too often incredible short films end up buried inside long blocks where audiences drift in and out, filmmakers wait for their own film to play, and everyone politely applauds before heading home.",
+  "I wanted to build something I'd actually want to attend.",
+  "Filmshow isn't a film festival. It's a live show built around just six exceptional films. Every selection gets the attention it deserves. Every audience member is there for the entire experience. And every filmmaker has a chance to compete for meaningful prize money.",
+  "It's the kind of show I'd want my own film to play in.",
 ];
 
 function Divider() {
@@ -248,12 +241,9 @@ export default function Home() {
         <div className="container-page">
           <SectionLabel number="02" title="Why submit" />
           <div className="why-submit-grid">
-            <div data-reveal="text">
+            <div className="why-submit-intro" data-reveal="text">
               <p className="section-kicker max-w-xl text-stone-100">
-                Why submit to Filmshow?
-              </p>
-              <p className="body-large mt-8 max-w-xl text-stone-300">
-                Not every room feels the same. This one is designed to make every selected film feel valuable.
+                Why Submit?
               </p>
               <div className="mt-10">
                 <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
@@ -261,17 +251,34 @@ export default function Home() {
                 </ButtonLink>
               </div>
             </div>
-            <div className="why-submit-list">
-              {whySubmitReasons.map(([title, copy], index) => (
-                <article
-                  key={title}
-                  data-reveal="row"
-                  className="why-submit-item"
-                  style={{ "--reveal-delay": `${index * 60}ms` } as CSSProperties}
+            <figure className="why-submit-founder" data-reveal="photo">
+              <div className="why-submit-founder-image-wrap">
+                <Image
+                  src={FOUNDER_IMAGE}
+                  alt="Black-and-white portrait of Keenan Gray, Filmshow founder and director"
+                  width={1400}
+                  height={1272}
+                  sizes="(max-width: 767px) 256px, 280px"
+                  className="why-submit-founder-image"
+                />
+              </div>
+              <figcaption className="why-submit-founder-caption">
+                <span>Keenan Gray</span>
+                <span>Founder &amp; Director</span>
+              </figcaption>
+            </figure>
+            <div className="why-submit-list why-submit-story" data-reveal="text">
+              {whySubmitBody.map((paragraph, index) => (
+                <p
+                  key={paragraph}
+                  className={`why-submit-story-copy ${
+                    index === 2 || index === 4 || index === whySubmitBody.length - 1
+                      ? "text-stone-100"
+                      : "text-stone-300"
+                  }`}
                 >
-                  <h3 className="why-submit-title text-stone-100">{title}</h3>
-                  <p className="body-copy mt-3 max-w-2xl text-stone-400">{copy}</p>
-                </article>
+                  {paragraph}
+                </p>
               ))}
             </div>
           </div>

@@ -678,11 +678,83 @@ body::before {
   display: grid;
   gap: clamp(2.75rem, 6vw, 5.5rem);
   align-items: start;
+  grid-template-areas:
+    "intro"
+    "founder"
+    "story";
+}
+
+.why-submit-intro {
+  grid-area: intro;
 }
 
 .why-submit-list {
   border-top: 1px solid rgba(248, 244, 235, 0.1);
   border-bottom: 1px solid rgba(248, 244, 235, 0.1);
+}
+
+.why-submit-story {
+  grid-area: story;
+  padding-block: clamp(1.4rem, 2.4vw, 2rem);
+}
+
+.why-submit-story-copy {
+  max-width: 48rem;
+  font-size: clamp(1rem, 1.15vw, 1.12rem);
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  line-height: 1.68;
+}
+
+.why-submit-story-copy + .why-submit-story-copy {
+  margin-top: clamp(1rem, 1.8vw, 1.45rem);
+}
+
+.why-submit-founder {
+  grid-area: founder;
+  width: min(100%, 16rem);
+  margin: 0;
+  justify-self: center;
+}
+
+.why-submit-founder-image-wrap {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(248, 244, 235, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.why-submit-founder-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 58% center;
+  filter: none;
+}
+
+.why-submit-founder-caption {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.95rem;
+  padding-inline: 0.15rem;
+  color: rgba(248, 244, 235, 0.9);
+  font-size: 0.8rem;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.why-submit-founder-caption span + span {
+  color: var(--accent-soft);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
 }
 
 .how-it-works-section {
@@ -721,23 +793,6 @@ body::before {
   z-index: 1;
 }
 
-.why-submit-item {
-  padding-block: clamp(1.35rem, 2.1vw, 1.8rem);
-}
-
-.why-submit-item + .why-submit-item {
-  border-top: 1px solid rgba(248, 244, 235, 0.1);
-}
-
-.why-submit-title {
-  font-family: var(--font-sans);
-  font-size: clamp(1.18rem, 1.6vw, 1.45rem);
-  font-weight: 740;
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-  text-wrap: balance;
-}
-
 .tickets-video-wrapper {
   position: relative;
   width: 100%;
@@ -759,7 +814,16 @@ body::before {
   }
 
   .why-submit-grid {
-    grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+    grid-template-columns: minmax(220px, 0.5fr) minmax(0, 1fr) minmax(320px, 420px);
+    grid-template-areas: "intro story founder";
+    gap: clamp(2.5rem, 4.8vw, 4.75rem);
+  }
+
+  .why-submit-founder {
+    position: sticky;
+    top: 8rem;
+    width: min(100%, 280px);
+    justify-self: center;
   }
 
   .tickets-video-wrapper {
