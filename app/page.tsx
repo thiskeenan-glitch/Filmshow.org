@@ -225,6 +225,24 @@ export default function Home() {
                 <span>Keenan Gray</span>
                 <span>Founder &amp; Director</span>
               </figcaption>
+              <a
+                href="https://www.instagram.com/thiskeenan"
+                target="_blank"
+                rel="noreferrer"
+                className="why-submit-instagram"
+                aria-label="Open Keenan Gray on Instagram"
+              >
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="why-submit-instagram-icon"
+                >
+                  <rect x="4" y="4" width="16" height="16" rx="5" />
+                  <circle cx="12" cy="12" r="3.5" />
+                  <circle cx="17" cy="7" r="1" />
+                </svg>
+                <span>@thiskeenan</span>
+              </a>
             </figure>
             <div className="why-submit-list why-submit-story" data-reveal="text">
               {whySubmitBody.map((paragraph, index) => (

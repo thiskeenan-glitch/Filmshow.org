@@ -757,6 +757,44 @@ body::before {
   letter-spacing: 0.12em;
 }
 
+.why-submit-instagram {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  padding-inline: 0.15rem;
+  color: rgba(248, 244, 235, 0.84);
+  font-size: 0.72rem;
+  font-weight: 760;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.why-submit-instagram:hover {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.why-submit-instagram:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 5px;
+}
+
+.why-submit-instagram-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
 .how-it-works-section {
   position: relative;
   overflow: hidden;
