@@ -196,50 +196,9 @@ export default function Home() {
         videoSrc={HERO_TRAILER_VIDEO}
       />
 
-      <section id="submit" className="section-pad submit-section">
-        <div className="container-page">
-          <SectionLabel number="01" title="Filmmakers" />
-          <div className="submit-intro" data-reveal="text">
-            <div>
-              <p className="section-kicker text-stone-100">
-                Submit your film.
-              </p>
-              <p className="body-copy mt-8 max-w-xl text-stone-300">
-                Seen in a room. On a big screen.
-              </p>
-              <p className="copy-wide mt-6 text-xs text-red-300">
-                Vol. 1 | 10.8.26 | NYC
-              </p>
-              <div className="mt-10">
-                <ButtonLink href={FILMFREEWAY_URL} newTab>
-                  Submit Your Film
-                </ButtonLink>
-              </div>
-            </div>
-          </div>
-          <div className="submit-facts">
-            {filmmakerDetails.map(([label, value], index) => (
-              <PlasticCard
-                key={label}
-                className="submit-fact-card"
-                style={{ "--reveal-delay": `${index * 55}ms` } as CSSProperties}
-                reveal
-              >
-                <p className="copy-wide small-label text-red-300">{label}</p>
-                <p className="submit-fact-value">
-                  {value}
-                </p>
-              </PlasticCard>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="submit-why-fade" aria-hidden="true" />
-
       <section id="why-submit" className="section-pad why-submit-section">
         <div className="container-page">
-          <SectionLabel number="02" title="Why submit" />
+          <SectionLabel number="01" title="Why submit" />
           <div className="why-submit-grid">
             <div className="why-submit-intro" data-reveal="text">
               <p className="section-kicker max-w-xl text-stone-100">
@@ -281,6 +240,47 @@ export default function Home() {
                 </p>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="submit-why-fade" aria-hidden="true" />
+
+      <section id="submit" className="section-pad submit-section">
+        <div className="container-page">
+          <SectionLabel number="02" title="Filmmakers" />
+          <div className="submit-intro" data-reveal="text">
+            <div>
+              <p className="section-kicker text-stone-100">
+                Submit your film.
+              </p>
+              <p className="body-copy mt-8 max-w-xl text-stone-300">
+                Seen in a room. On a big screen.
+              </p>
+              <p className="copy-wide mt-6 text-xs text-red-300">
+                Vol. 1 | 10.8.26 | NYC
+              </p>
+              <div className="mt-10">
+                <ButtonLink href={FILMFREEWAY_URL} newTab>
+                  Submit Your Film
+                </ButtonLink>
+              </div>
+            </div>
+          </div>
+          <div className="submit-facts">
+            {filmmakerDetails.map(([label, value], index) => (
+              <PlasticCard
+                key={label}
+                className="submit-fact-card"
+                style={{ "--reveal-delay": `${index * 55}ms` } as CSSProperties}
+                reveal
+              >
+                <p className="copy-wide small-label text-red-300">{label}</p>
+                <p className="submit-fact-value">
+                  {value}
+                </p>
+              </PlasticCard>
+            ))}
           </div>
         </div>
       </section>

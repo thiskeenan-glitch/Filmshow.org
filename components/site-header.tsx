@@ -12,8 +12,8 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 const navItems = [
-  { href: "/#submit", label: "Submit" },
   { href: "/#why-submit", label: "Why?" },
+  { href: "/#submit", label: "Submit" },
   { href: "/#prize", label: "Prize" },
   { href: "/#how-it-works", label: "How It Works" },
   { href: "/#photos", label: "Photos" },
