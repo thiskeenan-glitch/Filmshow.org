@@ -608,6 +608,128 @@ body::before {
   line-height: 1.28;
 }
 
+.brevo-signup {
+  width: min(100%, 48rem);
+  margin-inline: auto;
+  text-align: center;
+}
+
+  margin-top: clamp(4.5rem, 7vw, 6.5rem);
+}
+
+.brevo-signup--footer {
+  margin-bottom: clamp(3.75rem, 7vw, 5.5rem);
+}
+
+.brevo-signup-copy {
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+  margin-inline: auto;
+}
+
+.brevo-signup-copy h2 {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 4.4vw, 4rem);
+  font-weight: 850;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+}
+
+.brevo-signup-copy p {
+  max-width: 34rem;
+  color: rgba(248, 244, 235, 0.66);
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+  line-height: 1.65;
+}
+
+.brevo-signup-form {
+  display: flex;
+  width: min(100%, 38rem);
+  margin: clamp(1.75rem, 3vw, 2.4rem) auto 0;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.brevo-signup-input,
+.brevo-signup-submit {
+  height: 3.15rem;
+  min-height: 3.15rem;
+  border-radius: 0;
+  font-family: var(--font-sans);
+}
+
+.brevo-signup-input {
+  min-width: 0;
+  flex: 1 1 20rem;
+  max-height: 3.15rem;
+  border: 1px solid rgba(248, 244, 235, 0.2);
+  background: rgba(0, 0, 0, 0.34);
+  padding: 0 1rem;
+  color: var(--foreground);
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.brevo-signup-input::placeholder {
+  color: rgba(248, 244, 235, 0.48);
+}
+
+.brevo-signup-input:focus {
+  border-color: rgba(248, 244, 235, 0.58);
+  background: rgba(0, 0, 0, 0.52);
+}
+
+.brevo-signup-submit {
+  flex: 0 0 auto;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  padding: 0 1.35rem;
+  color: #050505;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.brevo-signup-submit:hover {
+  border-color: #ff3028;
+  background: #ff3028;
+  transform: translateY(-1px);
+}
+
+.brevo-signup-submit:focus-visible {
+  outline: 1px solid var(--foreground);
+  outline-offset: 4px;
+}
+
+.brevo-signup-honeypot {
+  display: none;
+}
+
+.tickets-mobile-photo-wrap {
+  display: none;
+}
+
+.tickets-mobile-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 56% 58%;
+}
+
 .submit-section {
   position: relative;
   overflow: hidden;
@@ -1996,6 +2118,53 @@ body::before {
 
   .submit-fact-value {
     margin-top: 0.75rem;
+  }
+
+  .brevo-signup--submit {
+    margin-top: clamp(3.5rem, 16vw, 4.75rem);
+  }
+
+  .brevo-signup--footer {
+    margin-bottom: clamp(3rem, 14vw, 4.5rem);
+  }
+
+  .brevo-signup-copy {
+    gap: 0.9rem;
+  }
+
+  .brevo-signup-copy h2 {
+    font-size: clamp(2.1rem, 11vw, 3rem);
+    line-height: 0.98;
+  }
+
+  .brevo-signup-copy p {
+    max-width: 20rem;
+    font-size: 0.98rem;
+    line-height: 1.56;
+  }
+
+  .brevo-signup-form {
+    width: min(100%, 18rem);
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1.55rem;
+  }
+
+  .brevo-signup-input,
+  .brevo-signup-submit {
+    width: 100%;
+    height: 3rem;
+    min-height: 3rem;
+    max-height: 3rem;
+  }
+
+  .tickets-mobile-photo-wrap {
+    display: block;
+    float: right;
+    width: min(38vw, 9.5rem);
+    aspect-ratio: 1 / 1;
+    margin: 0.15rem 0 1rem 1.15rem;
+    overflow: hidden;
   }
 
   .cash-content {

@@ -1,0 +1,11 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/apple-icon.png/route": "app/apple-icon.png/route.js",
+  "/icon.png/route": "app/icon.png/route.js",
+  "/page": "app/page.js",
+  "/about/page": "app/about/page.js",
+  "/how-it-works/page": "app/how-it-works/page.js",
+  "/sponsors/page": "app/sponsors/page.js",
+  "/tickets/page": "app/tickets/page.js"
+}

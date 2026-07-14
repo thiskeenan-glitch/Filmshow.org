@@ -1,0 +1,85 @@
+const pageDescription =
+  "How Filmshow selects films, builds the live show, and awards the $6,000 cash prize.";
+
+export const metadata = {
+  title: "How It Works | Filmshow",
+  description: pageDescription,
+  alternates: {
+    canonical: "https://www.filmshow.org/how-it-works",
+  },
+  openGraph: {
+    title: "How It Works | Filmshow",
+    description: pageDescription,
+    url: "https://www.filmshow.org/how-it-works",
+  },
+  twitter: {
+    title: "How It Works | Filmshow",
+    description: pageDescription,
+  },
+};
+
+const works = [
+  [
+    "01",
+    "Selection",
+    "6 to 8, depending on length of live show, are chosen for the night based on direction, originality, tone, style, point of view, and fit for the live room.",
+  ],
+  [
+    "02",
+    "Screening",
+    "Selected films screen live in New York City for Vol. 1 | 10.8.26 | NYC as part of a curated event with short live performance moments between films.",
+  ],
+  [
+    "03",
+    "The jury",
+    "A jury of established filmmakers and artists selects 1st Place.",
+  ],
+  [
+    "04",
+    "The room votes",
+    "At the end of the night, the audience votes live for 2nd Place and 3rd Place.",
+  ],
+  [
+    "05",
+    "The winners",
+    "The top three films are announced in the room. Cash prizes are awarded to the winning filmmakers the night of the event.",
+  ],
+];
+
+export default function HowItWorksPage() {
+  return (
+    <main className="hero-pad how-it-works-section">
+      <section className="container-page">
+        <div className="relative z-10">
+          <p className="copy-wide small-label mb-8 text-red-300">
+            Filmshow process
+          </p>
+          <h1 className="section-kicker max-w-4xl text-stone-100">
+            How it works.
+          </h1>
+          <p className="body-large mt-10 max-w-2xl text-stone-300">
+            Six films. One night. A real room, a real audience, and a clear path
+            from submission to live screening to prize money.
+          </p>
+        </div>
+      </section>
+
+      <section className="container-page relative z-10 mt-20 pb-24">
+        <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
+          {works.map(([number, title, copy]) => (
+            <article
+              key={title}
+              className="grid gap-4 py-8 md:grid-cols-[4rem_14rem_1fr] md:items-start md:gap-6 md:py-10"
+            >
+              <p className="copy-wide small-label text-red-500">{number}</p>
+              <h2 className="font-sans text-[clamp(1.2rem,1.7vw,1.55rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-stone-100">
+                {title}
+              </h2>
+              <p className="body-copy max-w-3xl text-stone-300">{copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}

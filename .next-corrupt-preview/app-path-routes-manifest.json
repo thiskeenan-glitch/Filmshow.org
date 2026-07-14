@@ -1,0 +1,11 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/_global-error/page": "/_global-error",
+  "/apple-icon.png/route": "/apple-icon.png",
+  "/icon.png/route": "/icon.png",
+  "/page": "/",
+  "/about/page": "/about",
+  "/how-it-works/page": "/how-it-works",
+  "/sponsors/page": "/sponsors",
+  "/tickets/page": "/tickets"
+}

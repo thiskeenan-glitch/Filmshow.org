@@ -2,19 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
-import { ButtonLink } from "./button-link";
+import { BrevoSignup } from "./brevo-signup";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
-const CONTACT_EMAIL = "info@filmshow.org";
-const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
-const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 export function SiteFooter() {
-  const pathname = usePathname();
-
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const top = document.getElementById("top");
     if (!top) return;
@@ -24,9 +18,10 @@ export function SiteFooter() {
     window.history.pushState(null, "", "#top");
   };
 
-  const footerOnly = (
+  return (
     <footer className="poster-field border-t border-stone-100/10 py-14">
       <div className="container-page text-stone-300">
+        <BrevoSignup placement="footer" />
         <div className="footer-brand-row">
           <Link
             href="/#top"
@@ -66,50 +61,5 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
-  );
-
-  if (pathname === "/") {
-    return footerOnly;
-  }
-
-  return (
-    <>
-      <section id="contact" className="section-pad border-t border-stone-100/10">
-        <div className="container-page">
-          <div className="grid gap-8 md:grid-cols-[0.72fr_1.28fr] md:items-start">
-            <div>
-              <p className="copy-wide small-label text-red-300">Contact</p>
-              <h2 className="section-kicker mt-5 text-stone-100">Get in touch</h2>
-            </div>
-            <div>
-              <p className="body-large max-w-2xl text-stone-300">
-                For submissions, sponsorships, venue questions, press, or anything else:
-              </p>
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="copy-wide mt-6 inline-block text-sm font-bold text-red-300 transition hover:text-stone-100"
-              >
-                {CONTACT_EMAIL}
-              </a>
-            </div>
-          </div>
-          <div className="footer-cta-center">
-            <p className="footer-cta-date copy-wide font-extrabold text-red-300">
-              FILMSHOW | VOL. 1 | 10.8.26 | NEW YORK CITY
-            </p>
-            <div className="footer-cta-buttons mt-8 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href={LUMA_EVENT_URL} newTab>
-                Get Tickets
-              </ButtonLink>
-              <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
-                Submit Your Film
-              </ButtonLink>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {footerOnly}
-    </>
   );
 }

@@ -12,13 +12,12 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 const navItems = [
-  { href: "/#why-submit", label: "Why?" },
-  { href: "/#submit", label: "Submit" },
-  { href: "/#prize", label: "Prize" },
-  { href: "/#how-it-works", label: "How It Works" },
   { href: "/#photos", label: "Photos" },
+  { href: "/#prize", label: "Prize" },
+  { href: "/#submit", label: "Submit" },
+  { href: "/#why-submit", label: "Why?" },
   { href: "/#tickets", label: "Tickets" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/how-it-works", label: "How It Works" },
 ];
 
 const getIndicatorSrc = () =>
@@ -73,7 +72,10 @@ export function SiteHeader() {
     }
 
     const hashIndex = href.indexOf("#");
-    if (hashIndex === -1) return;
+    if (hashIndex === -1) {
+      setIsMobileMenuOpen(false);
+      return;
+    }
 
     const hash = href.slice(hashIndex);
     const section = document.getElementById(hash.slice(1));
@@ -158,6 +160,7 @@ export function SiteHeader() {
       );
 
       const sections = navItems
+        .filter((item) => item.href.includes("#"))
         .map((item) => {
           const id = item.href.slice(item.href.indexOf("#") + 1);
           const el = document.getElementById(id);
@@ -374,7 +377,9 @@ export function SiteHeader() {
                   href={item.href}
                   onClick={(event) => handleSectionClick(event, item.href)}
                   ref={(node) => {
-                    navLinkRefs.current[item.href.slice(item.href.indexOf("#"))] = node;
+                    if (item.href.includes("#")) {
+                      navLinkRefs.current[item.href.slice(item.href.indexOf("#"))] = node;
+                    }
                   }}
                   className={`poster-link transition hover:text-red-200 ${isActive(item.href) ? "is-active" : ""}`}
                 >
