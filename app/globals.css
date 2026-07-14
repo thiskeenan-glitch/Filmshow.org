@@ -719,18 +719,6 @@ body::before {
   display: none;
 }
 
-.tickets-mobile-photo-wrap {
-  display: none;
-}
-
-.tickets-mobile-photo {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 56% 58%;
-}
-
 .submit-section {
   position: relative;
   overflow: hidden;
@@ -2157,15 +2145,6 @@ body::before {
     height: 3rem;
     min-height: 3rem;
     max-height: 3rem;
-  }
-
-  .tickets-mobile-photo-wrap {
-    display: block;
-    float: right;
-    width: min(38vw, 9.5rem);
-    aspect-ratio: 1 / 1;
-    margin: 0.15rem 0 1rem 1.15rem;
-    overflow: hidden;
   }
 
   .cash-content {

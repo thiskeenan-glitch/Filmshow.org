@@ -16,7 +16,6 @@ const navItems = [
   { href: "/#prize", label: "Prize" },
   { href: "/#submit", label: "Submit" },
   { href: "/#why-submit", label: "Why?" },
-  { href: "/#tickets", label: "Tickets" },
   { href: "/how-it-works", label: "How It Works" },
 ];
 

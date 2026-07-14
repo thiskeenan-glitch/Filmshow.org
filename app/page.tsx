@@ -1,4 +1,3 @@
-import { BrevoSignup } from "@/components/brevo-signup";
 import { ButtonLink } from "@/components/button-link";
 import { HeroTrailer } from "@/components/hero-trailer";
 import { MotionEffects } from "@/components/motion-effects";
@@ -7,7 +6,6 @@ import { PlasticCard } from "@/components/plastic-card";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
-const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
@@ -18,7 +16,6 @@ const HERO_TRAILER_FALLBACK = "/images/hero/filmshow-trailer-fallback.jpg";
 const HERO_BACKGROUND_IMAGE = "/images/optimized/gallery-space.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/audience-wrapped-in-plastic.jpg";
 const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
-const TICKETS_MOBILE_IMAGE = "/images/tickets-mobile-room.jpg";
 const SOCIAL_URLS: string[] = [];
 
 const structuredData = {
@@ -257,7 +254,6 @@ export default function Home() {
               </PlasticCard>
             ))}
           </div>
-          <BrevoSignup placement="submit" />
         </div>
       </section>
 
@@ -330,40 +326,6 @@ export default function Home() {
       </section>
 
       <Divider />
-
-      <section className="section-pad" id="tickets">
-        <div className="container-page">
-          <SectionLabel number="05" title="TICKETS" />
-          <div className="tickets-content max-w-3xl" data-reveal="text">
-            <figure className="tickets-mobile-photo-wrap">
-              <Image
-                src={TICKETS_MOBILE_IMAGE}
-                alt="Filmshow performance inside the New York space"
-                width={900}
-                height={1200}
-                sizes="(max-width: 767px) 38vw, 1px"
-                className="tickets-mobile-photo"
-              />
-            </figure>
-            <p className="section-kicker text-stone-100">
-              Be in the room.
-            </p>
-            <p className="body-copy mt-8 max-w-xl text-stone-300">
-              Vol. 1 happens October 8th in New York City. Tickets include
-              the full live screening, performances, audience voting, and the
-              winner announcement.
-            </p>
-            <p className="body-copy mt-5 max-w-xl text-stone-500">
-              Guest list and check-in are handled through Luma.
-            </p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href={LUMA_EVENT_URL} newTab>
-                Get Tickets
-              </ButtonLink>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
