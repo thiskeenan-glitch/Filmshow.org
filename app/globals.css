@@ -614,6 +614,7 @@ body::before {
   text-align: center;
 }
 
+.brevo-signup--submit {
   margin-top: clamp(4.5rem, 7vw, 6.5rem);
 }
 
