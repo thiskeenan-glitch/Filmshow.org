@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type HeroTrailerProps = {
@@ -9,7 +8,6 @@ type HeroTrailerProps = {
   desktopBackgroundImage?: string;
   fallbackImage: string;
   logoImage: string;
-  submitHref: string;
   videoSrc: string;
 };
 
@@ -18,7 +16,6 @@ export function HeroTrailer({
   desktopBackgroundImage,
   fallbackImage,
   logoImage,
-  submitHref,
   videoSrc,
 }: HeroTrailerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -188,28 +185,12 @@ export function HeroTrailer({
                 <span>One night.</span>{" "}
                 <span className="hero-trailer-desktop-prize-text">$6,000 in cash.</span>
               </p>
-              <Link
-                href={submitHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hero-trailer-button hero-trailer-button-primary hero-trailer-desktop-primary"
-              >
-                Submit Your Film
-              </Link>
               <p className="hero-trailer-description hero-trailer-description--desktop">
                 A curated live show featuring six short films and live
                 performances.
               </p>
             </div>
           </div>
-          <Link
-            href={submitHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-trailer-button hero-trailer-button-primary hero-trailer-mobile-primary"
-          >
-            Submit Your Film
-          </Link>
           <div className="hero-trailer-frame">
             <div className="hero-trailer-media">
               {!reducedMotion && !autoplayBlocked ? (

@@ -119,6 +119,34 @@ const filmmakerDetails = [
   ["Event", "New York City"],
 ];
 
+const howItWorksSteps = [
+  [
+    "01",
+    "Selection",
+    "6 to 8 films are chosen for the night based on direction, originality, tone, style, point of view, and fit for the live room.",
+  ],
+  [
+    "02",
+    "Screening",
+    "Selected films screen live in New York City as part of a curated event with short live performance moments between films.",
+  ],
+  [
+    "03",
+    "The jury",
+    "A jury of established filmmakers and artists selects 1st Place.",
+  ],
+  [
+    "04",
+    "The room votes",
+    "At the end of the night, the audience votes live for 2nd Place and 3rd Place.",
+  ],
+  [
+    "05",
+    "The winners",
+    "The top three films are announced in the room. Cash prizes are awarded the night of the event.",
+  ],
+];
+
 const whySubmitBody = [
   "I started Filmshow after screening one of my own short films.",
   "Instead of a traditional screening, we built an entire show around it. Experimental theater. Surprises. The film became part of an experience instead of just another screening.",
@@ -160,9 +188,38 @@ export default function Home() {
         desktopBackgroundImage={HERO_DESKTOP_BACKGROUND_IMAGE}
         fallbackImage={HERO_TRAILER_FALLBACK}
         logoImage={LOGO_IMAGE}
-        submitHref={FILMFREEWAY_URL}
         videoSrc={HERO_TRAILER_VIDEO}
       />
+
+      <section id="how-it-works" className="section-pad how-it-works-section">
+        <div className="container-page">
+          <SectionLabel number="01" title="How it works" />
+          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div className="max-w-xl" data-reveal="text">
+              <p className="section-kicker text-stone-100">
+                From submission to a live room.
+              </p>
+              <p className="body-large mt-8 text-stone-300">
+                Six films. One night. A clear path from selection to screening to prize money.
+              </p>
+            </div>
+            <div className="divide-y divide-stone-100/10 border-y border-stone-100/10" data-reveal="text">
+              {howItWorksSteps.map(([number, title, copy]) => (
+                <article
+                  key={title}
+                  className="grid gap-4 py-7 md:grid-cols-[3.25rem_12rem_1fr] md:items-start md:gap-6 md:py-8"
+                >
+                  <p className="copy-wide small-label text-red-500">{number}</p>
+                  <h2 className="font-sans text-[clamp(1.1rem,1.55vw,1.35rem)] font-semibold leading-[1.2] text-stone-100">
+                    {title}
+                  </h2>
+                  <p className="body-copy max-w-3xl text-stone-300">{copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section id="photos" className="photo-gallery-section section-pad">
         <div className="container-page">

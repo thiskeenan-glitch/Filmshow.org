@@ -359,10 +359,7 @@ body::before {
   display: none;
 }
 
-.hero-trailer-mobile-intro,
-.hero-trailer-mobile-prize,
-.hero-trailer-mobile-primary,
-.hero-trailer-mobile-secondary {
+.hero-trailer-mobile-intro {
   display: none;
 }
 
@@ -376,81 +373,9 @@ body::before {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.72) 58%, #000 100%);
 }
 
-.hero-trailer-actions {
-  grid-area: actions;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  width: 360px;
-  max-width: 360px;
-  margin-top: clamp(2.15rem, 2.8vw, 2.75rem);
-}
-
-.hero-trailer-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 22px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    transform 220ms ease,
-    background-color 220ms ease,
-    border-color 220ms ease,
-    color 220ms ease;
-}
-
-.hero-trailer-button.hero-trailer-mobile-primary {
-  display: none;
-}
-
-.hero-trailer-button.hero-trailer-desktop-primary {
-  margin-bottom: clamp(1.1rem, 1.6vw, 1.55rem);
-}
-
-.hero-trailer-button-primary {
-  border: 0;
-  height: 42px;
-  padding: 0 24px;
-  border-radius: 0;
-  background: var(--accent-soft);
-  color: #050505;
-  font-size: 11px;
-  font-weight: 760;
-  letter-spacing: 0.18em;
-}
-
-.hero-trailer-button-primary:hover {
-  transform: translateY(-1px);
-  background: #ff2b2b;
-  color: #050505;
-}
-
-.hero-trailer-button-secondary {
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: transparent;
-  color: #fff;
-}
-
-.hero-trailer-button-secondary:hover {
-  transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.38);
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-}
-
 .hero-trailer-shell.is-animated .hero-trailer-wordmark,
 .hero-trailer-shell.is-animated .hero-trailer-frame,
-.hero-trailer-shell.is-animated .hero-trailer-copy,
-.hero-trailer-shell.is-animated .hero-trailer-actions {
+.hero-trailer-shell.is-animated .hero-trailer-copy {
   opacity: 0;
   transform: translateY(20px);
   animation: heroFadeUp 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -468,14 +393,9 @@ body::before {
   animation-delay: 520ms;
 }
 
-.hero-trailer-shell.is-animated .hero-trailer-actions {
-  animation-delay: 700ms;
-}
-
 .hero-trailer-shell.is-reduced-motion .hero-trailer-wordmark,
 .hero-trailer-shell.is-reduced-motion .hero-trailer-frame,
-.hero-trailer-shell.is-reduced-motion .hero-trailer-copy,
-.hero-trailer-shell.is-reduced-motion .hero-trailer-actions {
+.hero-trailer-shell.is-reduced-motion .hero-trailer-copy {
   opacity: 1;
   transform: none;
 }
@@ -1915,10 +1835,6 @@ body::before {
     display: none;
   }
 
-  .hero-trailer-button.hero-trailer-desktop-primary {
-    display: none;
-  }
-
   .hero-trailer-mobile-intro {
     display: block;
     color: #f5f5f4;
@@ -1942,26 +1858,6 @@ body::before {
   .hero-trailer-mobile-prize-text {
     color: var(--accent-soft);
     font-weight: 780;
-  }
-
-  .hero-trailer-button.hero-trailer-mobile-primary {
-    order: 3;
-    display: inline-flex;
-    margin-bottom: 24px;
-    background: var(--accent-soft);
-    box-shadow: none;
-  }
-
-  .hero-trailer-mobile-primary::before {
-    content: none;
-  }
-
-  .hero-trailer-mobile-primary:hover {
-    background: #ff2b2b;
-  }
-
-  .hero-trailer-mobile-primary:active {
-    transform: translateY(0);
   }
 
   .hero-trailer-frame {
@@ -2057,21 +1953,6 @@ body::before {
     display: block;
     margin-top: 0;
     margin-bottom: 24px;
-  }
-
-  .hero-trailer-mobile-secondary {
-    display: none;
-  }
-
-  .hero-trailer-actions {
-    display: none;
-  }
-
-  .hero-trailer-button {
-    width: auto;
-    min-width: min(180px, calc(100vw - 2rem));
-    height: 42px;
-    padding: 0 22px;
   }
 
   .hero-trailer-shell::after {
