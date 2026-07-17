@@ -24,7 +24,7 @@ export const metadata = {
 const tiers = [
   ["Friend of the Show", "$500"],
   ["Supporting Sponsor", "$1,000"],
-  ["Prize Sponsor", "$2,500+"],
+  ["Event Sponsor", "$2,500+"],
   ["Presenting Sponsor", "Custom"],
 ];
 
@@ -60,10 +60,10 @@ export default function SponsorsPage() {
             key={tier}
             className="plastic-pad lg:min-h-64"
           >
-            <p className="min-h-12 font-sans text-[clamp(1.25rem,2vw,1.65rem)] font-semibold leading-[1.18] tracking-[-0.012em] text-stone-100">
+            <p className="min-h-12 font-sans text-[clamp(1.25rem,2vw,1.65rem)] font-semibold leading-[1.18] tracking-normal text-stone-100">
               {tier}
             </p>
-            <p className="mt-8 font-sans text-[clamp(2rem,3.2vw,2.85rem)] font-bold leading-[1.02] tracking-[-0.035em] text-red-200">
+            <p className="mt-8 font-sans text-[clamp(2rem,3.2vw,2.85rem)] font-bold leading-[1.02] tracking-normal text-red-200">
               {price}
             </p>
           </PlasticCard>

@@ -25,16 +25,15 @@ export const metadata = {
 const eventFacts = [
   ["Date and time", "Vol. 1 | 10.8.26 | NYC"],
   ["Venue", "New York City location TBA"],
-  ["Prize", "$6,000 cash prize"],
   ["Voting", "The audience votes live for 2nd and 3rd Place"],
 ];
 
 const nightIncludes = [
-  "6 to 8, depending on length of live show",
+  "Short films curated for the live show",
   "Live performance moments between films",
   "A jury-selected 1st Place",
   "Live audience voting for 2nd and 3rd Place",
-  "Winners announced in the room. Cash prizes are awarded at the event.",
+  "Winners announced in the room.",
   "Drinks, sponsors, and a real night out feeling",
 ];
 
@@ -52,7 +51,7 @@ export default function TicketsPage() {
           <p className="body-large mt-10 max-w-2xl text-stone-300">
             Filmshow is a live NYC screening event for Vol. 1 | 10.8.26 | NYC
             featuring curated short films, live performances, a jury-selected
-            1st Place, live audience voting for 2nd and 3rd, and a $6,000 cash prize.
+            1st Place, and live audience voting for 2nd and 3rd.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
             This website is the home base. Ticket purchase, confirmations,
@@ -92,11 +91,19 @@ export default function TicketsPage() {
           </p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          {nightIncludes.map((item) => (
+          {nightIncludes.map((item) => {
+            const isEmotionalLine = item.includes("real night out feeling");
+
+            return (
             <PlasticCard key={item} className="plastic-pad">
-              <p className="body-copy text-stone-200">{item}</p>
+              <p className={`body-copy ${
+                isEmotionalLine
+                  ? "text-stone-100"
+                  : "text-stone-200"
+              }`}>{item}</p>
             </PlasticCard>
-          ))}
+            );
+          })}
         </div>
       </section>
 

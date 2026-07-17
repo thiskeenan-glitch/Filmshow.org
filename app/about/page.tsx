@@ -3,7 +3,7 @@ import { PlasticCard } from "@/components/plastic-card";
 
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 const pageDescription =
-  "Filmshow gives independent filmmakers a real room, a real audience, and a real chance to earn meaningful prize money.";
+  "Filmshow gives independent filmmakers a real room and a real audience.";
 
 export const metadata = {
   title: "About | Filmshow",
@@ -25,11 +25,7 @@ export const metadata = {
 const details = [
   ["Date", "Vol. 1 | 10.8.26 | NYC"],
   ["Location", "New York City"],
-  ["Films", "6 to 8, depending on length of live show"],
-  ["Prize", "$6,000 cash prize"],
-  ["1st Place", "$3,000 cash prize, selected by the Filmshow jury"],
-  ["2nd Place", "$2,000 cash prize, audience vote"],
-  ["3rd Place", "$1,000 cash prize, audience vote"],
+  ["Films", "Short films curated for the live show"],
 ];
 
 export default function AboutPage() {
@@ -50,7 +46,7 @@ export default function AboutPage() {
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="https://filmfreeway.com/TheFilmShow" newTab>
-              Submit Your Film
+              Submit Film
             </ButtonLink>
             <ButtonLink href={LUMA_EVENT_URL} variant="secondary" newTab>
               Get tickets
@@ -63,8 +59,8 @@ export default function AboutPage() {
         <div className="max-w-3xl border-y border-stone-100/10 py-8 md:py-10">
           <p className="copy-wide small-label text-red-300">Mission</p>
           <p className="body-large mt-6 text-stone-300">
-            Filmshow was created to give independent filmmakers a real room, a real
-            audience, and a real chance to earn meaningful prize money. It is built
+            Filmshow was created to give independent filmmakers a real room and a
+            real audience. It is built
             for films that deserve concentration, atmosphere, and a crowd that is
             actually there for the work. The goal is simple: make a screening here
             feel like it matters.

@@ -20,7 +20,6 @@ export function HeroTrailer({
 }: HeroTrailerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
 
@@ -56,13 +55,12 @@ export function HeroTrailer({
 
     const playVideo = async () => {
       try {
-        video.muted = true;
-        video.defaultMuted = true;
+        video.muted = false;
+        video.defaultMuted = false;
+        video.volume = 1;
         await video.play();
       } catch {
-        if (!unmounted) {
-          setAutoplayBlocked(true);
-        }
+        if (!unmounted) return;
       }
     };
 
@@ -120,6 +118,15 @@ export function HeroTrailer({
 
   useEffect(() => {
     const handleScroll = () => {
+      const hero = document.getElementById("top");
+      const heroHeight = hero?.getBoundingClientRect().height || window.innerHeight;
+      const fadeDistance = Math.max(1, heroHeight * 0.72);
+      const nextVolume = Math.max(0, Math.min(1, 1 - window.scrollY / fadeDistance));
+
+      if (videoRef.current) {
+        videoRef.current.volume = nextVolume;
+      }
+
       setIsHeroDimmed(window.scrollY > 90);
     };
 
@@ -173,34 +180,31 @@ export function HeroTrailer({
             <div className="hero-trailer-copy-block">
               <h1 className="hero-trailer-headline">
                 <span>THIS IS NOT</span>
-                <span>A FESTIVAL.</span>
+                <span>A SCREENING.</span>
               </h1>
               <p className="hero-trailer-mobile-intro">
-                <span>Six films.</span>{" "}
-                <span>One night.</span>{" "}
-                <span className="hero-trailer-mobile-prize-text">$6,000 in cash.</span>
+                <span>Short films.</span>{" "}
+                <span>Live performances.</span>
               </p>
               <p className="hero-trailer-subheadline hero-trailer-subheadline--desktop">
-                <span>Six films.</span>{" "}
-                <span>One night.</span>{" "}
-                <span className="hero-trailer-desktop-prize-text">$6,000 in cash.</span>
+                <span>Short films.</span>{" "}
+                <span>Live performances.</span>
               </p>
               <p className="hero-trailer-description hero-trailer-description--desktop">
-                A curated live show featuring six short films and live
+                A curated live show featuring short films and live
                 performances.
               </p>
             </div>
           </div>
           <div className="hero-trailer-frame">
             <div className="hero-trailer-media">
-              {!reducedMotion && !autoplayBlocked ? (
+              {!reducedMotion ? (
                 <video
                   ref={videoRef}
                   className="hero-trailer-video"
                   src={videoSrc}
                   aria-label="Filmshow trailer"
                   autoPlay
-                  muted
                   loop
                   playsInline
                   preload="metadata"
@@ -220,7 +224,7 @@ export function HeroTrailer({
             </div>
           </div>
           <p className="hero-trailer-description hero-trailer-description--mobile">
-            A curated live show featuring six short films and live
+            A curated live show featuring short films and live
             performances.
           </p>
         </div>

@@ -22,6 +22,7 @@ export function SiteFooter() {
     <footer className="poster-field border-t border-stone-100/10 py-14">
       <div className="container-page text-stone-300">
         <BrevoSignup placement="footer" />
+        <p className="footer-note">See you there.</p>
         <div className="footer-brand-row">
           <Link
             href="/#top"

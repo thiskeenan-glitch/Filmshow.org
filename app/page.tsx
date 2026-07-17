@@ -10,11 +10,12 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const SITE_DESCRIPTION =
-  "Six films. One night. $6,000 in cash. A curated live show for short films and live performances.";
-const HERO_TRAILER_VIDEO = "/videos/filmshow-web-trailer-cropped.mov";
-const HERO_TRAILER_FALLBACK = "/images/hero/filmshow-trailer-fallback.jpg";
-const HERO_BACKGROUND_IMAGE = "/images/optimized/gallery-space.jpg";
-const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/audience-wrapped-in-plastic.jpg";
+  "Short films. Live performances.";
+const HERO_TRAILER_VIDEO = "/videos/website-background.mov";
+const FILMSHOW_POSTER_IMAGE = "/images/what-is-filmshow-placeholder.png";
+const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
+const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-hero.jpg";
+const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-hero.jpg";
 const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
 const SOCIAL_URLS: string[] = [];
 
@@ -62,6 +63,7 @@ const galleryPhotos = [
     src: "/images/optimized/gallery-space.jpg",
     alt: "Filmshow event space before the screening",
     position: "center",
+    caption: "Before lights.",
     portrait: true,
   },
   {
@@ -75,6 +77,7 @@ const galleryPhotos = [
     src: "/images/optimized/gallery-ladder.jpg",
     alt: "Live performance with a ladder and red costumes",
     position: "center",
+    caption: "Live performances.",
     portrait: true,
   },
   {
@@ -100,51 +103,17 @@ const galleryPhotos = [
     src: "/images/optimized/gallery-3-people.jpg",
     alt: "Three performers on stage under a projected play symbol",
     position: "center",
+    caption: "A room full of strangers.",
     square: true,
   },
-];
-
-const cashAwards = [
-  ["First Prize", "$3,000", "Selected by judges."],
-  ["Second Prize", "$2,000", "Audience vote."],
-  ["Third Prize", "$1,000", "Audience vote."],
 ];
 
 const filmmakerDetails = [
   ["Runtime", "15 minutes or under"],
   ["Genres", "All genres welcome"],
   ["Location", "Filmmakers anywhere can submit"],
-  ["Selected films", "6 to 8, depending on length of live show"],
-  ["Prize", "$6,000 cash prize"],
+  ["Selected films", "Short films selected for the live show"],
   ["Event", "New York City"],
-];
-
-const howItWorksSteps = [
-  [
-    "01",
-    "Selection",
-    "6 to 8 films are chosen for the night based on direction, originality, tone, style, point of view, and fit for the live room.",
-  ],
-  [
-    "02",
-    "Screening",
-    "Selected films screen live in New York City as part of a curated event with short live performance moments between films.",
-  ],
-  [
-    "03",
-    "The jury",
-    "A jury of established filmmakers and artists selects 1st Place.",
-  ],
-  [
-    "04",
-    "The room votes",
-    "At the end of the night, the audience votes live for 2nd Place and 3rd Place.",
-  ],
-  [
-    "05",
-    "The winners",
-    "The top three films are announced in the room. Cash prizes are awarded the night of the event.",
-  ],
 ];
 
 const whySubmitBody = [
@@ -153,7 +122,7 @@ const whySubmitBody = [
   "That night made me realize something.",
   "I've spent years on the festival circuit, and too often incredible short films end up buried inside long blocks where audiences drift in and out, filmmakers wait for their own film to play, and everyone politely applauds before heading home.",
   "I wanted to build something I'd actually want to attend.",
-  "Filmshow isn't a film festival. It's a live show built around just six exceptional films. Every selection gets the attention it deserves. Every audience member is there for the entire experience. And every filmmaker has a chance to compete for meaningful prize money.",
+  "Filmshow isn't a film festival. It's a live show built around exceptional short films. Every selection gets the attention it deserves. Every audience member is there for the entire experience.",
   "It's the kind of show I'd want my own film to play in.",
 ];
 
@@ -191,34 +160,46 @@ export default function Home() {
         videoSrc={HERO_TRAILER_VIDEO}
       />
 
-      <section id="how-it-works" className="section-pad how-it-works-section">
+      <section id="what-is-this" className="section-pad what-is-filmshow-section">
         <div className="container-page">
-          <SectionLabel number="01" title="How it works" />
-          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-            <div className="max-w-xl" data-reveal="text">
-              <p className="section-kicker text-stone-100">
-                From submission to a live room.
-              </p>
-              <p className="body-large mt-8 text-stone-300">
-                Six films. One night. A clear path from selection to screening to prize money.
-              </p>
+          <div className="what-is-filmshow-content">
+            <div
+              className="what-is-filmshow-label section-label"
+              data-reveal="section-label"
+            >
+              <p className="copy-wide small-label text-red-500">01</p>
+              <h2 className="copy-wide text-sm text-stone-300">
+                What is Filmshow?
+              </h2>
             </div>
-            <div className="divide-y divide-stone-100/10 border-y border-stone-100/10" data-reveal="text">
-              {howItWorksSteps.map(([number, title, copy]) => (
-                <article
-                  key={title}
-                  className="grid gap-4 py-7 md:grid-cols-[3.25rem_12rem_1fr] md:items-start md:gap-6 md:py-8"
-                >
-                  <p className="copy-wide small-label text-red-500">{number}</p>
-                  <h2 className="font-sans text-[clamp(1.1rem,1.55vw,1.35rem)] font-semibold leading-[1.2] text-stone-100">
-                    {title}
-                  </h2>
-                  <p className="body-copy max-w-3xl text-stone-300">{copy}</p>
-                </article>
-              ))}
+            <div className="what-is-filmshow-copy" data-reveal="text">
+              <p className="section-kicker text-stone-100">
+                Filmshow is a live cinema experience.
+              </p>
+              <div className="what-is-filmshow-body">
+                <p className="body-large text-stone-300">
+                  We bring together remarkable short films, live performances, and
+                  an audience that loves movies. Every screening is curated. Every
+                  season is different.
+                </p>
+                <p className="body-large text-stone-300">
+                  At the end of the night, the audience decides the winning film.
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="filmshow-poster-section" aria-label="Filmshow poster">
+        <Image
+          src={FILMSHOW_POSTER_IMAGE}
+          alt="Filmshow poster"
+          width={3250}
+          height={3250}
+          sizes="(max-width: 767px) 82vw, 760px"
+          className="filmshow-poster-image"
+        />
       </section>
 
       <section id="photos" className="photo-gallery-section section-pad">
@@ -240,44 +221,9 @@ export default function Home() {
 
       <Divider />
 
-      <section id="prize" className="section-pad cash-section">
-        <div className="container-page relative z-10">
-          <SectionLabel number="02" title="The prize" />
-          <div className="cash-content">
-            <div className="max-w-sm" data-reveal="text">
-              <p className="cash-total-number text-stone-100">
-                $6,000
-              </p>
-              <p className="copy-wide mt-4 text-sm text-red-300">
-                Cash prize
-              </p>
-              <p className="mt-8 max-w-md text-sm leading-6 text-stone-500">
-                Cash prizes are awarded to the winning filmmakers the night of the event.
-              </p>
-            </div>
-            <div className="cash-cards">
-              {cashAwards.map(([place, amount, copy], index) => (
-                <PlasticCard
-                  key={place}
-                  className="cash-card"
-                  style={{ "--reveal-delay": `${index * 90}ms` } as CSSProperties}
-                  reveal
-                >
-                  <p className="copy-wide small-label text-red-300">{place}</p>
-                  <p className="cash-card-number mt-7 text-stone-100">
-                    {amount}
-                  </p>
-                  <p className="body-copy mt-6 text-stone-300">{copy}</p>
-                </PlasticCard>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section id="submit" className="section-pad submit-section">
         <div className="container-page">
-          <SectionLabel number="03" title="Filmmakers" />
+          <SectionLabel number="02" title="Filmmakers" />
           <div className="submit-intro" data-reveal="text">
             <div>
               <p className="section-kicker text-stone-100">
@@ -291,7 +237,7 @@ export default function Home() {
               </p>
               <div className="mt-10">
                 <ButtonLink href={FILMFREEWAY_URL} newTab>
-                  Submit Your Film
+                  Submit Film
                 </ButtonLink>
               </div>
             </div>
@@ -318,18 +264,8 @@ export default function Home() {
 
       <section id="why-submit" className="section-pad why-submit-section">
         <div className="container-page">
-          <SectionLabel number="04" title="Why submit" />
+          <SectionLabel number="03" title="Why Filmshow" />
           <div className="why-submit-grid">
-            <div className="why-submit-intro" data-reveal="text">
-              <p className="section-kicker max-w-xl text-stone-100">
-                Why Submit?
-              </p>
-              <div className="mt-10">
-                <ButtonLink href={FILMFREEWAY_URL} variant="secondary" newTab>
-                  Submit Your Film
-                </ButtonLink>
-              </div>
-            </div>
             <figure className="why-submit-founder" data-reveal="photo">
               <div className="why-submit-founder-image-wrap">
                 <Image

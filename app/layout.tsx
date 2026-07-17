@@ -4,9 +4,9 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
 
-const siteTitle = "Filmshow — This Is Not A Festival";
+const siteTitle = "Filmshow | This Is Not A Festival";
 const siteDescription =
-  "Six films. One night. $6,000 in cash. A curated live show for short films and live performances.";
+  "Short films. Live performances.";
 const socialImage = "/images/filmshow-social-logo-black-bg.png";
 
 export const metadata: Metadata = {
@@ -51,16 +51,16 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon-cowboy.ico", sizes: "any" },
+      { url: "/favicon-red-cowboy.ico", sizes: "any" },
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-cowboy-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-cowboy-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-cowboy-48x48.png", sizes: "48x48", type: "image/png" },
-      { url: "/favicon-cowboy-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/favicon-cowboy-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-red-cowboy-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-red-cowboy-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-red-cowboy-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon-red-cowboy-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon-red-cowboy-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: [{ url: "/favicon-cowboy.ico" }],
-    apple: [{ url: "/favicon-cowboy-180x180.png", sizes: "180x180", type: "image/png" }],
+    shortcut: [{ url: "/favicon-red-cowboy.ico" }],
+    apple: [{ url: "/favicon-red-cowboy-180x180.png", sizes: "180x180", type: "image/png" }],
   },
 };
 

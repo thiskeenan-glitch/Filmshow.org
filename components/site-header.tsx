@@ -12,9 +12,8 @@ const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 const navItems = [
-  { href: "/#how-it-works", label: "How It Works" },
+  { href: "/#what-is-this", label: "What Is This?" },
   { href: "/#photos", label: "Photos" },
-  { href: "/#prize", label: "Prize" },
   { href: "/#submit", label: "Submit" },
   { href: "/#why-submit", label: "Why?" },
 ];
@@ -401,7 +400,7 @@ export function SiteHeader() {
                 rel="noopener noreferrer"
                 className="button-shift header-cta header-cta--submit"
               >
-                Submit Your Film
+                Submit Film
               </Link>
             </div>
           </div>
@@ -432,7 +431,7 @@ export function SiteHeader() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="mobile-menu-button mobile-menu-button--submit"
               >
-                Submit Your Film
+                Submit Film
               </Link>
               <Link
                 href={LUMA_EVENT_URL}

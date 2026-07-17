@@ -8,6 +8,7 @@ export type GalleryPhoto = {
   src: string;
   alt: string;
   position: string;
+  caption?: string;
   portrait?: boolean;
   square?: boolean;
   fallbackSrc?: string;
@@ -58,6 +59,11 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
           setIsHidden(true);
         }}
       />
+      {photo.caption ? (
+        <figcaption className="photo-gallery-caption">
+          {photo.caption}
+        </figcaption>
+      ) : null}
     </figure>
   );
 }

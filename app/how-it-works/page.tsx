@@ -1,5 +1,5 @@
 const pageDescription =
-  "How Filmshow selects films, builds the live show, and awards the $6,000 cash prize.";
+  "How Filmshow selects films and builds the live show.";
 
 export const metadata = {
   title: "How It Works | Filmshow",
@@ -22,7 +22,7 @@ const works = [
   [
     "01",
     "Selection",
-    "6 to 8, depending on length of live show, are chosen for the night based on direction, originality, tone, style, point of view, and fit for the live room.",
+    "Short films are chosen for the night based on direction, originality, tone, style, point of view, and fit for the live room.",
   ],
   [
     "02",
@@ -42,7 +42,7 @@ const works = [
   [
     "05",
     "The winners",
-    "The top three films are announced in the room. Cash prizes are awarded to the winning filmmakers the night of the event.",
+    "The top three films are announced in the room.",
   ],
 ];
 
@@ -58,8 +58,8 @@ export default function HowItWorksPage() {
             How it works.
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            Six films. One night. A real room, a real audience, and a clear path
-            from submission to live screening to prize money.
+            Short films. One night. A real room, a real audience, and a clear path
+            from submission to live screening.
           </p>
         </div>
       </section>
@@ -72,7 +72,7 @@ export default function HowItWorksPage() {
               className="grid gap-4 py-8 md:grid-cols-[4rem_14rem_1fr] md:items-start md:gap-6 md:py-10"
             >
               <p className="copy-wide small-label text-red-500">{number}</p>
-              <h2 className="font-sans text-[clamp(1.2rem,1.7vw,1.55rem)] font-semibold leading-[1.2] tracking-[-0.01em] text-stone-100">
+              <h2 className="font-sans text-[clamp(1.2rem,1.7vw,1.55rem)] font-semibold leading-[1.2] tracking-normal text-stone-100">
                 {title}
               </h2>
               <p className="body-copy max-w-3xl text-stone-300">{copy}</p>
