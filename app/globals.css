@@ -1091,20 +1091,6 @@ body::before {
   text-transform: uppercase;
 }
 
-.footer-nav {
-  display: flex;
-  max-width: 58rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem clamp(1.4rem, 3vw, 2.5rem);
-  margin: 0 auto clamp(2.75rem, 5vw, 4.5rem);
-  color: rgba(248, 244, 235, 0.58);
-  font-size: clamp(0.72rem, 0.8vw, 0.82rem);
-  font-weight: 760;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .footer-logo-link {
   position: relative;
 }
