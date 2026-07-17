@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type HeroTrailerProps = {
   backgroundImage?: string;
@@ -19,9 +19,39 @@ export function HeroTrailer({
   videoSrc,
 }: HeroTrailerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const trailerVolumeRef = useRef(1);
+  const audioAllowedRef = useRef(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+  const updateTrailerAudio = useCallback(() => {
+    const hero = document.getElementById("top");
+    const heroRect = hero?.getBoundingClientRect();
+    const heroHeight = Math.max(
+      1,
+      heroRect?.height || hero?.offsetHeight || window.innerHeight,
+    );
+    const fadeDistance = Math.max(1, heroHeight * 0.72);
+    const isPastHero = heroRect ? heroRect.bottom <= 24 : window.scrollY >= heroHeight;
+    const nextVolume = isPastHero
+      ? 0
+      : Math.max(0, Math.min(1, 1 - window.scrollY / fadeDistance));
+    const shouldMute = nextVolume <= 0.02;
+    const video = videoRef.current;
+
+    trailerVolumeRef.current = nextVolume;
+
+    if (video) {
+      video.volume = nextVolume;
+      video.muted = shouldMute || !audioAllowedRef.current;
+      video.defaultMuted = video.muted;
+    }
+
+    setIsHeroDimmed(window.scrollY > 90);
+
+    return nextVolume;
+  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -53,24 +83,44 @@ export function HeroTrailer({
 
     let unmounted = false;
 
-    const playVideo = async () => {
+    const playVideo = async (withSound: boolean) => {
+      const nextVolume = updateTrailerAudio();
+
       try {
-        video.muted = false;
-        video.defaultMuted = false;
-        video.volume = 1;
+        audioAllowedRef.current = withSound && nextVolume > 0.02;
+        video.muted = !audioAllowedRef.current;
+        video.defaultMuted = video.muted;
+        video.volume = nextVolume;
         await video.play();
       } catch {
-        if (!unmounted) return;
+        if (unmounted) return;
+
+        audioAllowedRef.current = false;
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+        await video.play().catch(() => {});
       }
     };
 
-    playVideo();
+    const unlockAudio = () => {
+      if (unmounted) return;
+      void playVideo(true);
+    };
+
+    void playVideo(true);
+    window.addEventListener("pointerdown", unlockAudio, { once: true });
+    window.addEventListener("keydown", unlockAudio, { once: true });
+    window.addEventListener("touchstart", unlockAudio, { once: true, passive: true });
 
     return () => {
       unmounted = true;
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
       video.pause();
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, updateTrailerAudio]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -83,6 +133,7 @@ export function HeroTrailer({
       }
 
       if (!reducedMotion) {
+        updateTrailerAudio();
         video.play().catch(() => {});
       }
     };
@@ -97,6 +148,7 @@ export function HeroTrailer({
             }
 
             if (!document.hidden && !reducedMotion) {
+              updateTrailerAudio();
               video.play().catch(() => {});
             }
           })
@@ -114,20 +166,11 @@ export function HeroTrailer({
       window.removeEventListener("pagehide", handleVisibility);
       observer?.disconnect();
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, updateTrailerAudio]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const hero = document.getElementById("top");
-      const heroHeight = hero?.getBoundingClientRect().height || window.innerHeight;
-      const fadeDistance = Math.max(1, heroHeight * 0.72);
-      const nextVolume = Math.max(0, Math.min(1, 1 - window.scrollY / fadeDistance));
-
-      if (videoRef.current) {
-        videoRef.current.volume = nextVolume;
-      }
-
-      setIsHeroDimmed(window.scrollY > 90);
+      updateTrailerAudio();
     };
 
     handleScroll();
@@ -136,7 +179,7 @@ export function HeroTrailer({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [updateTrailerAudio]);
 
   return (
     <section
@@ -211,7 +254,7 @@ export function HeroTrailer({
                   autoPlay
                   loop
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   poster={fallbackImage}
                 />
               ) : (
