@@ -23,6 +23,23 @@ export function SiteFooter() {
       <div className="container-page text-stone-300">
         <BrevoSignup placement="footer" />
         <p className="footer-note">See you there.</p>
+        <nav className="footer-nav" aria-label="Footer navigation">
+          <Link href="/tickets" className="poster-link">
+            Get Filmshow tickets
+          </Link>
+          <Link href="/#submit" className="poster-link">
+            Submit your short film
+          </Link>
+          <Link href="/how-it-works" className="poster-link">
+            Explore the Filmshow experience
+          </Link>
+          <Link href="/about" className="poster-link">
+            Why Filmshow exists
+          </Link>
+          <Link href="/sponsors" className="poster-link">
+            Sponsor Filmshow
+          </Link>
+        </nav>
         <div className="footer-brand-row">
           <Link
             href="/#top"

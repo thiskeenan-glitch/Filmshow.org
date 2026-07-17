@@ -3,51 +3,53 @@ import "./globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
+import {
+  BRAND_NAME,
+  DOMAIN_NAME,
+  SITE_URL,
+  createPageMetadata,
+  routeMetadata,
+} from "@/lib/seo";
 
-const siteTitle = "Filmshow | This Is Not A Festival";
-const siteDescription =
-  "Short films. Live performances.";
-const socialImage = "/images/filmshow-social-logo-black-bg.png";
+const verification = {
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : {}),
+  ...(process.env.BING_SITE_VERIFICATION
+    ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } }
+    : {}),
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.filmshow.org"),
-  applicationName: "Filmshow",
-  title: siteTitle,
-  description: siteDescription,
+  ...createPageMetadata(routeMetadata.home),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? SITE_URL),
+  applicationName: BRAND_NAME,
+  category: "event",
   keywords: [
     "Filmshow",
+    "Film Show NYC",
     "short film event",
+    "short film events NYC",
+    "film screenings Brooklyn",
+    "live film events New York",
+    "short film showcase NYC",
+    "independent film events Brooklyn",
+    "things to do in Brooklyn",
     "NYC film event",
     "live performances",
     "FilmFreeway",
     "independent filmmakers",
+    "short film submissions",
+    "film competitions",
+    "audience-voted film events",
+    "experimental theater and film events",
   ],
-  alternates: {
-    canonical: "https://www.filmshow.org",
-  },
   manifest: "/site.webmanifest",
-  openGraph: {
-    title: siteTitle,
-    description: siteDescription,
-    url: "https://www.filmshow.org",
-    siteName: "Filmshow",
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: socialImage,
-        width: 4000,
-        height: 4000,
-        alt: "Filmshow logo on a black background",
-        type: "image/png",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
-    images: [socialImage],
+  creator: BRAND_NAME,
+  publisher: BRAND_NAME,
+  verification,
+  other: {
+    "og:domain": DOMAIN_NAME,
   },
   icons: {
     icon: [

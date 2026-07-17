@@ -1,55 +1,52 @@
 import { ButtonLink } from "@/components/button-link";
+import { JsonLd } from "@/components/json-ld";
 import { PlasticCard } from "@/components/plastic-card";
+import {
+  buildBreadcrumbJsonLd,
+  createPageMetadata,
+  externalLinks,
+  routeMetadata,
+} from "@/lib/seo";
 
-const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
-const pageDescription =
-  "Filmshow gives independent filmmakers a real room and a real audience.";
-
-export const metadata = {
-  title: "About | Filmshow",
-  description: pageDescription,
-  alternates: {
-    canonical: "https://www.filmshow.org/about",
-  },
-  openGraph: {
-    title: "About | Filmshow",
-    description: pageDescription,
-    url: "https://www.filmshow.org/about",
-  },
-  twitter: {
-    title: "About | Filmshow",
-    description: pageDescription,
-  },
-};
+export const metadata = createPageMetadata(routeMetadata.about);
 
 const details = [
-  ["Date", "Vol. 1 | 10.8.26 | NYC"],
-  ["Location", "New York City"],
+  ["Date", "Vol. 1 | 10.8.26 | Brooklyn, NYC"],
+  ["Location", "Brooklyn, New York"],
   ["Films", "Short films curated for the live show"],
 ];
 
 export default function AboutPage() {
   return (
     <main className="hero-pad">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Filmshow", path: "/" },
+          { name: "Why Filmshow Exists", path: "/about" },
+        ])}
+      />
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 10.8.26 | NYC
+            Vol. 1 | 10.8.26 | Brooklyn, NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
             About Filmshow.
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            A live NYC short film event for Vol. 1 | 10.8.26 | NYC featuring
-            curated shorts, live performances, jury-selected 1st Place, and
-            live audience voting for 2nd and 3rd.
+            A live Brooklyn short-film event featuring curated shorts, live
+            performances, audience participation, and filmmakers gathered around
+            a real room.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="https://filmfreeway.com/TheFilmShow" newTab>
+            <ButtonLink href={externalLinks.submit} newTab>
               Submit Film
             </ButtonLink>
-            <ButtonLink href={LUMA_EVENT_URL} variant="secondary" newTab>
+            <ButtonLink href={externalLinks.tickets} variant="secondary" newTab>
               Get tickets
+            </ButtonLink>
+            <ButtonLink href="/how-it-works" variant="quiet">
+              Explore the Filmshow experience
             </ButtonLink>
           </div>
         </div>
@@ -70,9 +67,9 @@ export default function AboutPage() {
 
       <section className="container-page mt-20 grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
         <div>
-          <p className="section-title text-stone-100">
+          <h2 className="section-title text-stone-100">
             Event details
-          </p>
+          </h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {details.map(([label, value]) => (

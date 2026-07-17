@@ -422,7 +422,6 @@ export function SiteHeader() {
             </Link>
           ))}
           <div className="mobile-menu-cta">
-            <p className="mobile-menu-event-line">Filmshow | Vol. 1 | 10.8.26 | New York City</p>
             <div className="mobile-menu-buttons">
               <Link
                 href={FILMFREEWAY_URL}

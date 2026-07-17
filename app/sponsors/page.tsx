@@ -1,25 +1,13 @@
+import { JsonLd } from "@/components/json-ld";
 import { SponsorInquiryForm } from "@/components/sponsor-inquiry-form";
 import { PlasticCard } from "@/components/plastic-card";
+import {
+  buildBreadcrumbJsonLd,
+  createPageMetadata,
+  routeMetadata,
+} from "@/lib/seo";
 
-const pageDescription =
-  "Sponsor Filmshow, a visually exciting New York City film event built for filmmakers, audiences, and the creative community.";
-
-export const metadata = {
-  title: "Sponsors | Filmshow",
-  description: pageDescription,
-  alternates: {
-    canonical: "https://www.filmshow.org/sponsors",
-  },
-  openGraph: {
-    title: "Sponsors | Filmshow",
-    description: pageDescription,
-    url: "https://www.filmshow.org/sponsors",
-  },
-  twitter: {
-    title: "Sponsors | Filmshow",
-    description: pageDescription,
-  },
-};
+export const metadata = createPageMetadata(routeMetadata.sponsors);
 
 const tiers = [
   ["Friend of the Show", "$500"],
@@ -39,6 +27,12 @@ const benefits = [
 export default function SponsorsPage() {
   return (
     <main className="hero-pad">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Filmshow", path: "/" },
+          { name: "Sponsors", path: "/sponsors" },
+        ])}
+      />
       <section className="container-page relative">
         <p className="copy-wide small-label mb-8 text-red-300">
           Filmshow · Sponsors
@@ -47,8 +41,8 @@ export default function SponsorsPage() {
           Sponsor Filmshow.
         </h1>
         <p className="body-large mt-10 max-w-3xl text-stone-300">
-          Support a visually exciting NYC film event built for filmmakers,
-          audiences, and the creative community.
+          Support a visually exciting Brooklyn film event built for filmmakers,
+          audiences, performers, and the creative community.
         </p>
       </section>
 

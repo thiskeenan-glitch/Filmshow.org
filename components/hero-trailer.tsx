@@ -154,6 +154,8 @@ export function HeroTrailer({
           <img
             src={backgroundImage ?? fallbackImage}
             alt=""
+            width={2000}
+            height={1333}
             className="hero-trailer-backdrop-image"
           />
         </picture>
@@ -179,7 +181,9 @@ export function HeroTrailer({
           <div className="hero-trailer-copy">
             <div className="hero-trailer-copy-block">
               <h1 className="hero-trailer-headline">
-                <span>THIS IS NOT</span>
+                <span>
+                  THIS IS <em className="hero-trailer-emphasis">NOT</em>
+                </span>
                 <span>A SCREENING.</span>
               </h1>
               <p className="hero-trailer-mobile-intro">

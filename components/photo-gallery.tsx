@@ -47,7 +47,7 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
         }
         className="photo-gallery-image"
         style={{ objectPosition: photo.position }}
-        loading={index < 2 ? "eager" : "lazy"}
+        loading="lazy"
         decoding="async"
         onError={() => {
           if (!attemptedFallbackRef.current && photo.fallbackSrc && currentSrc !== photo.fallbackSrc) {

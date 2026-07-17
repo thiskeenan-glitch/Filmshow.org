@@ -1,62 +1,24 @@
 import { ButtonLink } from "@/components/button-link";
 import { HeroTrailer } from "@/components/hero-trailer";
+import { JsonLd } from "@/components/json-ld";
 import { MotionEffects } from "@/components/motion-effects";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
+import {
+  buildBaseJsonLd,
+  externalLinks,
+  socialImage,
+} from "@/lib/seo";
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
-const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
-const SITE_URL = "https://www.filmshow.org";
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
-const SITE_DESCRIPTION =
-  "Short films. Live performances.";
 const HERO_TRAILER_VIDEO = "/videos/website-background.mov";
-const FILMSHOW_POSTER_IMAGE = "/images/what-is-filmshow-placeholder.png";
+const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
 const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-hero.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-hero.jpg";
 const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
-const SOCIAL_URLS: string[] = [];
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      name: "Filmshow",
-      url: SITE_URL,
-      logo: `${SITE_URL}${LOGO_IMAGE}`,
-      description: SITE_DESCRIPTION,
-      ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
-    },
-    {
-      "@type": "Event",
-      name: "Filmshow Vol. 1",
-      startDate: "2026-10-08",
-      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      eventStatus: "https://schema.org/EventScheduled",
-      location: {
-        "@type": "Place",
-        name: "New York City",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "New York City",
-          addressRegion: "NY",
-          addressCountry: "US",
-        },
-      },
-      organizer: {
-        "@type": "Organization",
-        name: "Filmshow",
-        url: SITE_URL,
-      },
-      url: SITE_URL,
-      image: [`${SITE_URL}/images/filmshow-social-logo-black-bg.png`],
-      description: SITE_DESCRIPTION,
-    },
-  ],
-};
 
 const galleryPhotos = [
   {
@@ -82,7 +44,7 @@ const galleryPhotos = [
   },
   {
     src: "/images/lots-of-people.jpg",
-    alt: "A full room watching short films in New York City",
+    alt: "A full Brooklyn audience watching short films at Filmshow",
     position: "center",
     fallbackSrc: "/images/optimized/gallery-space.jpg",
   },
@@ -113,7 +75,7 @@ const filmmakerDetails = [
   ["Genres", "All genres welcome"],
   ["Location", "Filmmakers anywhere can submit"],
   ["Selected films", "Short films selected for the live show"],
-  ["Event", "New York City"],
+  ["Event", "Brooklyn, New York"],
 ];
 
 const whySubmitBody = [
@@ -147,10 +109,7 @@ function SectionLabel({ number, title }: { number: string; title: string }) {
 export default function Home() {
   return (
     <main className="home-page-shell">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <JsonLd data={buildBaseJsonLd()} />
       <MotionEffects />
       <HeroTrailer
         backgroundImage={HERO_BACKGROUND_IMAGE}
@@ -174,7 +133,7 @@ export default function Home() {
             </div>
             <div className="what-is-filmshow-copy" data-reveal="text">
               <p className="section-kicker text-stone-100">
-                Filmshow is a live cinema experience.
+                Filmshow is a live short-film event in Brooklyn.
               </p>
               <div className="what-is-filmshow-body">
                 <p className="body-large text-stone-300">
@@ -200,9 +159,16 @@ export default function Home() {
                 Inside the space.
               </h2>
             </div>
-            <p className="body-large max-w-2xl text-stone-300" data-reveal="text">
-              An industrial New York space built for films, performances, and a crowd.
-            </p>
+            <div className="max-w-2xl" data-reveal="text">
+              <p className="body-large text-stone-300">
+                A Brooklyn space built for short films, performances, and a crowd.
+              </p>
+              <div className="mt-8">
+                <ButtonLink href="/tickets" variant="quiet">
+                  Get Filmshow tickets
+                </ButtonLink>
+              </div>
+            </div>
           </div>
         </div>
         <PhotoGallery photos={galleryPhotos} />
@@ -219,14 +185,20 @@ export default function Home() {
                 Submit your film.
               </p>
               <p className="body-copy mt-8 max-w-xl text-stone-300">
-                Seen in a room. On a big screen.
+                Submit a short film for a live Brooklyn audience. Selected films
+                screen with performance moments, audience voting, and a cash prize.
               </p>
               <p className="copy-wide mt-6 text-xs text-red-300">
                 Vol. 1 | 10.8.26 | NYC
               </p>
               <div className="mt-10">
-                <ButtonLink href={FILMFREEWAY_URL} newTab>
+                <ButtonLink href={externalLinks.submit} newTab>
                   Submit Film
+                </ButtonLink>
+              </div>
+              <div className="mt-5">
+                <ButtonLink href="/how-it-works" variant="quiet">
+                  See how Filmshow works
                 </ButtonLink>
               </div>
             </div>
@@ -271,7 +243,7 @@ export default function Home() {
                 <span>Founder &amp; Director</span>
               </figcaption>
               <a
-                href="https://www.instagram.com/thiskeenan"
+                href={externalLinks.founderInstagram}
                 target="_blank"
                 rel="noreferrer"
                 className="why-submit-instagram"

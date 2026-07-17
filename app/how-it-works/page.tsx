@@ -1,22 +1,13 @@
-const pageDescription =
-  "How Filmshow selects films and builds the live show.";
+import { ButtonLink } from "@/components/button-link";
+import { JsonLd } from "@/components/json-ld";
+import {
+  buildBreadcrumbJsonLd,
+  createPageMetadata,
+  externalLinks,
+  routeMetadata,
+} from "@/lib/seo";
 
-export const metadata = {
-  title: "How It Works | Filmshow",
-  description: pageDescription,
-  alternates: {
-    canonical: "https://www.filmshow.org/how-it-works",
-  },
-  openGraph: {
-    title: "How It Works | Filmshow",
-    description: pageDescription,
-    url: "https://www.filmshow.org/how-it-works",
-  },
-  twitter: {
-    title: "How It Works | Filmshow",
-    description: pageDescription,
-  },
-};
+export const metadata = createPageMetadata(routeMetadata.howItWorks);
 
 const works = [
   [
@@ -27,7 +18,7 @@ const works = [
   [
     "02",
     "Screening",
-    "Selected films screen live in New York City for Vol. 1 | 10.8.26 | NYC as part of a curated event with short live performance moments between films.",
+    "Selected films screen live in Brooklyn for Vol. 1 | 10.8.26 | NYC as part of a curated event with short live performance moments between films.",
   ],
   [
     "03",
@@ -49,6 +40,12 @@ const works = [
 export default function HowItWorksPage() {
   return (
     <main className="hero-pad how-it-works-section">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Filmshow", path: "/" },
+          { name: "What Is Filmshow?", path: "/how-it-works" },
+        ])}
+      />
       <section className="container-page">
         <div className="relative z-10">
           <p className="copy-wide small-label mb-8 text-red-300">
@@ -58,9 +55,17 @@ export default function HowItWorksPage() {
             How it works.
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            Short films. One night. A real room, a real audience, and a clear path
-            from submission to live screening.
+            Short films. One night in Brooklyn. A real audience, live
+            performance moments, and a clear path from submission to screening.
           </p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href="/tickets" variant="secondary">
+              Get Filmshow tickets
+            </ButtonLink>
+            <ButtonLink href={externalLinks.submit} variant="quiet" newTab>
+              Submit your short film
+            </ButtonLink>
+          </div>
         </div>
       </section>
 

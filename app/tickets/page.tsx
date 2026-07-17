@@ -1,30 +1,18 @@
 import { ButtonLink } from "@/components/button-link";
+import { JsonLd } from "@/components/json-ld";
 import { PlasticCard } from "@/components/plastic-card";
+import {
+  buildBreadcrumbJsonLd,
+  createPageMetadata,
+  externalLinks,
+  routeMetadata,
+} from "@/lib/seo";
 
-const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
-const pageDescription =
-  "Be in the room for Filmshow Vol. 1 in New York City, with live screening, performances, audience voting, and the winner announcement.";
-
-export const metadata = {
-  title: "Tickets | Filmshow",
-  description: pageDescription,
-  alternates: {
-    canonical: "https://www.filmshow.org/tickets",
-  },
-  openGraph: {
-    title: "Tickets | Filmshow",
-    description: pageDescription,
-    url: "https://www.filmshow.org/tickets",
-  },
-  twitter: {
-    title: "Tickets | Filmshow",
-    description: pageDescription,
-  },
-};
+export const metadata = createPageMetadata(routeMetadata.tickets);
 
 const eventFacts = [
-  ["Date and time", "Vol. 1 | 10.8.26 | NYC"],
-  ["Venue", "New York City location TBA"],
+  ["Date and time", "Vol. 1 | 10.8.26 | Brooklyn, NYC"],
+  ["Venue", "Brooklyn location TBA"],
   ["Voting", "The audience votes live for 2nd and 3rd Place"],
 ];
 
@@ -40,25 +28,31 @@ const nightIncludes = [
 export default function TicketsPage() {
   return (
     <main className="hero-pad">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Filmshow", path: "/" },
+          { name: "Tickets", path: "/tickets" },
+        ])}
+      />
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 10.8.26 | NYC
+            Vol. 1 | 10.8.26 | Brooklyn, NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
             Tickets
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
-            Filmshow is a live NYC screening event for Vol. 1 | 10.8.26 | NYC
-            featuring curated short films, live performances, a jury-selected
-            1st Place, and live audience voting for 2nd and 3rd.
+            Filmshow is a live short-film event in Brooklyn for Vol. 1 |
+            10.8.26, featuring curated films, live performances, a cash prize,
+            and audience participation.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
             This website is the home base. Ticket purchase, confirmations,
             guest list, and check in are handled by our partner Luma.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href={LUMA_EVENT_URL} newTab>
+            <ButtonLink href={externalLinks.tickets} newTab>
               Get tickets
             </ButtonLink>
             <ButtonLink href="/" variant="secondary">
@@ -86,9 +80,9 @@ export default function TicketsPage() {
 
       <section className="container-page mt-20 grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
         <div>
-          <p className="section-title text-stone-100">
+          <h2 className="section-title text-stone-100">
             What the night includes
-          </p>
+          </h2>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {nightIncludes.map((item) => {
@@ -117,7 +111,7 @@ export default function TicketsPage() {
                 handled by our partner Luma.
               </p>
             </div>
-            <ButtonLink href={LUMA_EVENT_URL} newTab>
+            <ButtonLink href={externalLinks.tickets} newTab>
               Get tickets
             </ButtonLink>
           </div>
