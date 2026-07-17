@@ -191,17 +191,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="filmshow-poster-section" aria-label="Filmshow poster">
-        <Image
-          src={FILMSHOW_POSTER_IMAGE}
-          alt="Filmshow poster"
-          width={3250}
-          height={3250}
-          sizes="(max-width: 767px) 82vw, 760px"
-          className="filmshow-poster-image"
-        />
-      </section>
-
       <section id="photos" className="photo-gallery-section section-pad">
         <div className="container-page">
           <div className="grid gap-5 md:grid-cols-[0.72fr_1.28fr] md:items-end">

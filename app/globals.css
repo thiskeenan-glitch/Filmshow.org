@@ -134,8 +134,8 @@ body::before {
   background-size: cover;
   opacity: 0.68;
   filter: saturate(0.98) contrast(0.98) brightness(1.18);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 10%, #000 30%, #000 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 10%, #000 30%, #000 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 10%, #000 30%, #000 72%, rgba(0, 0, 0, 0.34) 90%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 10%, #000 30%, #000 72%, rgba(0, 0, 0, 0.34) 90%, transparent 100%);
 }
 
 .what-is-filmshow-section::after {
@@ -196,29 +196,6 @@ body::before {
 
 .what-is-filmshow-body .body-large {
   margin: 0;
-}
-
-.filmshow-poster-section {
-  position: relative;
-  width: 100%;
-  min-height: auto;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(4.5rem, 8vw, 7.5rem) clamp(1.25rem, 5vw, 4rem);
-  background: #000;
-}
-
-.filmshow-poster-image {
-  display: block;
-  width: min(72vw, 760px);
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: contain;
-  object-position: center;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
 .hero-pad {
@@ -1762,15 +1739,6 @@ body::before {
   .photo-gallery-card.is-square {
     flex-basis: 82vw;
     aspect-ratio: 1 / 1;
-  }
-
-  .filmshow-poster-section {
-    min-height: auto;
-    padding: clamp(3.25rem, 14vw, 5rem) 1rem;
-  }
-
-  .filmshow-poster-image {
-    width: min(82vw, 28rem);
   }
 
   .hero-trailer-shell {
