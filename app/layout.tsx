@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Suspense } from "react";
+import { GoogleAnalyticsPageView } from "@/components/google-analytics-page-view";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
+import { GA_MEASUREMENT_ID } from "@/lib/analytics";
 import {
   BRAND_NAME,
   DOMAIN_NAME,
@@ -79,6 +83,10 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+        <Suspense fallback={null}>
+          <GoogleAnalyticsPageView />
+        </Suspense>
       </body>
     </html>
   );
