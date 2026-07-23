@@ -146,6 +146,9 @@ export default function Home() {
                   At the end of the night, the audience decides the winning film.
                 </p>
               </div>
+              <LumaCheckoutLink variant="secondary">
+                Get Tickets
+              </LumaCheckoutLink>
             </div>
           </div>
         </div>
