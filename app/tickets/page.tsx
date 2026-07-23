@@ -1,10 +1,10 @@
 import { ButtonLink } from "@/components/button-link";
 import { JsonLd } from "@/components/json-ld";
+import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { PlasticCard } from "@/components/plastic-card";
 import {
   buildBreadcrumbJsonLd,
   createPageMetadata,
-  externalLinks,
   routeMetadata,
 } from "@/lib/seo";
 
@@ -52,9 +52,9 @@ export default function TicketsPage() {
             guest list, and check in are handled by our partner Luma.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href={externalLinks.tickets} newTab>
+            <LumaCheckoutLink>
               Get tickets
-            </ButtonLink>
+            </LumaCheckoutLink>
             <ButtonLink href="/" variant="secondary">
               Back to home
             </ButtonLink>
@@ -111,9 +111,9 @@ export default function TicketsPage() {
                 handled by our partner Luma.
               </p>
             </div>
-            <ButtonLink href={externalLinks.tickets} newTab>
+            <LumaCheckoutLink>
               Get tickets
-            </ButtonLink>
+            </LumaCheckoutLink>
           </div>
         </PlasticCard>
       </section>

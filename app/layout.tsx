@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import { Suspense } from "react";
 import { GoogleAnalyticsPageView } from "@/components/google-analytics-page-view";
 import { SiteFooter } from "@/components/site-footer";
@@ -84,6 +85,11 @@ export default function RootLayout({
         {children}
         <SiteFooter />
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+        <Script
+          id="luma-checkout"
+          src="https://embed.lu.ma/checkout-button.js"
+          strategy="afterInteractive"
+        />
         <Suspense fallback={null}>
           <GoogleAnalyticsPageView />
         </Suspense>

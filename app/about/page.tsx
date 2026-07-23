@@ -1,5 +1,6 @@
 import { ButtonLink } from "@/components/button-link";
 import { JsonLd } from "@/components/json-ld";
+import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { PlasticCard } from "@/components/plastic-card";
 import {
   buildBreadcrumbJsonLd,
@@ -42,9 +43,9 @@ export default function AboutPage() {
             <ButtonLink href={externalLinks.submit} newTab>
               Submit Film
             </ButtonLink>
-            <ButtonLink href={externalLinks.tickets} variant="secondary" newTab>
+            <LumaCheckoutLink variant="secondary">
               Get tickets
-            </ButtonLink>
+            </LumaCheckoutLink>
             <ButtonLink href="/how-it-works" variant="quiet">
               Explore the Filmshow experience
             </ButtonLink>

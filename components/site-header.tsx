@@ -5,11 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
+import { LumaCheckoutLink } from "./luma-checkout-link";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
-const LUMA_EVENT_URL = "https://luma.com/wqhep4p3";
 
 const navItems = [
   { href: "/#what-is-this", label: "What Is This?" },
@@ -386,14 +386,11 @@ export function SiteHeader() {
               ))}
             </div>
             <div className="hidden shrink-0 items-center gap-2 lg:flex">
-              <Link
-                href={LUMA_EVENT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <LumaCheckoutLink
                 className="button-shift header-cta header-cta--tickets"
               >
                 Get Tickets
-              </Link>
+              </LumaCheckoutLink>
               <Link
                 href={FILMFREEWAY_URL}
                 target="_blank"
@@ -432,15 +429,12 @@ export function SiteHeader() {
               >
                 Submit Film
               </Link>
-              <Link
-                href={LUMA_EVENT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <LumaCheckoutLink
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="mobile-menu-button mobile-menu-button--tickets"
               >
                 Get Tickets
-              </Link>
+              </LumaCheckoutLink>
             </div>
           </div>
         </div>

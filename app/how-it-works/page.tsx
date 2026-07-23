@@ -1,5 +1,6 @@
 import { ButtonLink } from "@/components/button-link";
 import { JsonLd } from "@/components/json-ld";
+import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import {
   buildBreadcrumbJsonLd,
   createPageMetadata,
@@ -59,9 +60,9 @@ export default function HowItWorksPage() {
             performance moments, and a clear path from submission to screening.
           </p>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/tickets" variant="secondary">
+            <LumaCheckoutLink variant="secondary">
               Get Filmshow tickets
-            </ButtonLink>
+            </LumaCheckoutLink>
             <ButtonLink href={externalLinks.submit} variant="quiet" newTab>
               Submit your short film
             </ButtonLink>

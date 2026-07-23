@@ -1,4 +1,5 @@
 import type { Metadata, MetadataRoute } from "next";
+import { LUMA_EVENT_URL } from "./luma";
 
 export const SITE_URL = "https://www.filmshow.org";
 export const BRAND_NAME = "Filmshow";
@@ -10,7 +11,7 @@ export const LONG_DESCRIPTION =
   "Filmshow is a live short-film event in Brooklyn featuring curated films, live performances, audience participation, and a cash prize.";
 
 export const externalLinks = {
-  tickets: "https://luma.com/wqhep4p3",
+  tickets: LUMA_EVENT_URL,
   submit: "https://filmfreeway.com/TheFilmShow",
   founderInstagram: "https://www.instagram.com/thiskeenan",
 } as const;

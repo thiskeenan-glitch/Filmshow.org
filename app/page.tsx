@@ -1,6 +1,7 @@
 import { ButtonLink } from "@/components/button-link";
 import { HeroTrailer } from "@/components/hero-trailer";
 import { JsonLd } from "@/components/json-ld";
+import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { MotionEffects } from "@/components/motion-effects";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
@@ -164,9 +165,9 @@ export default function Home() {
                 A Brooklyn space built for short films, performances, and a crowd.
               </p>
               <div className="mt-8">
-                <ButtonLink href="/tickets" variant="quiet">
+                <LumaCheckoutLink variant="quiet">
                   Get Filmshow tickets
-                </ButtonLink>
+                </LumaCheckoutLink>
               </div>
             </div>
           </div>
