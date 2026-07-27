@@ -10,6 +10,7 @@ import { LumaCheckoutLink } from "./luma-checkout-link";
 const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
+const ORIGINALS_APPLICATION_URL = "/originals#application";
 
 const navItems = [
   { href: "/#what-is-this", label: "About" },
@@ -430,6 +431,12 @@ export function SiteHeader() {
               >
                 Submit Film
               </Link>
+              <Link
+                href={ORIGINALS_APPLICATION_URL}
+                className="button-shift header-cta header-cta--pitch"
+              >
+                Submit Pitch
+              </Link>
             </div>
           </div>
           ) : null}
@@ -460,6 +467,13 @@ export function SiteHeader() {
                 className="mobile-menu-button mobile-menu-button--submit"
               >
                 Submit Film
+              </Link>
+              <Link
+                href={ORIGINALS_APPLICATION_URL}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mobile-menu-button mobile-menu-button--pitch"
+              >
+                Submit Pitch
               </Link>
               <LumaCheckoutLink
                 onClick={() => setIsMobileMenuOpen(false)}

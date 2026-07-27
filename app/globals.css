@@ -1496,13 +1496,15 @@ body::before {
 }
 
 .header-cta--tickets,
-.header-cta--submit {
+.header-cta--submit,
+.header-cta--pitch {
   border-color: rgba(248, 244, 235, 0.22);
   background: rgba(5, 5, 5, 0.08);
 }
 
 .header-cta--tickets:hover,
-.header-cta--submit:hover {
+.header-cta--submit:hover,
+.header-cta--pitch:hover {
   border-color: rgba(248, 244, 235, 0.48);
   background: rgba(248, 244, 235, 0.06);
   color: rgba(248, 244, 235, 0.98);
@@ -1925,7 +1927,8 @@ body::before {
 }
 
 .mobile-menu-button--tickets,
-.mobile-menu-button--submit {
+.mobile-menu-button--submit,
+.mobile-menu-button--pitch {
   background: transparent;
   border-color: rgba(255, 67, 58, 0.72);
   color: rgba(255, 244, 240, 0.96);
