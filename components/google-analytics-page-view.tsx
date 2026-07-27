@@ -1,6 +1,6 @@
 "use client";
 
-import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import { GA_MEASUREMENT_ID, IS_GA_ENABLED } from "@/lib/analytics";
 import { sendGAEvent } from "@next/third-parties/google";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -11,7 +11,7 @@ export function GoogleAnalyticsPageView() {
   const hasTrackedInitialPage = useRef(false);
 
   useEffect(() => {
-    if (!pathname) return;
+    if (!IS_GA_ENABLED || !pathname) return;
 
     if (!hasTrackedInitialPage.current) {
       hasTrackedInitialPage.current = true;

@@ -3,11 +3,12 @@ import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
 import { Suspense } from "react";
+import { GoogleAnalyticsInteractions } from "@/components/google-analytics-interactions";
 import { GoogleAnalyticsPageView } from "@/components/google-analytics-page-view";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
-import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import { GA_MEASUREMENT_ID, IS_GA_ENABLED } from "@/lib/analytics";
 import {
   BRAND_NAME,
   DOMAIN_NAME,
@@ -84,15 +85,20 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
-        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+        {IS_GA_ENABLED ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         <Script
           id="luma-checkout"
           src="https://embed.lu.ma/checkout-button.js"
           strategy="afterInteractive"
         />
-        <Suspense fallback={null}>
-          <GoogleAnalyticsPageView />
-        </Suspense>
+        {IS_GA_ENABLED ? (
+          <>
+            <GoogleAnalyticsInteractions />
+            <Suspense fallback={null}>
+              <GoogleAnalyticsPageView />
+            </Suspense>
+          </>
+        ) : null}
       </body>
     </html>
   );
