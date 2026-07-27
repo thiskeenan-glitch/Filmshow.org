@@ -11,9 +11,10 @@ const REQUIRED_ENV = {
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+  STRIPE_ORIGINALS_PRICE_ID: process.env.STRIPE_ORIGINALS_PRICE_ID,
   BREVO_API_KEY: process.env.BREVO_API_KEY,
   ORIGINALS_NOTIFICATION_EMAIL: process.env.ORIGINALS_NOTIFICATION_EMAIL,
-  ORIGINALS_EMAIL_FROM: process.env.ORIGINALS_EMAIL_FROM,
+  EMAIL_FROM: process.env.EMAIL_FROM || process.env.ORIGINALS_EMAIL_FROM,
 } as const;
 
 export type OriginalsServerConfig = {
@@ -23,6 +24,7 @@ export type OriginalsServerConfig = {
   supabaseBucket: string;
   stripeSecretKey: string;
   stripeWebhookSecret: string;
+  stripeOriginalsPriceId: string;
   brevoApiKey: string;
   notificationEmail: string;
   emailFrom: string;
@@ -52,9 +54,10 @@ export function getOriginalsServerConfig(): OriginalsServerConfig {
     supabaseBucket: SUPABASE_ORIGINALS_BUCKET,
     stripeSecretKey: REQUIRED_ENV.STRIPE_SECRET_KEY!,
     stripeWebhookSecret: REQUIRED_ENV.STRIPE_WEBHOOK_SECRET!,
+    stripeOriginalsPriceId: REQUIRED_ENV.STRIPE_ORIGINALS_PRICE_ID!,
     brevoApiKey: REQUIRED_ENV.BREVO_API_KEY!,
     notificationEmail: REQUIRED_ENV.ORIGINALS_NOTIFICATION_EMAIL!,
-    emailFrom: REQUIRED_ENV.ORIGINALS_EMAIL_FROM!,
+    emailFrom: REQUIRED_ENV.EMAIL_FROM!,
   };
 }
 

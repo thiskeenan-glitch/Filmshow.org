@@ -22,12 +22,15 @@ create table if not exists public.originals_submissions (
   terms_accepted boolean not null default false,
   terms_version text not null,
   notification_email_sent_at timestamptz,
-  applicant_confirmation_email_sent_at timestamptz,
+  confirmation_email_sent_at timestamptz,
   email_error text,
   metadata jsonb not null default '{}'::jsonb
 );
 
 alter table public.originals_submissions enable row level security;
+
+alter table public.originals_submissions
+  add column if not exists confirmation_email_sent_at timestamptz;
 
 create index if not exists originals_submissions_status_idx
   on public.originals_submissions (status);

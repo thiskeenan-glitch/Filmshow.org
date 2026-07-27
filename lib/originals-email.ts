@@ -72,7 +72,7 @@ export async function sendOriginalsPaidEmails({
 }): Promise<EmailResult> {
   const result: EmailResult = {
     teamSent: Boolean(submission.notification_email_sent_at),
-    applicantSent: Boolean(submission.applicant_confirmation_email_sent_at),
+    applicantSent: Boolean(submission.confirmation_email_sent_at),
   };
 
   try {
@@ -111,8 +111,8 @@ export async function sendOriginalsPaidEmails({
           <p>Thank you for submitting your pitch to Filmshow Originals.</p>
           <p>We received your application for &ldquo;${escapeHtml(submission.film_title)}&rdquo; and your ${ORIGINALS_SUBMISSION_FEE_LABEL} submission payment.</p>
           <p>One selected filmmaker will receive $2,000 in production funding, support from Bluebird, and a guaranteed premiere at an upcoming Filmshow in New York City.</p>
-          <p>We will contact applicants at the email address used in the submission.</p>
-          <p><strong>Submission reference:</strong> ${escapeHtml(submission.id)}</p>
+          <p>Your submission reference is ${escapeHtml(submission.id)}.</p>
+          <p>We will contact applicants using the email address provided in the application.</p>
         `,
       });
       result.applicantSent = true;

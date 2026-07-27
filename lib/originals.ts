@@ -1,9 +1,10 @@
-export const ORIGINALS_SUBMISSION_FEE_CENTS = 1900;
-export const ORIGINALS_SUBMISSION_FEE_LABEL = "$19";
+export const ORIGINALS_SUBMISSION_FEE_CENTS = 1000;
+export const ORIGINALS_SUBMISSION_FEE_LABEL = "$10";
 export const ORIGINALS_CURRENCY = "usd";
 export const ORIGINALS_TERMS_VERSION = "2026-07-27";
 export const ORIGINALS_MAX_PITCH_FILE_BYTES = 10 * 1024 * 1024;
 export const ORIGINALS_MAX_PITCH_FILE_MB = 10;
 export const ORIGINALS_PITCH_ACCEPT = "application/pdf";
+export const ORIGINALS_SUBMISSION_COOKIE = "filmshow_originals_submission";
 export const ORIGINALS_SUBMISSIONS_OPEN =
   process.env.NEXT_PUBLIC_ORIGINALS_SUBMISSIONS_OPEN === "true";

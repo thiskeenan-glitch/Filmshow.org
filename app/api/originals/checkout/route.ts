@@ -2,6 +2,7 @@ import {
   ORIGINALS_MAX_PITCH_FILE_BYTES,
   ORIGINALS_MAX_PITCH_FILE_MB,
   ORIGINALS_PITCH_ACCEPT,
+  ORIGINALS_SUBMISSION_COOKIE,
 } from "@/lib/originals";
 import {
   areOriginalsSubmissionsReady,
@@ -30,9 +31,13 @@ const FIELD_LIMITS = {
   website_or_instagram: 500,
 };
 
-function text(formData: FormData, key: string, maxLength: number) {
+function text(formData: FormData, key: string) {
   const value = formData.get(key);
-  return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function isTooLong(value: string, maxLength: number) {
+  return value.length > maxLength;
 }
 
 function isValidUrl(value: string) {
@@ -48,7 +53,7 @@ function validatePitchPdf(file: File | null) {
   if (!file || file.size === 0) return null;
 
   const isPdf =
-    file.type === ORIGINALS_PITCH_ACCEPT ||
+    file.type === ORIGINALS_PITCH_ACCEPT &&
     file.name.toLowerCase().endsWith(".pdf");
 
   if (!isPdf) return "Upload a PDF file.";
@@ -88,44 +93,53 @@ export async function POST(request: Request) {
 
   const formData = await request.formData();
 
-  if (text(formData, "company", 120)) {
+  if (text(formData, "company")) {
     return validationError("Unable to submit this application.");
   }
 
-  const full_name = text(formData, "full_name", FIELD_LIMITS.full_name);
-  const email = text(formData, "email", FIELD_LIMITS.email).toLowerCase();
-  const film_title = text(formData, "film_title", FIELD_LIMITS.film_title);
-  const premise = text(formData, "premise", FIELD_LIMITS.premise);
-  const production_approach = text(
-    formData,
-    "production_approach",
-    FIELD_LIMITS.production_approach,
-  );
-  const previous_work_url = text(
-    formData,
-    "previous_work_url",
-    FIELD_LIMITS.previous_work_url,
-  );
-  const website_or_instagram = text(
-    formData,
-    "website_or_instagram",
-    FIELD_LIMITS.website_or_instagram,
-  );
-  const terms_accepted = text(formData, "terms_accepted", 5) === "true";
+  const full_name = text(formData, "full_name");
+  const email = text(formData, "email").toLowerCase();
+  const film_title = text(formData, "film_title");
+  const premise = text(formData, "premise");
+  const production_approach = text(formData, "production_approach");
+  const previous_work_url = text(formData, "previous_work_url");
+  const website_or_instagram = text(formData, "website_or_instagram");
+  const terms_accepted = text(formData, "terms_accepted") === "true";
   const pitchPdfValue = formData.get("pitch_pdf");
   const pitchPdf = pitchPdfValue instanceof File ? pitchPdfValue : null;
 
   if (full_name.length < 2) return validationError("Enter your full name.");
+  if (isTooLong(full_name, FIELD_LIMITS.full_name)) {
+    return validationError("Full name is too long.");
+  }
   if (!/^\S+@\S+\.\S+$/.test(email)) {
     return validationError("Enter a valid email address.");
   }
+  if (isTooLong(email, FIELD_LIMITS.email)) {
+    return validationError("Email address is too long.");
+  }
   if (!film_title) return validationError("Enter the proposed film title.");
+  if (isTooLong(film_title, FIELD_LIMITS.film_title)) {
+    return validationError("Film title is too long.");
+  }
   if (!premise) return validationError("Tell us the premise.");
+  if (isTooLong(premise, FIELD_LIMITS.premise)) {
+    return validationError("Premise is too long.");
+  }
   if (!production_approach) {
     return validationError("Tell us how you would make it.");
   }
+  if (isTooLong(production_approach, FIELD_LIMITS.production_approach)) {
+    return validationError("Production approach is too long.");
+  }
   if (!isValidUrl(previous_work_url)) {
     return validationError("Previous work must be a valid URL.");
+  }
+  if (isTooLong(previous_work_url, FIELD_LIMITS.previous_work_url)) {
+    return validationError("Previous work URL is too long.");
+  }
+  if (isTooLong(website_or_instagram, FIELD_LIMITS.website_or_instagram)) {
+    return validationError("Instagram or website is too long.");
   }
   if (!terms_accepted) return validationError("Confirm the Originals agreement.");
 
@@ -171,10 +185,19 @@ export async function POST(request: Request) {
       stripe_checkout_session_id: checkout.id,
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       submission_id: submissionId,
       checkout_url: checkout.url,
     });
+    response.cookies.set(ORIGINALS_SUBMISSION_COOKIE, submissionId, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 14,
+      path: "/originals",
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       {

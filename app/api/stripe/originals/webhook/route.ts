@@ -1,3 +1,7 @@
+import {
+  ORIGINALS_CURRENCY,
+  ORIGINALS_SUBMISSION_FEE_CENTS,
+} from "@/lib/originals";
 import { getOriginalsServerConfig } from "@/lib/originals-config";
 import { sendOriginalsPaidEmails } from "@/lib/originals-email";
 import {
@@ -21,6 +25,16 @@ type StripeEvent = {
   };
 };
 
+const SUCCESS_EVENTS = new Set([
+  "checkout.session.completed",
+  "checkout.session.async_payment_succeeded",
+]);
+
+const FAILURE_EVENTS = new Set([
+  "checkout.session.async_payment_failed",
+  "checkout.session.expired",
+]);
+
 export async function POST(request: Request) {
   const config = getOriginalsServerConfig();
   const payload = await request.text();
@@ -42,10 +56,7 @@ export async function POST(request: Request) {
 
   const event = JSON.parse(payload) as StripeEvent;
 
-  if (
-    event.type !== "checkout.session.completed" &&
-    event.type !== "checkout.session.async_payment_succeeded"
-  ) {
+  if (!SUCCESS_EVENTS.has(event.type) && !FAILURE_EVENTS.has(event.type)) {
     return NextResponse.json({ received: true });
   }
 
@@ -53,7 +64,11 @@ export async function POST(request: Request) {
   const submissionId =
     session?.metadata?.submission_id || session?.client_reference_id || "";
 
-  if (!session || !submissionId) {
+  if (
+    !session ||
+    !submissionId ||
+    session.metadata?.program !== "filmshow_originals"
+  ) {
     return NextResponse.json(
       { message: "Missing submission metadata." },
       { status: 400 },
@@ -65,6 +80,28 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { message: "Submission not found." },
       { status: 404 },
+    );
+  }
+
+  if (FAILURE_EVENTS.has(event.type)) {
+    if (existing.status !== "paid") {
+      await updateOriginalsSubmission(config, submissionId, {
+        status: "payment_failed",
+        stripe_checkout_session_id: session.id,
+        stripe_payment_intent_id: session.payment_intent || null,
+      });
+    }
+
+    return NextResponse.json({ received: true });
+  }
+
+  if (
+    session.amount_total !== ORIGINALS_SUBMISSION_FEE_CENTS ||
+    session.currency?.toLowerCase() !== ORIGINALS_CURRENCY
+  ) {
+    return NextResponse.json(
+      { message: "Unexpected Stripe payment amount." },
+      { status: 400 },
     );
   }
 
@@ -94,10 +131,9 @@ export async function POST(request: Request) {
     notification_email_sent_at: emailResult.teamSent
       ? paidSubmission.notification_email_sent_at || new Date().toISOString()
       : paidSubmission.notification_email_sent_at,
-    applicant_confirmation_email_sent_at: emailResult.applicantSent
-      ? paidSubmission.applicant_confirmation_email_sent_at ||
-        new Date().toISOString()
-      : paidSubmission.applicant_confirmation_email_sent_at,
+    confirmation_email_sent_at: emailResult.applicantSent
+      ? paidSubmission.confirmation_email_sent_at || new Date().toISOString()
+      : paidSubmission.confirmation_email_sent_at,
     email_error: emailResult.error ?? null,
   });
 

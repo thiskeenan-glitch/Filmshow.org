@@ -1,11 +1,6 @@
 import "server-only";
 
 import { createHmac, timingSafeEqual } from "crypto";
-import {
-  ORIGINALS_CURRENCY,
-  ORIGINALS_SUBMISSION_FEE_CENTS,
-  ORIGINALS_SUBMISSION_FEE_LABEL,
-} from "./originals";
 import type { OriginalsServerConfig } from "./originals-config";
 
 type CheckoutSessionResponse = {
@@ -22,6 +17,7 @@ export type StripeCheckoutSession = {
   client_reference_id?: string | null;
   metadata?: {
     submission_id?: string;
+    program?: string;
   } | null;
 };
 
@@ -42,17 +38,12 @@ export async function createOriginalsCheckoutSession({
     cancel_url: `${origin}/originals?payment=cancelled&submission=${submissionId}#application`,
     client_reference_id: submissionId,
     customer_email: applicantEmail,
-    "line_items[0][price_data][currency]": ORIGINALS_CURRENCY,
-    "line_items[0][price_data][product_data][name]":
-      "Filmshow Originals submission fee",
-    "line_items[0][price_data][product_data][description]":
-      `${ORIGINALS_SUBMISSION_FEE_LABEL} pitch submission`,
-    "line_items[0][price_data][unit_amount]": String(
-      ORIGINALS_SUBMISSION_FEE_CENTS,
-    ),
+    "line_items[0][price]": config.stripeOriginalsPriceId,
     "line_items[0][quantity]": "1",
     "metadata[submission_id]": submissionId,
+    "metadata[program]": "filmshow_originals",
     "payment_intent_data[metadata][submission_id]": submissionId,
+    "payment_intent_data[metadata][program]": "filmshow_originals",
   });
 
   const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {

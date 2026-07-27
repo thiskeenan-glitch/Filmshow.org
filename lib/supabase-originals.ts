@@ -31,7 +31,7 @@ export type OriginalsSubmissionRecord = {
   terms_accepted: boolean;
   terms_version: string;
   notification_email_sent_at: string | null;
-  applicant_confirmation_email_sent_at: string | null;
+  confirmation_email_sent_at: string | null;
   email_error: string | null;
 };
 

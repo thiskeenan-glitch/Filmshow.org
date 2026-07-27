@@ -103,7 +103,7 @@ export function OriginalsApplicationForm({
 
     if (pitchFile) {
       const isPdf =
-        pitchFile.type === ORIGINALS_PITCH_ACCEPT ||
+        pitchFile.type === ORIGINALS_PITCH_ACCEPT &&
         pitchFile.name.toLowerCase().endsWith(".pdf");
 
       if (!isPdf) {
