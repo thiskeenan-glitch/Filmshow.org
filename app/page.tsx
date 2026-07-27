@@ -17,8 +17,8 @@ const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const HERO_TRAILER_VIDEO = "/videos/website-background.mov";
 const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
-const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-background.jpg";
-const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-background.jpg";
+const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-background-20260727.jpg";
+const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-background-20260727.jpg";
 const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
 
 const galleryPhotos = [

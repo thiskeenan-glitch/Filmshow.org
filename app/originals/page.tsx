@@ -21,7 +21,7 @@ const processSteps = [
   {
     number: "02",
     title: "Pay the submission fee",
-    copy: "Complete the $19 submission payment securely through Stripe.",
+    copy: "Complete the $10 submission payment securely through Stripe.",
   },
   {
     number: "03",

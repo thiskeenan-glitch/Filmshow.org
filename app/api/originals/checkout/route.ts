@@ -149,6 +149,7 @@ export async function POST(request: Request) {
   const config = getOriginalsServerConfig();
   const origin = getRequestOrigin(request);
   const submissionId = randomUUID();
+  let draftSaved = false;
 
   try {
     await createOriginalsDraft(config, {
@@ -161,6 +162,7 @@ export async function POST(request: Request) {
       previous_work_url,
       website_or_instagram: website_or_instagram || null,
     });
+    draftSaved = true;
 
     if (pitchPdf) {
       const pitchFilePath = await uploadOriginalsPitchPdf(
@@ -205,7 +207,7 @@ export async function POST(request: Request) {
           error instanceof Error
             ? error.message
             : "Something went wrong before checkout. Your pitch was not charged.",
-        submission_id: submissionId,
+        submission_id: draftSaved ? submissionId : undefined,
       },
       { status: 500 },
     );

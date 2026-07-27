@@ -47,6 +47,7 @@ export function OriginalsApplicationForm({
   const [pitchFile, setPitchFile] = useState<File | null>(null);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [statusMessage, setStatusMessage] = useState("");
+  const [retrySubmissionId, setRetrySubmissionId] = useState(cancelledSubmissionId);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const hasTrackedStart = useRef(false);
 
@@ -161,9 +162,11 @@ export function OriginalsApplicationForm({
       const result = (await response.json()) as {
         checkout_url?: string;
         message?: string;
+        submission_id?: string;
       };
 
       if (!response.ok || !result.checkout_url) {
+        if (result.submission_id) setRetrySubmissionId(result.submission_id);
         setStatusMessage(
           result.message ||
             "Something went wrong before checkout. Your pitch was not charged.",
@@ -185,7 +188,7 @@ export function OriginalsApplicationForm({
   };
 
   const handleRetryPayment = async () => {
-    if (!cancelledSubmissionId || !submissionsOpen) {
+    if (!retrySubmissionId || !submissionsOpen) {
       setStatusMessage(disabledMessage);
       return;
     }
@@ -197,7 +200,7 @@ export function OriginalsApplicationForm({
       const response = await fetch("/api/originals/retry-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ submission_id: cancelledSubmissionId }),
+        body: JSON.stringify({ submission_id: retrySubmissionId }),
       });
       const result = (await response.json()) as {
         checkout_url?: string;
@@ -241,16 +244,20 @@ export function OriginalsApplicationForm({
           </div>
 
           <div className="originals-form-wrap" data-reveal="text">
-            {!submissionsOpen ? (
-              <div className="originals-form-notice" role="status">
-                <p className="copy-wide small-label text-red-300">
-                  Submissions opening soon
-                </p>
-                <p>{disabledMessage}</p>
-              </div>
-            ) : null}
+            <div className="originals-form-notice" role="status">
+              <p className="copy-wide small-label text-red-300">
+                {submissionsOpen
+                  ? "Submissions open"
+                  : "Submissions opening soon"}
+              </p>
+              <p>
+                {submissionsOpen
+                  ? "Pitch an original short film for the chance to receive $2,000 in production funding, support from Bluebird, and a premiere at Filmshow."
+                  : disabledMessage}
+              </p>
+            </div>
 
-            {cancelledSubmissionId ? (
+            {retrySubmissionId ? (
               <div className="originals-form-notice" role="status">
                 <p className="copy-wide small-label text-red-300">
                   Your pitch has been saved, but it has not been submitted.
@@ -482,9 +489,14 @@ export function OriginalsApplicationForm({
                 {submissionsOpen
                   ? isSubmitting
                     ? "Opening Checkout"
-                    : "Submit a Pitch"
+                    : `Continue to ${ORIGINALS_SUBMISSION_FEE_LABEL} Payment`
                   : "Submissions Opening Soon"}
               </button>
+              {submissionsOpen ? (
+                <p className="originals-form-helper">
+                  Your application is saved before Stripe Checkout opens.
+                </p>
+              ) : null}
             </form>
           </div>
         </div>

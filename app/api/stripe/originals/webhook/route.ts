@@ -84,7 +84,10 @@ export async function POST(request: Request) {
   }
 
   if (FAILURE_EVENTS.has(event.type)) {
-    if (existing.status !== "paid") {
+    if (
+      existing.status !== "paid" &&
+      existing.stripe_checkout_session_id === session.id
+    ) {
       await updateOriginalsSubmission(config, submissionId, {
         status: "payment_failed",
         stripe_checkout_session_id: session.id,
@@ -92,6 +95,13 @@ export async function POST(request: Request) {
       });
     }
 
+    return NextResponse.json({ received: true });
+  }
+
+  if (
+    event.type === "checkout.session.completed" &&
+    session.payment_status !== "paid"
+  ) {
     return NextResponse.json({ received: true });
   }
 
