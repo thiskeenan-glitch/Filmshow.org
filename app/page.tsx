@@ -17,8 +17,8 @@ const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const HERO_TRAILER_VIDEO = "/videos/website-background.mov";
 const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
-const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-hero.jpg";
-const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-hero.jpg";
+const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-background.jpg";
+const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-background.jpg";
 const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
 
 const galleryPhotos = [
@@ -81,12 +81,12 @@ const filmmakerDetails = [
 
 const whySubmitBody = [
   "I started Filmshow after screening one of my own short films.",
-  "Instead of a traditional screening, we built an entire show around it. Experimental theater. Surprises. The film became part of an experience instead of just another screening.",
-  "That night made me realize something.",
-  "I've spent years on the festival circuit, and too often incredible short films end up buried inside long blocks where audiences drift in and out, filmmakers wait for their own film to play, and everyone politely applauds before heading home.",
-  "I wanted to build something I'd actually want to attend.",
-  "Filmshow isn't a film festival. It's a live show built around exceptional short films. Every selection gets the attention it deserves. Every audience member is there for the entire experience.",
-  "It's the kind of show I'd want my own film to play in.",
+  "I knew a 12-minute short was not enough meat for people to show up and treat it like a night out. So I thought, I'll turn it into a show.",
+  "My background is in the circus, and much like making a film, circus has no rules.",
+  "With that in mind, I filled the space with men wearing red jumpsuits, turned the giant soundstage we were on into a bunker, and made my film the last remaining archive of a time from long ago.",
+  "There was slapstick, tears, the film, and giggles.",
+  "Then came Filmshow.",
+  "The same thing, but with different artists' films each show, different circus artists and actors working together to make something truly unique every single time while showcasing New York City's underground art scene.",
 ];
 
 function Divider() {
@@ -128,22 +128,24 @@ export default function Home() {
               data-reveal="section-label"
             >
               <p className="copy-wide small-label text-red-500">01</p>
-              <h2 className="copy-wide text-sm text-stone-300">
-                What is Filmshow?
-              </h2>
+              <h2 className="copy-wide text-sm text-stone-300">About</h2>
             </div>
             <div className="what-is-filmshow-copy" data-reveal="text">
               <p className="section-kicker text-stone-100">
-                Filmshow is a live short-film event in Brooklyn.
+                At its core, Filmshow is an exhibition.
               </p>
               <div className="what-is-filmshow-body">
                 <p className="body-large text-stone-300">
-                  We bring together remarkable short films, live performances, and
-                  an audience that loves movies. Every screening is curated. Every
-                  season is different.
+                  A place to see what&apos;s happening offline, in the world,
+                  and on the streets.
                 </p>
                 <p className="body-large text-stone-300">
-                  At the end of the night, the audience decides the winning film.
+                  Films and theater were never meant to live online. But maybe
+                  they can live together in a warehouse in Brooklyn on October
+                  8th.
+                </p>
+                <p className="body-large text-stone-300">
+                  We create the space for it.
                 </p>
               </div>
               <LumaCheckoutLink variant="secondary">
@@ -167,11 +169,6 @@ export default function Home() {
               <p className="body-large text-stone-300">
                 A Brooklyn space built for short films, performances, and a crowd.
               </p>
-              <div className="mt-8">
-                <LumaCheckoutLink variant="quiet">
-                  Get Filmshow tickets
-                </LumaCheckoutLink>
-              </div>
             </div>
           </div>
         </div>
@@ -221,6 +218,30 @@ export default function Home() {
                 </p>
               </PlasticCard>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+
+      <section className="section-pad originals-teaser-section">
+        <div className="container-page">
+          <div className="originals-teaser" data-reveal="text">
+            <p className="copy-wide small-label text-red-300">
+              Filmshow Originals
+            </p>
+            <h2 className="section-kicker mt-5 text-stone-100">
+              We fund films before they exist.
+            </h2>
+            <p className="body-large mt-6 max-w-2xl text-stone-300">
+              Pitch us a short film. One filmmaker will receive $2,000, support
+              from Bluebird, and a premiere at Filmshow.
+            </p>
+            <div className="mt-10">
+              <ButtonLink href="/originals" variant="secondary">
+                Learn About Originals
+              </ButtonLink>
+            </div>
           </div>
         </div>
       </section>

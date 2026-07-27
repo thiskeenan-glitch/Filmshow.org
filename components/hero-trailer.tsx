@@ -221,28 +221,6 @@ export function HeroTrailer({
           </div>
         ) : null}
         <div className="hero-trailer-frame-shell">
-          <div className="hero-trailer-copy">
-            <div className="hero-trailer-copy-block">
-              <h1 className="hero-trailer-headline">
-                <span>
-                  THIS IS <em className="hero-trailer-emphasis">NOT</em>
-                </span>
-                <span>A SCREENING.</span>
-              </h1>
-              <p className="hero-trailer-mobile-intro">
-                <span>Short films.</span>{" "}
-                <span>Live performances.</span>
-              </p>
-              <p className="hero-trailer-subheadline hero-trailer-subheadline--desktop">
-                <span>Short films.</span>{" "}
-                <span>Live performances.</span>
-              </p>
-              <p className="hero-trailer-description hero-trailer-description--desktop">
-                A curated live show featuring short films and live
-                performances.
-              </p>
-            </div>
-          </div>
           <div className="hero-trailer-frame">
             <div className="hero-trailer-media">
               {!reducedMotion ? (
@@ -270,10 +248,21 @@ export function HeroTrailer({
               <div className="hero-trailer-overlay" aria-hidden="true" />
             </div>
           </div>
-          <p className="hero-trailer-description hero-trailer-description--mobile">
-            A curated live show featuring short films and live
-            performances.
-          </p>
+          <div className="hero-trailer-copy">
+            <div className="hero-trailer-copy-block">
+              <h1 className="hero-trailer-headline">
+                <span>
+                  THIS IS <em className="hero-trailer-emphasis">NOT</em>
+                </span>
+                <span>A SCREENING.</span>
+              </h1>
+              <p className="hero-trailer-description">
+                Film Show is a live show that combines short films from local
+                filmmakers and live experimental theater to create a glimpse
+                into the underground scene of New York City.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { MouseEvent } from "react";
 import { BrevoSignup } from "./brevo-signup";
 
@@ -9,6 +10,9 @@ const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  const showSignup = !pathname.startsWith("/originals");
+
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const top = document.getElementById("top");
     if (!top) return;
@@ -21,7 +25,7 @@ export function SiteFooter() {
   return (
     <footer className="poster-field border-t border-stone-100/10 py-14">
       <div className="container-page text-stone-300">
-        <BrevoSignup placement="footer" />
+        {showSignup ? <BrevoSignup placement="footer" /> : null}
         <p className="footer-note">See you there.</p>
         <div className="footer-brand-row">
           <Link

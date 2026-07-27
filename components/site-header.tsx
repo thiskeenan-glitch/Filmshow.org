@@ -12,9 +12,10 @@ const COWBOY_SRC = "/images/header-cowboy.png";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 
 const navItems = [
-  { href: "/#what-is-this", label: "What Is This?" },
+  { href: "/#what-is-this", label: "About" },
   { href: "/#photos", label: "Photos" },
   { href: "/#submit", label: "Submit" },
+  { href: "/originals", label: "Originals" },
   { href: "/#why-submit", label: "Why?" },
 ];
 
@@ -33,6 +34,7 @@ export function SiteHeader() {
   const [indicatorAssetOk, setIndicatorAssetOk] = useState(false);
   const [indicatorSrc] = useState(getIndicatorSrc);
   const navTrackRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const manualActiveUntilRef = useRef(0);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
@@ -106,6 +108,14 @@ export function SiteHeader() {
     setIsMobileMenuOpen(false);
   };
 
+  const handleMobileMenuClick = (event: MouseEvent<HTMLDivElement>) => {
+    const target = event.target;
+
+    if (target instanceof Element && target.closest("a, button")) {
+      setIsMobileMenuOpen(false);
+    }
+  };
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1024px)");
     const updateViewport = () => setRenderDesktopChrome(mediaQuery.matches);
@@ -127,9 +137,29 @@ export function SiteHeader() {
       }
     };
 
+    const handlePagePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (target instanceof Node && headerRef.current?.contains(target)) {
+        return;
+      }
+
+      setIsMobileMenuOpen(false);
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePagePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
     window.addEventListener("resize", handleResize);
 
     return () => {
+      document.removeEventListener("pointerdown", handlePagePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
     };
   }, [isMobileMenuOpen]);
@@ -259,6 +289,7 @@ export function SiteHeader() {
 
   return (
     <header
+      ref={headerRef}
       className={`texture-header top-0 z-40 w-full border-b ${
         hasScrolled ? "is-scrolled" : ""
       } ${showFullLogo ? "is-brand-swapped" : ""}`}
@@ -407,6 +438,7 @@ export function SiteHeader() {
           id="mobile-menu"
           className={`mobile-header-menu lg:hidden ${isMobileMenuOpen ? "is-open" : ""}`}
           aria-label="Section navigation"
+          onClick={handleMobileMenuClick}
         >
           {navItems.map((item) => (
             <Link

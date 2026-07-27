@@ -68,6 +68,14 @@ export const routeMetadata = {
       "Sponsor Filmshow, a Brooklyn short-film event built for filmmakers, audiences, performers, and the creative community.",
     priority: 0.4,
   },
+  originals: {
+    path: "/originals",
+    title: "Filmshow Originals — $2,000 Short Film Grant",
+    socialTitle: "Filmshow Originals — $2,000 Short Film Grant",
+    description:
+      "Pitch Filmshow an original short-film idea for the chance to receive $2,000 in production funding, support from Bluebird, and a premiere in New York City.",
+    priority: 0.7,
+  },
 } satisfies Record<string, SeoRoute>;
 
 export const publicRoutes = Object.values(routeMetadata);

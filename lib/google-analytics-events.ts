@@ -7,7 +7,11 @@ export type GoogleAnalyticsEventName =
   | "buy_tickets_click"
   | "submit_film_click"
   | "email_signup"
-  | "instagram_click";
+  | "instagram_click"
+  | "originals_form_started"
+  | "originals_form_completed"
+  | "originals_checkout_started"
+  | "originals_payment_completed";
 
 type AnalyticsParams = Record<string, string | number | boolean | undefined>;
 
