@@ -1,6 +1,6 @@
 # Filmshow
 
-A polished landing website for **Filmshow**, an NYC short film event with live screenings, performances, a jury selected 1st Place, audience voted 2nd and 3rd, and a $6,000 cash prize.
+A polished website for **Filmshow**, a New York City live cultural event combining short films from local filmmakers, live experimental theater, and an audience gathered in the room.
 
 Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 
@@ -8,7 +8,9 @@ Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 
 - `/` - Home
 - `/about` - About the event
+- `/how-it-works` - How Filmshow works
 - `/tickets` - Branded ticket information page with purchase handled by Luma
+- `/originals` - Filmshow Originals pitch application
 - `/sponsors` - Sponsor information and inquiry form
 
 ## Images
@@ -22,7 +24,7 @@ pnpm install
 pnpm dev
 ```
 
-Open `http://localhost:3000`.
+Open the local address printed by Next.js.
 
 ## Build
 
@@ -39,4 +41,4 @@ pnpm build
 
 Then push this project to GitHub, import the repository in Vercel, keep the default Next.js settings, and deploy.
 
-The email and sponsor forms currently use client-side success states only. Connect them to a form service, CRM, or API route when you are ready to collect real submissions.
+Ticket checkout is handled by Luma. Completed short-film submissions are handled by FilmFreeway. Filmshow Originals uses Stripe, Supabase, and Brevo when the required production environment variables are configured.

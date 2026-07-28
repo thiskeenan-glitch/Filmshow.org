@@ -28,12 +28,12 @@ const verification = {
 
 export const metadata: Metadata = {
   ...createPageMetadata(routeMetadata.home),
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? SITE_URL),
+  metadataBase: new URL(SITE_URL),
   applicationName: BRAND_NAME,
   category: "event",
   keywords: [
     "Filmshow",
-    "Film Show NYC",
+    "Filmshow NYC",
     "short film event",
     "short film events NYC",
     "film screenings Brooklyn",
@@ -46,7 +46,6 @@ export const metadata: Metadata = {
     "FilmFreeway",
     "independent filmmakers",
     "short film submissions",
-    "film competitions",
     "audience-voted film events",
     "experimental theater and film events",
   ],

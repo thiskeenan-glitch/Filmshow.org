@@ -48,7 +48,7 @@ export function getOriginalsServerConfig(): OriginalsServerConfig {
   }
 
   return {
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || SITE_URL,
+    siteUrl: SITE_URL,
     supabaseUrl: REQUIRED_ENV.SUPABASE_URL!,
     supabaseServiceRoleKey: REQUIRED_ENV.SUPABASE_SERVICE_ROLE_KEY!,
     supabaseBucket: SUPABASE_ORIGINALS_BUCKET,
@@ -70,5 +70,5 @@ export function getRequestOrigin(request: Request) {
 
   if (host) return `${proto}://${host}`;
 
-  return process.env.NEXT_PUBLIC_SITE_URL || SITE_URL;
+  return SITE_URL;
 }

@@ -2,7 +2,7 @@ import { JsonLd } from "@/components/json-ld";
 import { SponsorInquiryForm } from "@/components/sponsor-inquiry-form";
 import { PlasticCard } from "@/components/plastic-card";
 import {
-  buildBreadcrumbJsonLd,
+  buildWebPageJsonLd,
   createPageMetadata,
   routeMetadata,
 } from "@/lib/seo";
@@ -27,12 +27,7 @@ const benefits = [
 export default function SponsorsPage() {
   return (
     <main className="hero-pad">
-      <JsonLd
-        data={buildBreadcrumbJsonLd([
-          { name: "Filmshow", path: "/" },
-          { name: "Sponsors", path: "/sponsors" },
-        ])}
-      />
+      <JsonLd data={buildWebPageJsonLd(routeMetadata.sponsors)} />
       <section className="container-page relative">
         <p className="copy-wide small-label mb-8 text-red-300">
           Filmshow · Sponsors

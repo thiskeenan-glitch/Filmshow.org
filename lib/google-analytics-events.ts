@@ -37,7 +37,10 @@ export function trackGoogleAnalyticsEvent(
 }
 
 export function trackOutboundClick(
-  eventName: Exclude<GoogleAnalyticsEventName, "email_signup">,
+  eventName: Exclude<
+    GoogleAnalyticsEventName,
+    "email_signup_start" | "email_signup_complete"
+  >,
   linkUrl: string,
   linkText: string,
   params: AnalyticsParams = {},

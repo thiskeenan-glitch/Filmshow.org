@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/json-ld";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { PlasticCard } from "@/components/plastic-card";
 import {
-  buildBreadcrumbJsonLd,
+  buildEventPageJsonLd,
   createPageMetadata,
   routeMetadata,
 } from "@/lib/seo";
@@ -13,14 +13,14 @@ export const metadata = createPageMetadata(routeMetadata.tickets);
 const eventFacts = [
   ["Date and time", "Vol. 1 | 10.8.26 | Brooklyn, NYC"],
   ["Venue", "Brooklyn location TBA"],
-  ["Voting", "The audience votes live for 2nd and 3rd Place"],
+  ["Voting", "The audience votes live in the room"],
 ];
 
 const nightIncludes = [
   "Short films curated for the live show",
   "Live performance moments between films",
   "A jury-selected 1st Place",
-  "Live audience voting for 2nd and 3rd Place",
+  "Live audience voting",
   "Winners announced in the room.",
   "Drinks, sponsors, and a real night out feeling",
 ];
@@ -28,12 +28,7 @@ const nightIncludes = [
 export default function TicketsPage() {
   return (
     <main className="hero-pad">
-      <JsonLd
-        data={buildBreadcrumbJsonLd([
-          { name: "Filmshow", path: "/" },
-          { name: "Tickets", path: "/tickets" },
-        ])}
-      />
+      <JsonLd data={buildEventPageJsonLd(routeMetadata.tickets)} />
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
@@ -44,8 +39,8 @@ export default function TicketsPage() {
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
             Filmshow is a live short-film event in Brooklyn for Vol. 1 |
-            10.8.26, featuring curated films, live performances, a cash prize,
-            and audience participation.
+            10.8.26, featuring curated films, live performances, and audience
+            participation.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
             This website is the home base. Ticket purchase, confirmations,

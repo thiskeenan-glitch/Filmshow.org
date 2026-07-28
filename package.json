@@ -7,7 +7,10 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit",
+    "seo:check": "node scripts/seo-regression.mjs",
+    "seo:crawl": "node scripts/local-seo-crawl.mjs"
   },
   "dependencies": {
     "@next/third-parties": "16.2.9",

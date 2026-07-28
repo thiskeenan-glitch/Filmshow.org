@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/json-ld";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { PlasticCard } from "@/components/plastic-card";
 import {
-  buildBreadcrumbJsonLd,
+  buildWebPageJsonLd,
   createPageMetadata,
   externalLinks,
   routeMetadata,
@@ -20,12 +20,7 @@ const details = [
 export default function AboutPage() {
   return (
     <main className="hero-pad">
-      <JsonLd
-        data={buildBreadcrumbJsonLd([
-          { name: "Filmshow", path: "/" },
-          { name: "Why Filmshow Exists", path: "/about" },
-        ])}
-      />
+      <JsonLd data={buildWebPageJsonLd(routeMetadata.about)} />
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">

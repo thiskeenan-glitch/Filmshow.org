@@ -1,9 +1,10 @@
 import { JsonLd } from "@/components/json-ld";
 import { MotionEffects } from "@/components/motion-effects";
 import { PlasticCard } from "@/components/plastic-card";
+import { ORIGINALS_SUBMISSION_FEE_LABEL } from "@/lib/originals";
 import { areOriginalsSubmissionsReady } from "@/lib/originals-config";
 import {
-  buildBreadcrumbJsonLd,
+  buildFaqPageJsonLd,
   createPageMetadata,
   routeMetadata,
 } from "@/lib/seo";
@@ -21,7 +22,7 @@ const processSteps = [
   {
     number: "02",
     title: "Pay the submission fee",
-    copy: "Complete the $10 submission payment securely through Stripe.",
+    copy: `Complete the ${ORIGINALS_SUBMISSION_FEE_LABEL} submission payment securely through Stripe.`,
   },
   {
     number: "03",
@@ -87,9 +88,9 @@ const faqs = [
       "Yes, but the applicant is responsible for proposing a realistic production plan. The finished film will premiere at an upcoming Filmshow in New York City.",
   },
   {
-    question: "Is the $2,000 grant the same as Filmshow's audience prize?",
+    question: "Is this the same as submitting a completed short film?",
     answer:
-      "No. The Filmshow Originals production grant is separate from any live-show audience prize awarded to completed films.",
+      "No. Filmshow Originals is for an unproduced idea. Completed short films are submitted separately for Filmshow consideration.",
   },
 ];
 
@@ -111,12 +112,7 @@ export default async function OriginalsPage({
   return (
     <main className="originals-page hero-pad">
       <MotionEffects />
-      <JsonLd
-        data={buildBreadcrumbJsonLd([
-          { name: "Filmshow", path: "/" },
-          { name: "Filmshow Originals", path: "/originals" },
-        ])}
-      />
+      <JsonLd data={buildFaqPageJsonLd(routeMetadata.originals, faqs)} />
 
       <section className="originals-hero">
         <div className="container-page">

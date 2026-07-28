@@ -187,7 +187,7 @@ export default function Home() {
               </p>
               <p className="body-copy mt-8 max-w-xl text-stone-300">
                 Submit a short film for a live Brooklyn audience. Selected films
-                screen with performance moments, audience voting, and a cash prize.
+                screen with performance moments and audience voting.
               </p>
               <p className="copy-wide mt-6 text-xs text-red-300">
                 Vol. 1 | 10.8.26 | NYC

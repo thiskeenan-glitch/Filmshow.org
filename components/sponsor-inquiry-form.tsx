@@ -19,10 +19,49 @@ export function SponsorInquiryForm() {
       className="texture-form border border-stone-100/10 bg-stone-950/20 p-5 sm:p-6 md:p-8"
     >
       <div className="grid gap-4 md:grid-cols-2">
-        <input required className={fieldClass} placeholder="Name" />
-        <input required type="email" className={fieldClass} placeholder="Email" />
-        <input className={fieldClass} placeholder="Company" />
-        <select required className={fieldClass} defaultValue="">
+        <label className="sr-only" htmlFor="sponsor-name">
+          Name
+        </label>
+        <input
+          id="sponsor-name"
+          name="name"
+          required
+          autoComplete="name"
+          className={fieldClass}
+          placeholder="Name"
+        />
+        <label className="sr-only" htmlFor="sponsor-email">
+          Email
+        </label>
+        <input
+          id="sponsor-email"
+          name="email"
+          required
+          type="email"
+          autoComplete="email"
+          className={fieldClass}
+          placeholder="Email"
+        />
+        <label className="sr-only" htmlFor="sponsor-company">
+          Company
+        </label>
+        <input
+          id="sponsor-company"
+          name="company"
+          autoComplete="organization"
+          className={fieldClass}
+          placeholder="Company"
+        />
+        <label className="sr-only" htmlFor="sponsor-budget">
+          Budget range
+        </label>
+        <select
+          id="sponsor-budget"
+          name="budget"
+          required
+          className={fieldClass}
+          defaultValue=""
+        >
           <option value="" disabled>
             Budget range
           </option>
@@ -32,7 +71,12 @@ export function SponsorInquiryForm() {
           <option>Custom</option>
         </select>
       </div>
+      <label className="sr-only" htmlFor="sponsor-message">
+        Tell us what you would like to support.
+      </label>
       <textarea
+        id="sponsor-message"
+        name="message"
         required
         className={`${fieldClass} mt-4 min-h-36 resize-none`}
         placeholder="Tell us what you would like to support."

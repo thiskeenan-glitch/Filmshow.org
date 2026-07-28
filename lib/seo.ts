@@ -219,11 +219,6 @@ function websiteJsonLd() {
     publisher: {
       "@id": `${SITE_URL}/#organization`,
     },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/?s={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 
@@ -318,9 +313,8 @@ export function buildBaseJsonLd() {
   };
 }
 
-export function buildWebPageJsonLd(route: SeoRoute) {
+function webPageJsonLd(route: SeoRoute) {
   return {
-    "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": `${absoluteUrl(route.path)}#webpage`,
     url: absoluteUrl(route.path),
@@ -335,11 +329,18 @@ export function buildWebPageJsonLd(route: SeoRoute) {
   };
 }
 
+export function buildWebPageJsonLd(route: SeoRoute) {
+  return {
+    "@context": "https://schema.org",
+    ...webPageJsonLd(route),
+  };
+}
+
 export function buildEventPageJsonLd(route: SeoRoute) {
   return {
     "@context": "https://schema.org",
     "@graph": [
-      buildWebPageJsonLd(route),
+      webPageJsonLd(route),
       organizationJsonLd(),
       eventSeriesJsonLd(),
       currentEventJsonLd(),
@@ -354,7 +355,7 @@ export function buildFaqPageJsonLd(
   return {
     "@context": "https://schema.org",
     "@graph": [
-      buildWebPageJsonLd(route),
+      webPageJsonLd(route),
       {
         "@type": "FAQPage",
         "@id": `${absoluteUrl(route.path)}#faq`,

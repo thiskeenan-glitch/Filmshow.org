@@ -2,7 +2,7 @@ import { ButtonLink } from "@/components/button-link";
 import { JsonLd } from "@/components/json-ld";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import {
-  buildBreadcrumbJsonLd,
+  buildWebPageJsonLd,
   createPageMetadata,
   externalLinks,
   routeMetadata,
@@ -41,12 +41,7 @@ const works = [
 export default function HowItWorksPage() {
   return (
     <main className="hero-pad how-it-works-section">
-      <JsonLd
-        data={buildBreadcrumbJsonLd([
-          { name: "Filmshow", path: "/" },
-          { name: "What Is Filmshow?", path: "/how-it-works" },
-        ])}
-      />
+      <JsonLd data={buildWebPageJsonLd(routeMetadata.howItWorks)} />
       <section className="container-page">
         <div className="relative z-10">
           <p className="copy-wide small-label mb-8 text-red-300">

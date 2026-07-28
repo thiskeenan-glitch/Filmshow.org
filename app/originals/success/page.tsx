@@ -3,16 +3,30 @@ import { ORIGINALS_SUBMISSION_COOKIE } from "@/lib/originals";
 import { getOriginalsServerConfig } from "@/lib/originals-config";
 import { createPageMetadata, externalLinks } from "@/lib/seo";
 import { getOriginalsSubmission } from "@/lib/supabase-originals";
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { OriginalsSuccessAnalytics } from "./success-analytics";
 
-export const metadata = createPageMetadata({
+const successPageMetadata = createPageMetadata({
   path: "/originals/success",
   title: "Filmshow Originals Submission Received",
   description:
     "Confirmation page for a Filmshow Originals pitch submission.",
   priority: 0,
+  lastModified: "2026-07-28",
 });
+
+export const metadata: Metadata = {
+  ...successPageMetadata,
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
+  },
+};
 
 export const dynamic = "force-dynamic";
 
