@@ -62,8 +62,10 @@ export function OriginalsApplicationForm({
   const trackStarted = () => {
     if (hasTrackedStart.current || !submissionsOpen) return;
     hasTrackedStart.current = true;
-    trackGoogleAnalyticsEvent("originals_form_started", {
+    trackGoogleAnalyticsEvent("submission_form_start", {
       page_path: getCurrentPagePath(),
+      form_id: "filmshow_originals_application",
+      submission_type: "originals_pitch",
     });
   };
 
@@ -134,11 +136,6 @@ export function OriginalsApplicationForm({
     if (!validate()) return;
 
     setIsSubmitting(true);
-    trackGoogleAnalyticsEvent("originals_form_completed", {
-      page_path: getCurrentPagePath(),
-      has_pitch_pdf: Boolean(pitchFile),
-    });
-
     const formData = new FormData();
     formData.set("full_name", values.fullName);
     formData.set("email", values.email);
@@ -174,8 +171,11 @@ export function OriginalsApplicationForm({
         return;
       }
 
-      trackGoogleAnalyticsEvent("originals_checkout_started", {
+      trackGoogleAnalyticsEvent("outbound_link_click", {
         page_path: getCurrentPagePath(),
+        link_url: result.checkout_url,
+        link_text: "Stripe Checkout",
+        link_context: "originals_pitch_submission",
       });
       window.location.assign(result.checkout_url);
     } catch {
@@ -215,8 +215,11 @@ export function OriginalsApplicationForm({
         return;
       }
 
-      trackGoogleAnalyticsEvent("originals_checkout_started", {
+      trackGoogleAnalyticsEvent("outbound_link_click", {
         page_path: getCurrentPagePath(),
+        link_url: result.checkout_url,
+        link_text: "Stripe Checkout",
+        link_context: "originals_pitch_payment_retry",
       });
       window.location.assign(result.checkout_url);
     } catch {

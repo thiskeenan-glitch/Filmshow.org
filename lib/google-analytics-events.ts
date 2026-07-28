@@ -4,14 +4,17 @@ import { GA_MEASUREMENT_ID, IS_GA_ENABLED } from "@/lib/analytics";
 import { sendGAEvent } from "@next/third-parties/google";
 
 export type GoogleAnalyticsEventName =
-  | "buy_tickets_click"
-  | "submit_film_click"
-  | "email_signup"
+  | "ticket_cta_click"
+  | "ticket_checkout_click"
+  | "submission_cta_click"
+  | "submission_form_start"
+  | "submission_complete"
+  | "email_signup_start"
+  | "email_signup_complete"
+  | "trailer_play"
+  | "trailer_complete"
   | "instagram_click"
-  | "originals_form_started"
-  | "originals_form_completed"
-  | "originals_checkout_started"
-  | "originals_payment_completed";
+  | "outbound_link_click";
 
 type AnalyticsParams = Record<string, string | number | boolean | undefined>;
 

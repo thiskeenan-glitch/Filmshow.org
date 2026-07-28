@@ -1,14 +1,41 @@
 import type { Metadata, MetadataRoute } from "next";
 import { LUMA_EVENT_URL } from "./luma";
 
-export const SITE_URL = "https://www.filmshow.org";
+const PRODUCTION_SITE_URL = "https://www.filmshow.org";
+
+function resolveSiteUrl() {
+  const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
+  if (!configuredUrl) return PRODUCTION_SITE_URL;
+
+  try {
+    const url = new URL(configuredUrl);
+    return url.origin;
+  } catch {
+    return PRODUCTION_SITE_URL;
+  }
+}
+
+export const SITE_URL = resolveSiteUrl();
 export const BRAND_NAME = "Filmshow";
 export const DOMAIN_NAME = "filmshow.org";
-export const PRIMARY_SOCIAL_TITLE = "Not A Film Screening. A Film Show.";
+export const BRAND_LINE = "This is not a festival.";
+export const PRIMARY_SOCIAL_TITLE = "This Is Not A Festival. | Filmshow";
 export const PRIMARY_DESCRIPTION =
-  "Short films, live performances, and a room full of strangers.";
+  "Filmshow combines short films from local filmmakers and live experimental theater to create a glimpse into the underground scene of New York City.";
 export const LONG_DESCRIPTION =
-  "Filmshow is a live short-film event in Brooklyn featuring curated films, live performances, audience participation, and a cash prize.";
+  "Filmshow is a live cultural event and creative platform in Brooklyn, New York, combining local short films, live experimental theater, and an audience gathered in the room.";
+
+export const currentEvent = {
+  name: "Filmshow Vol. 1",
+  path: "/tickets",
+  dateLabel: "Vol. 1 | 10.8.26 | Brooklyn, NYC",
+  startDate: "2026-10-08",
+  locationName: "Brooklyn, New York",
+  description:
+    "Filmshow Vol. 1 brings short films from local filmmakers and live experimental theater into one Brooklyn room.",
+  ticketUrl: LUMA_EVENT_URL,
+} as const;
 
 export const externalLinks = {
   tickets: LUMA_EVENT_URL,
@@ -30,51 +57,62 @@ export type SeoRoute = {
   socialTitle?: string;
   description: string;
   priority: number;
+  lastModified: string;
 };
 
 export const routeMetadata = {
   home: {
     path: "/",
-    title: "Not A Film Screening. A Film Show. | Filmshow NYC",
-    description:
-      "Filmshow is a live short-film event in Brooklyn with curated films, live performances, audience voting, and a cash prize.",
+    title: "Filmshow | Short Films and Experimental Theater in NYC",
+    socialTitle: PRIMARY_SOCIAL_TITLE,
+    description: PRIMARY_DESCRIPTION,
     priority: 1,
+    lastModified: "2026-07-28",
   },
   tickets: {
     path: "/tickets",
-    title: "Filmshow Tickets | Live Short Films in Brooklyn",
+    title: "Tickets | Filmshow",
+    socialTitle: "Filmshow Tickets | Brooklyn Live Cinema Event",
     description:
-      "Get tickets to Filmshow, a live short-film event in Brooklyn with curated films, performances, audience participation, and a cash prize.",
+      "Get tickets for Filmshow Vol. 1, a Brooklyn live cinema event featuring local short films, live performance, and an audience in the room.",
     priority: 0.9,
+    lastModified: "2026-07-28",
   },
   howItWorks: {
     path: "/how-it-works",
-    title: "What Is Filmshow? | Live Short-Film Event NYC",
+    title: "How Filmshow Works | Filmshow",
+    socialTitle: "How Filmshow Works",
     description:
-      "Filmshow combines short films, live performances, audience participation, and a room full of strangers for one night in Brooklyn.",
+      "Learn how Filmshow selects short films, presents live experimental theater, and brings audiences together for a Brooklyn live cinema event.",
     priority: 0.8,
+    lastModified: "2026-07-28",
   },
   about: {
     path: "/about",
-    title: "Why Filmshow Exists | Independent Film in Brooklyn",
+    title: "About Filmshow | Brooklyn Live Cinema",
+    socialTitle: "About Filmshow",
     description:
-      "Filmshow creates a live, audience-first home for short films, filmmakers, performers, and people who want to experience something together.",
+      "Filmshow is a Brooklyn live cinema experience founded by Keenan Gray, combining independent short films, performers, and a real room.",
     priority: 0.7,
+    lastModified: "2026-07-28",
   },
   sponsors: {
     path: "/sponsors",
-    title: "Filmshow Sponsors | Brooklyn Short-Film Event",
+    title: "Sponsors | Filmshow",
+    socialTitle: "Sponsor Filmshow",
     description:
-      "Sponsor Filmshow, a Brooklyn short-film event built for filmmakers, audiences, performers, and the creative community.",
+      "Sponsor Filmshow, a Brooklyn live cinema event built for filmmakers, performers, audiences, and the creative community.",
     priority: 0.4,
+    lastModified: "2026-07-28",
   },
   originals: {
     path: "/originals",
-    title: "Filmshow Originals — $2,000 Short Film Grant",
-    socialTitle: "Filmshow Originals — $2,000 Short Film Grant",
+    title: "Originals | Filmshow",
+    socialTitle: "Filmshow Originals",
     description:
       "Pitch Filmshow an original short-film idea for the chance to receive $2,000 in production funding, support from Bluebird, and a premiere in New York City.",
     priority: 0.7,
+    lastModified: "2026-07-28",
   },
 } satisfies Record<string, SeoRoute>;
 
@@ -87,7 +125,7 @@ export function absoluteUrl(path: string) {
 export function createPageMetadata(route: SeoRoute): Metadata {
   const canonical = absoluteUrl(route.path);
   const imageUrl = absoluteUrl(socialImage.path);
-  const socialTitle = route.socialTitle ?? PRIMARY_SOCIAL_TITLE;
+  const socialTitle = route.socialTitle ?? route.title;
 
   return {
     title: route.title,
@@ -99,7 +137,7 @@ export function createPageMetadata(route: SeoRoute): Metadata {
       title: socialTitle,
       description: route.description,
       url: canonical,
-      siteName: DOMAIN_NAME,
+      siteName: BRAND_NAME,
       type: "website",
       locale: "en_US",
       images: [
@@ -127,95 +165,209 @@ export function createPageMetadata(route: SeoRoute): Metadata {
 }
 
 export function createSitemapRoutes(): MetadataRoute.Sitemap {
-  const lastModified = new Date("2026-07-17");
-
   return publicRoutes.map((route) => ({
     url: absoluteUrl(route.path),
-    lastModified,
+    lastModified: new Date(route.lastModified),
     changeFrequency: route.path === "/" ? "weekly" : "monthly",
     priority: route.priority,
   }));
 }
 
-export function buildBaseJsonLd() {
-  const organizationId = `${SITE_URL}/#organization`;
-  const websiteId = `${SITE_URL}/#website`;
-  const eventId = `${SITE_URL}/#event-filmshow-vol-1`;
+function organizationJsonLd() {
+  return {
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: BRAND_NAME,
+    url: SITE_URL,
+    logo: absoluteUrl("/images/official-tfs-logo.png"),
+    image: absoluteUrl(socialImage.path),
+    description: LONG_DESCRIPTION,
+    sameAs: [externalLinks.founderInstagram],
+    founder: {
+      "@id": `${SITE_URL}/#keenan-gray`,
+    },
+    location: {
+      "@type": "Place",
+      name: "Brooklyn, New York",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Brooklyn",
+        addressRegion: "NY",
+        addressCountry: "US",
+      },
+    },
+  };
+}
 
+function founderJsonLd() {
+  return {
+    "@type": "Person",
+    "@id": `${SITE_URL}/#keenan-gray`,
+    name: "Keenan Gray",
+    jobTitle: "Founder and Director",
+    sameAs: [externalLinks.founderInstagram],
+  };
+}
+
+function websiteJsonLd() {
+  return {
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: BRAND_NAME,
+    url: SITE_URL,
+    description: PRIMARY_DESCRIPTION,
+    publisher: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/?s={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+function eventSeriesJsonLd() {
+  return {
+    "@type": "EventSeries",
+    "@id": `${SITE_URL}/#event-series`,
+    name: BRAND_NAME,
+    url: SITE_URL,
+    description: LONG_DESCRIPTION,
+    organizer: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+    location: {
+      "@type": "Place",
+      name: "Brooklyn, New York",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Brooklyn",
+        addressRegion: "NY",
+        addressCountry: "US",
+      },
+    },
+  };
+}
+
+function currentEventJsonLd() {
+  return {
+    "@type": "Event",
+    "@id": `${SITE_URL}/#filmshow-vol-1`,
+    name: currentEvent.name,
+    description: currentEvent.description,
+    url: absoluteUrl(currentEvent.path),
+    image: [absoluteUrl(socialImage.path)],
+    startDate: currentEvent.startDate,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: {
+      "@type": "Place",
+      name: currentEvent.locationName,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Brooklyn",
+        addressRegion: "NY",
+        addressCountry: "US",
+      },
+    },
+    organizer: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+    superEvent: {
+      "@id": `${SITE_URL}/#event-series`,
+    },
+    offers: {
+      "@type": "Offer",
+      url: currentEvent.ticketUrl,
+    },
+  };
+}
+
+export function buildBaseJsonLd() {
   return {
     "@context": "https://schema.org",
     "@graph": [
+      organizationJsonLd(),
+      founderJsonLd(),
+      websiteJsonLd(),
+      eventSeriesJsonLd(),
+      currentEventJsonLd(),
       {
-        "@type": "Organization",
-        "@id": organizationId,
-        name: BRAND_NAME,
+        "@type": "WebPage",
+        "@id": `${SITE_URL}/#webpage`,
         url: SITE_URL,
-        logo: absoluteUrl("/images/official-tfs-logo.png"),
-        image: absoluteUrl(socialImage.path),
-        description: LONG_DESCRIPTION,
-        location: {
-          "@type": "Place",
-          name: "Brooklyn, New York",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Brooklyn",
-            addressRegion: "NY",
-            addressCountry: "US",
+        name: routeMetadata.home.title,
+        description: routeMetadata.home.description,
+        isPartOf: {
+          "@id": `${SITE_URL}/#website`,
+        },
+        about: [
+          {
+            "@id": `${SITE_URL}/#organization`,
           },
-        },
-      },
-      {
-        "@type": "WebSite",
-        "@id": websiteId,
-        name: BRAND_NAME,
-        url: SITE_URL,
-        description: PRIMARY_DESCRIPTION,
-        publisher: {
-          "@id": organizationId,
-        },
-      },
-      {
-        "@type": "Event",
-        "@id": eventId,
-        name: "Filmshow Vol. 1",
-        startDate: "2026-10-08",
-        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-        eventStatus: "https://schema.org/EventScheduled",
-        location: {
-          "@type": "Place",
-          name: "Brooklyn, New York venue TBA",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Brooklyn",
-            addressRegion: "NY",
-            addressCountry: "US",
+          {
+            "@id": `${SITE_URL}/#event-series`,
           },
-        },
-        image: [absoluteUrl(socialImage.path)],
-        description: LONG_DESCRIPTION,
-        organizer: {
-          "@id": organizationId,
-        },
-        url: SITE_URL,
-        offers: {
-          "@type": "Offer",
-          url: externalLinks.tickets,
-          availability: "https://schema.org/InStock",
+        ],
+        primaryEntity: {
+          "@id": `${SITE_URL}/#event-series`,
         },
       },
     ],
   };
 }
 
-export function buildBreadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
+export function buildWebPageJsonLd(route: SeoRoute) {
   return {
     "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items.map((item, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: item.name,
-      item: absoluteUrl(item.path),
-    })),
+    "@type": "WebPage",
+    "@id": `${absoluteUrl(route.path)}#webpage`,
+    url: absoluteUrl(route.path),
+    name: route.title,
+    description: route.description,
+    isPartOf: {
+      "@id": `${SITE_URL}/#website`,
+    },
+    publisher: {
+      "@id": `${SITE_URL}/#organization`,
+    },
+  };
+}
+
+export function buildEventPageJsonLd(route: SeoRoute) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildWebPageJsonLd(route),
+      organizationJsonLd(),
+      eventSeriesJsonLd(),
+      currentEventJsonLd(),
+    ],
+  };
+}
+
+export function buildFaqPageJsonLd(
+  route: SeoRoute,
+  faqs: Array<{ question: string; answer: string }>,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildWebPageJsonLd(route),
+      {
+        "@type": "FAQPage",
+        "@id": `${absoluteUrl(route.path)}#faq`,
+        url: absoluteUrl(route.path),
+        mainEntity: faqs.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      },
+    ],
   };
 }

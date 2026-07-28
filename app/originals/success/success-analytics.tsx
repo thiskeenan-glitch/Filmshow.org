@@ -8,8 +8,9 @@ import { useEffect } from "react";
 
 export function OriginalsSuccessAnalytics() {
   useEffect(() => {
-    trackGoogleAnalyticsEvent("originals_payment_completed", {
+    trackGoogleAnalyticsEvent("submission_complete", {
       page_path: getCurrentPagePath(),
+      submission_type: "originals_pitch",
     });
   }, []);
 

@@ -83,7 +83,7 @@ const whySubmitBody = [
   "I started Filmshow after screening one of my own short films.",
   "I knew a 12-minute short was not enough meat for people to show up and treat it like a night out. So I thought, I'll turn it into a show.",
   "My background is in the circus, and much like making a film, circus has no rules.",
-  "With that in mind, I filled the space with men wearing red jumpsuits, turned the giant soundstage we were on into a bunker, and made my film the last remaining archive of a time from long ago.",
+  "With that in mind, I filled the space with men wearing red jumpsuits, turned the giant soundstage we were in into a bunker, and made my film the last remaining archive of a time from long ago.",
   "There was slapstick, tears, the film, and giggles.",
   "Then came Filmshow.",
   "The same thing, but with different artists' films each show, different circus artists and actors working together to make something truly unique every single time while showcasing New York City's underground art scene.",

@@ -5,9 +5,8 @@ import {
   trackGoogleAnalyticsEvent,
   trackOutboundClick,
 } from "@/lib/google-analytics-events";
+import { LUMA_EVENT_ID } from "@/lib/luma";
 import { useEffect } from "react";
-
-const LUMA_EVENT_ID = "evt-cDdWqWt5WuLWCIP";
 
 function cleanText(value: string | null | undefined) {
   return value?.replace(/\s+/g, " ").trim() || "";
@@ -55,6 +54,10 @@ function isInstagramLink(url: URL) {
   );
 }
 
+function isExternalUrl(url: URL) {
+  return url.origin !== window.location.origin;
+}
+
 function isBrevoSignupForm(form: HTMLFormElement) {
   return (
     form.id.startsWith("sib-form-") ||
@@ -64,6 +67,8 @@ function isBrevoSignupForm(form: HTMLFormElement) {
 
 export function GoogleAnalyticsInteractions() {
   useEffect(() => {
+    const startedSignupForms = new WeakSet<HTMLFormElement>();
+
     const handleClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null;
       const link = target?.closest<HTMLAnchorElement>("a[href]");
@@ -75,20 +80,45 @@ export function GoogleAnalyticsInteractions() {
       const linkText = getLinkText(link);
 
       if (isLumaTicketLink(link, url)) {
-        trackOutboundClick("buy_tickets_click", url.href, linkText, {
+        trackOutboundClick("ticket_cta_click", url.href, linkText, {
+          luma_event_id: link.dataset.lumaEventId || LUMA_EVENT_ID,
+        });
+        trackOutboundClick("ticket_checkout_click", url.href, linkText, {
           luma_event_id: link.dataset.lumaEventId || LUMA_EVENT_ID,
         });
         return;
       }
 
       if (isFilmFreewayLink(url)) {
-        trackOutboundClick("submit_film_click", url.href, linkText);
+        trackOutboundClick("submission_cta_click", url.href, linkText);
         return;
       }
 
       if (isInstagramLink(url)) {
         trackOutboundClick("instagram_click", url.href, linkText);
+        return;
       }
+
+      if (isExternalUrl(url)) {
+        trackOutboundClick("outbound_link_click", url.href, linkText);
+      }
+    };
+
+    const handleFocusIn = (event: FocusEvent) => {
+      const target = event.target instanceof Element ? event.target : null;
+      const form = target?.closest<HTMLFormElement>("form");
+
+      if (!form || !isBrevoSignupForm(form) || startedSignupForms.has(form)) {
+        return;
+      }
+
+      startedSignupForms.add(form);
+      trackGoogleAnalyticsEvent("email_signup_start", {
+        form_id: form.id,
+        form_action: form.action,
+        form_placement: form.id.replace("sib-form-", "") || undefined,
+        page_path: getCurrentPagePath(),
+      });
     };
 
     const handleSubmit = (event: SubmitEvent) => {
@@ -97,7 +127,7 @@ export function GoogleAnalyticsInteractions() {
       const form = event.target;
       if (!isBrevoSignupForm(form)) return;
 
-      trackGoogleAnalyticsEvent("email_signup", {
+      trackGoogleAnalyticsEvent("email_signup_complete", {
         form_id: form.id,
         form_action: form.action,
         form_placement: form.id.replace("sib-form-", "") || undefined,
@@ -106,10 +136,12 @@ export function GoogleAnalyticsInteractions() {
     };
 
     document.addEventListener("click", handleClick, true);
+    document.addEventListener("focusin", handleFocusIn, true);
     document.addEventListener("submit", handleSubmit, true);
 
     return () => {
       document.removeEventListener("click", handleClick, true);
+      document.removeEventListener("focusin", handleFocusIn, true);
       document.removeEventListener("submit", handleSubmit, true);
     };
   }, []);

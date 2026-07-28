@@ -1,7 +1,9 @@
-export const DEFAULT_GA_MEASUREMENT_ID = "G-NPX863DEQL";
-
 export const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || DEFAULT_GA_MEASUREMENT_ID;
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || "";
+
+const isProductionDeployment =
+  process.env.NODE_ENV === "production" &&
+  (!process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production");
 
 export const IS_GA_ENABLED =
-  process.env.NODE_ENV === "production" && Boolean(GA_MEASUREMENT_ID);
+  isProductionDeployment && Boolean(GA_MEASUREMENT_ID);

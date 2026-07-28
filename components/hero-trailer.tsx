@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  getCurrentPagePath,
+  trackGoogleAnalyticsEvent,
+} from "@/lib/google-analytics-events";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -20,7 +24,9 @@ export function HeroTrailer({
 }: HeroTrailerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const trailerVolumeRef = useRef(1);
-  const audioAllowedRef = useRef(true);
+  const audioAllowedRef = useRef(false);
+  const hasTrackedPlayRef = useRef(false);
+  const hasTrackedCompleteRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
@@ -108,7 +114,7 @@ export function HeroTrailer({
       void playVideo(true);
     };
 
-    void playVideo(true);
+    void playVideo(false);
     window.addEventListener("pointerdown", unlockAudio, { once: true });
     window.addEventListener("keydown", unlockAudio, { once: true });
     window.addEventListener("touchstart", unlockAudio, { once: true, passive: true });
@@ -121,6 +127,46 @@ export function HeroTrailer({
       video.pause();
     };
   }, [reducedMotion, updateTrailerAudio]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const trackPlay = () => {
+      if (hasTrackedPlayRef.current) return;
+      hasTrackedPlayRef.current = true;
+      trackGoogleAnalyticsEvent("trailer_play", {
+        page_path: getCurrentPagePath(),
+        video_src: videoSrc,
+      });
+    };
+
+    const trackProgress = () => {
+      if (
+        hasTrackedCompleteRef.current ||
+        !Number.isFinite(video.duration) ||
+        video.duration <= 0
+      ) {
+        return;
+      }
+
+      if (video.currentTime / video.duration >= 0.95) {
+        hasTrackedCompleteRef.current = true;
+        trackGoogleAnalyticsEvent("trailer_complete", {
+          page_path: getCurrentPagePath(),
+          video_src: videoSrc,
+        });
+      }
+    };
+
+    video.addEventListener("play", trackPlay);
+    video.addEventListener("timeupdate", trackProgress);
+
+    return () => {
+      video.removeEventListener("play", trackPlay);
+      video.removeEventListener("timeupdate", trackProgress);
+    };
+  }, [videoSrc]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -231,8 +277,9 @@ export function HeroTrailer({
                   aria-label="Filmshow trailer"
                   autoPlay
                   loop
+                  muted
                   playsInline
-                  preload="auto"
+                  preload="metadata"
                   poster={fallbackImage}
                 />
               ) : (
@@ -254,10 +301,10 @@ export function HeroTrailer({
                 <span>
                   THIS IS <em className="hero-trailer-emphasis">NOT</em>
                 </span>
-                <span>A SCREENING.</span>
+                <span>A FESTIVAL.</span>
               </h1>
               <p className="hero-trailer-description">
-                Film Show is a live show that combines short films from local
+                Filmshow is a live show that combines short films from local
                 filmmakers and live experimental theater to create a glimpse
                 into the underground scene of New York City.
               </p>
