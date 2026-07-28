@@ -19,7 +19,7 @@ const works = [
   [
     "02",
     "Screening",
-    "Selected films screen live in Brooklyn for Vol. 1 | 10.8.26 | NYC as part of a curated event with short live performance moments between films.",
+    "Selected films screen live in Brooklyn for Vol. 1 | 10.3.26 | NYC as part of a curated event with short live performance moments between films.",
   ],
   [
     "03",

@@ -142,7 +142,7 @@ export default function Home() {
                 <p className="body-large text-stone-300">
                   Films and theater were never meant to live online. But maybe
                   they can live together in a warehouse in Brooklyn on October
-                  8th.
+                  3rd.
                 </p>
                 <p className="body-large text-stone-300">
                   We create the space for it.
@@ -190,7 +190,7 @@ export default function Home() {
                 screen with performance moments and audience voting.
               </p>
               <p className="copy-wide mt-6 text-xs text-red-300">
-                Vol. 1 | 10.8.26 | NYC
+                Vol. 1 | 10.3.26 | NYC
               </p>
               <div className="mt-10">
                 <ButtonLink href={externalLinks.submit} newTab>

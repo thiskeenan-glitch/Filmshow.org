@@ -12,7 +12,7 @@ import {
 export const metadata = createPageMetadata(routeMetadata.about);
 
 const details = [
-  ["Date", "Vol. 1 | 10.8.26 | Brooklyn, NYC"],
+  ["Date", "Vol. 1 | 10.3.26 | Brooklyn, NYC"],
   ["Location", "Brooklyn, New York"],
   ["Films", "Short films curated for the live show"],
 ];
@@ -24,7 +24,7 @@ export default function AboutPage() {
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 10.8.26 | Brooklyn, NYC
+            Vol. 1 | 10.3.26 | Brooklyn, NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
             About Filmshow.

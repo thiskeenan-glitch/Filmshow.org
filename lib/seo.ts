@@ -29,8 +29,8 @@ export const LONG_DESCRIPTION =
 export const currentEvent = {
   name: "Filmshow Vol. 1",
   path: "/tickets",
-  dateLabel: "Vol. 1 | 10.8.26 | Brooklyn, NYC",
-  startDate: "2026-10-08",
+  dateLabel: "Vol. 1 | 10.3.26 | Brooklyn, NYC",
+  startDate: "2026-10-03",
   locationName: "Brooklyn, New York",
   description:
     "Filmshow Vol. 1 brings short films from local filmmakers and live experimental theater into one Brooklyn room.",

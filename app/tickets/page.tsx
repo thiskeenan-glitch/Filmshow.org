@@ -11,7 +11,7 @@ import {
 export const metadata = createPageMetadata(routeMetadata.tickets);
 
 const eventFacts = [
-  ["Date and time", "Vol. 1 | 10.8.26 | Brooklyn, NYC"],
+  ["Date and time", "Vol. 1 | 10.3.26 | Brooklyn, NYC"],
   ["Venue", "Brooklyn location TBA"],
   ["Voting", "The audience votes live in the room"],
 ];
@@ -32,14 +32,14 @@ export default function TicketsPage() {
       <section className="container-page">
         <div>
           <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 10.8.26 | Brooklyn, NYC
+            Vol. 1 | 10.3.26 | Brooklyn, NYC
           </p>
           <h1 className="section-kicker max-w-4xl text-stone-100">
             Tickets
           </h1>
           <p className="body-large mt-10 max-w-2xl text-stone-300">
             Filmshow is a live short-film event in Brooklyn for Vol. 1 |
-            10.8.26, featuring curated films, live performances, and audience
+            10.3.26, featuring curated films, live performances, and audience
             participation.
           </p>
           <p className="body-copy mt-6 max-w-2xl text-stone-500">
