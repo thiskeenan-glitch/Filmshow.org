@@ -80,9 +80,9 @@ export async function sendOriginalsPaidEmails({
       await sendEmail({
         config,
         to: config.notificationEmail,
-        subject: `New Filmshow Originals submission: ${submission.film_title}`,
+        subject: `New Filmshow Grant submission: ${submission.film_title}`,
         html: `
-          <h1>New Filmshow Originals submission</h1>
+          <h1>New Filmshow Grant submission</h1>
           ${field("Applicant", submission.full_name)}
           ${field("Email", submission.email)}
           ${field("Film title", submission.film_title)}
@@ -106,9 +106,9 @@ export async function sendOriginalsPaidEmails({
       await sendEmail({
         config,
         to: submission.email,
-        subject: "Filmshow Originals submission received",
+        subject: "Filmshow Grant submission received",
         html: `
-          <p>Thank you for submitting your pitch to Filmshow Originals.</p>
+          <p>Thank you for submitting your pitch to Filmshow Grant.</p>
           <p>We received your application for &ldquo;${escapeHtml(submission.film_title)}&rdquo; and your ${ORIGINALS_SUBMISSION_FEE_LABEL} submission payment.</p>
           <p>One selected filmmaker will receive $2,000 in production funding, support from Bluebird, and a guaranteed premiere at an upcoming Filmshow in New York City.</p>
           <p>Your submission reference is ${escapeHtml(submission.id)}.</p>

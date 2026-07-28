@@ -117,7 +117,7 @@ export function OriginalsApplicationForm({
     }
 
     if (!values.agreement) {
-      nextErrors.agreement = "Confirm the Originals agreement.";
+      nextErrors.agreement = "Confirm the Grant agreement.";
     }
 
     setErrors(nextErrors);
@@ -468,7 +468,7 @@ export function OriginalsApplicationForm({
                   aria-invalid={Boolean(errors.agreement)}
                 />
                 <span>
-                  I understand that Filmshow Originals is for an unproduced
+                  I understand that Filmshow Grant is for an unproduced
                   short-film idea, not a completed film or full screenplay. I
                   confirm that the proposed film can be completed within 30 days
                   and produced for approximately $2,000.

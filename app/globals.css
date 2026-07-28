@@ -235,9 +235,18 @@ body::before {
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.93) 0%, rgba(0, 0, 0, 0.82) 42%, rgba(0, 0, 0, 0.34) 62%, rgba(0, 0, 0, 0.58) 100%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.68)),
-    url("/images/filmshow-originals-bg-optimized.jpg") 32% 42% / cover no-repeat;
+    url("/images/filmshow-grant-red-face-flipped.jpg") -145% 42% / 126% auto no-repeat;
   filter: saturate(1.14) contrast(1.08) brightness(1.08);
   opacity: 0.96;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .originals-hero::before {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.74) 46%, rgba(0, 0, 0, 0.52) 100%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.72)),
+      url("/images/filmshow-grant-red-face-flipped.jpg") -18% 42% / auto 100% no-repeat;
+  }
 }
 
 .originals-hero::after {
@@ -663,7 +672,7 @@ body::before {
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.46) 52%, rgba(0, 0, 0, 0.82)),
     linear-gradient(180deg, #050505 0%, rgba(5, 5, 5, 0.58) 22%, rgba(5, 5, 5, 0.68) 78%, #050505 100%),
-    url("/images/originals/tootsie-background.jpg") center 68% / cover no-repeat;
+    url("/images/home-originals-teaser-bg.jpg") center 68% / cover no-repeat;
   filter: saturate(0.96) contrast(1.08);
   opacity: 0.94;
 }
@@ -736,12 +745,12 @@ body::before {
 .hero-trailer-frame-shell {
   position: relative;
   display: grid;
-  width: min(100%, 1212px);
+  width: min(100%, 1120px);
   margin: 0 auto;
   grid-template-columns: minmax(420px, 500px) minmax(440px, 540px);
-  column-gap: clamp(34px, 4vw, 52px);
+  column-gap: clamp(52px, 5vw, 76px);
   row-gap: 0;
-  align-items: start;
+  align-items: center;
   justify-content: center;
   text-align: center;
 }
@@ -755,7 +764,9 @@ body::before {
   gap: 0;
   width: 100%;
   max-width: 540px;
-  margin-top: clamp(3.75rem, 6vw, 4.8rem);
+  min-height: clamp(440px, 33vw, 500px);
+  justify-content: center;
+  margin-top: 0;
   text-align: center;
 }
 
@@ -2381,6 +2392,13 @@ body::before {
   .originals-hero {
     margin-top: calc(clamp(7.5rem, 10vw, 9.5rem) * -1);
     padding-block: 9.5rem 5.5rem;
+  }
+
+  .originals-hero::before {
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.72) 48%, rgba(0, 0, 0, 0.54) 100%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.72)),
+      url("/images/filmshow-grant-red-face-flipped.jpg") 25% 42% / auto 100% no-repeat;
   }
 
   .originals-hero-copy {

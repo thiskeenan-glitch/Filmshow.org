@@ -61,7 +61,7 @@ const faqs = [
   {
     question: "Do I submit a finished film?",
     answer:
-      "No. Filmshow Originals is for a film that has not yet been made. Submit a short pitch, not a completed film or full screenplay.",
+      "No. Filmshow Grant is for a film that has not yet been made. Submit a short pitch, not a completed film or full screenplay.",
   },
   {
     question: "What should be in the pitch?",
@@ -90,7 +90,7 @@ const faqs = [
   {
     question: "Is this the same as submitting a completed short film?",
     answer:
-      "No. Filmshow Originals is for an unproduced idea. Completed short films are submitted separately for Filmshow consideration.",
+      "No. Filmshow Grant is for an unproduced idea. Completed short films are submitted separately for Filmshow consideration.",
   },
 ];
 
@@ -118,7 +118,7 @@ export default async function OriginalsPage({
         <div className="container-page">
           <div className="originals-hero-copy" data-reveal="text">
             <p className="copy-wide small-label text-red-300">
-              Filmshow Originals
+              Filmshow Grant
             </p>
             <h1 className="originals-hero-title text-stone-100">
               Pitch us a film before it exists.
@@ -271,7 +271,7 @@ export default async function OriginalsPage({
         <div className="container-page">
           <div className="originals-final-cta-inner" data-reveal="text">
             <p className="copy-wide small-label text-red-300">
-              Filmshow Originals
+              Filmshow Grant
             </p>
             <h2 className="section-kicker mt-5 text-stone-100">
               Your next film can begin with a few paragraphs.

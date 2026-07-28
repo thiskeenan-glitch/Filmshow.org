@@ -16,7 +16,7 @@ const navItems = [
   { href: "/#what-is-this", label: "About" },
   { href: "/#photos", label: "Photos" },
   { href: "/#submit", label: "Submit" },
-  { href: "/originals", label: "Originals" },
+  { href: "/originals", label: "Grant" },
   { href: "/#why-submit", label: "Why?" },
 ];
 

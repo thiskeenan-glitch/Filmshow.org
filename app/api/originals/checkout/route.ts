@@ -86,7 +86,7 @@ export async function POST(request: Request) {
 
   if (!areOriginalsSubmissionsReady()) {
     return NextResponse.json(
-      { message: "Filmshow Originals submissions are opening soon." },
+      { message: "Filmshow Grant submissions are opening soon." },
       { status: 503 },
     );
   }
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
   if (isTooLong(website_or_instagram, FIELD_LIMITS.website_or_instagram)) {
     return validationError("Instagram or website is too long.");
   }
-  if (!terms_accepted) return validationError("Confirm the Originals agreement.");
+  if (!terms_accepted) return validationError("Confirm the Grant agreement.");
 
   const pitchPdfError = validatePitchPdf(pitchPdf);
   if (pitchPdfError) return validationError(pitchPdfError);

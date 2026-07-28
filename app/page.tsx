@@ -17,8 +17,8 @@ const LOGO_IMAGE = "/images/official-tfs-logo.png";
 const HERO_TRAILER_VIDEO = "/videos/website-background.mov";
 const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
-const HERO_BACKGROUND_IMAGE = "/images/hero/the-space-background-20260727.jpg";
-const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/hero/the-space-background-20260727.jpg";
+const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
+const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
 
 const galleryPhotos = [
@@ -228,7 +228,7 @@ export default function Home() {
         <div className="container-page">
           <div className="originals-teaser" data-reveal="text">
             <p className="copy-wide small-label text-red-300">
-              Filmshow Originals
+              Filmshow Grant
             </p>
             <h2 className="section-kicker mt-5 text-stone-100">
               We fund films before they exist.
@@ -239,7 +239,7 @@ export default function Home() {
             </p>
             <div className="mt-10">
               <ButtonLink href="/originals" variant="secondary">
-                Learn About Originals
+                Learn About Grant
               </ButtonLink>
             </div>
           </div>

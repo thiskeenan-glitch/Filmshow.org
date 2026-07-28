@@ -9,9 +9,9 @@ import { OriginalsSuccessAnalytics } from "./success-analytics";
 
 const successPageMetadata = createPageMetadata({
   path: "/originals/success",
-  title: "Filmshow Originals Submission Received",
+  title: "Filmshow Grant Submission Received",
   description:
-    "Confirmation page for a Filmshow Originals pitch submission.",
+    "Confirmation page for a Filmshow Grant pitch submission.",
   priority: 0,
   lastModified: "2026-07-28",
 });
@@ -54,7 +54,7 @@ export default async function OriginalsSuccessPage() {
       <section className="container-page">
         <div className="originals-success-panel">
           <p className="copy-wide small-label text-red-300">
-            Filmshow Originals
+            Filmshow Grant
           </p>
           <h1 className="section-kicker mt-5 text-stone-100">
             {paymentVerified
@@ -63,7 +63,7 @@ export default async function OriginalsSuccessPage() {
           </h1>
           <p className="body-large mt-8 max-w-2xl text-stone-300">
             {paymentVerified
-              ? "We received your Filmshow Originals application and payment. A confirmation has been sent to your email."
+              ? "We received your Filmshow Grant application and payment. A confirmation has been sent to your email."
               : "This can take a moment. A confirmation email will be sent once Stripe verifies the payment."}
           </p>
           {paymentVerified ? (

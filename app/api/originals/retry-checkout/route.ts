@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
   if (!areOriginalsSubmissionsReady()) {
     return NextResponse.json(
-      { message: "Filmshow Originals submissions are opening soon." },
+      { message: "Filmshow Grant submissions are opening soon." },
       { status: 503 },
     );
   }

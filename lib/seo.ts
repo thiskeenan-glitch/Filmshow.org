@@ -107,8 +107,8 @@ export const routeMetadata = {
   },
   originals: {
     path: "/originals",
-    title: "Originals | Filmshow",
-    socialTitle: "Filmshow Originals",
+    title: "Grant | Filmshow",
+    socialTitle: "Filmshow Grant",
     description:
       "Pitch Filmshow an original short-film idea for the chance to receive $2,000 in production funding, support from Bluebird, and a premiere in New York City.",
     priority: 0.7,
