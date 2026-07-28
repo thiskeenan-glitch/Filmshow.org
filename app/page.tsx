@@ -164,7 +164,8 @@ export default function Home() {
             </div>
             <div className="max-w-2xl" data-reveal="text">
               <p className="body-large text-stone-300">
-                A Brooklyn space built for short films, performances, and a crowd.
+                We set Filmshow in the same space where Beyoncé filmed the
+                Single Ladies music video.
               </p>
             </div>
           </div>
