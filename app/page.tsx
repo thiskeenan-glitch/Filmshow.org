@@ -144,9 +144,6 @@ export default function Home() {
                   they can live together in a warehouse in Brooklyn on October
                   3rd.
                 </p>
-                <p className="body-large text-stone-300">
-                  We create the space for it.
-                </p>
               </div>
               <LumaCheckoutLink variant="secondary">
                 Get Tickets
