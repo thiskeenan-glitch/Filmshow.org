@@ -35,7 +35,7 @@ for (const file of sourceFiles) {
   }
 
   assert(!/Film Show is|The Film Show|Keenan Gray Filmshow/.test(text), `${file} contains outdated brand spelling.`);
-  assert(!/\$6,000|\$5,000|cash prize/i.test(text), `${file} contains stale prize language.`);
+  assert(!/\$6,000|\$5,000|\$14|cash prize|soundstage we were on/i.test(text), `${file} contains stale prize language.`);
 }
 
 const analyticsSource = readText("lib/analytics.ts");
@@ -68,6 +68,16 @@ assert(
 assert(
   !seoSource.includes("/originals/success"),
   "The noindex Originals success page should not be in route metadata or sitemap routes.",
+);
+
+const globalCssSource = readText("app/globals.css");
+assert(
+  !globalCssSource.includes("filmshow-originals-bg.png"),
+  "app/globals.css still references the oversized Originals PNG background.",
+);
+assert(
+  globalCssSource.includes("filmshow-originals-bg-optimized.jpg"),
+  "app/globals.css does not reference the optimized Originals background.",
 );
 
 if (failures.length) {

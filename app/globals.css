@@ -235,7 +235,7 @@ body::before {
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.93) 0%, rgba(0, 0, 0, 0.82) 42%, rgba(0, 0, 0, 0.34) 62%, rgba(0, 0, 0, 0.58) 100%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.68)),
-    url("/images/filmshow-originals-bg.png") 32% 42% / cover no-repeat;
+    url("/images/filmshow-originals-bg-optimized.jpg") 32% 42% / cover no-repeat;
   filter: saturate(1.14) contrast(1.08) brightness(1.08);
   opacity: 0.96;
 }
