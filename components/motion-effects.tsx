@@ -37,6 +37,8 @@ export function MotionEffects() {
       return () => document.removeEventListener("click", handleScrollTopClick);
     }
 
+    document.documentElement.classList.add("motion-effects-ready");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -47,15 +49,21 @@ export function MotionEffects() {
         });
       },
       {
-        rootMargin: "0px 0px -12% 0px",
-        threshold: 0.16,
+        rootMargin: "0px 0px -4% 0px",
+        threshold: 0.01,
       },
     );
 
     revealItems.forEach((item) => observer.observe(item));
 
+    const revealFallback = window.setTimeout(() => {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+    }, 1400);
+
     return () => {
+      window.clearTimeout(revealFallback);
       observer.disconnect();
+      document.documentElement.classList.remove("motion-effects-ready");
       document.removeEventListener("click", handleScrollTopClick);
     };
   }, []);

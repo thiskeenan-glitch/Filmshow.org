@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { MouseEvent } from "react";
+import type { CSSProperties, MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { LumaCheckoutLink } from "./luma-checkout-link";
 
@@ -18,6 +18,13 @@ const navItems = [
   { href: "/#submit", label: "Submit" },
   { href: "/originals", label: "Grant" },
   { href: "/#why-submit", label: "Why?" },
+];
+
+const mobileNavItems = [
+  { href: "/#what-is-this", label: "Experience" },
+  { href: "/#photos", label: "Photos" },
+  { href: "/originals", label: "Originals" },
+  { href: "/#why-submit", label: "FAQ" },
 ];
 
 const getIndicatorSrc = () =>
@@ -37,9 +44,12 @@ export function SiteHeader() {
   const [indicatorSrc] = useState(getIndicatorSrc);
   const navTrackRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuToggleRef = useRef<HTMLButtonElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const manualActiveUntilRef = useRef(0);
   const cowboyDanceTimeoutRef = useRef<number | null>(null);
+  const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
 
   const measureIndicatorForLink = (link: HTMLAnchorElement | null) => {
@@ -111,11 +121,11 @@ export function SiteHeader() {
     setIsMobileMenuOpen(false);
   };
 
-  const handleMobileMenuClick = (event: MouseEvent<HTMLDivElement>) => {
-    const target = event.target;
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-    if (target instanceof Element && target.closest("a, button")) {
-      setIsMobileMenuOpen(false);
+  const handleMobileMenuClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      closeMobileMenu();
     }
   };
 
@@ -133,6 +143,32 @@ export function SiteHeader() {
 
   useEffect(() => {
     if (!isMobileMenuOpen) return;
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const toggleButton = mobileMenuToggleRef.current;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduceMotion) {
+      try {
+        const audio = ambientAudioRef.current ?? new Audio("/audio/ambient-bird.wav");
+        ambientAudioRef.current = audio;
+        audio.volume = 0.16;
+        audio.currentTime = 0;
+        void audio.play().catch(() => undefined);
+      } catch {
+        // The audio is optional; missing files or browser blocks should never affect navigation.
+      }
+    }
+
+    const focusFirstItem = window.setTimeout(() => {
+      const firstFocusable = mobileMenuRef.current?.querySelector<HTMLElement>(
+        "button, a, input, select, textarea, [tabindex]:not([tabindex='-1'])",
+      );
+      firstFocusable?.focus();
+    }, 80);
 
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
@@ -152,7 +188,35 @@ export function SiteHeader() {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
         setIsMobileMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const focusableItems = Array.from(
+        mobileMenuRef.current?.querySelectorAll<HTMLElement>(
+          "button, a, input, select, textarea, [tabindex]:not([tabindex='-1'])",
+        ) ?? [],
+      ).filter((item) => !item.hasAttribute("disabled") && item.getAttribute("aria-hidden") !== "true");
+
+      if (!focusableItems.length) {
+        return;
+      }
+
+      const firstItem = focusableItems[0];
+      const lastItem = focusableItems[focusableItems.length - 1];
+      const activeElement = document.activeElement;
+
+      if (event.shiftKey && activeElement === firstItem) {
+        event.preventDefault();
+        lastItem?.focus();
+      } else if (!event.shiftKey && activeElement === lastItem) {
+        event.preventDefault();
+        firstItem?.focus();
       }
     };
 
@@ -161,9 +225,13 @@ export function SiteHeader() {
     window.addEventListener("resize", handleResize);
 
     return () => {
+      window.clearTimeout(focusFirstItem);
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
       document.removeEventListener("pointerdown", handlePagePointerDown);
       document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("resize", handleResize);
+      toggleButton?.focus();
     };
   }, [isMobileMenuOpen]);
 
@@ -362,6 +430,7 @@ export function SiteHeader() {
           </div>
           <div className="mobile-header-right lg:hidden">
             <button
+              ref={mobileMenuToggleRef}
               type="button"
               className="mobile-menu-toggle"
               aria-expanded={isMobileMenuOpen}
@@ -465,44 +534,74 @@ export function SiteHeader() {
         </div>
         <div
           id="mobile-menu"
+          ref={mobileMenuRef}
           className={`mobile-header-menu lg:hidden ${isMobileMenuOpen ? "is-open" : ""}`}
-          aria-label="Section navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Filmshow navigation"
+          aria-hidden={!isMobileMenuOpen}
           onClick={handleMobileMenuClick}
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={(event) => handleSectionClick(event, item.href)}
-              className={`poster-link shrink-0 transition hover:text-red-200 ${isActive(item.href) ? "is-active" : ""}`}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <div className="mobile-menu-cta">
-            <div className="mobile-menu-buttons">
+          <div className="mobile-menu-panel" onClick={(event) => event.stopPropagation()}>
+            <div className="mobile-menu-topline">
               <Link
-                href={FILMFREEWAY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mobile-menu-button mobile-menu-button--submit"
+                href="/#top"
+                data-scroll-top
+                onClick={handleTopClick}
+                className="mobile-menu-logo-link"
+                aria-label="Scroll to the top of Filmshow home page"
               >
-                Submit Film
+                <Image
+                  src={LOGO_SRC}
+                  alt="Filmshow"
+                  width={3400}
+                  height={1362}
+                  priority
+                  unoptimized
+                  className="mobile-menu-logo"
+                />
               </Link>
-              <Link
-                href={ORIGINALS_APPLICATION_URL}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mobile-menu-button mobile-menu-button--pitch"
+              <button
+                type="button"
+                className="mobile-menu-close"
+                onClick={closeMobileMenu}
               >
-                Submit Pitch
-              </Link>
+                Close
+              </button>
+            </div>
+
+            <div className="mobile-menu-program" aria-label="Mobile navigation">
+              {mobileNavItems.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={(event) => handleSectionClick(event, item.href)}
+                  className={`mobile-menu-link ${isActive(item.href) ? "is-active" : ""}`}
+                  style={{ "--menu-item-delay": `${index * 48}ms` } as CSSProperties}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mobile-menu-divider" aria-hidden="true" />
+
+            <div className="mobile-menu-actions">
               <LumaCheckoutLink
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className="mobile-menu-button mobile-menu-button--tickets"
               >
                 Get Tickets
               </LumaCheckoutLink>
+              <Link
+                href={FILMFREEWAY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={closeMobileMenu}
+                className="mobile-menu-button mobile-menu-button--submit"
+              >
+                Submit Film
+              </Link>
             </div>
           </div>
         </div>
