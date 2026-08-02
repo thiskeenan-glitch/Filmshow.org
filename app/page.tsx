@@ -1,4 +1,5 @@
 import { ButtonLink } from "@/components/button-link";
+import { ClippedLoopVideo } from "@/components/clipped-loop-video";
 import { HeroTrailer } from "@/components/hero-trailer";
 import { JsonLd } from "@/components/json-ld";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
@@ -123,6 +124,10 @@ export default function Home() {
       <section id="what-is-this" className="section-pad what-is-filmshow-section">
         <div className="container-page">
           <div className="what-is-filmshow-content">
+            <ClippedLoopVideo
+              src="/videos/about-filmshow-loop.mp4"
+              className="what-is-filmshow-video"
+            />
             <div
               className="what-is-filmshow-label section-label"
               data-reveal="section-label"

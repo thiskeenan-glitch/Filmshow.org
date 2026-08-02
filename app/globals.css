@@ -131,14 +131,7 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: -2;
-  background-image: url("/images/what-is-filmshow-high-five-bg.png");
-  background-position: center 68%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity: 0.68;
-  filter: saturate(0.98) contrast(0.98) brightness(1.18);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 10%, #000 30%, #000 72%, rgba(0, 0, 0, 0.34) 90%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.32) 10%, #000 30%, #000 72%, rgba(0, 0, 0, 0.34) 90%, transparent 100%);
+  background: #050505;
 }
 
 .what-is-filmshow-section::after {
@@ -162,9 +155,7 @@ body::before {
   margin-inline: auto;
   padding: clamp(2rem, 5vw, 4.25rem) clamp(1.25rem, 4.5vw, 4.5rem);
   border: 1px solid rgba(248, 244, 235, 0.16);
-  background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.76), rgba(5, 5, 5, 0.62)),
-    rgba(5, 5, 5, 0.46);
+  background: rgba(5, 5, 5, 0.66);
   box-shadow:
     0 2rem 5rem rgba(0, 0, 0, 0.36),
     inset 0 1px 0 rgba(248, 244, 235, 0.06);
@@ -174,6 +165,39 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.what-is-filmshow-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: #050505;
+}
+
+.what-is-filmshow-video {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.7;
+  filter: saturate(0.98) contrast(1.02) brightness(0.92);
+}
+
+.what-is-filmshow-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.72) 0%, rgba(5, 5, 5, 0.44) 44%, rgba(5, 5, 5, 0.8) 100%),
+    linear-gradient(90deg, rgba(5, 5, 5, 0.54) 0%, rgba(5, 5, 5, 0.18) 50%, rgba(5, 5, 5, 0.54) 100%);
 }
 
 .what-is-filmshow-label {
@@ -1016,11 +1040,11 @@ body::before {
   z-index: -1;
   border: 0;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.84), rgba(0, 0, 0, 0.46) 52%, rgba(0, 0, 0, 0.82)),
-    linear-gradient(180deg, #050505 0%, rgba(5, 5, 5, 0.58) 22%, rgba(5, 5, 5, 0.68) 78%, #050505 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.68), rgba(0, 0, 0, 0.24) 52%, rgba(0, 0, 0, 0.68)),
+    linear-gradient(180deg, #050505 0%, rgba(5, 5, 5, 0.34) 22%, rgba(5, 5, 5, 0.42) 78%, #050505 100%),
     url("/images/home-originals-teaser-bg.jpg") center 68% / cover no-repeat;
-  filter: saturate(0.96) contrast(1.08);
-  opacity: 0.94;
+  filter: saturate(1.04) contrast(1.04) brightness(1.18);
+  opacity: 1;
 }
 
 .hero-pad {
@@ -1197,13 +1221,6 @@ body::before {
   align-items: center;
   gap: 0;
   width: min(100%, 34rem);
-  padding: clamp(1.8rem, 2.8vw, 2.7rem) clamp(1.35rem, 2.6vw, 2.35rem);
-  border: 1px solid rgba(248, 244, 235, 0.16);
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0.44)),
-    rgba(10, 10, 10, 0.46);
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.44);
-  backdrop-filter: blur(8px);
 }
 
 .hero-trailer-headline {
@@ -2027,7 +2044,7 @@ body::before {
   width: max-content;
   gap: clamp(1rem, 2vw, 1.75rem);
   padding-block: 0.4rem 1rem;
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
 }
 
@@ -2343,36 +2360,42 @@ body::before {
 
 [data-reveal] {
   --reveal-delay: 0ms;
-  opacity: 1;
-  transform: none;
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
   transition:
-    border-color 220ms ease,
-    background-color 220ms ease;
+    opacity 860ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    transform 860ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    border-color 360ms ease,
+    background-color 360ms ease;
+  will-change: opacity, transform;
 }
 
 [data-reveal].is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
 }
 
 [data-reveal="line"] {
-  transform: scaleX(1);
+  opacity: 0;
+  transform: scaleX(0.72);
   transform-origin: left;
   transition:
-    opacity 220ms ease,
-    transform 220ms ease;
+    opacity 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    transform 900ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay);
 }
 
 [data-reveal="line"].is-visible {
+  opacity: 1;
   transform: scaleX(1);
 }
 
 [data-reveal="photo"] {
-  transform: none;
+  transform: translate3d(0, 24px, 0) scale(0.985);
 }
 
 [data-reveal="photo"].is-visible {
-  transform: translateY(0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
 }
 
 .section-label p,
@@ -2557,6 +2580,10 @@ body::before {
     padding-block: clamp(4.1rem, 14vw, 5.4rem);
   }
 
+  .what-is-filmshow-section {
+    padding-top: clamp(2.75rem, 9vw, 4rem);
+  }
+
   .hero-pad {
     padding-block: 8.25rem 4.75rem;
   }
@@ -2611,7 +2638,7 @@ body::before {
   .hero-trailer-stage {
     position: relative;
     inset: auto;
-    padding: 8.25rem 1rem 4.5rem;
+    padding: 8.25rem 1rem 3.15rem;
     place-items: start center;
   }
 
@@ -2637,12 +2664,14 @@ body::before {
     order: 2;
     display: flex;
     max-width: 340px;
+    min-height: 0;
     gap: 0;
     align-items: center;
+    justify-content: flex-start;
     text-align: center;
     width: 100%;
-    margin-top: 0;
-    margin-bottom: 30px;
+    margin-top: 1.15rem;
+    margin-bottom: 0;
   }
 
   .hero-trailer-frame {
@@ -2650,7 +2679,7 @@ body::before {
     width: min(90vw, 450px);
     max-width: 100%;
     margin-top: 2.2rem;
-    margin-bottom: -0.2rem;
+    margin-bottom: 0;
     padding: 0;
     justify-self: center;
   }
@@ -2695,12 +2724,6 @@ body::before {
     align-items: center;
     gap: 0;
     width: min(100%, 340px);
-    padding: 1.45rem 1.15rem 1.55rem;
-    border-color: rgba(248, 244, 235, 0.18);
-    background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.5)),
-      rgba(8, 8, 8, 0.52);
-    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.5);
   }
 
   .hero-trailer-headline {

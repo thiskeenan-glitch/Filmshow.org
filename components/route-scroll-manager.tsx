@@ -10,7 +10,8 @@ function scrollToHashTarget(hash: string) {
   const target = document.getElementById(id);
   if (!target) return;
 
-  target.scrollIntoView({ behavior: "auto", block: "start" });
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
 }
 
 export function RouteScrollManager() {
