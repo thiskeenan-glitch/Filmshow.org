@@ -31,6 +31,7 @@ export function SiteHeader() {
   const [showFullLogo, setShowFullLogo] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCowboyDancing, setIsCowboyDancing] = useState(false);
   const [renderDesktopChrome, setRenderDesktopChrome] = useState(true);
   const [indicatorAssetOk, setIndicatorAssetOk] = useState(false);
   const [indicatorSrc] = useState(getIndicatorSrc);
@@ -38,6 +39,7 @@ export function SiteHeader() {
   const headerRef = useRef<HTMLElement>(null);
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const manualActiveUntilRef = useRef(0);
+  const cowboyDanceTimeoutRef = useRef<number | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
 
   const measureIndicatorForLink = (link: HTMLAnchorElement | null) => {
@@ -249,6 +251,19 @@ export function SiteHeader() {
     const scheduleUpdate = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(update);
+
+      if (window.innerWidth < 1024 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setIsCowboyDancing(true);
+
+        if (cowboyDanceTimeoutRef.current) {
+          window.clearTimeout(cowboyDanceTimeoutRef.current);
+        }
+
+        cowboyDanceTimeoutRef.current = window.setTimeout(() => {
+          setIsCowboyDancing(false);
+          cowboyDanceTimeoutRef.current = null;
+        }, 220);
+      }
     };
 
     const updateHash = () => {
@@ -262,6 +277,9 @@ export function SiteHeader() {
 
     return () => {
       cancelAnimationFrame(frame);
+      if (cowboyDanceTimeoutRef.current) {
+        window.clearTimeout(cowboyDanceTimeoutRef.current);
+      }
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("hashchange", updateHash);
@@ -306,7 +324,7 @@ export function SiteHeader() {
               href="/#top"
               data-scroll-top
               onClick={handleTopClick}
-              className="mobile-header-cowboy-link"
+              className={`mobile-header-cowboy-link ${isCowboyDancing ? "is-dancing" : ""}`}
               aria-label="Scroll to the top of Filmshow home page"
               title="Back to top"
             >

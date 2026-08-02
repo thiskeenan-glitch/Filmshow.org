@@ -11,7 +11,6 @@ import {
   externalLinks,
   socialImage,
 } from "@/lib/seo";
-import Image from "next/image";
 import type { CSSProperties } from "react";
 
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
@@ -20,7 +19,6 @@ const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
 const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
-const FOUNDER_IMAGE = "/images/founder-carl-marks.jpg";
 
 const galleryPhotos = [
   {
@@ -81,13 +79,13 @@ const filmmakerDetails = [
 ];
 
 const whySubmitBody = [
-  "I started Filmshow after screening one of my own short films.",
-  "I knew a 12-minute short was not enough meat for people to show up and treat it like a night out. So I thought, I'll turn it into a show.",
-  "My background is in the circus, and much like making a film, circus has no rules.",
-  "With that in mind, I filled the space with men wearing red jumpsuits, turned the giant soundstage we were in into a bunker, and made my film the last remaining archive of a time from long ago.",
-  "There was slapstick, tears, the film, and giggles.",
-  "Then came Filmshow.",
-  "The same thing, but with different artists' films each show, different circus artists and actors working together to make something truly unique every single time while showcasing New York City's underground art scene.",
+  "Filmshow began after Keenan Gray screened one of his own short films.",
+  "He realized that a 12-minute film alone wasn't enough to make audiences treat the evening as a true night out. So instead of simply hosting a screening, he built an entire show around it.",
+  "Drawing on his background as a circus performer, Keenan approached the experience with the same philosophy that guides both circus and filmmaking: there are no rules.",
+  "He filled the venue with performers in red jumpsuits, transformed the soundstage into a bunker, and framed his film as the last surviving archive from a time long ago.",
+  "The evening blended slapstick comedy, live performance, laughter, and cinema into a single immersive experience.",
+  "That night became the foundation for Filmshow.",
+  "Today, each edition brings together a new collection of films, actors, and performers to create a one-of-a-kind live experience while celebrating New York City's underground artistic community.",
 ];
 
 function Divider() {
@@ -255,40 +253,6 @@ export default function Home() {
         <div className="container-page">
           <SectionLabel number="03" title="Why Filmshow" />
           <div className="why-submit-grid">
-            <figure className="why-submit-founder" data-reveal="photo">
-              <div className="why-submit-founder-image-wrap">
-                <Image
-                  src={FOUNDER_IMAGE}
-                  alt="Black-and-white portrait of Keenan Gray, Filmshow founder and director"
-                  width={1400}
-                  height={1272}
-                  sizes="(max-width: 767px) 256px, 280px"
-                  className="why-submit-founder-image"
-                />
-              </div>
-              <figcaption className="why-submit-founder-caption">
-                <span>Keenan Gray</span>
-                <span>Founder &amp; Director</span>
-              </figcaption>
-              <a
-                href={externalLinks.founderInstagram}
-                target="_blank"
-                rel="noreferrer"
-                className="why-submit-instagram"
-                aria-label="Open Keenan Gray on Instagram"
-              >
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  className="why-submit-instagram-icon"
-                >
-                  <rect x="4" y="4" width="16" height="16" rx="5" />
-                  <circle cx="12" cy="12" r="3.5" />
-                  <circle cx="17" cy="7" r="1" />
-                </svg>
-                <span>@thiskeenan</span>
-              </a>
-            </figure>
             <div className="why-submit-list why-submit-story" data-reveal="text">
               {whySubmitBody.map((paragraph, index) => (
                 <p
