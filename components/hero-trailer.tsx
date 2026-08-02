@@ -298,10 +298,8 @@ export function HeroTrailer({
           <div className="hero-trailer-copy">
             <div className="hero-trailer-copy-block">
               <h1 className="hero-trailer-headline">
-                <span>
-                  THIS IS <em className="hero-trailer-emphasis">NOT</em>
-                </span>
-                <span>A FESTIVAL.</span>
+                <span>IT&apos;S IN</span>
+                <span>THE NAME.</span>
               </h1>
               <p className="hero-trailer-description">
                 Filmshow is a live show that combines short films from local

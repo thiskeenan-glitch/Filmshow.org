@@ -288,6 +288,10 @@ export function SiteHeader() {
     };
   }, [activeHash]);
 
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <header
       ref={headerRef}

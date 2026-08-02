@@ -33,6 +33,15 @@ export type OriginalsSubmissionRecord = {
   notification_email_sent_at: string | null;
   confirmation_email_sent_at: string | null;
   email_error: string | null;
+  application_status?: string | null;
+  internal_notes?: string | null;
+  accepted_email_sent_at?: string | null;
+  rejection_email_sent_at?: string | null;
+  last_email_type?: string | null;
+  last_email_sent_at?: string | null;
+  application_reference?: string | null;
+  last_reviewed_by?: string | null;
+  last_reviewed_at?: string | null;
 };
 
 export type OriginalsDraftInput = {
@@ -62,6 +71,10 @@ function encodeStoragePath(path: string) {
     .split("/")
     .map((part) => encodeURIComponent(part))
     .join("/");
+}
+
+function buildApplicationReference(id: string) {
+  return `FSG-${id.replaceAll("-", "").slice(0, 8).toUpperCase()}`;
 }
 
 async function parseSupabaseResponse<T>(response: Response) {
@@ -94,6 +107,8 @@ export async function createOriginalsDraft(
       ...input,
       website_or_instagram: input.website_or_instagram || null,
       status: "draft",
+      application_status: "new",
+      application_reference: buildApplicationReference(input.id),
       terms_accepted: true,
       terms_version: ORIGINALS_TERMS_VERSION,
     }),

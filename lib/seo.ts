@@ -19,8 +19,8 @@ function resolveSiteUrl() {
 export const SITE_URL = resolveSiteUrl();
 export const BRAND_NAME = "Filmshow";
 export const DOMAIN_NAME = "filmshow.org";
-export const BRAND_LINE = "This is not a festival.";
-export const PRIMARY_SOCIAL_TITLE = "This Is Not A Festival. | Filmshow";
+export const BRAND_LINE = "It's in the name.";
+export const PRIMARY_SOCIAL_TITLE = "It's in the name. | Filmshow";
 export const PRIMARY_DESCRIPTION =
   "Filmshow combines short films from local filmmakers and live experimental theater to create a glimpse into the underground scene of New York City.";
 export const LONG_DESCRIPTION =

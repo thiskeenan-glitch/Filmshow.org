@@ -1,10 +1,14 @@
 import "server-only";
 
-import { ORIGINALS_SUBMISSION_FEE_LABEL } from "./originals";
 import type {
   OriginalsSubmissionRecord,
 } from "./supabase-originals";
 import type { OriginalsServerConfig } from "./originals-config";
+import {
+  DEFAULT_GRANT_EMAIL_TEMPLATES,
+  type GrantSubmissionRecord,
+  renderGrantTemplate,
+} from "./grant-admin";
 
 type EmailResult = {
   teamSent: boolean;
@@ -12,7 +16,7 @@ type EmailResult = {
   error?: string;
 };
 
-function escapeHtml(value: string | null | undefined) {
+export function escapeHtml(value: string | null | undefined) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -21,16 +25,22 @@ function escapeHtml(value: string | null | undefined) {
     .replaceAll("'", "&#039;");
 }
 
-async function sendEmail({
+function nl2br(value: string) {
+  return escapeHtml(value).replace(/\n/g, "<br>");
+}
+
+export async function sendBrevoEmail({
   config,
   to,
   subject,
   html,
+  text,
 }: {
   config: OriginalsServerConfig;
   to: string;
   subject: string;
-  html: string;
+  html?: string;
+  text?: string;
 }) {
   const response = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
@@ -45,16 +55,20 @@ async function sendEmail({
       },
       to: [{ email: to }],
       subject,
-      htmlContent: html,
+      htmlContent: html || `<p>${nl2br(text || "")}</p>`,
+      ...(text ? { textContent: text } : {}),
     }),
   });
 
+  const payload = (await response.json().catch(() => null)) as
+    | { messageId?: string; message?: string; code?: string }
+    | null;
+
   if (!response.ok) {
-    const payload = (await response.json().catch(() => null)) as
-      | { message?: string; code?: string }
-      | null;
     throw new Error(payload?.message || payload?.code || "Email delivery failed.");
   }
+
+  return payload?.messageId ?? null;
 }
 
 function field(label: string, value: string | null | undefined) {
@@ -65,10 +79,12 @@ export async function sendOriginalsPaidEmails({
   config,
   submission,
   pitchPdfUrl,
+  sendApplicantConfirmation = true,
 }: {
   config: OriginalsServerConfig;
   submission: OriginalsSubmissionRecord;
   pitchPdfUrl: string | null;
+  sendApplicantConfirmation?: boolean;
 }): Promise<EmailResult> {
   const result: EmailResult = {
     teamSent: Boolean(submission.notification_email_sent_at),
@@ -77,7 +93,7 @@ export async function sendOriginalsPaidEmails({
 
   try {
     if (!result.teamSent) {
-      await sendEmail({
+      await sendBrevoEmail({
         config,
         to: config.notificationEmail,
         subject: `New Filmshow Grant submission: ${submission.film_title}`,
@@ -102,18 +118,18 @@ export async function sendOriginalsPaidEmails({
       result.teamSent = true;
     }
 
-    if (!result.applicantSent) {
-      await sendEmail({
+    if (sendApplicantConfirmation && !result.applicantSent) {
+      const grantSubmission = submission as GrantSubmissionRecord;
+      const body = renderGrantTemplate(
+        DEFAULT_GRANT_EMAIL_TEMPLATES.confirmation.body,
+        grantSubmission,
+      );
+
+      await sendBrevoEmail({
         config,
         to: submission.email,
-        subject: "Filmshow Grant submission received",
-        html: `
-          <p>Thank you for submitting your pitch to Filmshow Grant.</p>
-          <p>We received your application for &ldquo;${escapeHtml(submission.film_title)}&rdquo; and your ${ORIGINALS_SUBMISSION_FEE_LABEL} submission payment.</p>
-          <p>One selected filmmaker will receive $2,000 in production funding, support from Bluebird, and a guaranteed premiere at an upcoming Filmshow in New York City.</p>
-          <p>Your submission reference is ${escapeHtml(submission.id)}.</p>
-          <p>We will contact applicants using the email address provided in the application.</p>
-        `,
+        subject: DEFAULT_GRANT_EMAIL_TEMPLATES.confirmation.subject,
+        text: body,
       });
       result.applicantSent = true;
     }

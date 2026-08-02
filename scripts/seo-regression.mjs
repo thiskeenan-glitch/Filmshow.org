@@ -76,8 +76,8 @@ assert(
   "app/globals.css still references the oversized Originals PNG background.",
 );
 assert(
-  globalCssSource.includes("filmshow-originals-bg-optimized.jpg"),
-  "app/globals.css does not reference the optimized Originals background.",
+  globalCssSource.includes("filmshow-grant-red-face-flipped.jpg"),
+  "app/globals.css does not reference the current Filmshow Grant background.",
 );
 
 if (failures.length) {

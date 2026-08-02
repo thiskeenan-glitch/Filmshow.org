@@ -2,7 +2,9 @@ import {
   ORIGINALS_CURRENCY,
   ORIGINALS_SUBMISSION_FEE_CENTS,
 } from "@/lib/originals";
+import type { GrantSubmissionRecord } from "@/lib/grant-admin";
 import { getOriginalsServerConfig } from "@/lib/originals-config";
+import { sendGrantEmail } from "@/lib/grant-email";
 import { sendOriginalsPaidEmails } from "@/lib/originals-email";
 import {
   createOriginalsPitchSignedUrl,
@@ -135,21 +137,33 @@ export async function POST(request: Request) {
     config,
     submission: paidSubmission,
     pitchPdfUrl,
+    sendApplicantConfirmation: false,
   });
+
+  let applicantEmailError: string | null = null;
+
+  try {
+    await sendGrantEmail({
+      config,
+      submission: paidSubmission as GrantSubmissionRecord,
+      emailType: "confirmation",
+      idempotencyKey: `stripe-confirmation-${session.id}-${submissionId}`,
+    });
+  } catch (error) {
+    applicantEmailError =
+      error instanceof Error ? error.message : "Confirmation email failed.";
+  }
 
   await updateOriginalsSubmission(config, submissionId, {
     notification_email_sent_at: emailResult.teamSent
       ? paidSubmission.notification_email_sent_at || new Date().toISOString()
       : paidSubmission.notification_email_sent_at,
-    confirmation_email_sent_at: emailResult.applicantSent
-      ? paidSubmission.confirmation_email_sent_at || new Date().toISOString()
-      : paidSubmission.confirmation_email_sent_at,
-    email_error: emailResult.error ?? null,
+    email_error: emailResult.error ?? applicantEmailError ?? null,
   });
 
-  if (emailResult.error) {
+  if (emailResult.error || applicantEmailError) {
     return NextResponse.json(
-      { message: emailResult.error },
+      { message: emailResult.error || applicantEmailError },
       { status: 500 },
     );
   }

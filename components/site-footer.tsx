@@ -11,6 +11,10 @@ const COWBOY_SRC = "/images/header-cowboy.png";
 
 export function SiteFooter() {
   const pathname = usePathname();
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   const showSignup = !pathname.startsWith("/originals");
 
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
