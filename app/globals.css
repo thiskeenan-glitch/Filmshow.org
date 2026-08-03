@@ -1584,6 +1584,11 @@ body::before {
   border-bottom: 1px solid rgba(248, 244, 235, 0.1);
 }
 
+.why-submit-title {
+  width: min(100%, 58rem);
+  margin: 0;
+}
+
 .why-submit-story {
   padding-block: clamp(1.4rem, 2.4vw, 2rem);
 }

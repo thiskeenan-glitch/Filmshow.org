@@ -254,6 +254,9 @@ export default function Home() {
         <div className="container-page">
           <SectionLabel number="03" title="Why Filmshow" />
           <div className="why-submit-grid">
+            <h2 className="section-kicker why-submit-title text-stone-100" data-reveal="text">
+              Why now
+            </h2>
             <div className="why-submit-list why-submit-story" data-reveal="text">
               {whySubmitBody.map((paragraph, index) => (
                 <p
