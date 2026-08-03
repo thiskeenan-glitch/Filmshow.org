@@ -49,10 +49,10 @@ export default function SponsorsPage() {
             key={tier}
             className="plastic-pad lg:min-h-64"
           >
-            <p className="min-h-12 font-sans text-[clamp(1.25rem,2vw,1.65rem)] font-semibold leading-[1.18] tracking-normal text-stone-100">
+            <p className="sponsor-tier-title min-h-12 text-[clamp(1.25rem,2vw,1.65rem)] text-stone-100">
               {tier}
             </p>
-            <p className="mt-8 font-sans text-[clamp(2rem,3.2vw,2.85rem)] font-bold leading-[1.02] tracking-normal text-red-200">
+            <p className="sponsor-tier-price mt-8 text-[clamp(2rem,3.2vw,2.85rem)] text-red-200">
               {price}
             </p>
           </PlasticCard>

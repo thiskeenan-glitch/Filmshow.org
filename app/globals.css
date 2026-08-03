@@ -304,10 +304,10 @@ body::before {
 
 .originals-hero-title {
   max-width: 12ch;
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(3.4rem, 7.8vw, 8rem);
-  font-weight: 760;
-  letter-spacing: 0;
+  font-weight: 900;
+  letter-spacing: 0.018em;
   line-height: 0.92;
   text-wrap: balance;
 }
@@ -375,10 +375,10 @@ body::before {
 
 .originals-step-title {
   margin-top: clamp(2.4rem, 4vw, 3.5rem);
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(1.25rem, 1.5vw, 1.55rem);
-  font-weight: 760;
-  letter-spacing: 0;
+  font-weight: 900;
+  letter-spacing: 0.018em;
   line-height: 1.1;
 }
 
@@ -436,10 +436,10 @@ body::before {
 .originals-funding-title {
   max-width: 8ch;
   margin-top: clamp(1.5rem, 3vw, 2.4rem);
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(4rem, 9vw, 10rem);
-  font-weight: 850;
-  letter-spacing: 0;
+  font-weight: 900;
+  letter-spacing: 0.018em;
   line-height: 0.88;
   text-wrap: balance;
 }
@@ -1230,10 +1230,10 @@ body::before {
   max-width: 12.5ch;
   margin-bottom: clamp(1.7rem, 2.2vw, 2.25rem);
   color: #f5f5f4;
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(3.25rem, 4.1vw, 4.5rem);
-  font-weight: 800;
-  letter-spacing: 0.004em;
+  font-weight: 900;
+  letter-spacing: 0.025em;
   line-height: 0.88;
   text-align: center;
   text-wrap: balance;
@@ -1313,19 +1313,19 @@ body::before {
 }
 
 .section-title {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(2rem, 3.2vw, 3.5rem);
-  font-weight: 750;
+  font-weight: 900;
   line-height: 1.08;
-  letter-spacing: 0;
+  letter-spacing: 0.018em;
 }
 
 .section-kicker {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(2.15rem, 3.55vw, 3.9rem);
-  font-weight: 760;
+  font-weight: 900;
   line-height: 1.08;
-  letter-spacing: 0;
+  letter-spacing: 0.018em;
 }
 
 .body-large {
@@ -1378,11 +1378,19 @@ body::before {
 .submit-fact-value {
   margin-top: 0.85rem;
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(0.95rem, 1.15vw, 1.12rem);
-  font-weight: 680;
-  letter-spacing: 0;
+  font-weight: 900;
+  letter-spacing: 0.018em;
   line-height: 1.28;
+}
+
+.sponsor-tier-title,
+.sponsor-tier-price {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: 0.018em;
+  line-height: 1.02;
 }
 
 .brevo-signup {
@@ -1408,10 +1416,10 @@ body::before {
 
 .brevo-signup-copy h2 {
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-size: clamp(2rem, 4.4vw, 4rem);
-  font-weight: 850;
-  letter-spacing: 0;
+  font-weight: 900;
+  letter-spacing: 0.02em;
   line-height: 0.96;
 }
 
@@ -2816,7 +2824,7 @@ body::before {
     justify-content: flex-start;
     text-align: center;
     width: 100%;
-    margin-top: 1.15rem;
+    margin-top: 2.2rem;
     margin-bottom: 0;
   }
 

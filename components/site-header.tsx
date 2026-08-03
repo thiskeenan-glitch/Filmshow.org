@@ -11,19 +11,20 @@ const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
 const ORIGINALS_APPLICATION_URL = "/originals#application";
+const SHOW_FILMSHOW_GRANT = false;
 
 const navItems = [
   { href: "/#what-is-this", label: "About" },
   { href: "/#photos", label: "Photos" },
   { href: "/#submit", label: "Submit" },
-  { href: "/originals", label: "Grant" },
+  ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Grant" }] : []),
   { href: "/#why-submit", label: "Why?" },
 ];
 
 const mobileNavItems = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
-  { href: "/originals", label: "Originals" },
+  ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Originals" }] : []),
   { href: "/#why-submit", label: "FAQ" },
 ];
 
@@ -522,12 +523,14 @@ export function SiteHeader() {
               >
                 Submit Film
               </Link>
-              <Link
-                href={ORIGINALS_APPLICATION_URL}
-                className="button-shift header-cta header-cta--pitch"
-              >
-                Submit Pitch
-              </Link>
+              {SHOW_FILMSHOW_GRANT ? (
+                <Link
+                  href={ORIGINALS_APPLICATION_URL}
+                  className="button-shift header-cta header-cta--pitch"
+                >
+                  Submit Pitch
+                </Link>
+              ) : null}
             </div>
           </div>
           ) : null}

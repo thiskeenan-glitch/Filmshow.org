@@ -41,9 +41,6 @@ export default function AboutPage() {
             <LumaCheckoutLink variant="secondary">
               Get tickets
             </LumaCheckoutLink>
-            <ButtonLink href="/how-it-works" variant="quiet">
-              Explore the Filmshow experience
-            </ButtonLink>
           </div>
         </div>
       </section>

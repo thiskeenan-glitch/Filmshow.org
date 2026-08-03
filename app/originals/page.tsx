@@ -8,10 +8,12 @@ import {
   createPageMetadata,
   routeMetadata,
 } from "@/lib/seo";
+import { notFound } from "next/navigation";
 import { OriginalsApplicationForm } from "./originals-application-form";
 
 export const metadata = createPageMetadata(routeMetadata.originals);
 export const dynamic = "force-dynamic";
+const SHOW_FILMSHOW_GRANT = false;
 
 const processSteps = [
   {
@@ -104,6 +106,10 @@ type OriginalsPageProps = {
 export default async function OriginalsPage({
   searchParams,
 }: OriginalsPageProps) {
+  if (!SHOW_FILMSHOW_GRANT) {
+    notFound();
+  }
+
   const submissionsOpen = areOriginalsSubmissionsReady();
   const params = await searchParams;
   const cancelledSubmissionId =

@@ -5,7 +5,10 @@ import { createPageMetadata, externalLinks } from "@/lib/seo";
 import { getOriginalsSubmission } from "@/lib/supabase-originals";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import { OriginalsSuccessAnalytics } from "./success-analytics";
+
+const SHOW_FILMSHOW_GRANT = false;
 
 const successPageMetadata = createPageMetadata({
   path: "/originals/success",
@@ -46,6 +49,10 @@ async function isPaymentVerified() {
 }
 
 export default async function OriginalsSuccessPage() {
+  if (!SHOW_FILMSHOW_GRANT) {
+    notFound();
+  }
+
   const paymentVerified = await isPaymentVerified();
 
   return (

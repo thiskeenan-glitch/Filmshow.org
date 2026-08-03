@@ -4,7 +4,7 @@ const baseUrl = (process.env.FILMSHOW_CRAWL_BASE_URL || "http://localhost:3000")
 );
 const expectedGaId = process.env.FILMSHOW_CRAWL_EXPECT_GA_ID?.trim() || "";
 
-const routes = ["/", "/tickets", "/how-it-works", "/about", "/sponsors", "/originals"];
+const routes = ["/", "/tickets", "/about", "/sponsors"];
 const privateRoutes = ["/originals/success"];
 const failures = [];
 

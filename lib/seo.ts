@@ -58,6 +58,7 @@ export type SeoRoute = {
   description: string;
   priority: number;
   lastModified: string;
+  isPublic?: boolean;
 };
 
 export const routeMetadata = {
@@ -76,15 +77,6 @@ export const routeMetadata = {
     description:
       "Get tickets for Filmshow Vol. 1, a Brooklyn live cinema event featuring local short films, live performance, and an audience in the room.",
     priority: 0.9,
-    lastModified: "2026-07-28",
-  },
-  howItWorks: {
-    path: "/how-it-works",
-    title: "How Filmshow Works | Filmshow",
-    socialTitle: "How Filmshow Works",
-    description:
-      "Learn how Filmshow selects short films, presents live experimental theater, and brings audiences together for a Brooklyn live cinema event.",
-    priority: 0.8,
     lastModified: "2026-07-28",
   },
   about: {
@@ -113,10 +105,13 @@ export const routeMetadata = {
       "Pitch Filmshow an original short-film idea for the chance to receive $2,000 in production funding, support from Bluebird, and a premiere in New York City.",
     priority: 0.7,
     lastModified: "2026-07-28",
+    isPublic: false,
   },
 } satisfies Record<string, SeoRoute>;
 
-export const publicRoutes = Object.values(routeMetadata);
+export const publicRoutes = Object.values(routeMetadata as Record<string, SeoRoute>).filter(
+  (route) => route.isPublic !== false,
+);
 
 export function absoluteUrl(path: string) {
   return new URL(path, SITE_URL).toString();

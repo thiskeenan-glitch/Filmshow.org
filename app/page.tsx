@@ -19,6 +19,7 @@ const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
 const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
+const SHOW_FILMSHOW_GRANT = false;
 
 const galleryPhotos = [
   {
@@ -187,8 +188,9 @@ export default function Home() {
                 Submit your film.
               </p>
               <p className="body-copy mt-8 max-w-xl text-stone-300">
-                Submit a short film for a live Brooklyn audience. Selected films
-                screen with performance moments and audience voting.
+                On October 3rd, 2026, selected short films will screen in front
+                of a live audience at Rollin Studios in Brooklyn, the same space
+                where Beyoncé filmed “Single Ladies.”
               </p>
               <p className="copy-wide mt-6 text-xs text-red-300">
                 Vol. 1 | 10.3.26 | NYC
@@ -196,11 +198,6 @@ export default function Home() {
               <div className="mt-10">
                 <ButtonLink href={externalLinks.submit} newTab>
                   Submit Film
-                </ButtonLink>
-              </div>
-              <div className="mt-5">
-                <ButtonLink href="/how-it-works" variant="quiet">
-                  See how Filmshow works
                 </ButtonLink>
               </div>
             </div>
@@ -225,29 +222,33 @@ export default function Home() {
 
       <Divider />
 
-      <section className="section-pad originals-teaser-section">
-        <div className="container-page">
-          <div className="originals-teaser" data-reveal="text">
-            <p className="copy-wide small-label text-red-300">
-              Filmshow Grant
-            </p>
-            <h2 className="section-kicker mt-5 text-stone-100">
-              We fund films before they exist.
-            </h2>
-            <p className="body-large mt-6 max-w-2xl text-stone-300">
-              Pitch us a short film. One filmmaker will receive $2,000, support
-              from Bluebird, and a premiere at Filmshow.
-            </p>
-            <div className="mt-10">
-              <ButtonLink href="/originals" variant="secondary">
-                Learn About Grant
-              </ButtonLink>
+      {SHOW_FILMSHOW_GRANT ? (
+        <>
+          <section className="section-pad originals-teaser-section">
+            <div className="container-page">
+              <div className="originals-teaser" data-reveal="text">
+                <p className="copy-wide small-label text-red-300">
+                  Filmshow Grant
+                </p>
+                <h2 className="section-kicker mt-5 text-stone-100">
+                  We fund films before they exist.
+                </h2>
+                <p className="body-large mt-6 max-w-2xl text-stone-300">
+                  Pitch us a short film. One filmmaker will receive $2,000, support
+                  from Bluebird, and a premiere at Filmshow.
+                </p>
+                <div className="mt-10">
+                  <ButtonLink href="/originals" variant="secondary">
+                    Learn About Grant
+                  </ButtonLink>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <div className="submit-why-fade" aria-hidden="true" />
+          <div className="submit-why-fade" aria-hidden="true" />
+        </>
+      ) : null}
 
       <section id="why-submit" className="section-pad why-submit-section">
         <div className="container-page">
