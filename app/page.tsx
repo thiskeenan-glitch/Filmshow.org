@@ -6,6 +6,7 @@ import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { MotionEffects } from "@/components/motion-effects";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
+import Image from "next/image";
 import {
   buildBaseJsonLd,
   externalLinks,
@@ -89,6 +90,27 @@ const whySubmitBody = [
   "Today, each edition brings together a new collection of films, actors, and performers to create a one-of-a-kind live experience while celebrating New York City's underground artistic community.",
 ];
 
+const teamMembers = [
+  {
+    name: "Keenan Gray",
+    role: "Founder & Director",
+    image: "/images/team/keenan-gray.jpg",
+    imagePosition: "58% 38%",
+  },
+  {
+    name: "Sam Ferlo",
+    role: "Theater Producer & Performer",
+    image: "/images/team/sam-ferlo.jpg",
+    imagePosition: "58% 42%",
+  },
+  {
+    name: "Elena Vuvunikyan",
+    role: "Event Producer",
+    image: "/images/team/elena-vuvunikyan.jpg",
+    imagePosition: "72% 82%",
+  },
+] as const;
+
 function Divider() {
   return (
     <div className="container-page">
@@ -124,15 +146,17 @@ export default function Home() {
         <div className="container-page">
           <div className="what-is-filmshow-content">
             <ClippedLoopVideo
-              src="/videos/about-filmshow-loop.mp4"
+              src="/videos/about-filmshow-background.mov"
               className="what-is-filmshow-video"
+              startTime={6}
+              endTime={20}
             />
             <div
               className="what-is-filmshow-label section-label"
               data-reveal="section-label"
             >
               <p className="copy-wide small-label text-red-500">01</p>
-              <h2 className="copy-wide text-sm text-stone-300">About</h2>
+              <h2 className="copy-wide text-sm text-stone-300">Experience</h2>
             </div>
             <div className="what-is-filmshow-copy" data-reveal="text">
               <p className="section-kicker text-stone-100">
@@ -271,6 +295,49 @@ export default function Home() {
                 </p>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="team" className="section-pad home-team-section">
+        <div className="container-page">
+          <SectionLabel number="04" title="Team" />
+          <div className="home-team-heading" data-reveal="text">
+            <h2 className="section-kicker text-stone-100">
+              The people in the room.
+            </h2>
+            <ButtonLink href="/team" variant="secondary">
+              Meet the Team
+            </ButtonLink>
+          </div>
+          <div className="home-team-grid">
+            {teamMembers.map((member, index) => (
+              <PlasticCard
+                key={member.name}
+                className="team-card home-team-card"
+                style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
+                reveal
+              >
+                <div className="team-card-image-wrap" data-reveal="photo">
+                  <Image
+                    src={member.image}
+                    alt={`${member.name} headshot`}
+                    fill
+                    sizes="(min-width: 1024px) 15vw, (min-width: 768px) 24vw, 50vw"
+                    className="team-card-image"
+                    style={{ objectPosition: member.imagePosition }}
+                  />
+                </div>
+                <div className="team-card-copy">
+                  <h3 className="team-card-name text-stone-100">
+                    {member.name}
+                  </h3>
+                  <p className="copy-wide small-label mt-3 text-red-300">
+                    {member.role}
+                  </p>
+                </div>
+              </PlasticCard>
+            ))}
           </div>
         </div>
       </section>

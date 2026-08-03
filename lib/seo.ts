@@ -97,6 +97,15 @@ export const routeMetadata = {
     priority: 0.4,
     lastModified: "2026-07-28",
   },
+  team: {
+    path: "/team",
+    title: "Team | Filmshow",
+    socialTitle: "Filmshow Team",
+    description:
+      "Meet the team behind Filmshow, the Brooklyn live cinema experience combining short films, performance, and a real room.",
+    priority: 0.5,
+    lastModified: "2026-08-03",
+  },
   originals: {
     path: "/originals",
     title: "Grant | Filmshow",

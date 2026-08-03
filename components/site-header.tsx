@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { CSSProperties, MouseEvent } from "react";
 import { useEffect, useRef, useState } from "react";
+import { ClippedLoopVideo } from "./clipped-loop-video";
 import { LumaCheckoutLink } from "./luma-checkout-link";
 
 const LOGO_SRC = "/images/official-tfs-logo.png";
@@ -14,8 +15,9 @@ const ORIGINALS_APPLICATION_URL = "/originals#application";
 const SHOW_FILMSHOW_GRANT = false;
 
 const navItems = [
-  { href: "/#what-is-this", label: "About" },
+  { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
+  { href: "/team", label: "Team" },
   { href: "/#submit", label: "Submit" },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Grant" }] : []),
   { href: "/#why-submit", label: "Why?" },
@@ -24,8 +26,9 @@ const navItems = [
 const mobileNavItems = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
+  { href: "/team", label: "Team" },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Originals" }] : []),
-  { href: "/#why-submit", label: "FAQ" },
+  { href: "/#why-submit", label: "Why" },
 ];
 
 const getIndicatorSrc = () =>
@@ -50,7 +53,6 @@ export function SiteHeader() {
   const navLinkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const manualActiveUntilRef = useRef(0);
   const cowboyDanceTimeoutRef = useRef<number | null>(null);
-  const ambientAudioRef = useRef<HTMLAudioElement | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
 
   const measureIndicatorForLink = (link: HTMLAnchorElement | null) => {
@@ -150,19 +152,6 @@ export function SiteHeader() {
     const toggleButton = mobileMenuToggleRef.current;
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduceMotion) {
-      try {
-        const audio = ambientAudioRef.current ?? new Audio("/audio/ambient-bird.wav");
-        ambientAudioRef.current = audio;
-        audio.volume = 0.16;
-        audio.currentTime = 0;
-        void audio.play().catch(() => undefined);
-      } catch {
-        // The audio is optional; missing files or browser blocks should never affect navigation.
-      }
-    }
 
     const focusFirstItem = window.setTimeout(() => {
       const firstFocusable = mobileMenuRef.current?.querySelector<HTMLElement>(
@@ -545,6 +534,12 @@ export function SiteHeader() {
           aria-hidden={!isMobileMenuOpen}
           onClick={handleMobileMenuClick}
         >
+          <ClippedLoopVideo
+            src="/videos/about-filmshow-background.mov"
+            className="mobile-menu-background-video"
+            startTime={6}
+            endTime={20}
+          />
           <div className="mobile-menu-panel" onClick={(event) => event.stopPropagation()}>
             <div className="mobile-menu-topline">
               <Link

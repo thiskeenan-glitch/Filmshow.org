@@ -5,12 +5,14 @@ import { useEffect, useRef } from "react";
 type ClippedLoopVideoProps = {
   src: string;
   className?: string;
+  startTime?: number;
   endTime?: number;
 };
 
 export function ClippedLoopVideo({
   src,
   className,
+  startTime = 0,
   endTime = 8,
 }: ClippedLoopVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -21,13 +23,13 @@ export function ClippedLoopVideo({
 
     const resetToStart = () => {
       if (video.currentTime >= endTime) {
-        video.currentTime = 0;
+        video.currentTime = startTime;
         void video.play();
       }
     };
 
     const startVideo = () => {
-      video.currentTime = 0;
+      video.currentTime = startTime;
       void video.play();
     };
 
@@ -40,7 +42,7 @@ export function ClippedLoopVideo({
       video.removeEventListener("timeupdate", resetToStart);
       video.removeEventListener("ended", startVideo);
     };
-  }, [endTime]);
+  }, [endTime, startTime]);
 
   return (
     <video
