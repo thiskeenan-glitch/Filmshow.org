@@ -34,15 +34,16 @@ const teamMembers = [
     image: "/images/team/sam-ferlo.jpg",
     imagePosition: "58% 42%",
     instagram: "samuelferlo",
-    bio: "",
-  },
-  {
-    name: "Elena Vuvunikyan",
-    role: "Event Producer",
-    image: "/images/team/elena-vuvunikyan.jpg",
-    imagePosition: "72% 82%",
-    instagram: "elenavuv",
-    bio: "",
+    bio: (
+      <>
+        Sam Ferlo is a second-generation circus clown. He was taught by his late
+        father, who performed for Ringling Bros. and Barnum & Bailey Circus. He
+        has traveled the world with various circus shows and cabarets, including
+        Cirque du Soleil in Las Vegas. Currently studying acting in New York at
+        the William Esper Studio, Sam uses his circus background and physical
+        acting approach to create an authentic experience for the audience.
+      </>
+    ),
   },
 ] as const;
 
@@ -51,20 +52,13 @@ export default function TeamPage() {
     <main className="hero-pad team-page">
       <JsonLd data={buildWebPageJsonLd(routeMetadata.team)} />
       <section className="container-page">
-        <p className="copy-wide small-label mb-8 text-red-300">
-          Filmshow · Team
-        </p>
         <h1 className="section-kicker max-w-5xl text-stone-100">
-          The people in the room.
+          The team.
         </h1>
-        <p className="body-large mt-10 max-w-3xl text-stone-300">
-          Filmshow is built by filmmakers, producers, and performers who care
-          about what happens when an audience shows up.
-        </p>
       </section>
 
       <section
-        className="container-page mt-16 grid gap-5 pb-24 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
+        className="container-page mt-16 grid gap-5 pb-24 sm:mt-20 md:grid-cols-2"
         aria-label="Filmshow team members"
       >
         {teamMembers.map((member) => (

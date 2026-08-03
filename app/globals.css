@@ -1430,8 +1430,10 @@ body::before {
 
 .home-team-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.9rem, 1.6vw, 1.35rem);
+  max-width: 58rem;
+  margin-inline: auto;
 }
 
 .home-team-card .team-card-image-wrap {

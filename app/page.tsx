@@ -103,12 +103,6 @@ const teamMembers = [
     image: "/images/team/sam-ferlo.jpg",
     imagePosition: "58% 42%",
   },
-  {
-    name: "Elena Vuvunikyan",
-    role: "Event Producer",
-    image: "/images/team/elena-vuvunikyan.jpg",
-    imagePosition: "72% 82%",
-  },
 ] as const;
 
 function Divider() {
