@@ -2435,7 +2435,7 @@ body::before {
 
 .mobile-menu-logo-link {
   display: inline-flex;
-  width: clamp(4.4rem, 18vw, 5.8rem);
+  width: clamp(7.4rem, 32vw, 9.5rem);
   align-items: center;
   justify-content: center;
   justify-self: start;
