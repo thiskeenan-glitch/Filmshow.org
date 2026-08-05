@@ -31,13 +31,6 @@ const galleryPhotos = [
     portrait: true,
   },
   {
-    src: "/images/the-team.jpg",
-    alt: "Filmshow team gathered near a Toy Gun poster",
-    position: "center 58%",
-    portrait: true,
-    fallbackSrc: "/images/optimized/gallery-space.jpg",
-  },
-  {
     src: "/images/optimized/gallery-ladder.jpg",
     alt: "Live performance with a ladder and red costumes",
     position: "center",
@@ -48,6 +41,13 @@ const galleryPhotos = [
     src: "/images/lots-of-people.jpg",
     alt: "A full Brooklyn audience watching short films at Filmshow",
     position: "center",
+    fallbackSrc: "/images/optimized/gallery-space.jpg",
+  },
+  {
+    src: "/images/the-team.jpg",
+    alt: "Filmshow team gathered near a Toy Gun poster",
+    position: "center 58%",
+    portrait: true,
     fallbackSrc: "/images/optimized/gallery-space.jpg",
   },
   {
@@ -99,7 +99,7 @@ const teamMembers = [
   },
   {
     name: "Sam Ferlo",
-    role: "Theater Producer & Performer",
+    role: "Theater Producer",
     image: "/images/team/sam-ferlo.jpg",
     imagePosition: "58% 42%",
   },
@@ -154,7 +154,7 @@ export default function Home() {
             </div>
             <div className="what-is-filmshow-copy" data-reveal="text">
               <p className="section-kicker text-stone-100">
-                At its core, Filmshow is an exhibition.
+                It&apos;s an exhibition.
               </p>
               <div className="what-is-filmshow-body">
                 <p className="body-large text-stone-300">
@@ -187,7 +187,7 @@ export default function Home() {
             <div className="max-w-2xl" data-reveal="text">
               <p className="body-large text-stone-300">
                 We set Filmshow in the same space where Beyoncé filmed the
-                Single Ladies music video.
+                Single Ladies music video. Nice.
               </p>
             </div>
           </div>
@@ -207,8 +207,8 @@ export default function Home() {
               </p>
               <p className="body-copy mt-8 max-w-xl text-stone-300">
                 On October 3rd, 2026, selected short films will screen in front
-                of a live audience at Rollin Studios in Brooklyn, the same space
-                where Beyoncé filmed “Single Ladies.”
+                of a live audience at Rollin Studios in Brooklyn, on a giant 45
+                foot cyc wall.
               </p>
               <p className="copy-wide mt-6 text-xs text-red-300">
                 Vol. 1 | 10.3.26 | NYC
@@ -272,7 +272,7 @@ export default function Home() {
         <div className="container-page">
           <SectionLabel number="03" title="Why Filmshow" />
           <div className="why-submit-grid">
-            <h2 className="section-kicker why-submit-title text-stone-100" data-reveal="text">
+            <h2 className="section-kicker why-submit-title text-center text-stone-100" data-reveal="text">
               Why now
             </h2>
             <div className="why-submit-list why-submit-story" data-reveal="text">
@@ -298,7 +298,7 @@ export default function Home() {
           <SectionLabel number="04" title="Team" />
           <div className="home-team-heading" data-reveal="text">
             <h2 className="section-kicker text-stone-100">
-              The people in the room.
+              The team.
             </h2>
             <ButtonLink href="/team" variant="secondary">
               Meet the Team

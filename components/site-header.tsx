@@ -81,15 +81,45 @@ export function SiteHeader() {
     return href === pathname;
   };
 
+  const triggerCowboyDance = (duration = 520) => {
+    if (typeof window === "undefined") return;
+    if (window.innerWidth >= 1024) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    setIsCowboyDancing(true);
+
+    if (cowboyDanceTimeoutRef.current) {
+      window.clearTimeout(cowboyDanceTimeoutRef.current);
+    }
+
+    cowboyDanceTimeoutRef.current = window.setTimeout(() => {
+      setIsCowboyDancing(false);
+      cowboyDanceTimeoutRef.current = null;
+    }, duration);
+  };
+
+  const closeMobileMenu = () => {
+    if (isMobileMenuOpen) {
+      triggerCowboyDance();
+    }
+
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    triggerCowboyDance();
+    setIsMobileMenuOpen((open) => !open);
+  };
+
   const handleSectionClick = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (pathname !== "/") {
-      setIsMobileMenuOpen(false);
+      closeMobileMenu();
       return;
     }
 
     const hashIndex = href.indexOf("#");
     if (hashIndex === -1) {
-      setIsMobileMenuOpen(false);
+      closeMobileMenu();
       return;
     }
 
@@ -110,7 +140,7 @@ export function SiteHeader() {
       manualActiveUntilRef.current = 0;
       measureIndicatorForLink(navLinkRefs.current[hash] ?? clickedLink);
     }, 940);
-    setIsMobileMenuOpen(false);
+    closeMobileMenu();
   };
 
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -121,10 +151,8 @@ export function SiteHeader() {
     top.scrollIntoView({ behavior: "smooth", block: "start" });
     window.history.pushState(null, "", "#top");
     setActiveHash("");
-    setIsMobileMenuOpen(false);
+    closeMobileMenu();
   };
-
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   const handleMobileMenuClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -150,7 +178,9 @@ export function SiteHeader() {
     const previousBodyOverflow = document.body.style.overflow;
     const previousHtmlOverflow = document.documentElement.style.overflow;
     const toggleButton = mobileMenuToggleRef.current;
+    // eslint-disable-next-line react-hooks/immutability
     document.body.style.overflow = "hidden";
+    // eslint-disable-next-line react-hooks/immutability
     document.documentElement.style.overflow = "hidden";
 
     const focusFirstItem = window.setTimeout(() => {
@@ -173,12 +203,14 @@ export function SiteHeader() {
         return;
       }
 
+      triggerCowboyDance();
       setIsMobileMenuOpen(false);
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
+        triggerCowboyDance();
         setIsMobileMenuOpen(false);
         return;
       }
@@ -425,7 +457,7 @@ export function SiteHeader() {
               className="mobile-menu-toggle"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              onClick={toggleMobileMenu}
             >
               {isMobileMenuOpen ? "Close" : "Menu"}
             </button>
@@ -557,6 +589,24 @@ export function SiteHeader() {
                   priority
                   unoptimized
                   className="mobile-menu-logo"
+                />
+              </Link>
+              <Link
+                href="/#top"
+                data-scroll-top
+                onClick={handleTopClick}
+                className={`mobile-menu-cowboy-link ${isCowboyDancing ? "is-dancing" : ""}`}
+                aria-label="Scroll to the top of Filmshow home page"
+              >
+                <Image
+                  src={COWBOY_SRC}
+                  alt=""
+                  width={620}
+                  height={820}
+                  priority
+                  unoptimized
+                  aria-hidden="true"
+                  className="mobile-menu-cowboy"
                 />
               </Link>
               <button

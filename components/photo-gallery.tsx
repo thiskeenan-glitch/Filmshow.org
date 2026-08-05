@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, WheelEvent } from "react";
 
 export type GalleryPhoto = {
   src: string;
@@ -71,8 +71,14 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const mobileGalleryRef = useRef<HTMLDivElement>(null);
+  const mobileTrackRef = useRef<HTMLDivElement>(null);
+  const isAdjustingMobileScrollRef = useRef(false);
+  const desktopWheelDeltaRef = useRef(0);
+  const desktopWheelLockRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [trackOffset, setTrackOffset] = useState(0);
+  const loopedPhotos = [...photos, ...photos, ...photos];
 
   useEffect(() => {
     const handleResize = () => {
@@ -109,6 +115,99 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
     });
   };
 
+  useEffect(() => {
+    return () => {
+      if (desktopWheelLockRef.current) {
+        window.clearTimeout(desktopWheelLockRef.current);
+      }
+    };
+  }, []);
+
+  const handleDesktopWheel = (event: WheelEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
+    const wheelDelta =
+      Math.abs(event.deltaX) > Math.abs(event.deltaY)
+        ? event.deltaX
+        : event.deltaY;
+
+    if (Math.abs(wheelDelta) < 4) return;
+
+    const direction = wheelDelta > 0 ? "right" : "left";
+    const canMove =
+      direction === "right"
+        ? activeIndex < photos.length - 1
+        : activeIndex > 0;
+
+    if (!canMove) {
+      desktopWheelDeltaRef.current = 0;
+      return;
+    }
+
+    event.preventDefault();
+    desktopWheelDeltaRef.current += wheelDelta;
+
+    if (desktopWheelLockRef.current || Math.abs(desktopWheelDeltaRef.current) < 42) {
+      return;
+    }
+
+    const accumulatedDelta = desktopWheelDeltaRef.current;
+    desktopWheelDeltaRef.current = 0;
+    setActiveIndex((current) => {
+      if (accumulatedDelta > 0) {
+        return Math.min(current + 1, photos.length - 1);
+      }
+
+      return Math.max(current - 1, 0);
+    });
+
+    desktopWheelLockRef.current = window.setTimeout(() => {
+      desktopWheelLockRef.current = null;
+    }, 420);
+  };
+
+  useEffect(() => {
+    const rail = mobileGalleryRef.current;
+    const track = mobileTrackRef.current;
+    if (!rail || !track) return;
+
+    const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
+    const firstMiddleCard = cards[photos.length];
+    if (!firstMiddleCard) return;
+
+    rail.scrollLeft = firstMiddleCard.offsetLeft;
+  }, [photos.length]);
+
+  const loopMobileGallery = () => {
+    const rail = mobileGalleryRef.current;
+    const track = mobileTrackRef.current;
+    if (!rail || !track || isAdjustingMobileScrollRef.current) return;
+
+    const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
+    const firstMiddleCard = cards[photos.length];
+    const firstLastCard = cards[photos.length * 2];
+    if (!firstMiddleCard || !firstLastCard) return;
+
+    const loopStart = firstMiddleCard.offsetLeft;
+    const loopEnd = firstLastCard.offsetLeft;
+    const loopWidth = loopEnd - loopStart;
+    if (loopWidth <= 0) return;
+
+    if (rail.scrollLeft >= loopEnd) {
+      isAdjustingMobileScrollRef.current = true;
+      rail.scrollLeft -= loopWidth;
+      requestAnimationFrame(() => {
+        isAdjustingMobileScrollRef.current = false;
+      });
+    } else if (rail.scrollLeft < loopStart) {
+      isAdjustingMobileScrollRef.current = true;
+      rail.scrollLeft += loopWidth;
+      requestAnimationFrame(() => {
+        isAdjustingMobileScrollRef.current = false;
+      });
+    }
+  };
+
   return (
     <div className="photo-gallery-shell mt-12" data-reveal="text">
       <div className="photo-gallery-controls" aria-label="Photo gallery controls">
@@ -132,7 +231,8 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
 
       <div
         ref={galleryRef}
-        className="photo-gallery-rail"
+        className="photo-gallery-rail photo-gallery-rail-desktop"
+        onWheel={handleDesktopWheel}
       >
         <div
           ref={trackRef}
@@ -144,6 +244,26 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
               key={photo.src}
               photo={photo}
               index={index}
+              total={photos.length}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div
+        ref={mobileGalleryRef}
+        className="photo-gallery-rail photo-gallery-rail-mobile"
+        onScroll={loopMobileGallery}
+      >
+        <div
+          ref={mobileTrackRef}
+          className="photo-gallery-track"
+        >
+          {loopedPhotos.map((photo, index) => (
+            <PhotoGalleryItem
+              key={`${Math.floor(index / photos.length)}-${photo.src}`}
+              photo={photo}
+              index={index % photos.length}
               total={photos.length}
             />
           ))}

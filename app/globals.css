@@ -1688,7 +1688,9 @@ body::before {
 
 .why-submit-title {
   width: min(100%, 58rem);
-  margin: 0;
+  margin: 0 auto;
+  justify-self: center;
+  text-align: center;
 }
 
 .why-submit-story {
@@ -2146,6 +2148,10 @@ body::before {
   overflow: hidden;
 }
 
+.photo-gallery-rail-mobile {
+  display: none;
+}
+
 .photo-gallery-track {
   display: flex;
   width: max-content;
@@ -2421,16 +2427,18 @@ body::before {
 .mobile-menu-topline {
   position: absolute;
   inset: max(0.25rem, env(safe-area-inset-top)) 0 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: center;
+  width: 100%;
 }
 
 .mobile-menu-logo-link {
   display: inline-flex;
-  width: clamp(8.5rem, 34vw, 12rem);
+  width: clamp(4.4rem, 18vw, 5.8rem);
   align-items: center;
   justify-content: center;
+  justify-self: start;
   opacity: 0.96;
   transition:
     opacity 180ms ease,
@@ -2450,13 +2458,44 @@ body::before {
   object-fit: contain;
 }
 
+.mobile-menu-cowboy-link {
+  display: inline-flex;
+  width: clamp(2.8rem, 12vw, 3.8rem);
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  opacity: 0.98;
+  transform-origin: 50% 88%;
+  transition:
+    opacity 180ms ease,
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu-cowboy-link:hover,
+.mobile-menu-cowboy-link:focus-visible {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.mobile-menu-cowboy {
+  display: block;
+  width: auto;
+  height: clamp(3rem, 13vw, 4.1rem);
+  object-fit: contain;
+  filter: drop-shadow(0 0 0.95rem rgba(255, 31, 26, 0.34));
+  transform-origin: 50% 88%;
+  will-change: transform;
+}
+
+.mobile-menu-cowboy-link.is-dancing .mobile-menu-cowboy {
+  animation: mobileCowboyDance 520ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
 .mobile-menu-close {
-  position: absolute;
-  right: 0;
-  top: 0.05rem;
   min-height: 2.55rem;
   border: 1px solid rgba(255, 31, 24, 0.48);
   padding-inline: 1.05rem;
+  justify-self: end;
   color: rgba(255, 244, 240, 0.92);
   font-size: 0.68rem;
   font-weight: 900;
@@ -2913,6 +2952,14 @@ body::before {
     display: none;
   }
 
+  .photo-gallery-rail-desktop {
+    display: none;
+  }
+
+  .photo-gallery-rail-mobile {
+    display: block;
+  }
+
   .photo-gallery-rail {
     overflow-x: auto;
     overflow-y: visible;
@@ -3366,6 +3413,10 @@ body::before {
   }
 
   .mobile-header-cowboy-link.is-dancing .mobile-header-cowboy {
+    animation: none !important;
+  }
+
+  .mobile-menu-cowboy-link.is-dancing .mobile-menu-cowboy {
     animation: none !important;
   }
 

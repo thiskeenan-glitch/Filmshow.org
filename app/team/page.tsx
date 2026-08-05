@@ -30,7 +30,7 @@ const teamMembers = [
   },
   {
     name: "Sam Ferlo",
-    role: "Theater Producer & Performer",
+    role: "Theater Producer",
     image: "/images/team/sam-ferlo.jpg",
     imagePosition: "58% 42%",
     instagram: "samuelferlo",
