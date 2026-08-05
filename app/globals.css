@@ -247,6 +247,19 @@ body::before {
   margin: 0;
 }
 
+.what-is-filmshow-actions {
+  display: flex;
+  width: 100%;
+  max-width: 34rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.what-is-filmshow-actions > * {
+  flex: 1 1 12rem;
+}
+
 .originals-page {
   position: relative;
   overflow: hidden;

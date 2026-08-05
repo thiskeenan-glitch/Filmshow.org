@@ -20,6 +20,8 @@ const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
 const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
+const NEWS_URL =
+  "https://usanews.com/newsroom/filmshow-turns-short-films-into-a-night-out";
 const SHOW_FILMSHOW_GRANT = false;
 
 const galleryPhotos = [
@@ -167,9 +169,14 @@ export default function Home() {
                   3rd.
                 </p>
               </div>
-              <LumaCheckoutLink variant="secondary">
-                Get Tickets
-              </LumaCheckoutLink>
+              <div className="what-is-filmshow-actions">
+                <LumaCheckoutLink variant="secondary">
+                  Get Tickets
+                </LumaCheckoutLink>
+                <ButtonLink href={NEWS_URL} variant="secondary" newTab>
+                  News
+                </ButtonLink>
+              </div>
             </div>
           </div>
         </div>

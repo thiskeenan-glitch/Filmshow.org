@@ -11,6 +11,7 @@ import { LumaCheckoutLink } from "./luma-checkout-link";
 const LOGO_SRC = "/images/official-tfs-logo.png";
 const COWBOY_SRC = "/images/header-cowboy.png";
 const FILMFREEWAY_URL = "https://filmfreeway.com/TheFilmShow";
+const NEWS_URL = "https://usanews.com/newsroom/filmshow-turns-short-films-into-a-night-out";
 const ORIGINALS_APPLICATION_URL = "/originals#application";
 const SHOW_FILMSHOW_GRANT = false;
 
@@ -18,6 +19,7 @@ const navItems = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
   { href: "/team", label: "Team" },
+  { href: NEWS_URL, label: "News", external: true },
   { href: "/#submit", label: "Submit" },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Grant" }] : []),
   { href: "/#why-submit", label: "Why?" },
@@ -27,6 +29,7 @@ const mobileNavItems = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
   { href: "/team", label: "Team" },
+  { href: NEWS_URL, label: "News", external: true },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Originals" }] : []),
   { href: "/#why-submit", label: "Why" },
 ];
@@ -518,6 +521,8 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener noreferrer" : undefined}
                   onClick={(event) => handleSectionClick(event, item.href)}
                   ref={(node) => {
                     if (item.href.includes("#")) {
@@ -623,6 +628,8 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener noreferrer" : undefined}
                   onClick={(event) => handleSectionClick(event, item.href)}
                   className={`mobile-menu-link ${isActive(item.href) ? "is-active" : ""}`}
                   style={{ "--menu-item-delay": `${index * 48}ms` } as CSSProperties}
