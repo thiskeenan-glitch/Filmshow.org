@@ -15,6 +15,9 @@ type HeroTrailerProps = {
   videoSrc: string;
 };
 
+const NEWS_URL =
+  "https://usanews.com/newsroom/filmshow-turns-short-films-into-a-night-out";
+
 export function HeroTrailer({
   backgroundImage,
   desktopBackgroundImage,
@@ -308,6 +311,14 @@ export function HeroTrailer({
                 filmmakers and live experimental theater to create a glimpse
                 into the underground scene of New York City.
               </p>
+              <a
+                href={NEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-trailer-news-link"
+              >
+                Read the article
+              </a>
             </div>
           </div>
         </div>

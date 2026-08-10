@@ -7,6 +7,7 @@ import { MotionEffects } from "@/components/motion-effects";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
 import Image from "next/image";
+import Link from "next/link";
 import {
   buildBaseJsonLd,
   externalLinks,
@@ -313,31 +314,37 @@ export default function Home() {
           </div>
           <div className="home-team-grid">
             {teamMembers.map((member, index) => (
-              <PlasticCard
+              <Link
                 key={member.name}
-                className="team-card home-team-card"
-                style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
-                reveal
+                href="/team"
+                className="team-card-link"
+                aria-label={`Meet ${member.name} on the Team page`}
               >
-                <div className="team-card-image-wrap" data-reveal="photo">
-                  <Image
-                    src={member.image}
-                    alt={`${member.name} headshot`}
-                    fill
-                    sizes="(min-width: 1024px) 15vw, (min-width: 768px) 24vw, 50vw"
-                    className="team-card-image"
-                    style={{ objectPosition: member.imagePosition }}
-                  />
-                </div>
-                <div className="team-card-copy">
-                  <h3 className="team-card-name text-stone-100">
-                    {member.name}
-                  </h3>
-                  <p className="copy-wide small-label mt-3 text-red-300">
-                    {member.role}
-                  </p>
-                </div>
-              </PlasticCard>
+                <PlasticCard
+                  className="team-card home-team-card"
+                  style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
+                  reveal
+                >
+                  <div className="team-card-image-wrap" data-reveal="photo">
+                    <Image
+                      src={member.image}
+                      alt={`${member.name} headshot`}
+                      fill
+                      sizes="(min-width: 1024px) 15vw, (min-width: 768px) 24vw, 50vw"
+                      className="team-card-image"
+                      style={{ objectPosition: member.imagePosition }}
+                    />
+                  </div>
+                  <div className="team-card-copy">
+                    <h3 className="team-card-name text-stone-100">
+                      {member.name}
+                    </h3>
+                    <p className="copy-wide small-label mt-3 text-red-300">
+                      {member.role}
+                    </p>
+                  </div>
+                </PlasticCard>
+              </Link>
             ))}
           </div>
         </div>

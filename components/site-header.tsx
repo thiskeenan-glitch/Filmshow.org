@@ -15,29 +15,44 @@ const NEWS_URL = "https://usanews.com/newsroom/filmshow-turns-short-films-into-a
 const ORIGINALS_APPLICATION_URL = "/originals#application";
 const SHOW_FILMSHOW_GRANT = false;
 
-const navItems = [
+type NavItem = {
+  href: string;
+  label: string;
+  external?: boolean;
+  sectionId?: string;
+};
+
+const navItems: NavItem[] = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
-  { href: "/team", label: "Team" },
-  { href: NEWS_URL, label: "News", external: true },
   { href: "/#submit", label: "Submit" },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Grant" }] : []),
   { href: "/#why-submit", label: "Why?" },
+  { href: "/team", label: "Team", sectionId: "team" },
+  { href: NEWS_URL, label: "News", external: true },
 ];
 
-const mobileNavItems = [
+const mobileNavItems: NavItem[] = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
-  { href: "/team", label: "Team" },
-  { href: NEWS_URL, label: "News", external: true },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Originals" }] : []),
+  { href: "/#submit", label: "Submit" },
   { href: "/#why-submit", label: "Why" },
+  { href: "/team", label: "Team", sectionId: "team" },
+  { href: NEWS_URL, label: "News", external: true },
 ];
 
 const getIndicatorSrc = () =>
   typeof window !== "undefined" && window.location.protocol === "file:"
     ? "./images/header-cowboy.png"
     : COWBOY_SRC;
+
+const getHrefHash = (href: string) => (href.includes("#") ? href.slice(href.indexOf("#")) : "");
+
+const getSectionHash = (item: Pick<NavItem, "href" | "sectionId">) =>
+  item.sectionId ? `#${item.sectionId}` : getHrefHash(item.href);
+
+const getNavRefKey = (item: Pick<NavItem, "href">) => getHrefHash(item.href) || item.href;
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -58,6 +73,9 @@ export function SiteHeader() {
   const cowboyDanceTimeoutRef = useRef<number | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
 
+  const activeSectionItem = navItems.find((item) => getSectionHash(item) === activeHash);
+  const activeNavRefKey = activeSectionItem ? getNavRefKey(activeSectionItem) : pathname === "/" ? "" : pathname;
+
   const measureIndicatorForLink = (link: HTMLAnchorElement | null) => {
     const track = navTrackRef.current;
 
@@ -75,13 +93,14 @@ export function SiteHeader() {
     });
   };
 
-  const isActive = (href: string) => {
-    if (href.includes("#")) {
-      const hash = href.slice(href.indexOf("#"));
-      return activeHash === hash;
+  const isActive = (item: NavItem) => {
+    const sectionHash = getSectionHash(item);
+
+    if (sectionHash) {
+      return activeHash === sectionHash || item.href === pathname;
     }
 
-    return href === pathname;
+    return item.href === pathname;
   };
 
   const triggerCowboyDance = (duration = 520) => {
@@ -284,14 +303,16 @@ export function SiteHeader() {
       );
 
       const sections = navItems
-        .filter((item) => item.href.includes("#"))
         .map((item) => {
-          const id = item.href.slice(item.href.indexOf("#") + 1);
+          const hash = getSectionHash(item);
+          if (!hash) return null;
+
+          const id = hash.slice(1);
           const el = document.getElementById(id);
           if (!el) return null;
 
           return {
-            hash: `#${id}`,
+            hash,
             el,
           };
         })
@@ -380,9 +401,8 @@ export function SiteHeader() {
   }, [pathname]);
 
   useEffect(() => {
-    const hash = activeHash;
     const track = navTrackRef.current;
-    const link = hash ? navLinkRefs.current[hash] : null;
+    const link = activeNavRefKey ? navLinkRefs.current[activeNavRefKey] : null;
 
     if (!track || !link) {
       setIndicatorStyle((current) => ({ ...current, visible: false }));
@@ -397,7 +417,7 @@ export function SiteHeader() {
     return () => {
       window.removeEventListener("resize", updateIndicator);
     };
-  }, [activeHash]);
+  }, [activeNavRefKey]);
 
   if (pathname.startsWith("/admin")) {
     return null;
@@ -497,68 +517,64 @@ export function SiteHeader() {
           ) : null}
           {renderDesktopChrome ? (
             <div className="header-actions flex items-center justify-end gap-x-4 text-[0.68rem] uppercase tracking-[0.16em] text-stone-500">
-            <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
-              <span
-                className={`nav-active-cowboy ${
-                  indicatorStyle.visible && indicatorAssetOk ? "is-visible" : ""
-                }`}
-                style={{ transform: `translate3d(${indicatorStyle.left}px, 0, 0) translateX(-50%)` }}
-                aria-hidden="true"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  key={activeHash}
-                  src={indicatorSrc}
-                  alt=""
+              <div ref={navTrackRef} className="desktop-nav-track hidden items-center justify-end gap-x-5 lg:flex">
+                <span
+                  className={`nav-active-cowboy ${
+                    indicatorStyle.visible && indicatorAssetOk ? "is-visible" : ""
+                  }`}
+                  style={{ transform: `translate3d(${indicatorStyle.left}px, 0, 0) translateX(-50%)` }}
                   aria-hidden="true"
-                  draggable={false}
-                  className="nav-active-cowboy-image"
-                  onLoad={() => setIndicatorAssetOk(true)}
-                  onError={() => setIndicatorAssetOk(false)}
-                />
-              </span>
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  target={item.external ? "_blank" : undefined}
-                  rel={item.external ? "noopener noreferrer" : undefined}
-                  onClick={(event) => handleSectionClick(event, item.href)}
-                  ref={(node) => {
-                    if (item.href.includes("#")) {
-                      navLinkRefs.current[item.href.slice(item.href.indexOf("#"))] = node;
-                    }
-                  }}
-                  className={`poster-link transition hover:text-red-200 ${isActive(item.href) ? "is-active" : ""}`}
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-            <div className="hidden shrink-0 items-center gap-2 lg:flex">
-              <LumaCheckoutLink
-                className="button-shift header-cta header-cta--tickets"
-              >
-                Get Tickets
-              </LumaCheckoutLink>
-              <Link
-                href={FILMFREEWAY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="button-shift header-cta header-cta--submit"
-              >
-                Submit Film
-              </Link>
-              {SHOW_FILMSHOW_GRANT ? (
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    key={activeNavRefKey}
+                    src={indicatorSrc}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    className="nav-active-cowboy-image"
+                    onLoad={() => setIndicatorAssetOk(true)}
+                    onError={() => setIndicatorAssetOk(false)}
+                  />
+                </span>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener noreferrer" : undefined}
+                    onClick={(event) => handleSectionClick(event, item.href)}
+                    ref={(node) => {
+                      navLinkRefs.current[getNavRefKey(item)] = node;
+                    }}
+                    className={`poster-link transition hover:text-red-200 ${isActive(item) ? "is-active" : ""}`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="hidden shrink-0 items-center gap-2 lg:flex">
+                <LumaCheckoutLink className="button-shift header-cta header-cta--tickets">
+                  Get Tickets
+                </LumaCheckoutLink>
                 <Link
-                  href={ORIGINALS_APPLICATION_URL}
-                  className="button-shift header-cta header-cta--pitch"
+                  href={FILMFREEWAY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button-shift header-cta header-cta--submit"
                 >
-                  Submit Pitch
+                  Submit Film
                 </Link>
-              ) : null}
+                {SHOW_FILMSHOW_GRANT ? (
+                  <Link
+                    href={ORIGINALS_APPLICATION_URL}
+                    className="button-shift header-cta header-cta--pitch"
+                  >
+                    Submit Pitch
+                  </Link>
+                ) : null}
+              </div>
             </div>
-          </div>
           ) : null}
         </div>
         <div
@@ -631,7 +647,7 @@ export function SiteHeader() {
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noopener noreferrer" : undefined}
                   onClick={(event) => handleSectionClick(event, item.href)}
-                  className={`mobile-menu-link ${isActive(item.href) ? "is-active" : ""}`}
+                  className={`mobile-menu-link ${isActive(item) ? "is-active" : ""}`}
                   style={{ "--menu-item-delay": `${index * 48}ms` } as CSSProperties}
                 >
                   {item.label}
