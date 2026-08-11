@@ -13,7 +13,7 @@ export function BrevoSignup({ placement }: BrevoSignupProps) {
       <div className="brevo-signup-copy">
         <h2>Stay in the room</h2>
         <p>
-          Get ticket drops, selected film announcements, future submission windows, and updates from Filmshow.
+          no spam. just the important stuff. Behind the scenes, when seats open up, and film submission windows
         </p>
       </div>
       <form
