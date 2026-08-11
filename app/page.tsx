@@ -21,8 +21,7 @@ const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
 const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
-const NEWS_URL =
-  "https://usanews.com/newsroom/filmshow-turns-short-films-into-a-night-out";
+const NEWS_URL = "/news";
 const SHOW_FILMSHOW_GRANT = false;
 
 const galleryPhotos = [
@@ -90,7 +89,7 @@ const whySubmitBody = [
   "He filled the venue with performers in red jumpsuits, transformed the soundstage into a bunker, and framed his film as the last surviving archive from a time long ago.",
   "The evening blended slapstick comedy, live performance, laughter, and cinema into a single immersive experience.",
   "That night became the foundation for Filmshow.",
-  "Today, each edition brings together a new collection of films, actors, and performers to create a one-of-a-kind live experience while celebrating New York City's underground artistic community.",
+  "Today, each volume brings together a new collection of films, actors, and performers to create a one-of-a-kind live experience while celebrating New York City's underground artistic community.",
 ];
 
 const teamMembers = [
@@ -174,7 +173,7 @@ export default function Home() {
                 <LumaCheckoutLink variant="secondary">
                   Get Tickets
                 </LumaCheckoutLink>
-                <ButtonLink href={NEWS_URL} variant="secondary" newTab>
+                <ButtonLink href={NEWS_URL} variant="secondary">
                   News
                 </ButtonLink>
               </div>

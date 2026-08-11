@@ -106,6 +106,15 @@ export const routeMetadata = {
     priority: 0.5,
     lastModified: "2026-08-03",
   },
+  news: {
+    path: "/news",
+    title: "News | Filmshow",
+    socialTitle: "Filmshow in USA News",
+    description:
+      "Read the USA News feature on Filmshow, the Brooklyn live cinema experience combining short films, performance, and a real room.",
+    priority: 0.5,
+    lastModified: "2026-08-10",
+  },
   originals: {
     path: "/originals",
     title: "Grant | Filmshow",
