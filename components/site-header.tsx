@@ -105,7 +105,6 @@ export function SiteHeader() {
 
   const triggerCowboyDance = (duration = 520) => {
     if (typeof window === "undefined") return;
-    if (window.innerWidth >= 1024) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     setIsCowboyDancing(true);
@@ -366,7 +365,7 @@ export function SiteHeader() {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(update);
 
-      if (window.innerWidth < 1024 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setIsCowboyDancing(true);
 
         if (cowboyDanceTimeoutRef.current) {
@@ -433,11 +432,13 @@ export function SiteHeader() {
       <nav className="container-page py-3 sm:py-4">
         <div className="header-bar flex items-center justify-between gap-x-4">
           <div className="mobile-header-left lg:hidden">
+          </div>
+          <div className="mobile-header-center lg:hidden">
             <Link
               href="/#top"
               data-scroll-top
               onClick={handleTopClick}
-              className={`mobile-header-cowboy-link ${isCowboyDancing ? "is-dancing" : ""}`}
+              className={`mobile-header-brand ${isCowboyDancing ? "is-dancing" : ""}`}
               aria-label="Scroll to the top of Filmshow home page"
               title="Back to top"
             >
@@ -449,19 +450,8 @@ export function SiteHeader() {
                 priority
                 unoptimized
                 aria-hidden="true"
-                className="mobile-header-cowboy"
+                className="mobile-header-brand-image mobile-header-cowboy"
               />
-            </Link>
-          </div>
-          <div className="mobile-header-center lg:hidden">
-            <Link
-              href="/#top"
-              data-scroll-top
-              onClick={handleTopClick}
-              className="mobile-header-wordmark"
-              aria-label="Scroll to the top of Filmshow home page"
-              title="Back to top"
-            >
               <Image
                 src={LOGO_SRC}
                 alt="Filmshow"
@@ -469,7 +459,7 @@ export function SiteHeader() {
                 height={1362}
                 priority
                 unoptimized
-                className="mobile-header-wordmark-image"
+                className="mobile-header-brand-image mobile-header-wordmark-image"
               />
             </Link>
           </div>
@@ -490,7 +480,7 @@ export function SiteHeader() {
               href="/#top"
               data-scroll-top
               onClick={handleTopClick}
-              className="header-brand hidden lg:block"
+              className={`header-brand hidden lg:block ${isCowboyDancing ? "is-dancing" : ""}`}
               aria-label="Scroll to the top of Filmshow home page"
               title="Back to top"
             >
@@ -553,15 +543,15 @@ export function SiteHeader() {
                   </Link>
                 ))}
               </div>
-              <div className="hidden shrink-0 items-center gap-2 lg:flex">
-                <LumaCheckoutLink className="button-shift header-cta header-cta--tickets">
+              <div className="desktop-header-ctas hidden shrink-0 items-center lg:flex">
+                <LumaCheckoutLink className="header-cta header-cta--tickets">
                   Get Tickets
                 </LumaCheckoutLink>
                 <Link
                   href={FILMFREEWAY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="button-shift header-cta header-cta--submit"
+                  className="header-cta header-cta--submit"
                 >
                   Submit Film
                 </Link>

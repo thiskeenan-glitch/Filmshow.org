@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties, WheelEvent } from "react";
+import type { CSSProperties } from "react";
 
 export type GalleryPhoto = {
   src: string;
@@ -71,100 +71,98 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const desktopWheelDeltaRef = useRef(0);
-  const desktopWheelLockRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [trackOffset, setTrackOffset] = useState(0);
+
+  const scrollGallery = (direction: "left" | "right") => {
+    const rail = galleryRef.current;
+    const track = trackRef.current;
+    if (!rail || !track) return;
+
+    const nextIndex =
+      direction === "left"
+        ? Math.max(activeIndex - 1, 0)
+        : Math.min(activeIndex + 1, photos.length - 1);
+    const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
+    const nextCard = cards[nextIndex];
+    if (!nextCard) return;
+
+    const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+    rail.scrollTo({
+      left: Math.min(nextCard.offsetLeft, maxScroll),
+      behavior: "smooth",
+    });
+    setActiveIndex(nextIndex);
+  };
+
+  const updateDesktopActiveIndex = () => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
+    const rail = galleryRef.current;
+    const track = trackRef.current;
+    if (!rail || !track) return;
+
+    const cards = Array.from(
+      track.querySelectorAll<HTMLElement>(".photo-gallery-card"),
+    );
+    if (!cards.length) return;
+
+    const viewportCenter = rail.scrollLeft + rail.clientWidth / 2;
+    let nearestIndex = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    cards.forEach((card, index) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(cardCenter - viewportCenter);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    setActiveIndex(nearestIndex);
+  };
 
   useEffect(() => {
-    const handleResize = () => {
-      const rail = galleryRef.current;
-      const track = trackRef.current;
-      if (!rail || !track) return;
+    const rail = galleryRef.current;
+    if (!rail) return;
 
-      const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
-      const activeCard = cards[activeIndex];
-      if (!activeCard) {
-        setTrackOffset(0);
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      if (window.matchMedia("(max-width: 767px)").matches) return;
+
+      const rawDelta =
+        Math.abs(event.deltaX) > Math.abs(event.deltaY)
+          ? event.deltaX
+          : event.deltaY;
+      const deltaScale =
+        event.deltaMode === 1
+          ? 16
+          : event.deltaMode === 2
+            ? rail.clientWidth
+            : 1;
+      const wheelDelta = rawDelta * deltaScale;
+      if (Math.abs(wheelDelta) < 0.5) return;
+
+      const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
+      const atStart = rail.scrollLeft <= 1;
+      const atEnd = rail.scrollLeft >= maxScroll - 1;
+
+      if ((wheelDelta < 0 && atStart) || (wheelDelta > 0 && atEnd)) {
         return;
       }
 
-      const maxOffset = Math.max(0, track.scrollWidth - rail.clientWidth);
-      setTrackOffset(Math.min(activeCard.offsetLeft, maxOffset));
+      event.preventDefault();
+      rail.scrollLeft = Math.max(
+        0,
+        Math.min(maxScroll, rail.scrollLeft + wheelDelta),
+      );
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    rail.addEventListener("wheel", handleWheel, { passive: false });
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [activeIndex]);
-
-  const scrollGallery = (direction: "left" | "right") => {
-    setActiveIndex((current) => {
-      if (direction === "left") {
-        return Math.max(current - 1, 0);
-      }
-
-      return Math.min(current + 1, photos.length - 1);
-    });
-  };
-
-  useEffect(() => {
-    return () => {
-      if (desktopWheelLockRef.current) {
-        window.clearTimeout(desktopWheelLockRef.current);
-      }
+      rail.removeEventListener("wheel", handleWheel);
     };
   }, []);
-
-  const handleDesktopWheel = (event: WheelEvent<HTMLDivElement>) => {
-    if (window.matchMedia("(max-width: 767px)").matches) return;
-
-    // Leave ordinary vertical wheel/trackpad movement to the page. The gallery
-    // should only respond to a deliberate horizontal gesture.
-    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) {
-      desktopWheelDeltaRef.current = 0;
-      return;
-    }
-
-    const wheelDelta = event.deltaX;
-
-    if (Math.abs(wheelDelta) < 4) return;
-
-    const direction = wheelDelta > 0 ? "right" : "left";
-    const canMove =
-      direction === "right"
-        ? activeIndex < photos.length - 1
-        : activeIndex > 0;
-
-    if (!canMove) {
-      desktopWheelDeltaRef.current = 0;
-      return;
-    }
-
-    event.preventDefault();
-    desktopWheelDeltaRef.current += wheelDelta;
-
-    if (desktopWheelLockRef.current || Math.abs(desktopWheelDeltaRef.current) < 42) {
-      return;
-    }
-
-    const accumulatedDelta = desktopWheelDeltaRef.current;
-    desktopWheelDeltaRef.current = 0;
-    setActiveIndex((current) => {
-      if (accumulatedDelta > 0) {
-        return Math.min(current + 1, photos.length - 1);
-      }
-
-      return Math.max(current - 1, 0);
-    });
-
-    desktopWheelLockRef.current = window.setTimeout(() => {
-      desktopWheelLockRef.current = null;
-    }, 420);
-  };
 
   return (
     <div className="photo-gallery-shell mt-12" data-reveal="text">
@@ -192,12 +190,11 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       <div
         ref={galleryRef}
         className="photo-gallery-rail photo-gallery-rail-desktop"
-        onWheel={handleDesktopWheel}
+        onScroll={updateDesktopActiveIndex}
       >
         <div
           ref={trackRef}
           className="photo-gallery-track"
-          style={{ transform: `translate3d(${-trackOffset}px, 0, 0)` }}
         >
           {photos.map((photo, index) => (
             <PhotoGalleryItem

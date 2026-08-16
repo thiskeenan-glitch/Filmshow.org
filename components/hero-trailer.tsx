@@ -32,6 +32,7 @@ export function HeroTrailer({
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const [isSoundOn, setIsSoundOn] = useState(false);
 
   const updateTrailerAudio = useCallback(() => {
     const hero = document.getElementById("top");
@@ -61,6 +62,34 @@ export function HeroTrailer({
     return nextVolume;
   }, []);
 
+  const toggleTrailerSound = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const shouldEnableSound = !audioAllowedRef.current;
+    audioAllowedRef.current = shouldEnableSound;
+    const nextVolume = updateTrailerAudio();
+
+    video.volume = nextVolume;
+    video.muted = !shouldEnableSound || nextVolume <= 0.02;
+    video.defaultMuted = video.muted;
+
+    if (shouldEnableSound) {
+      setIsSoundOn(true);
+      try {
+        await video.play();
+      } catch {
+        audioAllowedRef.current = false;
+        video.muted = true;
+        video.defaultMuted = true;
+        setIsSoundOn(false);
+      }
+      return;
+    }
+
+    setIsSoundOn(false);
+  }, [updateTrailerAudio]);
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const updatePreference = () => setReducedMotion(mediaQuery.matches);
@@ -87,19 +116,31 @@ export function HeroTrailer({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || reducedMotion) return;
+    if (!video) return;
 
     let unmounted = false;
 
-    const playVideo = async (withSound: boolean) => {
+    const playVideo = async () => {
       const nextVolume = updateTrailerAudio();
 
+      video.muted = true;
+      video.defaultMuted = true;
+      video.volume = nextVolume;
+
       try {
-        audioAllowedRef.current = withSound && nextVolume > 0.02;
-        video.muted = !audioAllowedRef.current;
-        video.defaultMuted = video.muted;
-        video.volume = nextVolume;
         await video.play();
+      } catch {
+        return;
+      }
+
+      if (unmounted) return;
+
+      try {
+        audioAllowedRef.current = true;
+        video.muted = nextVolume <= 0.02;
+        video.defaultMuted = video.muted;
+        await video.play();
+        if (!unmounted) setIsSoundOn(!video.muted);
       } catch {
         if (unmounted) return;
 
@@ -107,28 +148,30 @@ export function HeroTrailer({
         video.muted = true;
         video.defaultMuted = true;
         video.volume = 0;
+        setIsSoundOn(false);
         await video.play().catch(() => {});
       }
     };
 
-    const unlockAudio = () => {
-      if (unmounted) return;
-      void playVideo(true);
+    const ensurePlayback = () => {
+      if (!document.hidden && video.paused) {
+        void playVideo();
+      }
     };
 
-    void playVideo(false);
-    window.addEventListener("pointerdown", unlockAudio, { once: true });
-    window.addEventListener("keydown", unlockAudio, { once: true });
-    window.addEventListener("touchstart", unlockAudio, { once: true, passive: true });
+    void playVideo();
+    video.addEventListener("canplay", ensurePlayback);
+    window.addEventListener("pageshow", ensurePlayback);
+    window.addEventListener("focus", ensurePlayback);
 
     return () => {
       unmounted = true;
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
+      video.removeEventListener("canplay", ensurePlayback);
+      window.removeEventListener("pageshow", ensurePlayback);
+      window.removeEventListener("focus", ensurePlayback);
       video.pause();
     };
-  }, [reducedMotion, updateTrailerAudio]);
+  }, [updateTrailerAudio]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -180,10 +223,8 @@ export function HeroTrailer({
         return;
       }
 
-      if (!reducedMotion) {
-        updateTrailerAudio();
-        video.play().catch(() => {});
-      }
+      updateTrailerAudio();
+      video.play().catch(() => {});
     };
 
     const menu = document.getElementById("mobile-menu");
@@ -195,7 +236,7 @@ export function HeroTrailer({
               return;
             }
 
-            if (!document.hidden && !reducedMotion) {
+            if (!document.hidden) {
               updateTrailerAudio();
               video.play().catch(() => {});
             }
@@ -214,7 +255,7 @@ export function HeroTrailer({
       window.removeEventListener("pagehide", handleVisibility);
       observer?.disconnect();
     };
-  }, [reducedMotion, updateTrailerAudio]);
+  }, [updateTrailerAudio]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -270,30 +311,22 @@ export function HeroTrailer({
         ) : null}
         <div className="hero-trailer-frame-shell">
           <div className="hero-trailer-frame">
-            <div className="hero-trailer-media">
-              {!reducedMotion ? (
-                <video
-                  ref={videoRef}
-                  className="hero-trailer-video"
-                  src={videoSrc}
-                  aria-label="Filmshow trailer"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  poster={fallbackImage}
-                />
-              ) : (
-                <Image
-                  src={fallbackImage}
-                  alt="Filmshow trailer still"
-                  width={1200}
-                  height={1200}
-                  sizes="(max-width: 767px) 86vw, 500px"
-                  className="hero-trailer-poster"
-                />
-              )}
+            <div
+              className="hero-trailer-media"
+              onClick={() => void toggleTrailerSound()}
+            >
+              <video
+                ref={videoRef}
+                className="hero-trailer-video"
+                src={videoSrc}
+                aria-label="Filmshow trailer"
+                autoPlay
+                loop
+                muted={!isSoundOn}
+                playsInline
+                preload="auto"
+                poster={fallbackImage}
+              />
               <div className="hero-trailer-overlay" aria-hidden="true" />
             </div>
           </div>

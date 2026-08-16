@@ -39,6 +39,70 @@ export function MotionEffects() {
 
     document.documentElement.classList.add("motion-effects-ready");
 
+    let filmScrollTimer: number | null = null;
+    let lastFilmPopAt = 0;
+    const filmPopTimers = new Set<number>();
+    const filmPopLayer = document.createElement("div");
+    filmPopLayer.className = "film-scroll-pop-layer";
+    filmPopLayer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(filmPopLayer);
+
+    const createFilmScrollPops = () => {
+      const now = window.performance.now();
+      if (now - lastFilmPopAt < 120) return;
+      lastFilmPopAt = now;
+
+      const popCount = 2 + Math.floor(Math.random() * 3);
+
+      for (let index = 0; index < popCount; index += 1) {
+        const pop = document.createElement("span");
+        const isSpeck = index > 0 && Math.random() > 0.38;
+        const size = isSpeck
+          ? 3 + Math.random() * 11
+          : 22 + Math.random() * 76;
+        const duration = 340 + Math.random() * 460;
+        const delay = Math.random() * 130;
+
+        pop.className = `film-scroll-pop${isSpeck ? " is-speck" : ""}`;
+        pop.style.setProperty("--film-pop-x", `${3 + Math.random() * 94}vw`);
+        pop.style.setProperty("--film-pop-y", `${3 + Math.random() * 94}vh`);
+        pop.style.setProperty("--film-pop-size", `${size}px`);
+        const opacity = 0.18 + Math.random() * 0.26;
+        pop.style.setProperty("--film-pop-opacity", `${opacity}`);
+        pop.style.setProperty("--film-pop-fade-opacity", `${opacity * 0.72}`);
+        pop.style.setProperty("--film-pop-duration", `${duration}ms`);
+        pop.style.setProperty("--film-pop-delay", `${delay}ms`);
+        pop.style.setProperty("--film-pop-drift-x", `${-18 + Math.random() * 36}px`);
+        pop.style.setProperty("--film-pop-drift-y", `${-14 + Math.random() * 28}px`);
+
+        filmPopLayer.appendChild(pop);
+
+        const removalTimer = window.setTimeout(() => {
+          pop.remove();
+          filmPopTimers.delete(removalTimer);
+        }, duration + delay + 120);
+        filmPopTimers.add(removalTimer);
+      }
+    };
+
+    const markFilmAsScrolling = () => {
+      document.documentElement.classList.add("is-film-scrolling");
+      createFilmScrollPops();
+
+      if (filmScrollTimer !== null) {
+        window.clearTimeout(filmScrollTimer);
+      }
+
+      filmScrollTimer = window.setTimeout(() => {
+        document.documentElement.classList.remove("is-film-scrolling");
+        filmScrollTimer = null;
+      }, 280);
+    };
+
+    document.addEventListener("scroll", markFilmAsScrolling, true);
+    window.addEventListener("wheel", markFilmAsScrolling, { passive: true });
+    window.addEventListener("touchmove", markFilmAsScrolling, { passive: true });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -62,8 +126,18 @@ export function MotionEffects() {
 
     return () => {
       window.clearTimeout(revealFallback);
+      if (filmScrollTimer !== null) {
+        window.clearTimeout(filmScrollTimer);
+      }
+      filmPopTimers.forEach((timer) => window.clearTimeout(timer));
+      filmPopTimers.clear();
+      filmPopLayer.remove();
       observer.disconnect();
       document.documentElement.classList.remove("motion-effects-ready");
+      document.documentElement.classList.remove("is-film-scrolling");
+      document.removeEventListener("scroll", markFilmAsScrolling, true);
+      window.removeEventListener("wheel", markFilmAsScrolling);
+      window.removeEventListener("touchmove", markFilmAsScrolling);
       document.removeEventListener("click", handleScrollTopClick);
     };
   }, []);
