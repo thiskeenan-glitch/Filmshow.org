@@ -71,14 +71,10 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const mobileGalleryRef = useRef<HTMLDivElement>(null);
-  const mobileTrackRef = useRef<HTMLDivElement>(null);
-  const isAdjustingMobileScrollRef = useRef(false);
   const desktopWheelDeltaRef = useRef(0);
   const desktopWheelLockRef = useRef<number | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [trackOffset, setTrackOffset] = useState(0);
-  const loopedPhotos = [...photos, ...photos, ...photos];
 
   useEffect(() => {
     const handleResize = () => {
@@ -108,10 +104,10 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const scrollGallery = (direction: "left" | "right") => {
     setActiveIndex((current) => {
       if (direction === "left") {
-        return current === 0 ? photos.length - 1 : current - 1;
+        return Math.max(current - 1, 0);
       }
 
-      return current === photos.length - 1 ? 0 : current + 1;
+      return Math.min(current + 1, photos.length - 1);
     });
   };
 
@@ -126,10 +122,14 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const handleDesktopWheel = (event: WheelEvent<HTMLDivElement>) => {
     if (window.matchMedia("(max-width: 767px)").matches) return;
 
-    const wheelDelta =
-      Math.abs(event.deltaX) > Math.abs(event.deltaY)
-        ? event.deltaX
-        : event.deltaY;
+    // Leave ordinary vertical wheel/trackpad movement to the page. The gallery
+    // should only respond to a deliberate horizontal gesture.
+    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) {
+      desktopWheelDeltaRef.current = 0;
+      return;
+    }
+
+    const wheelDelta = event.deltaX;
 
     if (Math.abs(wheelDelta) < 4) return;
 
@@ -166,48 +166,6 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
     }, 420);
   };
 
-  useEffect(() => {
-    const rail = mobileGalleryRef.current;
-    const track = mobileTrackRef.current;
-    if (!rail || !track) return;
-
-    const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
-    const firstMiddleCard = cards[photos.length];
-    if (!firstMiddleCard) return;
-
-    rail.scrollLeft = firstMiddleCard.offsetLeft;
-  }, [photos.length]);
-
-  const loopMobileGallery = () => {
-    const rail = mobileGalleryRef.current;
-    const track = mobileTrackRef.current;
-    if (!rail || !track || isAdjustingMobileScrollRef.current) return;
-
-    const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
-    const firstMiddleCard = cards[photos.length];
-    const firstLastCard = cards[photos.length * 2];
-    if (!firstMiddleCard || !firstLastCard) return;
-
-    const loopStart = firstMiddleCard.offsetLeft;
-    const loopEnd = firstLastCard.offsetLeft;
-    const loopWidth = loopEnd - loopStart;
-    if (loopWidth <= 0) return;
-
-    if (rail.scrollLeft >= loopEnd) {
-      isAdjustingMobileScrollRef.current = true;
-      rail.scrollLeft -= loopWidth;
-      requestAnimationFrame(() => {
-        isAdjustingMobileScrollRef.current = false;
-      });
-    } else if (rail.scrollLeft < loopStart) {
-      isAdjustingMobileScrollRef.current = true;
-      rail.scrollLeft += loopWidth;
-      requestAnimationFrame(() => {
-        isAdjustingMobileScrollRef.current = false;
-      });
-    }
-  };
-
   return (
     <div className="photo-gallery-shell mt-12" data-reveal="text">
       <div className="photo-gallery-controls" aria-label="Photo gallery controls">
@@ -215,6 +173,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
           type="button"
           className="photo-gallery-arrow"
           onClick={() => scrollGallery("left")}
+          disabled={activeIndex === 0}
           aria-label="Previous photo"
         >
           ←
@@ -223,6 +182,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
           type="button"
           className="photo-gallery-arrow"
           onClick={() => scrollGallery("right")}
+          disabled={activeIndex === photos.length - 1}
           aria-label="Next photo"
         >
           →
@@ -251,19 +211,15 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       </div>
 
       <div
-        ref={mobileGalleryRef}
         className="photo-gallery-rail photo-gallery-rail-mobile"
-        onScroll={loopMobileGallery}
+        aria-label="Photo gallery"
       >
-        <div
-          ref={mobileTrackRef}
-          className="photo-gallery-track"
-        >
-          {loopedPhotos.map((photo, index) => (
+        <div className="photo-gallery-track">
+          {photos.map((photo, index) => (
             <PhotoGalleryItem
-              key={`${Math.floor(index / photos.length)}-${photo.src}`}
+              key={photo.src}
               photo={photo}
-              index={index % photos.length}
+              index={index}
               total={photos.length}
             />
           ))}
