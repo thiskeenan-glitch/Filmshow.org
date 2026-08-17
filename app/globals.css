@@ -158,6 +158,23 @@ html.is-film-scrolling {
   filter: blur(0.35px);
 }
 
+.film-scroll-pop.is-mobile {
+  border-radius: 38% 62% 57% 43% / 61% 36% 64% 39%;
+  background: radial-gradient(
+    ellipse at 43% 52%,
+    rgba(255, 247, 222, 0.68) 0%,
+    rgba(239, 226, 194, 0.28) 24%,
+    rgba(255, 255, 255, 0.07) 52%,
+    transparent 78%
+  );
+  filter: blur(4.2px);
+}
+
+.film-scroll-pop.is-mobile.is-speck {
+  background: rgba(242, 230, 202, 0.58);
+  filter: blur(1.2px);
+}
+
 @keyframes filmScrollLightPop {
   0% {
     opacity: 0;
@@ -1949,7 +1966,7 @@ html.is-film-scrolling {
 }
 
 .brevo-signup-copy h2 {
-  color: var(--foreground);
+  color: #4169ff;
   font-family: var(--font-display);
   font-size: clamp(2rem, 4.4vw, 4rem);
   font-weight: 900;
@@ -2337,6 +2354,8 @@ html.is-film-scrolling {
 .mobile-header-left,
 .mobile-header-center,
 .mobile-header-right,
+.mobile-header-brand,
+.mobile-header-brand-image,
 .mobile-header-cowboy-link,
 .mobile-header-cowboy {
   display: none;
@@ -2396,6 +2415,22 @@ html.is-film-scrolling {
 .texture-header:not(.is-brand-swapped) .header-cowboy {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+@media (min-width: 1024px) {
+  .texture-header .header-brand .header-logo {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+
+  .texture-header .header-brand .header-cowboy {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .header-brand.is-dancing .header-cowboy {
+    animation: desktopCowboyDance 480ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
 }
 
 .hero-trailer-wordmark-wrap {
@@ -3156,6 +3191,25 @@ html.is-film-scrolling {
   }
 }
 
+@keyframes desktopCowboyDance {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  18% {
+    transform: translate3d(1px, -3px, 0) rotate(-5deg) scale(1.04);
+  }
+  42% {
+    transform: translate3d(-2px, 1px, 0) rotate(4deg) scale(0.98);
+  }
+  66% {
+    transform: translate3d(2px, -2px, 0) rotate(-3deg) scale(1.03);
+  }
+  84% {
+    transform: translate3d(-1px, 0, 0) rotate(2deg) scale(1);
+  }
+}
+
 [data-reveal] {
   --reveal-delay: 0ms;
   opacity: 1;
@@ -3322,24 +3376,53 @@ html.is-film-scrolling {
     justify-self: end;
   }
 
-  .mobile-header-cowboy-link {
-    display: flex;
-    width: 44px;
+  .mobile-header-brand {
+    position: relative;
+    display: block;
+    width: 240px;
     height: 48px;
-    align-items: center;
-    justify-content: flex-start;
+    cursor: pointer;
   }
 
-  .mobile-header-cowboy {
+  .mobile-header-brand-image {
+    position: absolute;
+    inset: 0;
     display: block;
+    margin: auto;
+    object-fit: contain;
+    transition:
+      opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 520ms cubic-bezier(0.2, 1.18, 0.22, 1),
+      filter 420ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .mobile-header-brand .mobile-header-cowboy {
     width: auto;
     height: 41px;
-    object-fit: contain;
+    opacity: 1;
+    transform: translateY(0) scale(1);
     transform-origin: 50% 88%;
-    will-change: transform;
   }
 
-  .mobile-header-cowboy-link.is-dancing .mobile-header-cowboy {
+  .mobile-header-brand .mobile-header-wordmark-image {
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transform: translateY(6px) scale(0.94);
+  }
+
+  .texture-header.is-brand-swapped .mobile-header-brand .mobile-header-wordmark-image {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .texture-header.is-brand-swapped .mobile-header-brand .mobile-header-cowboy {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.9);
+  }
+
+  .mobile-header-brand.is-dancing .mobile-header-cowboy {
     animation: mobileCowboyDance 420ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 
@@ -3362,24 +3445,6 @@ html.is-film-scrolling {
 
   .header-cowboy {
     display: none !important;
-  }
-
-  .mobile-header-wordmark {
-    position: static;
-    z-index: 1;
-    display: flex;
-    width: 240px;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-    justify-self: center;
-  }
-
-  .mobile-header-wordmark-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
   }
 
   .texture-header.is-brand-swapped .header-cowboy,
@@ -3860,17 +3925,13 @@ html.is-film-scrolling {
     display: none !important;
   }
 
-  .mobile-header-cowboy-link {
-    width: 42px;
+  .mobile-header-brand {
+    width: 220px;
     height: 46px;
   }
 
-  .mobile-header-cowboy {
+  .mobile-header-brand .mobile-header-cowboy {
     height: 40px;
-  }
-
-  .mobile-header-wordmark {
-    width: 220px;
   }
 
   .texture-header .container-page {
@@ -3884,13 +3945,9 @@ html.is-film-scrolling {
     display: none !important;
   }
 
-  .mobile-header-cowboy-link {
-    width: 40px;
-    height: 44px;
-  }
-
-  .mobile-header-wordmark {
+  .mobile-header-brand {
     width: 196px;
+    height: 44px;
   }
 
   .mobile-header-menu {
@@ -3916,7 +3973,8 @@ html.is-film-scrolling {
     filter: none !important;
   }
 
-  .mobile-header-cowboy-link.is-dancing .mobile-header-cowboy {
+  .mobile-header-brand.is-dancing .mobile-header-cowboy,
+  .header-brand.is-dancing .header-cowboy {
     animation: none !important;
   }
 

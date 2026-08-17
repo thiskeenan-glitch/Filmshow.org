@@ -52,22 +52,31 @@ export function MotionEffects() {
       if (now - lastFilmPopAt < 120) return;
       lastFilmPopAt = now;
 
-      const popCount = 2 + Math.floor(Math.random() * 3);
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const popCount = isMobile
+        ? 1 + Math.floor(Math.random() * 2)
+        : 2 + Math.floor(Math.random() * 3);
 
       for (let index = 0; index < popCount; index += 1) {
         const pop = document.createElement("span");
-        const isSpeck = index > 0 && Math.random() > 0.38;
+        const isSpeck = index > 0 && Math.random() > (isMobile ? 0.82 : 0.38);
         const size = isSpeck
           ? 3 + Math.random() * 11
-          : 22 + Math.random() * 76;
-        const duration = 340 + Math.random() * 460;
+          : isMobile
+            ? 34 + Math.random() * 82
+            : 22 + Math.random() * 76;
+        const duration = isMobile
+          ? 480 + Math.random() * 420
+          : 340 + Math.random() * 460;
         const delay = Math.random() * 130;
 
-        pop.className = `film-scroll-pop${isSpeck ? " is-speck" : ""}`;
+        pop.className = `film-scroll-pop${isMobile ? " is-mobile" : ""}${isSpeck ? " is-speck" : ""}`;
         pop.style.setProperty("--film-pop-x", `${3 + Math.random() * 94}vw`);
         pop.style.setProperty("--film-pop-y", `${3 + Math.random() * 94}vh`);
         pop.style.setProperty("--film-pop-size", `${size}px`);
-        const opacity = 0.18 + Math.random() * 0.26;
+        const opacity = isMobile
+          ? 0.1 + Math.random() * 0.18
+          : 0.18 + Math.random() * 0.26;
         pop.style.setProperty("--film-pop-opacity", `${opacity}`);
         pop.style.setProperty("--film-pop-fade-opacity", `${opacity * 0.72}`);
         pop.style.setProperty("--film-pop-duration", `${duration}ms`);
