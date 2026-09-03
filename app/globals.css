@@ -1366,12 +1366,12 @@ html.is-film-scrolling {
   align-content: center;
   place-items: center;
   row-gap: clamp(1.25rem, 2vw, 2rem);
-  padding: clamp(7.5rem, 9vw, 9rem) clamp(1.2rem, 4vw, 3rem) clamp(8rem, 10vw, 10rem);
+  padding: clamp(7.5rem, 9vw, 9rem) clamp(1.2rem, 4vw, 3rem) clamp(5rem, 7vw, 7rem);
 }
 
 .hero-trailer-logo-row {
   width: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
 }
 
@@ -1397,7 +1397,7 @@ html.is-film-scrolling {
   max-width: 760px;
   min-height: 0;
   justify-content: center;
-  margin-top: clamp(2.6rem, 4vw, 4rem);
+  margin-top: clamp(2rem, 3vw, 3rem);
   text-align: center;
 }
 
@@ -1405,8 +1405,8 @@ html.is-film-scrolling {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(88vw, 1180px);
-  max-width: 1180px;
+  width: min(80vw, 1000px);
+  max-width: 1000px;
   margin-top: 0;
   padding: 0;
   border: 0;
@@ -3550,9 +3550,14 @@ html.is-film-scrolling {
     object-position: 100% 61%;
   }
 
-  .hero-trailer-logo-row,
+  .hero-trailer-logo-row {
+    display: flex !important;
+  }
+
   .hero-trailer-wordmark-wrap {
-    display: none !important;
+    display: flex !important;
+    padding-top: 0;
+    padding-bottom: 1.35rem;
   }
 
   .hero-trailer-frame-shell {
@@ -3582,7 +3587,7 @@ html.is-film-scrolling {
     order: 1;
     width: min(94vw, 640px);
     max-width: 100%;
-    margin-top: 2.2rem;
+    margin-top: 0;
     margin-bottom: 0;
     padding: 0;
     justify-self: center;
@@ -3619,13 +3624,13 @@ html.is-film-scrolling {
   }
 
   .hero-trailer-wordmark-wrap {
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding-top: 0;
+    padding-bottom: 1.35rem;
   }
 
   .hero-trailer-wordmark {
     display: block;
-    width: min(260px, 78vw);
+    width: min(240px, 68vw);
   }
 
   .hero-trailer-copy-block {

@@ -29,7 +29,6 @@ export function HeroTrailer({
   const hasTrackedCompleteRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -40,18 +39,6 @@ export function HeroTrailer({
 
     return () => {
       mediaQuery.removeEventListener("change", updatePreference);
-    };
-  }, []);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
-
-    updateViewport();
-    mediaQuery.addEventListener("change", updateViewport);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateViewport);
     };
   }, []);
 
@@ -210,21 +197,19 @@ export function HeroTrailer({
       </div>
 
       <div className="hero-trailer-stage">
-        {!isMobileViewport ? (
-          <div className="hero-trailer-logo-row">
-            <div className="hero-trailer-wordmark-wrap">
-              <Image
-                src={logoImage}
-                alt="Filmshow"
-                width={3400}
-                height={1362}
-                priority
-                sizes="(max-width: 767px) 260px, 36rem"
-                className="hero-trailer-wordmark"
-              />
-            </div>
+        <div className="hero-trailer-logo-row">
+          <div className="hero-trailer-wordmark-wrap">
+            <Image
+              src={logoImage}
+              alt="Filmshow"
+              width={3400}
+              height={1362}
+              priority
+              sizes="(max-width: 767px) 260px, 36rem"
+              className="hero-trailer-wordmark"
+            />
           </div>
-        ) : null}
+        </div>
         <div className="hero-trailer-frame-shell">
           <div className="hero-trailer-frame">
             <div className="hero-trailer-media">
