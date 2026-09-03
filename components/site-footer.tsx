@@ -11,7 +11,7 @@ const COWBOY_SRC = "/images/header-cowboy.png";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/filmmakers")) {
     return null;
   }
 
