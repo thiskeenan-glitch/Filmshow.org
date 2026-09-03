@@ -25,6 +25,7 @@ export function HeroTrailer({
   videoSrc,
 }: HeroTrailerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const isUserMutedRef = useRef(false);
   const hasTrackedPlayRef = useRef(false);
   const hasTrackedCompleteRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -49,8 +50,8 @@ export function HeroTrailer({
     let unmounted = false;
 
     const playVideoWithSound = async () => {
-      video.muted = false;
-      video.defaultMuted = false;
+      video.muted = isUserMutedRef.current;
+      video.defaultMuted = isUserMutedRef.current;
       video.volume = 1;
       try {
         await video.play();
@@ -69,7 +70,13 @@ export function HeroTrailer({
       }
     };
 
-    const unlockAudio = () => {
+    const unlockAudio = (event: Event) => {
+      const target = event.target;
+
+      if (target instanceof Element && target.closest(".hero-trailer-media")) {
+        return;
+      }
+
       if (!unmounted) void playVideoWithSound();
     };
 
@@ -94,6 +101,16 @@ export function HeroTrailer({
       video.pause();
     };
   }, []);
+
+  const muteTrailer = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    isUserMutedRef.current = true;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 1;
+  };
 
   useEffect(() => {
     const video = videoRef.current;
@@ -212,7 +229,7 @@ export function HeroTrailer({
         </div>
         <div className="hero-trailer-frame-shell">
           <div className="hero-trailer-frame">
-            <div className="hero-trailer-media">
+            <div className="hero-trailer-media" onClick={muteTrailer}>
               <video
                 ref={videoRef}
                 className="hero-trailer-video"

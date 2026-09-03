@@ -73,7 +73,9 @@ export function SiteHeader() {
   const cowboyDanceTimeoutRef = useRef<number | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
 
-  const activeSectionItem = navItems.find((item) => getSectionHash(item) === activeHash);
+  const activeSectionItem = activeHash
+    ? navItems.find((item) => getSectionHash(item) === activeHash)
+    : undefined;
   const activeNavRefKey = activeSectionItem
     ? getNavRefKey(activeSectionItem)
     : pathname === "/"
@@ -436,8 +438,6 @@ export function SiteHeader() {
       <nav className="container-page py-3 sm:py-4">
         <div className="header-bar flex items-center justify-between gap-x-4">
           <div className="mobile-header-left lg:hidden">
-          </div>
-          <div className="mobile-header-center lg:hidden">
             <Link
               href="/#top"
               data-scroll-top
@@ -467,6 +467,7 @@ export function SiteHeader() {
               />
             </Link>
           </div>
+          <div className="mobile-header-center lg:hidden" />
           <div className="mobile-header-right lg:hidden">
             <button
               ref={mobileMenuToggleRef}

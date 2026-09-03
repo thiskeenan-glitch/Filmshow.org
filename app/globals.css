@@ -1431,6 +1431,7 @@ html.is-film-scrolling {
   z-index: 1;
   width: 100%;
   overflow: hidden;
+  cursor: pointer;
   aspect-ratio: 16 / 9;
   border-radius: 0;
   background: transparent;
@@ -3363,16 +3364,17 @@ html.is-film-scrolling {
   .mobile-header-brand {
     position: relative;
     display: block;
-    width: 240px;
+    width: 148px;
     height: 48px;
     cursor: pointer;
   }
 
   .mobile-header-brand-image {
     position: absolute;
-    inset: 0;
+    inset: 0 auto 0 0;
     display: block;
-    margin: auto;
+    margin-block: auto;
+    margin-inline: 0;
     object-fit: contain;
     transition:
       opacity 420ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -3390,7 +3392,7 @@ html.is-film-scrolling {
   }
 
   .mobile-header-brand .mobile-header-wordmark-image {
-    width: 100%;
+    width: 140px;
     height: auto;
     opacity: 0;
     transform: translateY(6px) scale(0.94);
@@ -3915,7 +3917,7 @@ html.is-film-scrolling {
   }
 
   .mobile-header-brand {
-    width: 220px;
+    width: 140px;
     height: 46px;
   }
 
@@ -3935,8 +3937,12 @@ html.is-film-scrolling {
   }
 
   .mobile-header-brand {
-    width: 196px;
+    width: 126px;
     height: 44px;
+  }
+
+  .mobile-header-brand .mobile-header-wordmark-image {
+    width: 126px;
   }
 
   .mobile-header-menu {
