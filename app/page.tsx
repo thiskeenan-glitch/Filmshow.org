@@ -11,14 +11,13 @@ import Link from "next/link";
 import {
   buildBaseJsonLd,
   externalLinks,
-  socialImage,
 } from "@/lib/seo";
 import type { CSSProperties } from "react";
 
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
-const HERO_TRAILER_VIDEO = "/videos/filmshow-trailer.mp4";
-const FILMSHOW_POSTER_IMAGE = socialImage.path;
-const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
+const HERO_TRAILER_VIDEO = "/videos/filmshow-trailer.mp4?v=20260903-fast";
+const HERO_TRAILER_FALLBACK =
+  "/images/hero/filmshow-trailer-fallback.jpg?v=20260903";
 const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const NEWS_URL = "/news";

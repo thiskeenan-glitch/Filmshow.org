@@ -30,6 +30,7 @@ export function HeroTrailer({
   const hasTrackedCompleteRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -229,7 +230,22 @@ export function HeroTrailer({
         </div>
         <div className="hero-trailer-frame-shell">
           <div className="hero-trailer-frame">
-            <div className="hero-trailer-media" onClick={muteTrailer}>
+            <div
+              className={`hero-trailer-media ${
+                isVideoReady ? "is-video-ready" : ""
+              }`}
+              onClick={muteTrailer}
+            >
+              <Image
+                src={fallbackImage}
+                alt=""
+                aria-hidden="true"
+                fill
+                priority
+                unoptimized
+                sizes="(max-width: 767px) 94vw, 1000px"
+                className="hero-trailer-poster"
+              />
               <video
                 ref={videoRef}
                 className="hero-trailer-video"
@@ -239,7 +255,9 @@ export function HeroTrailer({
                 loop
                 playsInline
                 preload="auto"
-                poster={fallbackImage}
+                onCanPlay={() => setIsVideoReady(true)}
+                onPlaying={() => setIsVideoReady(true)}
+                onError={() => setIsVideoReady(false)}
               />
               <div className="hero-trailer-overlay" aria-hidden="true" />
             </div>
