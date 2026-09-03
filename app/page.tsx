@@ -16,7 +16,7 @@ import {
 import type { CSSProperties } from "react";
 
 const LOGO_IMAGE = "/images/official-tfs-logo.png";
-const HERO_TRAILER_VIDEO = "/videos/website-background.mov";
+const HERO_TRAILER_VIDEO = "/videos/filmshow-trailer.mp4";
 const FILMSHOW_POSTER_IMAGE = socialImage.path;
 const HERO_TRAILER_FALLBACK = FILMSHOW_POSTER_IMAGE;
 const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";

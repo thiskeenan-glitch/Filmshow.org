@@ -1316,14 +1316,13 @@ html.is-film-scrolling {
 
 .hero-trailer-shell {
   position: relative;
-  min-height: calc(100svh + 96px);
+  min-height: auto;
   background: #000;
   overflow: visible;
   isolation: isolate;
 }
 
-.hero-trailer-backdrop,
-.hero-trailer-stage {
+.hero-trailer-backdrop {
   position: absolute;
   inset: 0;
 }
@@ -1361,12 +1360,13 @@ html.is-film-scrolling {
 }
 
 .hero-trailer-stage {
+  position: relative;
   z-index: 2;
   display: grid;
   align-content: center;
   place-items: center;
-  row-gap: clamp(0.9rem, 1.8vw, 1.5rem);
-  padding: clamp(8rem, 10vw, 9.5rem) clamp(1.2rem, 4vw, 3rem) clamp(7rem, 9vw, 8rem);
+  row-gap: clamp(1.25rem, 2vw, 2rem);
+  padding: clamp(7.5rem, 9vw, 9rem) clamp(1.2rem, 4vw, 3rem) clamp(8rem, 10vw, 10rem);
 }
 
 .hero-trailer-logo-row {
@@ -1377,12 +1377,10 @@ html.is-film-scrolling {
 
 .hero-trailer-frame-shell {
   position: relative;
-  display: grid;
-  width: min(100%, 1200px);
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 1280px);
   margin: 0 auto;
-  grid-template-columns: minmax(440px, 560px) minmax(400px, 520px);
-  column-gap: clamp(40px, 4.5vw, 64px);
-  row-gap: 0;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -1396,10 +1394,10 @@ html.is-film-scrolling {
   align-items: center;
   gap: 0;
   width: 100%;
-  max-width: 520px;
-  min-height: clamp(460px, 38vw, 560px);
+  max-width: 760px;
+  min-height: 0;
   justify-content: center;
-  margin-top: 0;
+  margin-top: clamp(2.6rem, 4vw, 4rem);
   text-align: center;
 }
 
@@ -1407,8 +1405,8 @@ html.is-film-scrolling {
   position: relative;
   display: grid;
   place-items: center;
-  width: clamp(460px, 38vw, 560px);
-  max-width: 560px;
+  width: min(88vw, 1180px);
+  max-width: 1180px;
   margin-top: 0;
   padding: 0;
   border: 0;
@@ -1427,34 +1425,14 @@ html.is-film-scrolling {
   z-index: 1;
   width: 100%;
   overflow: hidden;
-  aspect-ratio: 1 / 1;
-  border-radius: 44% 56% 48% 52% / 51% 43% 57% 49%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
   background: transparent;
   box-shadow: none;
-  -webkit-mask-image: radial-gradient(
-    ellipse var(--portal-radius-x) var(--portal-radius-y) at var(--portal-x) var(--portal-y),
-    #000 0%,
-    #000 43%,
-    rgba(0, 0, 0, 0.96) 50%,
-    rgba(0, 0, 0, 0.78) 62%,
-    rgba(0, 0, 0, 0.48) 74%,
-    rgba(0, 0, 0, 0.2) 86%,
-    transparent 100%
-  );
-  -webkit-mask-repeat: no-repeat;
-  mask-image: radial-gradient(
-    ellipse var(--portal-radius-x) var(--portal-radius-y) at var(--portal-x) var(--portal-y),
-    #000 0%,
-    #000 43%,
-    rgba(0, 0, 0, 0.96) 50%,
-    rgba(0, 0, 0, 0.78) 62%,
-    rgba(0, 0, 0, 0.48) 74%,
-    rgba(0, 0, 0, 0.2) 86%,
-    transparent 100%
-  );
-  mask-repeat: no-repeat;
+  -webkit-mask-image: none;
+  mask-image: none;
   transform: translateZ(0);
-  animation: portalCelestialDrift 18s cubic-bezier(0.45, 0.05, 0.2, 1) infinite alternate;
+  animation: none;
 }
 
 .hero-trailer-video,
@@ -1555,7 +1533,7 @@ html.is-film-scrolling {
   flex-direction: column;
   align-items: center;
   gap: 0;
-  width: min(100%, 34rem);
+  width: min(100%, 48rem);
 }
 
 .hero-trailer-headline {
@@ -1581,7 +1559,7 @@ html.is-film-scrolling {
 }
 
 .hero-trailer-description {
-  max-width: 31rem;
+  max-width: 44rem;
   color: rgba(185, 181, 174, 0.94);
   font-size: clamp(1.02rem, 1.16vw, 1.14rem);
   line-height: 1.66;
@@ -3602,7 +3580,7 @@ html.is-film-scrolling {
 
   .hero-trailer-frame {
     order: 1;
-    width: min(94vw, 480px);
+    width: min(94vw, 640px);
     max-width: 100%;
     margin-top: 2.2rem;
     margin-bottom: 0;
@@ -3611,8 +3589,8 @@ html.is-film-scrolling {
   }
 
   .hero-trailer-media {
-    aspect-ratio: 1 / 1;
-    border-radius: 44% 56% 48% 52% / 51% 43% 57% 49%;
+    aspect-ratio: 16 / 9;
+    border-radius: 0;
     box-shadow: none;
   }
 
@@ -3621,7 +3599,7 @@ html.is-film-scrolling {
     width: 100%;
     height: 100%;
     max-height: none;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 16 / 9;
     object-position: center;
     object-fit: cover;
   }

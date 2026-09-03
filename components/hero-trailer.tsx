@@ -5,7 +5,7 @@ import {
   trackGoogleAnalyticsEvent,
 } from "@/lib/google-analytics-events";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type HeroTrailerProps = {
   backgroundImage?: string;
@@ -25,70 +25,11 @@ export function HeroTrailer({
   videoSrc,
 }: HeroTrailerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const trailerVolumeRef = useRef(1);
-  const audioAllowedRef = useRef(false);
   const hasTrackedPlayRef = useRef(false);
   const hasTrackedCompleteRef = useRef(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const [isSoundOn, setIsSoundOn] = useState(false);
-
-  const updateTrailerAudio = useCallback(() => {
-    const hero = document.getElementById("top");
-    const heroRect = hero?.getBoundingClientRect();
-    const heroHeight = Math.max(
-      1,
-      heroRect?.height || hero?.offsetHeight || window.innerHeight,
-    );
-    const fadeDistance = Math.max(1, heroHeight * 0.72);
-    const isPastHero = heroRect ? heroRect.bottom <= 24 : window.scrollY >= heroHeight;
-    const nextVolume = isPastHero
-      ? 0
-      : Math.max(0, Math.min(1, 1 - window.scrollY / fadeDistance));
-    const shouldMute = nextVolume <= 0.02;
-    const video = videoRef.current;
-
-    trailerVolumeRef.current = nextVolume;
-
-    if (video) {
-      video.volume = nextVolume;
-      video.muted = shouldMute || !audioAllowedRef.current;
-      video.defaultMuted = video.muted;
-    }
-
-    setIsHeroDimmed(window.scrollY > 90);
-
-    return nextVolume;
-  }, []);
-
-  const toggleTrailerSound = useCallback(async () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const shouldEnableSound = !audioAllowedRef.current;
-    audioAllowedRef.current = shouldEnableSound;
-    const nextVolume = updateTrailerAudio();
-
-    video.volume = nextVolume;
-    video.muted = !shouldEnableSound || nextVolume <= 0.02;
-    video.defaultMuted = video.muted;
-
-    if (shouldEnableSound) {
-      setIsSoundOn(true);
-      try {
-        await video.play();
-      } catch {
-        audioAllowedRef.current = false;
-        video.muted = true;
-        video.defaultMuted = true;
-        setIsSoundOn(false);
-      }
-      return;
-    }
-
-    setIsSoundOn(false);
-  }, [updateTrailerAudio]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -120,58 +61,52 @@ export function HeroTrailer({
 
     let unmounted = false;
 
-    const playVideo = async () => {
-      const nextVolume = updateTrailerAudio();
-
-      video.muted = true;
-      video.defaultMuted = true;
-      video.volume = nextVolume;
-
+    const playVideoWithSound = async () => {
+      video.muted = false;
+      video.defaultMuted = false;
+      video.volume = 1;
       try {
         await video.play();
-      } catch {
-        return;
-      }
-
-      if (unmounted) return;
-
-      try {
-        audioAllowedRef.current = true;
-        video.muted = nextVolume <= 0.02;
-        video.defaultMuted = video.muted;
-        await video.play();
-        if (!unmounted) setIsSoundOn(!video.muted);
       } catch {
         if (unmounted) return;
 
-        audioAllowedRef.current = false;
         video.muted = true;
         video.defaultMuted = true;
-        video.volume = 0;
-        setIsSoundOn(false);
         await video.play().catch(() => {});
       }
     };
 
     const ensurePlayback = () => {
       if (!document.hidden && video.paused) {
-        void playVideo();
+        void playVideoWithSound();
       }
     };
 
-    void playVideo();
+    const unlockAudio = () => {
+      if (!unmounted) void playVideoWithSound();
+    };
+
+    void playVideoWithSound();
     video.addEventListener("canplay", ensurePlayback);
     window.addEventListener("pageshow", ensurePlayback);
     window.addEventListener("focus", ensurePlayback);
+    document.addEventListener("pointerdown", unlockAudio, { capture: true });
+    document.addEventListener("keydown", unlockAudio, { capture: true });
+    document.addEventListener("touchstart", unlockAudio, { capture: true, passive: true });
+    window.addEventListener("wheel", unlockAudio, { passive: true });
 
     return () => {
       unmounted = true;
       video.removeEventListener("canplay", ensurePlayback);
       window.removeEventListener("pageshow", ensurePlayback);
       window.removeEventListener("focus", ensurePlayback);
+      document.removeEventListener("pointerdown", unlockAudio, { capture: true });
+      document.removeEventListener("keydown", unlockAudio, { capture: true });
+      document.removeEventListener("touchstart", unlockAudio, { capture: true });
+      window.removeEventListener("wheel", unlockAudio);
       video.pause();
     };
-  }, [updateTrailerAudio]);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -223,43 +158,24 @@ export function HeroTrailer({
         return;
       }
 
-      updateTrailerAudio();
+      video.muted = false;
+      video.defaultMuted = false;
+      video.volume = 1;
       video.play().catch(() => {});
     };
-
-    const menu = document.getElementById("mobile-menu");
-    const observer =
-      menu
-        ? new MutationObserver(() => {
-            if (menu.classList.contains("is-open")) {
-              video.pause();
-              return;
-            }
-
-            if (!document.hidden) {
-              updateTrailerAudio();
-              video.play().catch(() => {});
-            }
-          })
-        : null;
 
     document.addEventListener("visibilitychange", handleVisibility);
     window.addEventListener("pagehide", handleVisibility);
 
-    if (observer && menu) {
-      observer.observe(menu, { attributes: true, attributeFilter: ["class"] });
-    }
-
     return () => {
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("pagehide", handleVisibility);
-      observer?.disconnect();
     };
-  }, [updateTrailerAudio]);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      updateTrailerAudio();
+      setIsHeroDimmed(window.scrollY > 90);
     };
 
     handleScroll();
@@ -268,7 +184,7 @@ export function HeroTrailer({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [updateTrailerAudio]);
+  }, []);
 
   return (
     <section
@@ -311,10 +227,7 @@ export function HeroTrailer({
         ) : null}
         <div className="hero-trailer-frame-shell">
           <div className="hero-trailer-frame">
-            <div
-              className="hero-trailer-media"
-              onClick={() => void toggleTrailerSound()}
-            >
+            <div className="hero-trailer-media">
               <video
                 ref={videoRef}
                 className="hero-trailer-video"
@@ -322,7 +235,6 @@ export function HeroTrailer({
                 aria-label="Filmshow trailer"
                 autoPlay
                 loop
-                muted={!isSoundOn}
                 playsInline
                 preload="auto"
                 poster={fallbackImage}
@@ -339,9 +251,9 @@ export function HeroTrailer({
                 </span>
               </h1>
               <p className="hero-trailer-description">
-                Filmshow is a live show that combines short films from local
-                filmmakers and live experimental theater to create a glimpse
-                into the underground scene of New York City.
+                Filmshow is a live show that combines award winning short films
+                and live experimental theater to create an entirely new peice of
+                art. A filmshow if you will.
               </p>
                 <a
                   href={NEWS_URL}
