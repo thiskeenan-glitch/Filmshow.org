@@ -31,6 +31,7 @@ export function HeroTrailer({
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isHeroDimmed, setIsHeroDimmed] = useState(false);
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -54,6 +55,7 @@ export function HeroTrailer({
       video.muted = isUserMutedRef.current;
       video.defaultMuted = isUserMutedRef.current;
       video.volume = 1;
+      setIsMuted(isUserMutedRef.current);
       try {
         await video.play();
       } catch {
@@ -61,6 +63,7 @@ export function HeroTrailer({
 
         video.muted = true;
         video.defaultMuted = true;
+        setIsMuted(true);
         await video.play().catch(() => {});
       }
     };
@@ -103,14 +106,20 @@ export function HeroTrailer({
     };
   }, []);
 
-  const muteTrailer = () => {
+  const toggleTrailerMute = () => {
     const video = videoRef.current;
     if (!video) return;
 
-    isUserMutedRef.current = true;
-    video.muted = true;
-    video.defaultMuted = true;
+    const nextMuted = !video.muted;
+    isUserMutedRef.current = nextMuted;
+    video.muted = nextMuted;
+    video.defaultMuted = nextMuted;
     video.volume = 1;
+    setIsMuted(nextMuted);
+
+    if (!nextMuted) {
+      void video.play().catch(() => {});
+    }
   };
 
   useEffect(() => {
@@ -163,8 +172,8 @@ export function HeroTrailer({
         return;
       }
 
-      video.muted = false;
-      video.defaultMuted = false;
+      video.muted = isUserMutedRef.current;
+      video.defaultMuted = isUserMutedRef.current;
       video.volume = 1;
       video.play().catch(() => {});
     };
@@ -234,7 +243,16 @@ export function HeroTrailer({
               className={`hero-trailer-media ${
                 isVideoReady ? "is-video-ready" : ""
               }`}
-              onClick={muteTrailer}
+              onClick={toggleTrailerMute}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  toggleTrailerMute();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={isMuted ? "Unmute trailer" : "Mute trailer"}
             >
               <Image
                 src={fallbackImage}

@@ -1826,7 +1826,7 @@ html.is-film-scrolling {
 
 .team-card-image {
   object-fit: cover;
-  filter: saturate(0.88) contrast(1.06) brightness(0.92);
+  filter: none;
 }
 
 .filmmakers-page {
