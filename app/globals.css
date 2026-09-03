@@ -1867,8 +1867,8 @@ html.is-film-scrolling {
 .filmmakers-brand-crop {
   position: relative;
   display: block;
-  width: 11rem;
-  height: 7.5rem;
+  width: 5.95rem;
+  height: 4.375rem;
   overflow: hidden;
 }
 
@@ -1876,7 +1876,7 @@ html.is-film-scrolling {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 32rem;
+  width: 18.2rem;
   max-width: none;
   height: auto;
   transform: translate(-50%, -50%);
@@ -2291,8 +2291,8 @@ html.is-film-scrolling {
   .filmmakers-brand {
     top: 1rem;
     right: auto;
-    left: 50%;
-    transform: translateX(-50%);
+    left: calc(50% - 2.625rem);
+    transform: none;
   }
 
   .filmmakers-intro-copy {
@@ -2309,12 +2309,12 @@ html.is-film-scrolling {
   }
 
   .filmmakers-brand-crop {
-    width: 9rem;
-    height: 6.25rem;
+    width: 5.25rem;
+    height: 3.675rem;
   }
 
   .filmmakers-brand-crop img {
-    width: 26rem;
+    width: 15.4rem;
   }
 
   .filmmakers-event-line {
