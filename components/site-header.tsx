@@ -74,7 +74,11 @@ export function SiteHeader() {
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, visible: false });
 
   const activeSectionItem = navItems.find((item) => getSectionHash(item) === activeHash);
-  const activeNavRefKey = activeSectionItem ? getNavRefKey(activeSectionItem) : pathname === "/" ? "" : pathname;
+  const activeNavRefKey = activeSectionItem
+    ? getNavRefKey(activeSectionItem)
+    : pathname === "/"
+      ? getNavRefKey(navItems[0])
+      : pathname;
 
   const measureIndicatorForLink = (link: HTMLAnchorElement | null) => {
     const track = navTrackRef.current;

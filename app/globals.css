@@ -1369,6 +1369,12 @@ html.is-film-scrolling {
   padding: clamp(7.5rem, 9vw, 9rem) clamp(1.2rem, 4vw, 3rem) clamp(5rem, 7vw, 7rem);
 }
 
+@media (min-width: 768px) {
+  .hero-trailer-stage {
+    padding-top: clamp(11rem, 14vw, 13.5rem);
+  }
+}
+
 .hero-trailer-logo-row {
   width: 100%;
   display: none;
@@ -2397,17 +2403,17 @@ html.is-film-scrolling {
 
 @media (min-width: 1024px) {
   .texture-header .header-brand .header-logo {
-    opacity: 0;
-    transform: translateY(8px) scale(0.92);
-  }
-
-  .texture-header .header-brand .header-cowboy {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 
+  .texture-header .header-brand .header-cowboy {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.88);
+  }
+
   .header-brand.is-dancing .header-cowboy {
-    animation: desktopCowboyDance 480ms cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    animation: none;
   }
 }
 
