@@ -1,11 +1,10 @@
 import { checkRateLimit, getRateLimitKey } from "@/lib/rate-limit";
-import {
-  markFilmmakerSheetSync,
-  type FilmmakerAttendance,
-  saveFilmmakerMaterials,
-  type SubtitleStatus,
-} from "@/lib/supabase-filmmakers";
 import { syncFilmmakerToGoogleSheet } from "@/lib/google-sheets-filmmakers";
+import type {
+  FilmmakerAttendance,
+  FilmmakerMaterialsRecord,
+  SubtitleStatus,
+} from "@/lib/supabase-filmmakers";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -150,41 +149,31 @@ export async function POST(request: Request) {
     return validationError("The final note is a little too long.");
   }
 
+  const record: FilmmakerMaterialsRecord = {
+    id: idempotency_key,
+    created_at: new Date().toISOString(),
+    idempotency_key,
+    film_title,
+    director_names,
+    email,
+    runtime,
+    synopsis,
+    master_link,
+    subtitle_status,
+    subtitle_link: null,
+    materials_link,
+    social_handles,
+    attendance,
+    additional_attendees: additional_attendees || null,
+    filmmaker_video_url: filmmaker_video_url || null,
+    show_day_contact,
+    notes: notes || null,
+  };
+
   try {
-    const record = await saveFilmmakerMaterials({
-      idempotency_key,
-      film_title,
-      director_names,
-      email,
-      runtime,
-      synopsis,
-      master_link,
-      subtitle_status,
-      subtitle_link: null,
-      materials_link,
-      social_handles,
-      attendance,
-      additional_attendees: additional_attendees || null,
-      filmmaker_video_url: filmmaker_video_url || null,
-      show_day_contact,
-      notes: notes || null,
-    });
-
-    let sheetSync: "synced" | "pending" = "synced";
-    try {
-      await syncFilmmakerToGoogleSheet(record);
-      await markFilmmakerSheetSync(record, "synced");
-    } catch (sheetError) {
-      sheetSync = "pending";
-      try {
-        await markFilmmakerSheetSync(record, "failed", sheetError);
-      } catch {
-        // The submission is already durable in Supabase. A retry can still find it.
-      }
-    }
-
+    await syncFilmmakerToGoogleSheet(record);
     return NextResponse.json(
-      { id: record.id, sheet_sync: sheetSync },
+      { id: record.id, sheet_sync: "synced" },
       { status: 201 },
     );
   } catch (error) {
