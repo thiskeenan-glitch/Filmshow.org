@@ -2,7 +2,7 @@ import { MotionEffects } from "@/components/motion-effects";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { FilmmakerMaterialsForm } from "./filmmaker-materials-form";
+import { FilmmakerMaterialsFormV2 } from "./filmmaker-materials-form-v2";
 
 export const metadata: Metadata = {
   title: "Filmmaker Materials | Filmshow",
@@ -53,7 +53,7 @@ export default function FilmmakersPage() {
         </div>
       </section>
 
-      <FilmmakerMaterialsForm />
+      <FilmmakerMaterialsFormV2 />
     </main>
   );
 }
