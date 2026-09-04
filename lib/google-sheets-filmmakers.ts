@@ -6,6 +6,8 @@ import type { FilmmakerMaterialsRecord } from "@/lib/supabase-filmmakers";
 const SHEET_NAME = "FILMMAKER MASTER";
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
+const SERVICE_ACCOUNT_EMAIL =
+  "filmshow-filmmaker-sync@filmshow-production.iam.gserviceaccount.com";
 
 function base64Url(value: string) {
   return Buffer.from(value).toString("base64url");
@@ -13,18 +15,20 @@ function base64Url(value: string) {
 
 function getGoogleSheetsConfig() {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
-  const serviceAccountEmail =
-    process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_EMAIL?.trim();
   const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(
     /\\n/g,
     "\n",
   ).trim();
 
-  if (!spreadsheetId || !serviceAccountEmail || !privateKey) {
+  if (!spreadsheetId || !privateKey) {
     throw new Error("Google Sheets sync is not configured yet.");
   }
 
-  return { spreadsheetId, serviceAccountEmail, privateKey };
+  return {
+    spreadsheetId,
+    serviceAccountEmail: SERVICE_ACCOUNT_EMAIL,
+    privateKey,
+  };
 }
 
 async function getAccessToken() {
@@ -138,6 +142,8 @@ export async function syncFilmmakerToGoogleSheet(
 
   if (!appendResponse.ok) {
     const detail = await appendResponse.text();
-    throw new Error(`The filmmaker row could not be added to Google Sheets. ${detail.slice(0, 300)}`);
+    throw new Error(
+      `The filmmaker row could not be added to Google Sheets. ${detail.slice(0, 300)}`,
+    );
   }
 }
