@@ -2,7 +2,10 @@ import "server-only";
 
 import { createSign } from "node:crypto";
 
-export type SubtitleStatus = "no_subtitles" | "burned_in_master";
+export type SubtitleStatus =
+  | "no_subtitles"
+  | "burned_in_master"
+  | "separate_subtitle_file";
 export type FilmmakerAttendance = "hell_yes" | "no" | "trying_to_figure_it_out";
 
 export type FilmmakerMaterialsRecord = {
@@ -24,9 +27,9 @@ export type FilmmakerMaterialsRecord = {
   filmmaker_video_url: string | null;
   show_day_contact: string;
   notes: string | null;
-  pass_holder_one: string;
-  pass_holder_two: string;
-  prize_representative: string;
+  pass_holder_one?: string;
+  pass_holder_two?: string;
+  prize_representative?: string;
 };
 
 const SHEET_NAME = "FILMMAKER MASTER";
@@ -98,6 +101,7 @@ function subtitleLabel(record: FilmmakerMaterialsRecord) {
   return {
     no_subtitles: "No subtitles",
     burned_in_master: "Burned into the master",
+    separate_subtitle_file: "Separate subtitle file",
   }[record.subtitle_status];
 }
 
@@ -153,9 +157,9 @@ export async function syncFilmmakerToGoogleSheet(record: FilmmakerMaterialsRecor
             record.show_day_contact,
             record.notes ?? "",
             record.id,
-            record.pass_holder_one,
-            record.pass_holder_two,
-            record.prize_representative,
+            record.pass_holder_one ?? "",
+            record.pass_holder_two ?? "",
+            record.prize_representative ?? "",
           ],
         ],
       }),
