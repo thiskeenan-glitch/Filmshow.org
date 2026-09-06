@@ -5,6 +5,8 @@ import Script from "next/script";
 import { Suspense } from "react";
 import { GoogleAnalyticsInteractions } from "@/components/google-analytics-interactions";
 import { GoogleAnalyticsPageView } from "@/components/google-analytics-page-view";
+import { MetaPixel } from "@/components/meta-pixel";
+import { MetaPixelInteractions } from "@/components/meta-pixel-interactions";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
@@ -84,6 +86,8 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter />
+        <MetaPixel />
+        <MetaPixelInteractions />
         {IS_GA_ENABLED ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}
         <Script
           id="luma-checkout"
