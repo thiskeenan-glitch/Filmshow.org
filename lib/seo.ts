@@ -44,11 +44,11 @@ export const externalLinks = {
 } as const;
 
 export const socialImage = {
-  path: "/images/filmshow-social-preview.jpg",
-  width: 1200,
-  height: 1200,
+  path: "/images/filmshow-social-preview.png",
+  width: 4000,
+  height: 4000,
   alt: "Filmshow logo on a black background.",
-  type: "image/jpeg",
+  type: "image/png",
 } as const;
 
 export type SeoRoute = {
