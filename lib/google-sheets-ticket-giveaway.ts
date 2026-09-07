@@ -4,6 +4,8 @@ import { createSign } from "node:crypto";
 import type { TicketGiveawayRecord } from "@/lib/supabase-ticket-giveaway";
 
 const DEFAULT_SPREADSHEET_ID = "1nMLJ6T_OYftVQ498qYB9-iM2ucm--FzoMyvaCP7b160";
+const DEFAULT_SERVICE_ACCOUNT_EMAIL =
+  "filmshow-filmmaker-sync@filmshow-production.iam.gserviceaccount.com";
 const SHEET_NAME = "GIVEAWAY";
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
@@ -17,7 +19,8 @@ function getGoogleSheetsConfig() {
     process.env.GOOGLE_SHEETS_GIVEAWAY_SPREADSHEET_ID?.trim() ||
     DEFAULT_SPREADSHEET_ID;
   const serviceAccountEmail =
-    process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_EMAIL?.trim();
+    process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_EMAIL?.trim() ||
+    DEFAULT_SERVICE_ACCOUNT_EMAIL;
   const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(
     /\\n/g,
     "\n",
