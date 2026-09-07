@@ -1,11 +1,42 @@
 import "server-only";
 
 import { createSign } from "node:crypto";
-import type { FilmmakerMaterialsRecord } from "@/lib/supabase-filmmakers";
+
+export type SubtitleStatus =
+  | "no_subtitles"
+  | "burned_in_master"
+  | "separate_subtitle_file";
+export type FilmmakerAttendance = "hell_yes" | "no" | "trying_to_figure_it_out";
+
+export type FilmmakerMaterialsRecord = {
+  id: string;
+  created_at: string;
+  idempotency_key: string;
+  film_title: string;
+  director_names: string;
+  email: string;
+  runtime: string;
+  synopsis: string;
+  master_link: string;
+  subtitle_status: SubtitleStatus;
+  subtitle_link: string | null;
+  materials_link: string;
+  social_handles: string;
+  attendance: FilmmakerAttendance;
+  additional_attendees: string | null;
+  filmmaker_video_url: string | null;
+  show_day_contact: string;
+  notes: string | null;
+  pass_holder_one?: string;
+  pass_holder_two?: string;
+  prize_representative?: string;
+};
 
 const SHEET_NAME = "FILMMAKER MASTER";
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
+const SERVICE_ACCOUNT_EMAIL =
+  "filmshow-filmmaker-sync@filmshow-production.iam.gserviceaccount.com";
 
 function base64Url(value: string) {
   return Buffer.from(value).toString("base64url");
@@ -13,18 +44,17 @@ function base64Url(value: string) {
 
 function getGoogleSheetsConfig() {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID?.trim();
-  const serviceAccountEmail =
-    process.env.GOOGLE_SHEETS_SERVICE_ACCOUNT_EMAIL?.trim();
-  const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(
-    /\\n/g,
-    "\n",
-  ).trim();
+  const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, "\n").trim();
 
-  if (!spreadsheetId || !serviceAccountEmail || !privateKey) {
+  if (!spreadsheetId || !privateKey) {
     throw new Error("Google Sheets sync is not configured yet.");
   }
 
-  return { spreadsheetId, serviceAccountEmail, privateKey };
+  return {
+    spreadsheetId,
+    serviceAccountEmail: SERVICE_ACCOUNT_EMAIL,
+    privateKey,
+  };
 }
 
 async function getAccessToken() {
@@ -83,9 +113,7 @@ function attendanceLabel(record: FilmmakerMaterialsRecord) {
   }[record.attendance];
 }
 
-export async function syncFilmmakerToGoogleSheet(
-  record: FilmmakerMaterialsRecord,
-) {
+export async function syncFilmmakerToGoogleSheet(record: FilmmakerMaterialsRecord) {
   const { spreadsheetId } = getGoogleSheetsConfig();
   const accessToken = await getAccessToken();
   const headers = { Authorization: `Bearer ${accessToken}` };
@@ -102,7 +130,7 @@ export async function syncFilmmakerToGoogleSheet(
   const existing = (await existingResponse.json()) as { values?: string[][] };
   if (existing.values?.some((row) => row[0] === record.id)) return;
 
-  const appendRange = encodeURIComponent(`'${SHEET_NAME}'!A:Q`);
+  const appendRange = encodeURIComponent(`'${SHEET_NAME}'!A:T`);
   const appendResponse = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${appendRange}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
     {
@@ -129,6 +157,9 @@ export async function syncFilmmakerToGoogleSheet(
             record.show_day_contact,
             record.notes ?? "",
             record.id,
+            record.pass_holder_one ?? "",
+            record.pass_holder_two ?? "",
+            record.prize_representative ?? "",
           ],
         ],
       }),
@@ -138,6 +169,8 @@ export async function syncFilmmakerToGoogleSheet(
 
   if (!appendResponse.ok) {
     const detail = await appendResponse.text();
-    throw new Error(`The filmmaker row could not be added to Google Sheets. ${detail.slice(0, 300)}`);
+    throw new Error(
+      `The filmmaker row could not be added to Google Sheets. ${detail.slice(0, 300)}`,
+    );
   }
 }

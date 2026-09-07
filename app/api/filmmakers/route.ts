@@ -1,11 +1,10 @@
 import { checkRateLimit, getRateLimitKey } from "@/lib/rate-limit";
 import {
-  markFilmmakerSheetSync,
+  syncFilmmakerToGoogleSheet,
   type FilmmakerAttendance,
-  saveFilmmakerMaterials,
+  type FilmmakerMaterialsRecord,
   type SubtitleStatus,
-} from "@/lib/supabase-filmmakers";
-import { syncFilmmakerToGoogleSheet } from "@/lib/google-sheets-filmmakers";
+} from "@/lib/google-sheets-filmmakers";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -29,7 +28,7 @@ const limits = {
   synopsis: 1200,
   url: 1000,
   social_handles: 1200,
-  additional_attendees: 2000,
+  name: 240,
   show_day_contact: 300,
   notes: 5000,
 } as const;
@@ -66,7 +65,7 @@ export async function POST(request: Request) {
 
   if (!rateLimit.allowed) {
     return NextResponse.json(
-      { message: "Easy there. Give it a minute, then send it again." },
+      { message: "Give it a minute, then send it again." },
       {
         status: 429,
         headers: { "Retry-After": String(rateLimit.retryAfter) },
@@ -96,7 +95,9 @@ export async function POST(request: Request) {
   const materials_link = text(payload, "materials_link");
   const social_handles = text(payload, "social_handles");
   const attendance = text(payload, "attendance") as FilmmakerAttendance;
-  const additional_attendees = text(payload, "additional_attendees");
+  const pass_holder_one = text(payload, "pass_holder_one");
+  const pass_holder_two = text(payload, "pass_holder_two");
+  const prize_representative = text(payload, "prize_representative");
   const filmmaker_video_url = text(payload, "filmmaker_video_url");
   const show_day_contact = text(payload, "show_day_contact");
   const notes = text(payload, "notes");
@@ -134,8 +135,14 @@ export async function POST(request: Request) {
   if (!attendanceOptions.has(attendance)) {
     return validationError("Tell us if you are coming October 3.");
   }
-  if (additional_attendees.length > limits.additional_attendees) {
-    return validationError("Keep the guest list a little shorter for now.");
+  if (!pass_holder_one || pass_holder_one.length > limits.name) {
+    return validationError("Name the first filmmaker pass holder.");
+  }
+  if (!pass_holder_two || pass_holder_two.length > limits.name) {
+    return validationError("Name the second filmmaker pass holder.");
+  }
+  if (!prize_representative || prize_representative.length > limits.name) {
+    return validationError("Name someone who can accept a prize for the film.");
   }
   if (
     filmmaker_video_url &&
@@ -150,41 +157,34 @@ export async function POST(request: Request) {
     return validationError("The final note is a little too long.");
   }
 
+  const record: FilmmakerMaterialsRecord = {
+    id: idempotency_key,
+    created_at: new Date().toISOString(),
+    idempotency_key,
+    film_title,
+    director_names,
+    email,
+    runtime,
+    synopsis,
+    master_link,
+    subtitle_status,
+    subtitle_link: null,
+    materials_link,
+    social_handles,
+    attendance,
+    additional_attendees: null,
+    filmmaker_video_url: filmmaker_video_url || null,
+    show_day_contact,
+    notes: notes || null,
+    pass_holder_one,
+    pass_holder_two,
+    prize_representative,
+  };
+
   try {
-    const record = await saveFilmmakerMaterials({
-      idempotency_key,
-      film_title,
-      director_names,
-      email,
-      runtime,
-      synopsis,
-      master_link,
-      subtitle_status,
-      subtitle_link: null,
-      materials_link,
-      social_handles,
-      attendance,
-      additional_attendees: additional_attendees || null,
-      filmmaker_video_url: filmmaker_video_url || null,
-      show_day_contact,
-      notes: notes || null,
-    });
-
-    let sheetSync: "synced" | "pending" = "synced";
-    try {
-      await syncFilmmakerToGoogleSheet(record);
-      await markFilmmakerSheetSync(record, "synced");
-    } catch (sheetError) {
-      sheetSync = "pending";
-      try {
-        await markFilmmakerSheetSync(record, "failed", sheetError);
-      } catch {
-        // The submission is already durable in Supabase. A retry can still find it.
-      }
-    }
-
+    await syncFilmmakerToGoogleSheet(record);
     return NextResponse.json(
-      { id: record.id, sheet_sync: sheetSync },
+      { id: record.id, sheet_sync: "synced" },
       { status: 201 },
     );
   } catch (error) {
@@ -194,8 +194,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         message: isMissingConfig
-          ? "The receiving booth is not connected yet. Your answers are still here."
-          : "Something went sideways. Your answers are still here—try SEND IT again.",
+          ? "The receiving sheet is not connected yet. Your answers are still here."
+          : "Something broke. Your answers are still here. Try SEND IT again.",
       },
       { status: isMissingConfig ? 503 : 500 },
     );
