@@ -2308,6 +2308,7 @@ html.is-film-scrolling {
 
   .filmmakers-brand {
     top: 1.5rem;
+    right: auto;
     left: 50%;
     transform: translateX(-50%);
   }
