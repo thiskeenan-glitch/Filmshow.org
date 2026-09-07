@@ -9,6 +9,23 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+// Log fixed diagnostic labels only; never log credentials or entry details.
+function logStorageFailure(stage: "database" | "sheet", error: unknown) {
+  const message = error instanceof Error ? error.message.toLowerCase() : "";
+  const reason = message.includes("not configured")
+    ? "missing_configuration"
+    : /decoder|pem|unsupported|asn1/.test(message)
+      ? "invalid_private_key_format"
+      : /signature|jwt|invalid_grant/.test(message)
+        ? "google_authentication_rejected"
+        : message.includes("sheet could not be checked")
+          ? "sheet_access_failed"
+          : message.includes("row could not be added")
+            ? "sheet_append_failed"
+            : "request_failed";
+  console.error("ticket_giveaway_storage_failure", { stage, reason });
+}
+
 function cleanText(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -79,7 +96,8 @@ export async function POST(request: Request) {
   let entry: TicketGiveawayRecord;
   try {
     entry = await saveTicketGiveawayEntry(input);
-  } catch {
+  } catch (error) {
+    logStorageFailure("database", error);
     const sheetOnlyEntry: TicketGiveawayRecord = {
       ...input,
       id: idempotencyKey,
@@ -92,7 +110,8 @@ export async function POST(request: Request) {
         { id: sheetOnlyEntry.id, sheet_sync: "synced", backup_saved: false },
         { status: 201 },
       );
-    } catch {
+    } catch (error) {
+      logStorageFailure("sheet", error);
       return NextResponse.json(
         { message: "The entry booth is unavailable right now. Please try again." },
         { status: 503 },
@@ -106,6 +125,7 @@ export async function POST(request: Request) {
       await syncTicketGiveawayToGoogleSheet(entry);
       await markTicketGiveawaySheetSync(entry, "synced");
     } catch (sheetError) {
+      logStorageFailure("sheet", sheetError);
       sheetSync = "pending";
       try {
         await markTicketGiveawaySheetSync(entry, "failed", sheetError);
