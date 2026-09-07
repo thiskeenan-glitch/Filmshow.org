@@ -89,7 +89,7 @@ export async function syncTicketGiveawayToGoogleSheet(
   const existing = (await existingResponse.json()) as { values?: string[][] };
   if (existing.values?.some((row) => row[0] === record.id)) return;
 
-  const appendRange = encodeURIComponent(`'${SHEET_NAME}'!A:F`);
+  const appendRange = encodeURIComponent(`'${SHEET_NAME}'!A:H`);
   const appendResponse = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${appendRange}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
     {
@@ -105,6 +105,8 @@ export async function syncTicketGiveawayToGoogleSheet(
             "Poster QR",
             record.id,
             "",
+            "",
+            record.heard_about_us,
           ],
         ],
       }),

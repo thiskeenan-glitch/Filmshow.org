@@ -37,6 +37,7 @@ export function TicketGiveawayForm() {
           idempotency_key: idempotencyKey.current,
           name: data.get("name"),
           email: data.get("email"),
+          heard_about_us: data.get("heard_about_us"),
           company: data.get("company"),
         }),
       });
@@ -90,6 +91,16 @@ export function TicketGiveawayForm() {
             autoComplete="email"
             placeholder="Email"
             maxLength={254}
+            required
+          />
+        </label>
+        <label className="ticket-giveaway-source-field">
+          <span>How&apos;d you hear about us?</span>
+          <input
+            name="heard_about_us"
+            type="text"
+            placeholder="Instagram, a friend, a poster…"
+            maxLength={200}
             required
           />
         </label>

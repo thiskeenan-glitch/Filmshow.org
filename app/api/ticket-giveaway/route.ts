@@ -53,6 +53,7 @@ export async function POST(request: Request) {
   const idempotencyKey = cleanText(payload.idempotency_key);
   const name = cleanText(payload.name);
   const email = cleanText(payload.email).toLowerCase();
+  const heardAboutUs = cleanText(payload.heard_about_us);
 
   if (!validUuid(idempotencyKey)) {
     return invalid("Refresh the page and try again.");
@@ -63,11 +64,15 @@ export async function POST(request: Request) {
   if (!/^\S+@\S+\.\S+$/.test(email) || email.length > 254) {
     return invalid("Add a valid email to enter.");
   }
+  if (!heardAboutUs || heardAboutUs.length > 200) {
+    return invalid("Tell us how you heard about Filmshow.");
+  }
 
   const input = {
     idempotency_key: idempotencyKey,
     name,
     email,
+    heard_about_us: heardAboutUs,
     source: "poster_qr" as const,
   };
 

@@ -4,6 +4,7 @@ export type TicketGiveawayInput = {
   idempotency_key: string;
   name: string;
   email: string;
+  heard_about_us: string;
   source: "poster_qr";
 };
 

@@ -54,8 +54,11 @@ canvas {
 }
 
 html {
+  min-height: 100%;
+  background-color: #020202;
   scroll-behavior: smooth;
   scroll-padding-top: 6.5rem;
+  overscroll-behavior-y: none;
 }
 
 [id] {
@@ -69,6 +72,7 @@ html {
 body {
   min-height: 100vh;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
   background:
     radial-gradient(circle at 72% 57%, rgba(224, 0, 0, 0.12), transparent 22rem),
     radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.016), transparent 24rem),
@@ -4653,9 +4657,12 @@ html.is-film-scrolling {
 .ticket-giveaway-page {
   position: relative;
   display: grid;
-  min-height: 100svh;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: visible;
   isolation: isolate;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
   background:
     radial-gradient(ellipse at 83% 78%, rgba(175, 0, 0, 0.24), transparent 37%),
     radial-gradient(ellipse at 11% 11%, rgba(255, 255, 255, 0.045), transparent 28%),
@@ -4683,8 +4690,8 @@ html.is-film-scrolling {
 .ticket-giveaway-brand {
   position: relative;
   display: block;
-  width: clamp(10rem, 13vw, 12rem);
-  height: clamp(7.2rem, 8.5vw, 8rem);
+  width: clamp(7rem, 9.1vw, 8.4rem);
+  height: clamp(5.04rem, 5.95vw, 5.6rem);
   margin-left: auto;
   overflow: hidden;
   transition: opacity 180ms ease;
@@ -4694,7 +4701,7 @@ html.is-film-scrolling {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: clamp(31rem, 40vw, 38rem);
+  width: clamp(21.7rem, 28vw, 26.6rem);
   max-width: none;
   height: auto;
   transform: translate(-50%, -50%);
@@ -4763,6 +4770,10 @@ html.is-film-scrolling {
 .ticket-giveaway-fields label {
   display: grid;
   gap: 0.55rem;
+}
+
+.ticket-giveaway-fields .ticket-giveaway-source-field {
+  grid-column: 1 / -1;
 }
 
 .ticket-giveaway-fields label > span {
@@ -4873,13 +4884,13 @@ html.is-film-scrolling {
   }
 
   .ticket-giveaway-brand {
-    width: 9.5rem;
-    height: 7.8rem;
+    width: 6.65rem;
+    height: 5.46rem;
     margin-inline: auto;
   }
 
   .ticket-giveaway-brand img {
-    width: 34rem;
+    width: 23.8rem;
   }
 
   .ticket-giveaway-copy {
