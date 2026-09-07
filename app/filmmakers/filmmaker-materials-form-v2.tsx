@@ -283,7 +283,7 @@ export function FilmmakerMaterialsFormV2() {
           </fieldset>
         </Question>
 
-        <Question number="11" title="Who can collect a prize for the film?" helper="Name one person who will be in the room and can physically accept a prize. If the film wins first place and no designated representative is present, the $1,000 cash prize goes to the runner-up." error={errors.prizeRepresentative}>
+        <Question number="11" title="Who can collect a prize for the film?" helper="Name one person who will be in the room and can physically accept a prize. The person you designate receives a pass to the event and does not need to purchase a ticket. If the film wins first place and no designated representative is present, the $1,000 cash prize goes to the runner-up." error={errors.prizeRepresentative}>
           <input id="filmmakers-prizeRepresentative" type="text" value={values.prizeRepresentative} onChange={(e) => setField("prizeRepresentative", e.target.value)} aria-invalid={Boolean(errors.prizeRepresentative)} placeholder="Full name" />
         </Question>
 
