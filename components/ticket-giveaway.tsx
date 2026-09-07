@@ -10,7 +10,7 @@ export function TicketGiveaway() {
     event.preventDefault();
     setStatus("sending");
     const form = new FormData(event.currentTarget);
-    const response = await fetch("/api/giveaway", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.get("name"), email: form.get("email"), company: form.get("company"), source: "ticket-page" }) });
+    const response = await fetch("/api/giveaway", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.get("name"), email: form.get("email"), company: form.get("company"), source: "brooklyn-roasting-collab" }) });
     const data = (await response.json()) as { message?: string; duplicate?: boolean };
     if (!response.ok) { setStatus("error"); setMessage(data.message || "Try again."); return; }
     setStatus("done");
