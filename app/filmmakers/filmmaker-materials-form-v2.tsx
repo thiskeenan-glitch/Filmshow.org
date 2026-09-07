@@ -17,8 +17,6 @@ type FormValues = {
   materialsLink: string;
   socialHandles: string;
   attendance: Attendance;
-  passHolderOne: string;
-  passHolderTwo: string;
   prizeRepresentative: string;
   filmmakerVideoUrl: string;
   showDayContact: string;
@@ -41,8 +39,6 @@ const initialValues: FormValues = {
   materialsLink: "",
   socialHandles: "",
   attendance: "",
-  passHolderOne: "",
-  passHolderTwo: "",
   prizeRepresentative: "",
   filmmakerVideoUrl: "",
   showDayContact: "",
@@ -157,8 +153,6 @@ export function FilmmakerMaterialsFormV2() {
     if (!isValidUrl(values.materialsLink.trim())) nextErrors.materialsLink = "Paste a full folder link starting with http or https.";
     if (!values.socialHandles.trim()) nextErrors.socialHandles = "Tell us who to tag.";
     if (!values.attendance) nextErrors.attendance = "Tell us if you are coming.";
-    if (!values.passHolderOne.trim()) nextErrors.passHolderOne = "Name the first pass holder.";
-    if (!values.passHolderTwo.trim()) nextErrors.passHolderTwo = "Name the second pass holder.";
     if (!values.prizeRepresentative.trim()) nextErrors.prizeRepresentative = "Name someone who can accept a prize for the film.";
     if (values.filmmakerVideoUrl.trim() && !isValidUrl(values.filmmakerVideoUrl.trim())) {
       nextErrors.filmmakerVideoUrl = "That optional video still needs a full URL.";
@@ -197,8 +191,6 @@ export function FilmmakerMaterialsFormV2() {
           materials_link: values.materialsLink,
           social_handles: values.socialHandles,
           attendance: values.attendance,
-          pass_holder_one: values.passHolderOne,
-          pass_holder_two: values.passHolderTwo,
           prize_representative: values.prizeRepresentative,
           filmmaker_video_url: values.filmmakerVideoUrl,
           show_day_contact: values.showDayContact,
@@ -291,28 +283,20 @@ export function FilmmakerMaterialsFormV2() {
           </fieldset>
         </Question>
 
-        <Question number="11" title="Who's using pass one?" helper="Each film gets two complimentary filmmaker passes. Put the name exactly as they'll check in." error={errors.passHolderOne}>
-          <input id="filmmakers-passHolderOne" type="text" value={values.passHolderOne} onChange={(e) => setField("passHolderOne", e.target.value)} aria-invalid={Boolean(errors.passHolderOne)} placeholder="Full name" />
-        </Question>
-
-        <Question number="12" title="Who's using pass two?" helper="This can be the director, producer, cast, crew, or whoever should be there with the film." error={errors.passHolderTwo}>
-          <input id="filmmakers-passHolderTwo" type="text" value={values.passHolderTwo} onChange={(e) => setField("passHolderTwo", e.target.value)} aria-invalid={Boolean(errors.passHolderTwo)} placeholder="Full name" />
-        </Question>
-
-        <Question number="13" title="Who can collect a prize for the film?" helper="Name one person who will be in the room and can physically accept a prize. If the film wins first place and no designated representative is present, the $1,000 cash prize goes to the runner-up." error={errors.prizeRepresentative}>
+        <Question number="11" title="Who can collect a prize for the film?" helper="Name one person who will be in the room and can physically accept a prize. If the film wins first place and no designated representative is present, the $1,000 cash prize goes to the runner-up." error={errors.prizeRepresentative}>
           <input id="filmmakers-prizeRepresentative" type="text" value={values.prizeRepresentative} onChange={(e) => setField("prizeRepresentative", e.target.value)} aria-invalid={Boolean(errors.prizeRepresentative)} placeholder="Full name" />
         </Question>
 
-        <Question number="14" title="One weird request." helper="If you're up for it, send us a casual 10-15 second vertical phone video introducing yourself and your film. Phone is perfect. Don't make it good." optional error={errors.filmmakerVideoUrl} className="filmmaker-question--weird">
+        <Question number="12" title="One weird request." helper="If you're up for it, send us a casual 10-15 second vertical phone video introducing yourself and your film. Phone is perfect. Don't make it good." optional error={errors.filmmakerVideoUrl} className="filmmaker-question--weird">
           <input id="filmmakers-filmmakerVideoUrl" type="url" inputMode="url" value={values.filmmakerVideoUrl} onChange={(e) => setField("filmmakerVideoUrl", e.target.value)} aria-invalid={Boolean(errors.filmmakerVideoUrl)} placeholder="Optional Drive / Dropbox link" />
           <p className="filmmaker-skip-note">Completely optional.</p>
         </Question>
 
-        <Question number="15" title="If the projector catches fire, who do we call?" helper="Name + cell number. Show-day emergencies only." error={errors.showDayContact}>
+        <Question number="13" title="If the projector catches fire, who do we call?" helper="Name + cell number. Show-day emergencies only." error={errors.showDayContact}>
           <input id="filmmakers-showDayContact" type="text" autoComplete="tel" value={values.showDayContact} onChange={(e) => setField("showDayContact", e.target.value)} aria-invalid={Boolean(errors.showDayContact)} placeholder="Name + (555) 555-5555" />
         </Question>
 
-        <Question number="16" title="Anything we should know?" optional>
+        <Question number="14" title="Anything we should know?" optional>
           <textarea id="filmmakers-notes" rows={5} maxLength={5000} value={values.notes} onChange={(e) => setField("notes", e.target.value)} placeholder="Anything at all." />
         </Question>
 

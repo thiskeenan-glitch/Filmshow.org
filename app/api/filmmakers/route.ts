@@ -95,8 +95,6 @@ export async function POST(request: Request) {
   const materials_link = text(payload, "materials_link");
   const social_handles = text(payload, "social_handles");
   const attendance = text(payload, "attendance") as FilmmakerAttendance;
-  const pass_holder_one = text(payload, "pass_holder_one");
-  const pass_holder_two = text(payload, "pass_holder_two");
   const prize_representative = text(payload, "prize_representative");
   const filmmaker_video_url = text(payload, "filmmaker_video_url");
   const show_day_contact = text(payload, "show_day_contact");
@@ -135,12 +133,6 @@ export async function POST(request: Request) {
   if (!attendanceOptions.has(attendance)) {
     return validationError("Tell us if you are coming October 3.");
   }
-  if (!pass_holder_one || pass_holder_one.length > limits.name) {
-    return validationError("Name the first filmmaker pass holder.");
-  }
-  if (!pass_holder_two || pass_holder_two.length > limits.name) {
-    return validationError("Name the second filmmaker pass holder.");
-  }
   if (!prize_representative || prize_representative.length > limits.name) {
     return validationError("Name someone who can accept a prize for the film.");
   }
@@ -176,8 +168,6 @@ export async function POST(request: Request) {
     filmmaker_video_url: filmmaker_video_url || null,
     show_day_contact,
     notes: notes || null,
-    pass_holder_one,
-    pass_holder_two,
     prize_representative,
   };
 
