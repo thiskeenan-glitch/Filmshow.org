@@ -9,7 +9,7 @@ Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 - `/` - Home
 - `/about` - About the event
 - `/how-it-works` - How Filmshow works
-- `/tickets` - Branded ticket information page with purchase handled by Luma
+- `/tickets` - Direct-link two-ticket giveaway page for poster QR codes
 - `/originals` - Filmshow Grant pitch application
 - `/sponsors` - Sponsor information and inquiry form
 
@@ -41,4 +41,4 @@ pnpm build
 
 Then push this project to GitHub, import the repository in Vercel, keep the default Next.js settings, and deploy.
 
-Ticket checkout is handled by Luma. Completed short-film submissions are handled by FilmFreeway. Filmshow Grant uses Stripe, Supabase, and Brevo when the required production environment variables are configured.
+Ticket checkout is handled by Luma. The private ticket-giveaway page saves entries in Supabase and syncs them to the Filmshow Ticket Giveaway Entries Google Sheet. Completed short-film submissions are handled by FilmFreeway. Filmshow Grant uses Stripe, Supabase, and Brevo when the required production environment variables are configured.

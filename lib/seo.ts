@@ -72,12 +72,13 @@ export const routeMetadata = {
   },
   tickets: {
     path: "/tickets",
-    title: "Tickets | Filmshow",
-    socialTitle: "Filmshow Tickets | Brooklyn Live Cinema Event",
+    title: "Win Two Tickets | Filmshow",
+    socialTitle: "Win Two Tickets to Filmshow Vol. 1",
     description:
-      "Get tickets for Filmshow Vol. 1, a Brooklyn live cinema event featuring local short films, live performance, and an audience in the room.",
+      "Enter for a chance to win two tickets to Filmshow Vol. 1 in Brooklyn.",
     priority: 0.9,
-    lastModified: "2026-07-28",
+    lastModified: "2026-09-07",
+    isPublic: false,
   },
   about: {
     path: "/about",

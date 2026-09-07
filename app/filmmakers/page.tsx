@@ -23,16 +23,16 @@ export default function FilmmakersPage() {
         <div className="filmmakers-container">
           <Link
             href="/"
-            className="filmmakers-brand"
+            className="filmmakers-brand filmmakers-brand--laurel"
             aria-label="Go to the Filmshow homepage"
             data-reveal="text"
           >
-            <span className="filmmakers-brand-crop">
+            <span className="filmmakers-laurel">
               <Image
-                src="/images/official-tfs-logo.png"
+                src="/images/filmshow-official-selection-laurel.png"
                 alt=""
-                width={8247}
-                height={1889}
+                width={1774}
+                height={887}
                 priority
                 unoptimized
               />

@@ -1,116 +1,58 @@
-import { ButtonLink } from "@/components/button-link";
-import { JsonLd } from "@/components/json-ld";
-import { LumaCheckoutLink } from "@/components/luma-checkout-link";
-import { PlasticCard } from "@/components/plastic-card";
-import {
-  buildEventPageJsonLd,
-  createPageMetadata,
-  routeMetadata,
-} from "@/lib/seo";
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { TicketGiveawayForm } from "./ticket-giveaway-form";
 
-export const metadata = createPageMetadata(routeMetadata.tickets);
-
-const eventFacts = [
-  ["Date and time", "Vol. 1 | 10.3.26 | Brooklyn, NYC"],
-  ["Venue", "Brooklyn location TBA"],
-  ["Voting", "The audience votes live in the room"],
-];
-
-const nightIncludes = [
-  "Short films curated for the live show",
-  "Live performance moments between films",
-  "A jury-selected 1st Place",
-  "Live audience voting",
-  "Winners announced in the room.",
-  "Drinks, sponsors, and a real night out feeling",
-];
+export const metadata: Metadata = {
+  title: "Win Two Tickets | Filmshow",
+  description:
+    "Enter for a chance to win two tickets to Filmshow Vol. 1 in Brooklyn.",
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+    nocache: true,
+  },
+};
 
 export default function TicketsPage() {
   return (
-    <main className="hero-pad">
-      <JsonLd data={buildEventPageJsonLd(routeMetadata.tickets)} />
-      <section className="container-page">
-        <div>
-          <p className="copy-wide small-label mb-8 text-red-300">
-            Vol. 1 | 10.3.26 | Brooklyn, NYC
-          </p>
-          <h1 className="section-kicker max-w-4xl text-stone-100">
-            Tickets
+    <main id="top" className="ticket-giveaway-page">
+      <div className="ticket-giveaway-glow" aria-hidden="true" />
+      <section className="ticket-giveaway-shell">
+        <Link
+          href="/"
+          className="ticket-giveaway-brand"
+          aria-label="Go to the Filmshow homepage"
+        >
+          <Image
+            src="/images/official-tfs-logo.png"
+            alt="Filmshow"
+            width={3400}
+            height={1362}
+            priority
+            unoptimized
+          />
+        </Link>
+
+        <div className="ticket-giveaway-copy">
+          <p className="ticket-giveaway-eyebrow">Filmshow Vol. 1 · Brooklyn</p>
+          <h1>
+            Win two
+            <br />
+            <em>tickets.</em>
           </h1>
-          <p className="body-large mt-10 max-w-2xl text-stone-300">
-            Filmshow is a live short-film event in Brooklyn for Vol. 1 |
-            10.3.26, featuring curated films, live performances, and audience
-            participation.
-          </p>
-          <p className="body-copy mt-6 max-w-2xl text-stone-500">
-            This website is the home base. Ticket purchase, confirmations,
-            guest list, and check in are handled by our partner Luma.
-          </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <LumaCheckoutLink>
-              Get tickets
-            </LumaCheckoutLink>
-            <ButtonLink href="/" variant="secondary">
-              Back to home
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
-
-      <section className="container-page mt-20 grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
-        <div>
-          <p className="copy-wide small-label text-red-300">
-            Event details
+          <p className="ticket-giveaway-intro">
+            Enter for a chance to win two tickets to Filmshow Vol. 1 on
+            October 3.
           </p>
         </div>
-        <div className="divide-y divide-stone-100/10 border-y border-stone-100/10">
-          {eventFacts.map(([label, value]) => (
-            <div key={label} className="grid gap-2 py-6 sm:grid-cols-[10rem_1fr]">
-              <p className="copy-wide small-label text-stone-500">{label}</p>
-              <p className="body-copy text-stone-100">{value}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
-      <section className="container-page mt-20 grid gap-12 lg:grid-cols-[0.72fr_1.28fr]">
-        <div>
-          <h2 className="section-title text-stone-100">
-            What the night includes
-          </h2>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {nightIncludes.map((item) => {
-            const isEmotionalLine = item.includes("real night out feeling");
+        <TicketGiveawayForm />
 
-            return (
-            <PlasticCard key={item} className="plastic-pad">
-              <p className={`body-copy ${
-                isEmotionalLine
-                  ? "text-stone-100"
-                  : "text-stone-200"
-              }`}>{item}</p>
-            </PlasticCard>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="container-page mt-20 pb-24">
-        <PlasticCard className="plastic-pad">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <p className="copy-wide small-label text-red-300">Ticketing</p>
-              <p className="body-copy mt-5 max-w-2xl text-stone-300">
-                Ticket purchase, confirmations, guest list, and check in are
-                handled by our partner Luma.
-              </p>
-            </div>
-            <LumaCheckoutLink>
-              Get tickets
-            </LumaCheckoutLink>
-          </div>
-        </PlasticCard>
+        <p className="ticket-giveaway-note">
+          One winner. Two seats. We&apos;ll contact the winner by email.
+        </p>
       </section>
     </main>
   );

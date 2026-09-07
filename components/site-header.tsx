@@ -424,7 +424,11 @@ export function SiteHeader() {
     };
   }, [activeNavRefKey]);
 
-  if (pathname.startsWith("/admin") || pathname.startsWith("/filmmakers")) {
+  if (
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/filmmakers") ||
+    pathname.startsWith("/tickets")
+  ) {
     return null;
   }
 
