@@ -45,9 +45,21 @@ export default function TicketsPage() {
 
       <section id="giveaway" className="container-page mt-20">
         <PlasticCard className="plastic-pad">
-          <p className="copy-wide small-label text-red-300">Ticket giveaway</p>
-          <h2 className="section-title mt-5 text-stone-100">Win two tickets.</h2>
-          <p className="body-copy mt-4 max-w-xl text-stone-300">Name. Email. That's it. Enter for a chance to come to Filmshow Vol. 1 with someone you like.</p>
+          <div className="mb-7 flex flex-wrap items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-stone-100 p-2">
+              <img
+                src="https://logo.clearbit.com/brooklynroasting.com"
+                alt="Brooklyn Roasting Company"
+                className="h-full w-full object-contain"
+              />
+            </div>
+            <div>
+              <p className="copy-wide small-label text-red-300">Filmshow × Brooklyn Roasting Company</p>
+              <p className="mt-1 text-sm text-stone-500">Brooklyn gives Brooklyn a night out.</p>
+            </div>
+          </div>
+          <h2 className="section-title text-stone-100">Win two tickets.</h2>
+          <p className="body-copy mt-4 max-w-xl text-stone-300">Filmshow and Brooklyn Roasting Company are giving away a pair of tickets to Filmshow Vol. 1. Name. Email. That's it.</p>
           <TicketGiveaway />
         </PlasticCard>
       </section>
