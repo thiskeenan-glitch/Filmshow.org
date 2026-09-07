@@ -24,7 +24,6 @@ const limits = {
   film_title: 180,
   director_names: 240,
   email: 254,
-  runtime: 80,
   synopsis: 1200,
   url: 1000,
   social_handles: 1200,
@@ -88,7 +87,6 @@ export async function POST(request: Request) {
   const film_title = text(payload, "film_title");
   const director_names = text(payload, "director_names");
   const email = text(payload, "email").toLowerCase();
-  const runtime = text(payload, "runtime");
   const synopsis = text(payload, "synopsis");
   const master_link = text(payload, "master_link");
   const subtitle_status = text(payload, "subtitle_status") as SubtitleStatus;
@@ -111,9 +109,6 @@ export async function POST(request: Request) {
   }
   if (!director_names || director_names.length > limits.director_names) {
     return validationError("Tell us who made this thing.");
-  }
-  if (!runtime || runtime.length > limits.runtime) {
-    return validationError("Tell us how long it is.");
   }
   if (!synopsis || synopsis.length > limits.synopsis) {
     return validationError("Give us the one-sentence version.");
@@ -156,7 +151,7 @@ export async function POST(request: Request) {
     film_title,
     director_names,
     email,
-    runtime,
+    runtime: "",
     synopsis,
     master_link,
     subtitle_status,

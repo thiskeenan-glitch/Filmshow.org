@@ -10,7 +10,6 @@ type FormValues = {
   email: string;
   filmTitle: string;
   directorNames: string;
-  runtime: string;
   synopsis: string;
   masterLink: string;
   subtitleStatus: SubtitleStatus;
@@ -32,7 +31,6 @@ const initialValues: FormValues = {
   email: "",
   filmTitle: "",
   directorNames: "",
-  runtime: "",
   synopsis: "",
   masterLink: "",
   subtitleStatus: "",
@@ -146,7 +144,6 @@ export function FilmmakerMaterialsFormV2() {
     if (!/^\S+@\S+\.\S+$/.test(values.email.trim())) nextErrors.email = "Give us a real email address.";
     if (!values.filmTitle.trim()) nextErrors.filmTitle = "What are we showing?";
     if (!values.directorNames.trim()) nextErrors.directorNames = "Who made this thing?";
-    if (!values.runtime.trim()) nextErrors.runtime = "How long is it?";
     if (!values.synopsis.trim()) nextErrors.synopsis = "Give us the one-sentence version.";
     if (!isValidUrl(values.masterLink.trim())) nextErrors.masterLink = "Paste a full downloadable link starting with http or https.";
     if (!values.subtitleStatus) nextErrors.subtitleStatus = "Pick the subtitle situation.";
@@ -184,7 +181,6 @@ export function FilmmakerMaterialsFormV2() {
           film_title: values.filmTitle,
           director_names: values.directorNames,
           email: values.email,
-          runtime: values.runtime,
           synopsis: values.synopsis,
           master_link: values.masterLink,
           subtitle_status: values.subtitleStatus,
@@ -247,19 +243,15 @@ export function FilmmakerMaterialsFormV2() {
           <input id="filmmakers-directorNames" type="text" autoComplete="name" value={values.directorNames} onChange={(e) => setField("directorNames", e.target.value)} aria-invalid={Boolean(errors.directorNames)} placeholder="Director name(s)" />
         </Question>
 
-        <Question number="04" title="How long is it?" error={errors.runtime}>
-          <input id="filmmakers-runtime" type="text" value={values.runtime} onChange={(e) => setField("runtime", e.target.value)} aria-invalid={Boolean(errors.runtime)} placeholder="8 minutes 42 seconds" />
-        </Question>
-
-        <Question number="05" title="Describe it in one sentence." helper="The version you'd want us to tell people." error={errors.synopsis}>
+        <Question number="04" title="Describe it in one sentence." helper="The version you'd want us to tell people." error={errors.synopsis}>
           <textarea id="filmmakers-synopsis" rows={3} maxLength={1200} value={values.synopsis} onChange={(e) => setField("synopsis", e.target.value)} aria-invalid={Boolean(errors.synopsis)} placeholder="One beautiful sentence." />
         </Question>
 
-        <Question number="06" title="Where's the movie?" helper="Drop us a downloadable ProRes link. ProRes 422 preferred, 1080p or 4K at the film's native frame rate. Google Drive, Dropbox, Frame.io, etc. Make sure downloading is enabled." error={errors.masterLink}>
+        <Question number="05" title="Where's the movie?" helper="Drop us a downloadable ProRes link. ProRes 422 preferred, 1080p or 4K at the film's native frame rate. Google Drive, Dropbox, Frame.io, etc. Make sure downloading is enabled." error={errors.masterLink}>
           <input id="filmmakers-masterLink" type="url" inputMode="url" value={values.masterLink} onChange={(e) => setField("masterLink", e.target.value)} aria-invalid={Boolean(errors.masterLink)} placeholder="https://" />
         </Question>
 
-        <Question number="07" title="What's the subtitle situation?" helper="If your film is in a language other than English, we require English subtitles." error={errors.subtitleStatus}>
+        <Question number="06" title="What's the subtitle situation?" helper="If your film is in a language other than English, we require English subtitles." error={errors.subtitleStatus}>
           <fieldset className="filmmaker-choices"><legend className="sr-only">Subtitle status</legend>
             {[["no_subtitles", "No subtitles"], ["burned_in_master", "Burned into the master"]].map(([value, label], index) => (
               <label className="filmmaker-choice" key={value}><input id={index === 0 ? "filmmakers-subtitles-none" : undefined} type="radio" name="subtitle_status" value={value} checked={values.subtitleStatus === value} onChange={() => setField("subtitleStatus", value as SubtitleStatus)} /><span>{label}</span></label>
@@ -267,15 +259,15 @@ export function FilmmakerMaterialsFormV2() {
           </fieldset>
         </Question>
 
-        <Question number="08" title="Give us the good stuff." helper="Drop us one folder with 3-5 high-res stills. Poster/key art and trailer/teaser too, if you have them." error={errors.materialsLink}>
+        <Question number="07" title="Give us the good stuff." helper="Drop us one folder with 3-5 high-res stills. Poster/key art and trailer/teaser too, if you have them." error={errors.materialsLink}>
           <input id="filmmakers-materialsLink" type="url" inputMode="url" value={values.materialsLink} onChange={(e) => setField("materialsLink", e.target.value)} aria-invalid={Boolean(errors.materialsLink)} placeholder="https://" />
         </Question>
 
-        <Question number="09" title="Who do we tag?" helper="Director, film, production company, cast, whoever should be part of the announcement." error={errors.socialHandles}>
+        <Question number="08" title="Who do we tag?" helper="Director, film, production company, cast, whoever should be part of the announcement." error={errors.socialHandles}>
           <textarea id="filmmakers-socialHandles" rows={3} maxLength={1200} value={values.socialHandles} onChange={(e) => setField("socialHandles", e.target.value)} aria-invalid={Boolean(errors.socialHandles)} placeholder="@director, @film, @everyone" />
         </Question>
 
-        <Question number="10" title="Are you coming October 3?" error={errors.attendance}>
+        <Question number="09" title="Are you coming October 3?" error={errors.attendance}>
           <fieldset className="filmmaker-choices filmmaker-choices--attendance"><legend className="sr-only">Attendance</legend>
             {[["hell_yes", "Hell yes"], ["no", "No"], ["trying_to_figure_it_out", "Trying to figure it out"]].map(([value, label], index) => (
               <label className="filmmaker-choice" key={value}><input id={index === 0 ? "filmmakers-attendance-yes" : undefined} type="radio" name="attendance" value={value} checked={values.attendance === value} onChange={() => setField("attendance", value as Attendance)} /><span>{label}</span></label>
@@ -283,20 +275,20 @@ export function FilmmakerMaterialsFormV2() {
           </fieldset>
         </Question>
 
-        <Question number="11" title="Who can collect a prize for the film?" helper="Name one person who will be in the room and can physically accept a prize. The person you designate receives a pass to the event and does not need to purchase a ticket. If the film wins first place and no designated representative is present, the $1,000 cash prize goes to the runner-up." error={errors.prizeRepresentative}>
+        <Question number="10" title="Who can collect a prize for the film?" helper="Name one person who will be in the room and can physically accept a prize. The person you designate receives a pass to the event and does not need to purchase a ticket. If the film wins first place and no designated representative is present, the $1,000 cash prize goes to the runner-up." error={errors.prizeRepresentative}>
           <input id="filmmakers-prizeRepresentative" type="text" value={values.prizeRepresentative} onChange={(e) => setField("prizeRepresentative", e.target.value)} aria-invalid={Boolean(errors.prizeRepresentative)} placeholder="Full name" />
         </Question>
 
-        <Question number="12" title="One weird request." helper="If you're up for it, send us a casual 10-15 second vertical phone video introducing yourself and your film. Phone is perfect. Don't make it good." optional error={errors.filmmakerVideoUrl} className="filmmaker-question--weird">
+        <Question number="11" title="One weird request." helper="If you're up for it, send us a casual 10-15 second vertical phone video introducing yourself and your film. Phone is perfect. Don't make it good." optional error={errors.filmmakerVideoUrl} className="filmmaker-question--weird">
           <input id="filmmakers-filmmakerVideoUrl" type="url" inputMode="url" value={values.filmmakerVideoUrl} onChange={(e) => setField("filmmakerVideoUrl", e.target.value)} aria-invalid={Boolean(errors.filmmakerVideoUrl)} placeholder="Optional Drive / Dropbox link" />
           <p className="filmmaker-skip-note">Completely optional.</p>
         </Question>
 
-        <Question number="13" title="If the projector catches fire, who do we call?" helper="Name + cell number. Show-day emergencies only." error={errors.showDayContact}>
+        <Question number="12" title="If the projector catches fire, who do we call?" helper="Name + cell number. Show-day emergencies only." error={errors.showDayContact}>
           <input id="filmmakers-showDayContact" type="text" autoComplete="tel" value={values.showDayContact} onChange={(e) => setField("showDayContact", e.target.value)} aria-invalid={Boolean(errors.showDayContact)} placeholder="Name + (555) 555-5555" />
         </Question>
 
-        <Question number="14" title="Anything we should know?" optional>
+        <Question number="13" title="Anything we should know?" optional>
           <textarea id="filmmakers-notes" rows={5} maxLength={5000} value={values.notes} onChange={(e) => setField("notes", e.target.value)} placeholder="Anything at all." />
         </Question>
 
