@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 
 type SubmitState = "idle" | "sending" | "error";
 
@@ -18,7 +17,6 @@ function createIdempotencyKey() {
 }
 
 export function TicketGiveawayForm() {
-  const router = useRouter();
   const [state, setState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
   const idempotencyKey = useRef(createIdempotencyKey());
@@ -50,7 +48,7 @@ export function TicketGiveawayForm() {
       }
 
       form.reset();
-      router.push("/tickets/entered");
+      window.location.assign("/tickets/entered");
     } catch (error) {
       setMessage(
         error instanceof Error
