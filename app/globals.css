@@ -1855,12 +1855,13 @@ html.is-film-scrolling {
 
 .filmmakers-brand {
   position: absolute;
-  top: clamp(1.75rem, 4vw, 3.5rem);
-  left: 50%;
+  top: clamp(1.5rem, 3vw, 2.75rem);
+  right: clamp(1rem, 4vw, 4.5rem);
+  left: auto;
   display: inline-flex;
   width: fit-content;
   color: inherit;
-  transform: translateX(-50%);
+  transform: none;
   transition: opacity 180ms ease;
 }
 
@@ -1889,7 +1890,7 @@ html.is-film-scrolling {
 
 .filmmakers-laurel {
   display: block;
-  width: clamp(20rem, 36vw, 33rem);
+  width: clamp(10rem, 18vw, 16.5rem);
   aspect-ratio: 1755 / 896;
 }
 
