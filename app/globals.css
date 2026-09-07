@@ -1855,11 +1855,12 @@ html.is-film-scrolling {
 
 .filmmakers-brand {
   position: absolute;
-  top: clamp(1.5rem, 3vw, 2.75rem);
-  right: clamp(1rem, 4vw, 4.5rem);
+  top: clamp(1.75rem, 4vw, 3.5rem);
+  left: 50%;
   display: inline-flex;
   width: fit-content;
   color: inherit;
+  transform: translateX(-50%);
   transition: opacity 180ms ease;
 }
 
@@ -1888,8 +1889,8 @@ html.is-film-scrolling {
 
 .filmmakers-laurel {
   display: block;
-  width: 15rem;
-  aspect-ratio: 1774 / 887;
+  width: clamp(20rem, 36vw, 33rem);
+  aspect-ratio: 1755 / 896;
 }
 
 .filmmakers-laurel img {
@@ -2305,19 +2306,13 @@ html.is-film-scrolling {
   }
 
   .filmmakers-brand {
-    top: 1rem;
-    right: auto;
-    left: calc(50% - 2.625rem);
-    transform: none;
-  }
-
-  .filmmakers-brand--laurel {
-    top: 1.75rem;
-    left: calc(50% - 5.125rem);
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .filmmakers-laurel {
-    width: 10.25rem;
+    width: min(15rem, calc(100vw - 3rem));
   }
 
   .filmmakers-intro-copy {
