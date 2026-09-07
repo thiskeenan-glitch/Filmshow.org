@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { TicketGiveawayForm } from "./ticket-giveaway-form";
 
 export const metadata: Metadata = {
-  title: "Win Two Tickets | Filmshow",
-  description:
-    "Enter for a chance to win two tickets to Filmshow Vol. 1 in Brooklyn.",
+  title: "You're In | Filmshow",
+  description: "Your Filmshow ticket giveaway entry has been received.",
   robots: {
     index: false,
     follow: false,
@@ -15,9 +13,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function TicketsPage() {
+export default function TicketGiveawayEnteredPage() {
   return (
-    <main id="top" className="ticket-giveaway-page">
+    <main id="top" className="ticket-giveaway-page ticket-giveaway-entered-page">
       <div className="ticket-giveaway-glow" aria-hidden="true" />
       <section className="ticket-giveaway-shell">
         <Link
@@ -35,24 +33,20 @@ export default function TicketsPage() {
           />
         </Link>
 
-        <div className="ticket-giveaway-copy">
-          <p className="ticket-giveaway-eyebrow">Filmshow Vol. 1 · Brooklyn</p>
+        <div className="ticket-giveaway-copy ticket-giveaway-entered-copy">
+          <p className="ticket-giveaway-eyebrow">Entry confirmed</p>
           <h1>
-            Win two
+            You&apos;re
             <br />
-            <em>tickets.</em>
+            <em>in.</em>
           </h1>
           <p className="ticket-giveaway-intro">
-            Enter for a chance to win two tickets to Filmshow Vol. 1 on
-            October 3.
+            Your entry has been received. Keep an eye on your inbox. Good luck.
           </p>
+          <Link href="/" className="ticket-giveaway-home-link">
+            Back to Filmshow
+          </Link>
         </div>
-
-        <TicketGiveawayForm />
-
-        <p className="ticket-giveaway-note">
-          One winner. Two seats. We&apos;ll contact the winner by email.
-        </p>
       </section>
     </main>
   );

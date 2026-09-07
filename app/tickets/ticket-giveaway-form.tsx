@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
-type SubmitState = "idle" | "sending" | "sent" | "error";
+type SubmitState = "idle" | "sending" | "error";
 
 function createIdempotencyKey() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -17,6 +18,7 @@ function createIdempotencyKey() {
 }
 
 export function TicketGiveawayForm() {
+  const router = useRouter();
   const [state, setState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
   const idempotencyKey = useRef(createIdempotencyKey());
@@ -48,7 +50,7 @@ export function TicketGiveawayForm() {
       }
 
       form.reset();
-      setState("sent");
+      router.push("/tickets/entered");
     } catch (error) {
       setMessage(
         error instanceof Error
@@ -57,15 +59,6 @@ export function TicketGiveawayForm() {
       );
       setState("error");
     }
-  }
-
-  if (state === "sent") {
-    return (
-      <div className="ticket-giveaway-success" role="status">
-        <p className="ticket-giveaway-success-label">You&apos;re entered.</p>
-        <p>Keep an eye on your inbox. Good luck.</p>
-      </div>
-    );
   }
 
   return (

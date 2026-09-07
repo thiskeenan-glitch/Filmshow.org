@@ -4704,7 +4704,7 @@ html.is-film-scrolling {
   width: clamp(21.7rem, 28vw, 26.6rem);
   max-width: none;
   height: auto;
-  transform: translate(-50%, -50%);
+  transform: translate(-53.1%, -41.1%);
 }
 
 .ticket-giveaway-brand:hover {
@@ -4850,6 +4850,33 @@ html.is-film-scrolling {
 
 .ticket-giveaway-note {
   margin-top: 1.6rem;
+}
+
+.ticket-giveaway-entered-page {
+  min-height: 100dvh;
+}
+
+.ticket-giveaway-entered-copy {
+  margin-top: clamp(7rem, 17vh, 12rem);
+}
+
+.ticket-giveaway-home-link {
+  display: inline-block;
+  margin-top: clamp(2.2rem, 5vw, 3.2rem);
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.ticket-giveaway-home-link:hover,
+.ticket-giveaway-home-link:focus-visible {
+  color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .ticket-giveaway-error {
