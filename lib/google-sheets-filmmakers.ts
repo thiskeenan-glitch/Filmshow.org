@@ -34,6 +34,13 @@ export type FilmmakerMaterialsRecord = {
 };
 
 const SHEET_NAME = "FILMMAKER MASTER";
+const SHEET_HEADERS = [
+  "Timestamp", "Film", "Director", "Email", "Runtime", "Synopsis",
+  "Master Link", "Subtitle Status", "Subtitle Link", "Materials Link",
+  "Social Handles", "Director Attending", "Additional Attendees",
+  "Filmmaker Video", "Show-Day Contact", "Notes", "Submission ID",
+  "Pass 1", "Pass 2", "Prize Representative", "Key Crew",
+] as const;
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
 const SERVICE_ACCOUNT_EMAIL =
@@ -114,13 +121,13 @@ function attendanceLabel(record: FilmmakerMaterialsRecord) {
   }[record.attendance];
 }
 
-async function ensureKeyCrewHeader(
+async function getVerifiedSheetId(
   spreadsheetId: string,
   headers: { Authorization: string },
 ) {
-  const range = encodeURIComponent(`'${SHEET_NAME}'!U1`);
+  const range = encodeURIComponent(`'${SHEET_NAME}'!A1:U1`);
   const response = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?ranges=${range}&fields=sheets(properties(sheetId,title),data(rowData(values(formattedValue))))`,
     { headers, cache: "no-store" },
   );
 
@@ -128,35 +135,29 @@ async function ensureKeyCrewHeader(
     throw new Error("The filmmaker master sheet header could not be checked.");
   }
 
-  const payload = (await response.json()) as { values?: string[][] };
-  const currentHeader = payload.values?.[0]?.[0]?.trim();
-  if (currentHeader === "Key Crew") return;
-  if (currentHeader) {
-    throw new Error("Column U in the filmmaker master sheet is already in use.");
+  const payload = (await response.json()) as {
+    sheets?: Array<{
+      properties?: { sheetId?: number; title?: string };
+      data?: Array<{ rowData?: Array<{ values?: Array<{ formattedValue?: string }> }> }>;
+    }>;
+  };
+  const sheet = payload.sheets?.find((item) => item.properties?.title === SHEET_NAME);
+  const sheetId = sheet?.properties?.sheetId;
+  const cells = sheet?.data?.[0]?.rowData?.[0]?.values;
+  if (
+    sheetId === undefined ||
+    SHEET_HEADERS.some((header, index) => cells?.[index]?.formattedValue !== header)
+  ) {
+    throw new Error("The filmmaker master sheet columns do not match the submission fields.");
   }
-
-  const updateResponse = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?valueInputOption=RAW`,
-    {
-      method: "PUT",
-      headers: { ...headers, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        majorDimension: "ROWS",
-        values: [["Key Crew"]],
-      }),
-      cache: "no-store",
-    },
-  );
-
-  if (!updateResponse.ok) {
-    throw new Error("The Key Crew column could not be added to the filmmaker master sheet.");
-  }
+  return sheetId;
 }
 
 export async function syncFilmmakerToGoogleSheet(record: FilmmakerMaterialsRecord) {
   const { spreadsheetId } = getGoogleSheetsConfig();
   const accessToken = await getAccessToken();
   const headers = { Authorization: `Bearer ${accessToken}` };
+  const sheetId = await getVerifiedSheetId(spreadsheetId, headers);
   const idRange = encodeURIComponent(`'${SHEET_NAME}'!Q2:Q`);
   const existingResponse = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${idRange}`,
@@ -170,18 +171,19 @@ export async function syncFilmmakerToGoogleSheet(record: FilmmakerMaterialsRecor
   const existing = (await existingResponse.json()) as { values?: string[][] };
   if (existing.values?.some((row) => row[0] === record.id)) return;
 
-  await ensureKeyCrewHeader(spreadsheetId, headers);
-
-  const appendRange = encodeURIComponent(`'${SHEET_NAME}'!A:U`);
+  // values.append guesses a logical table and can start at column B when
+  // optional cells are blank. appendCells always starts at column A and does
+  // not insert rows that shift the separate tracker's formula references.
   const appendResponse = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${appendRange}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`,
     {
       method: "POST",
       headers: { ...headers, "Content-Type": "application/json" },
       body: JSON.stringify({
-        majorDimension: "ROWS",
-        values: [
-          [
+        requests: [{ appendCells: {
+          sheetId,
+          fields: "userEnteredValue",
+          rows: [{ values: [
             record.created_at,
             record.film_title,
             record.director_names,
@@ -203,8 +205,8 @@ export async function syncFilmmakerToGoogleSheet(record: FilmmakerMaterialsRecor
             record.pass_holder_two ?? "",
             record.prize_representative ?? "",
             record.key_crew ?? "",
-          ],
-        ],
+          ].map((value) => ({ userEnteredValue: { stringValue: value } })) }],
+        } }],
       }),
       cache: "no-store",
     },
