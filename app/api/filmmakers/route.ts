@@ -23,6 +23,7 @@ const attendanceOptions = new Set<FilmmakerAttendance>([
 const limits = {
   film_title: 180,
   director_names: 240,
+  key_crew: 2000,
   email: 254,
   synopsis: 1200,
   url: 1000,
@@ -86,6 +87,7 @@ export async function POST(request: Request) {
   const idempotency_key = text(payload, "idempotency_key");
   const film_title = text(payload, "film_title");
   const director_names = text(payload, "director_names");
+  const key_crew = text(payload, "key_crew");
   const email = text(payload, "email").toLowerCase();
   const synopsis = text(payload, "synopsis");
   const master_link = text(payload, "master_link");
@@ -109,6 +111,9 @@ export async function POST(request: Request) {
   }
   if (!director_names || director_names.length > limits.director_names) {
     return validationError("Tell us who made this thing.");
+  }
+  if (key_crew.length > limits.key_crew) {
+    return validationError("The key crew credits are a little too long.");
   }
   if (!synopsis || synopsis.length > limits.synopsis) {
     return validationError("Give us the one-sentence version.");
@@ -150,6 +155,7 @@ export async function POST(request: Request) {
     idempotency_key,
     film_title,
     director_names,
+    key_crew: key_crew || null,
     email,
     runtime: "",
     synopsis,

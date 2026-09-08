@@ -14,8 +14,8 @@ const teamMembers = [
   {
     name: "Keenan Gray",
     role: "Founder & Director",
-    image: "/images/team/keenan-gray.jpg",
-    imagePosition: "58% 38%",
+    image: "/images/team/keenan-gray-2026.jpg",
+    imagePosition: "50% 40%",
     instagram: "thiskeenan",
     bio: (
       <>
@@ -31,8 +31,8 @@ const teamMembers = [
   {
     name: "Sam Ferlo",
     role: "Theater Producer",
-    image: "/images/team/sam-ferlo.jpg",
-    imagePosition: "58% 42%",
+    image: "/images/team/sam-ferlo-2026.jpg",
+    imagePosition: "50% 50%",
     instagram: "samuelferlo",
     bio: (
       <>

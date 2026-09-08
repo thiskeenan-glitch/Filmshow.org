@@ -10,6 +10,7 @@ type FormValues = {
   email: string;
   filmTitle: string;
   directorNames: string;
+  keyCrew: string;
   synopsis: string;
   masterLink: string;
   subtitleStatus: SubtitleStatus;
@@ -31,6 +32,7 @@ const initialValues: FormValues = {
   email: "",
   filmTitle: "",
   directorNames: "",
+  keyCrew: "",
   synopsis: "",
   masterLink: "",
   subtitleStatus: "",
@@ -180,6 +182,7 @@ export function FilmmakerMaterialsFormV2() {
           idempotency_key: idempotencyKeyRef.current || window.crypto.randomUUID(),
           film_title: values.filmTitle,
           director_names: values.directorNames,
+          key_crew: values.keyCrew,
           email: values.email,
           synopsis: values.synopsis,
           master_link: values.masterLink,
@@ -239,8 +242,9 @@ export function FilmmakerMaterialsFormV2() {
           <input id="filmmakers-filmTitle" type="text" value={values.filmTitle} onChange={(e) => setField("filmTitle", e.target.value)} aria-invalid={Boolean(errors.filmTitle)} placeholder="Film title" />
         </Question>
 
-        <Question number="03" title="Who made this thing?" error={errors.directorNames}>
+        <Question number="03" title="Who made this thing?" helper="Add any key crew you would like us to credit." error={errors.directorNames}>
           <input id="filmmakers-directorNames" type="text" autoComplete="name" value={values.directorNames} onChange={(e) => setField("directorNames", e.target.value)} aria-invalid={Boolean(errors.directorNames)} placeholder="Director name(s)" />
+          <textarea id="filmmakers-keyCrew" aria-label="Key crew credits (optional)" rows={3} maxLength={2000} value={values.keyCrew} onChange={(e) => setField("keyCrew", e.target.value)} placeholder="Key crew name + role (optional)" />
         </Question>
 
         <Question number="04" title="Describe it in one sentence." helper="The version you'd want us to tell people." error={errors.synopsis}>
