@@ -30,6 +30,7 @@ const navItems: NavItem[] = [
   { href: "/#why-submit", label: "Why?" },
   { href: "/team", label: "Team", sectionId: "team" },
   { href: NEWS_URL, label: "News" },
+  { href: "/live", label: "Live" },
 ];
 
 const mobileNavItems: NavItem[] = [
@@ -40,6 +41,7 @@ const mobileNavItems: NavItem[] = [
   { href: "/#why-submit", label: "Why" },
   { href: "/team", label: "Team", sectionId: "team" },
   { href: NEWS_URL, label: "News" },
+  { href: "/live", label: "Live" },
 ];
 
 const getIndicatorSrc = () =>

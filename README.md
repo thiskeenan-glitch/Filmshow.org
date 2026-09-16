@@ -12,6 +12,10 @@ Built with Next.js App Router and Tailwind CSS. Ready to deploy to Vercel.
 - `/tickets` - Direct-link two-ticket giveaway page for poster QR codes
 - `/originals` - Filmshow Grant pitch application
 - `/sponsors` - Sponsor information and inquiry form
+- `/live` - Feature-flagged Filmshow Live ticket, viewing, and voting portal
+- `/admin/live` - Private Filmshow Live show control
+
+Filmshow Live setup, environment variables, Stripe webhook steps, and launch safeguards are documented in [FILMSHOW-LIVE-SETUP.md](./FILMSHOW-LIVE-SETUP.md).
 
 ## Images
 

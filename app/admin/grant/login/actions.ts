@@ -16,6 +16,8 @@ export async function grantLoginAction(
 ): Promise<GrantLoginState> {
   const email = String(formData.get("email") || "").trim().toLowerCase();
   const password = String(formData.get("password") || "");
+  const requestedNext = String(formData.get("next") || "");
+  const next = requestedNext === "/admin/live" ? "/admin/live" : "/admin/grant";
 
   if (!email || !password) {
     return { message: "Enter your admin email and password." };
@@ -31,5 +33,5 @@ export async function grantLoginAction(
     };
   }
 
-  redirect("/admin/grant");
+  redirect(next);
 }

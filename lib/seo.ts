@@ -126,6 +126,15 @@ export const routeMetadata = {
     lastModified: "2026-07-28",
     isPublic: false,
   },
+  live: {
+    path: "/live",
+    title: "Filmshow Live | Watch from Brooklyn",
+    socialTitle: "Filmshow Vol. 1 — Live from Brooklyn",
+    description:
+      "Watch Filmshow Vol. 1 live from Brooklyn and cast one audience vote.",
+    priority: 0.8,
+    lastModified: "2026-09-16",
+  },
 } satisfies Record<string, SeoRoute>;
 
 export const publicRoutes = Object.values(routeMetadata as Record<string, SeoRoute>).filter(

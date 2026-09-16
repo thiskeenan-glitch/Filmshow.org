@@ -49,6 +49,7 @@ export function HeroTrailer({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    let stateFrame = 0;
 
     try {
       const savedPreference = window.localStorage.getItem(
@@ -59,10 +60,12 @@ export function HeroTrailer({
       isUserMutedRef.current = shouldMute;
       video.muted = shouldMute;
       video.defaultMuted = shouldMute;
-      setIsMuted(shouldMute);
+      stateFrame = window.requestAnimationFrame(() => setIsMuted(shouldMute));
     } catch {
       // Keep the current-session preference when storage is unavailable.
     }
+
+    return () => window.cancelAnimationFrame(stateFrame);
   }, []);
 
   useEffect(() => {
@@ -310,7 +313,21 @@ export function HeroTrailer({
                 aria-pressed={isMuted}
               >
                 <span className="hero-trailer-sound-icon" aria-hidden="true">
-                  <span className="hero-trailer-sound-slash" />
+                  <span className="hero-trailer-speaker-box" />
+                  <span className="hero-trailer-speaker-cone">
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                  <span className="hero-trailer-sound-waves">
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                  <span className="hero-trailer-sound-x">
+                    <span />
+                    <span />
+                  </span>
                 </span>
               </button>
             </div>

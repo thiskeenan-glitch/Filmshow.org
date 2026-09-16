@@ -3,11 +3,12 @@
 import { useActionState } from "react";
 import { grantLoginAction } from "./actions";
 
-export function GrantLoginForm() {
+export function GrantLoginForm({ next = "/admin/grant" }: { next?: string }) {
   const [state, action, pending] = useActionState(grantLoginAction, {});
 
   return (
     <form action={action} className="admin-card admin-login-form">
+      <input type="hidden" name="next" value={next} />
       <label>
         <span>Email</span>
         <input name="email" type="email" autoComplete="email" required />
