@@ -1499,6 +1499,101 @@ html.is-film-scrolling {
   animation: portalEarthDrift 24s ease-in-out infinite alternate;
 }
 
+.hero-trailer-sound-toggle {
+  position: absolute;
+  right: clamp(0.7rem, 1.25vw, 1rem);
+  bottom: clamp(0.7rem, 1.25vw, 1rem);
+  z-index: 3;
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  place-items: center;
+  border: 0.75px solid rgba(255, 255, 255, 0.78);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.hero-trailer-sound-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.98);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.32);
+  transform: scale(1.04);
+}
+
+.hero-trailer-sound-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -0.45rem;
+  border-radius: 50%;
+}
+
+.hero-trailer-sound-toggle:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.95);
+  outline-offset: 3px;
+}
+
+.hero-trailer-sound-icon {
+  position: relative;
+  display: block;
+  width: 1rem;
+  height: 0.9rem;
+}
+
+.hero-trailer-sound-icon::before {
+  content: "";
+  position: absolute;
+  top: 0.19rem;
+  left: 0;
+  width: 0.62rem;
+  height: 0.54rem;
+  background: currentColor;
+  clip-path: polygon(0 30%, 34% 30%, 100% 0, 100% 100%, 34% 70%, 0 70%);
+}
+
+.hero-trailer-sound-icon::after {
+  content: "";
+  position: absolute;
+  top: 0.17rem;
+  right: 0;
+  width: 0.32rem;
+  height: 0.58rem;
+  border-right: 1px solid currentColor;
+  border-radius: 0 50% 50% 0;
+  transition: opacity 120ms ease;
+}
+
+.hero-trailer-sound-slash {
+  position: absolute;
+  top: 0.4rem;
+  left: -0.06rem;
+  z-index: 1;
+  width: 1.12rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: rotate(45deg);
+  transform-origin: center;
+  transition: opacity 120ms ease;
+}
+
+.hero-trailer-sound-toggle.is-muted .hero-trailer-sound-icon::after {
+  opacity: 0;
+}
+
+.hero-trailer-sound-toggle.is-muted .hero-trailer-sound-slash {
+  opacity: 1;
+}
+
 @keyframes portalCelestialDrift {
   0% {
     --portal-x: 44%;
@@ -4310,6 +4405,13 @@ html.is-film-scrolling {
     aspect-ratio: 16 / 9;
     border-radius: 0;
     box-shadow: none;
+  }
+
+  .hero-trailer-sound-toggle {
+    right: 0.6rem;
+    bottom: 0.6rem;
+    width: 1.85rem;
+    height: 1.85rem;
   }
 
   .hero-trailer-video,

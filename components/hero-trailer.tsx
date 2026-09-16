@@ -243,16 +243,6 @@ export function HeroTrailer({
               className={`hero-trailer-media ${
                 isVideoReady ? "is-video-ready" : ""
               }`}
-              onClick={toggleTrailerMute}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  toggleTrailerMute();
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label={isMuted ? "Unmute trailer" : "Mute trailer"}
             >
               <Image
                 src={fallbackImage}
@@ -275,9 +265,25 @@ export function HeroTrailer({
                 preload="auto"
                 onCanPlay={() => setIsVideoReady(true)}
                 onPlaying={() => setIsVideoReady(true)}
+                onVolumeChange={(event) =>
+                  setIsMuted(event.currentTarget.muted)
+                }
                 onError={() => setIsVideoReady(false)}
               />
               <div className="hero-trailer-overlay" aria-hidden="true" />
+              <button
+                type="button"
+                className={`hero-trailer-sound-toggle ${
+                  isMuted ? "is-muted" : ""
+                }`}
+                onClick={toggleTrailerMute}
+                aria-label={isMuted ? "Unmute trailer" : "Mute trailer"}
+                aria-pressed={isMuted}
+              >
+                <span className="hero-trailer-sound-icon" aria-hidden="true">
+                  <span className="hero-trailer-sound-slash" />
+                </span>
+              </button>
             </div>
           </div>
           <div className="hero-trailer-copy">
