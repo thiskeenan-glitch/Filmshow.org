@@ -97,12 +97,52 @@ const teamMembers = [
     role: "Founder & Director",
     image: "/images/team/keenan-gray-2026.jpg",
     imagePosition: "50% 40%",
+    imageClassName: "",
   },
   {
     name: "Sam Ferlo",
     role: "Theater Producer",
     image: "/images/team/sam-ferlo-2026.jpg",
     imagePosition: "50% 50%",
+    imageClassName: "",
+  },
+  {
+    name: "Liam Gundlach",
+    role: "Performer",
+    image: "/images/team/liam-gundlach.jpg",
+    imagePosition: "50% 30%",
+    imageClassName: "team-card-image--liam",
+  },
+] as const;
+
+const partnerLogos = [
+  {
+    name: "Pablo's Mate",
+    image: "/images/partners/pablos-mate.png",
+    width: 2399,
+    height: 2399,
+    className: "partner-logo-image--pablos-mate",
+  },
+  {
+    name: "Brooklyn Roasting Company",
+    image: "/images/partners/brooklyn-roasting-company.png",
+    width: 2160,
+    height: 793,
+    className: "partner-logo-image--brooklyn-roasting",
+  },
+  {
+    name: "The Film Fund",
+    image: "/images/partners/the-film-fund.png",
+    width: 3400,
+    height: 1050,
+    className: "partner-logo-image--film-fund",
+  },
+  {
+    name: "The DCP Works",
+    image: "/images/partners/the-dcp-works.png",
+    width: 709,
+    height: 750,
+    className: "partner-logo-image--dcp-works",
   },
 ] as const;
 
@@ -136,6 +176,39 @@ export default function Home() {
         logoImage={LOGO_IMAGE}
         videoSrc={HERO_TRAILER_VIDEO}
       />
+
+      <section className="partner-section" aria-labelledby="partner-heading">
+        <div className="container-page partner-heading" data-reveal="text">
+          <p className="copy-wide small-label text-red-300">With support from</p>
+          <h2 id="partner-heading">In partnership with</h2>
+        </div>
+        <div className="partner-marquee" data-reveal="line">
+          <div className="partner-marquee-track">
+            {[0, 1].map((groupIndex) => (
+              <div
+                className="partner-logo-group"
+                key={groupIndex}
+                aria-hidden={groupIndex === 1 ? "true" : undefined}
+              >
+                {partnerLogos.map((partner) => (
+                  <div className="partner-logo-slot" key={`${groupIndex}-${partner.name}`}>
+                    <Image
+                      src={partner.image}
+                      alt={groupIndex === 0 ? partner.name : ""}
+                      width={partner.width}
+                      height={partner.height}
+                      sizes="(min-width: 1024px) 19rem, 14rem"
+                      className={`partner-logo-image ${partner.className}`}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Divider />
 
       <section id="what-is-this" className="section-pad what-is-filmshow-section">
         <div className="container-page">
@@ -329,7 +402,7 @@ export default function Home() {
                       alt={`${member.name} headshot`}
                       fill
                       sizes="(min-width: 1024px) 15vw, (min-width: 768px) 24vw, 50vw"
-                      className="team-card-image"
+                      className={`team-card-image ${member.imageClassName}`}
                       style={{ objectPosition: member.imagePosition }}
                     />
                   </div>
