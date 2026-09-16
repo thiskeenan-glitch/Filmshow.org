@@ -4,6 +4,7 @@ import { HeroTrailer } from "@/components/hero-trailer";
 import { JsonLd } from "@/components/json-ld";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { MotionEffects } from "@/components/motion-effects";
+import { PartnerLogoMarquee } from "@/components/partner-logo-marquee";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { PlasticCard } from "@/components/plastic-card";
 import Image from "next/image";
@@ -186,47 +187,7 @@ export default function Home() {
           <p className="copy-wide small-label text-red-300">With support from</p>
           <h2 id="partner-heading">In partnership with</h2>
         </div>
-        <div
-          className="partner-marquee"
-          role="region"
-          aria-label="Filmshow partners — horizontally scrollable"
-          tabIndex={0}
-        >
-          <div className="partner-marquee-track">
-            {[0, 1].map((groupIndex) => (
-              <div
-                className="partner-logo-group"
-                key={groupIndex}
-                aria-hidden={groupIndex === 1 ? "true" : undefined}
-              >
-                {partnerLogos.map((partner) => (
-                  <a
-                    className="partner-logo-slot partner-logo-link"
-                    href={partner.url}
-                    key={`${groupIndex}-${partner.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={
-                      groupIndex === 0
-                        ? `Visit ${partner.name}`
-                        : undefined
-                    }
-                    tabIndex={groupIndex === 1 ? -1 : undefined}
-                  >
-                    <Image
-                      src={partner.image}
-                      alt={groupIndex === 0 ? partner.name : ""}
-                      width={partner.width}
-                      height={partner.height}
-                      sizes="(min-width: 1024px) 18rem, 11rem"
-                      className={`partner-logo-image ${partner.className}`}
-                    />
-                  </a>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+        <PartnerLogoMarquee logos={partnerLogos} />
       </section>
 
       <Divider />
