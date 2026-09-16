@@ -186,7 +186,12 @@ export default function Home() {
           <p className="copy-wide small-label text-red-300">With support from</p>
           <h2 id="partner-heading">In partnership with</h2>
         </div>
-        <div className="partner-marquee" aria-label="Filmshow partners">
+        <div
+          className="partner-marquee"
+          role="region"
+          aria-label="Filmshow partners — horizontally scrollable"
+          tabIndex={0}
+        >
           <div className="partner-marquee-track">
             {[0, 1].map((groupIndex) => (
               <div

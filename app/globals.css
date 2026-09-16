@@ -2587,9 +2587,33 @@ html.is-film-scrolling {
 
 .partner-marquee {
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+
+.partner-marquee::-webkit-scrollbar {
+  height: 3px;
+}
+
+.partner-marquee::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.partner-marquee::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.partner-marquee:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 4px;
 }
 
 .partner-marquee-track {
@@ -4626,10 +4650,6 @@ html.is-film-scrolling {
   }
 
   .partner-marquee {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -webkit-mask-image: none;
     mask-image: none;
