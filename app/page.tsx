@@ -178,11 +178,11 @@ export default function Home() {
       />
 
       <section className="partner-section" aria-labelledby="partner-heading">
-        <div className="container-page partner-heading" data-reveal="text">
+        <div className="container-page partner-heading">
           <p className="copy-wide small-label text-red-300">With support from</p>
           <h2 id="partner-heading">In partnership with</h2>
         </div>
-        <div className="partner-marquee" data-reveal="line">
+        <div className="partner-marquee">
           <div className="partner-marquee-track">
             {[0, 1].map((groupIndex) => (
               <div
