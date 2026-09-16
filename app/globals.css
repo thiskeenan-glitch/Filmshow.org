@@ -2586,11 +2586,10 @@ html.is-film-scrolling {
 }
 
 .partner-marquee {
-  position: relative;
   width: 100%;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
 .partner-marquee-track {
@@ -2604,17 +2603,33 @@ html.is-film-scrolling {
   display: flex;
   flex: none;
   align-items: center;
-  gap: clamp(2.5rem, 6vw, 6.5rem);
-  padding-right: clamp(2.5rem, 6vw, 6.5rem);
+  gap: clamp(1.5rem, 3.5vw, 3.5rem);
+  padding-right: clamp(1.5rem, 3.5vw, 3.5rem);
 }
 
 .partner-logo-slot {
-  display: grid;
+  display: flex;
   flex: none;
-  width: clamp(14rem, 22vw, 20rem);
-  height: clamp(6.5rem, 10vw, 8.5rem);
-  padding: 0.4rem;
-  place-items: center;
+  width: clamp(14rem, 21vw, 18rem);
+  height: clamp(7.5rem, 10vw, 9rem);
+  padding: clamp(0.65rem, 1.2vw, 1rem);
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logo-link {
+  cursor: pointer;
+  transition: opacity 160ms ease;
+}
+
+.partner-logo-link:hover,
+.partner-logo-link:focus-visible {
+  opacity: 0.72;
+}
+
+.partner-logo-link:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.8);
+  outline-offset: -2px;
 }
 
 .partner-logo-image {
@@ -2633,7 +2648,8 @@ html.is-film-scrolling {
 }
 
 .partner-logo-image--pablos-mate {
-  width: 44%;
+  width: auto;
+  height: min(100%, 7.25rem);
 }
 
 .partner-logo-image--film-fund {
@@ -2641,13 +2657,8 @@ html.is-film-scrolling {
 }
 
 .partner-logo-image--dcp-works {
-  width: 38%;
-  height: auto;
-}
-
-.partner-marquee:hover .partner-marquee-track,
-.partner-marquee:focus-within .partner-marquee-track {
-  animation-play-state: paused;
+  width: auto;
+  height: min(100%, 7rem);
 }
 
 @keyframes partner-marquee-scroll {
@@ -2659,22 +2670,6 @@ html.is-film-scrolling {
 @media (max-width: 1023px) {
   .home-team-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .partner-marquee {
-    overflow-x: auto;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .partner-marquee-track {
-    animation: none;
-  }
-
-  .partner-logo-group[aria-hidden="true"] {
-    display: none;
   }
 }
 
@@ -4631,13 +4626,36 @@ html.is-film-scrolling {
   }
 
   .partner-marquee {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .partner-marquee::-webkit-scrollbar {
+    display: none;
+  }
+
+  .partner-logo-group {
+    gap: 1rem;
+    padding-right: 1rem;
   }
 
   .partner-logo-slot {
-    width: 13rem;
-    height: 6rem;
+    width: 10.75rem;
+    height: 6.5rem;
+    padding: 0.65rem;
+  }
+
+  .partner-logo-image--pablos-mate {
+    height: min(100%, 5.1rem);
+  }
+
+  .partner-logo-image--dcp-works {
+    height: min(100%, 4.9rem);
   }
 
   .brevo-signup--submit {

@@ -122,6 +122,7 @@ const partnerLogos = [
     width: 2399,
     height: 2399,
     className: "partner-logo-image--pablos-mate",
+    url: "https://pablosmate.co/",
   },
   {
     name: "Brooklyn Roasting Company",
@@ -129,6 +130,7 @@ const partnerLogos = [
     width: 2160,
     height: 793,
     className: "partner-logo-image--brooklyn-roasting",
+    url: "https://www.brooklynroasting.com/",
   },
   {
     name: "The Film Fund",
@@ -136,6 +138,7 @@ const partnerLogos = [
     width: 3400,
     height: 1050,
     className: "partner-logo-image--film-fund",
+    url: "https://www.thefilmfund.co/",
   },
   {
     name: "The DCP Works",
@@ -143,6 +146,7 @@ const partnerLogos = [
     width: 709,
     height: 750,
     className: "partner-logo-image--dcp-works",
+    url: "https://www.thedcpworks.com/",
   },
 ] as const;
 
@@ -182,7 +186,7 @@ export default function Home() {
           <p className="copy-wide small-label text-red-300">With support from</p>
           <h2 id="partner-heading">In partnership with</h2>
         </div>
-        <div className="partner-marquee">
+        <div className="partner-marquee" aria-label="Filmshow partners">
           <div className="partner-marquee-track">
             {[0, 1].map((groupIndex) => (
               <div
@@ -191,16 +195,28 @@ export default function Home() {
                 aria-hidden={groupIndex === 1 ? "true" : undefined}
               >
                 {partnerLogos.map((partner) => (
-                  <div className="partner-logo-slot" key={`${groupIndex}-${partner.name}`}>
+                  <a
+                    className="partner-logo-slot partner-logo-link"
+                    href={partner.url}
+                    key={`${groupIndex}-${partner.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={
+                      groupIndex === 0
+                        ? `Visit ${partner.name}`
+                        : undefined
+                    }
+                    tabIndex={groupIndex === 1 ? -1 : undefined}
+                  >
                     <Image
                       src={partner.image}
                       alt={groupIndex === 0 ? partner.name : ""}
                       width={partner.width}
                       height={partner.height}
-                      sizes="(min-width: 1024px) 19rem, 14rem"
+                      sizes="(min-width: 1024px) 18rem, 11rem"
                       className={`partner-logo-image ${partner.className}`}
                     />
-                  </div>
+                  </a>
                 ))}
               </div>
             ))}

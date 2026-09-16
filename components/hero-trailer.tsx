@@ -16,6 +16,7 @@ type HeroTrailerProps = {
 };
 
 const NEWS_URL = "/news";
+const TRAILER_MUTED_STORAGE_KEY = "filmshow:trailer-muted";
 
 export function HeroTrailer({
   backgroundImage,
@@ -43,6 +44,25 @@ export function HeroTrailer({
     return () => {
       mediaQuery.removeEventListener("change", updatePreference);
     };
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    try {
+      const savedPreference = window.localStorage.getItem(
+        TRAILER_MUTED_STORAGE_KEY,
+      );
+      const shouldMute = savedPreference === "true";
+
+      isUserMutedRef.current = shouldMute;
+      video.muted = shouldMute;
+      video.defaultMuted = shouldMute;
+      setIsMuted(shouldMute);
+    } catch {
+      // Keep the current-session preference when storage is unavailable.
+    }
   }, []);
 
   useEffect(() => {
@@ -116,6 +136,15 @@ export function HeroTrailer({
     video.defaultMuted = nextMuted;
     video.volume = 1;
     setIsMuted(nextMuted);
+
+    try {
+      window.localStorage.setItem(
+        TRAILER_MUTED_STORAGE_KEY,
+        String(nextMuted),
+      );
+    } catch {
+      // The toggle still works for the current page when storage is unavailable.
+    }
 
     if (!nextMuted) {
       void video.play().catch(() => {});
