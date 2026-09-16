@@ -108,6 +108,13 @@ const teamMembers = [
     imageClassName: "",
   },
   {
+    name: "Elena Vuvunikyan",
+    role: "Event Producer",
+    image: "/images/team/elena-vuvunikyan.jpg",
+    imagePosition: "62% 36%",
+    imageClassName: "",
+  },
+  {
     name: "Liam Gundlach",
     role: "Performer",
     image: "/images/team/liam-gundlach.jpg",

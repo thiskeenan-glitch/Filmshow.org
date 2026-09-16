@@ -48,6 +48,22 @@ const teamMembers = [
     ),
   },
   {
+    name: "Elena Vuvunikyan",
+    role: "Event Producer",
+    image: "/images/team/elena-vuvunikyan.jpg",
+    imagePosition: "62% 36%",
+    imageClassName: "",
+    instagram: null,
+    bio: (
+      <>
+        Elena&apos;s executive role at Microsoft and her ability to rally a crowd
+        make her an organizational powerhouse. Fluent in English, Russian, and
+        improv, Elena is more than qualified to helm the house when it comes to
+        Filmshow.
+      </>
+    ),
+  },
+  {
     name: "Liam Gundlach",
     role: "Performer",
     image: "/images/team/liam-gundlach.jpg",
@@ -79,7 +95,7 @@ export default function TeamPage() {
       </section>
 
       <section
-        className="container-page mt-16 grid gap-5 pb-24 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
+        className="container-page mt-16 grid gap-5 pb-24 sm:mt-20 md:grid-cols-2 lg:grid-cols-4"
         aria-label="Filmshow team members"
       >
         {teamMembers.map((member) => (

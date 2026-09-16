@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type {
   KeyboardEvent,
   MouseEvent,
@@ -24,6 +24,7 @@ type PartnerLogoMarqueeProps = {
 
 export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const interactionRef = useRef({ active: false, resumeAt: 0 });
   const dragRef = useRef({
     active: false,
     moved: false,
@@ -32,8 +33,76 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
   });
   const [isDragging, setIsDragging] = useState(false);
 
+  const normalizeScrollPosition = (marquee: HTMLDivElement) => {
+    const firstGroup = marquee.querySelector<HTMLElement>(
+      ".partner-logo-group",
+    );
+    const cycleWidth = firstGroup?.offsetWidth ?? 0;
+    if (!cycleWidth) return;
+
+    if (marquee.scrollLeft >= cycleWidth * 2) {
+      marquee.scrollLeft -= cycleWidth;
+    } else if (marquee.scrollLeft < cycleWidth * 0.5) {
+      marquee.scrollLeft += cycleWidth;
+    }
+  };
+
+  useEffect(() => {
+    const marquee = marqueeRef.current;
+    if (!marquee) return;
+
+    const positionAtMiddleCopy = () => {
+      const firstGroup = marquee.querySelector<HTMLElement>(
+        ".partner-logo-group",
+      );
+      if (firstGroup && marquee.scrollLeft === 0) {
+        marquee.scrollLeft = firstGroup.offsetWidth;
+      }
+    };
+
+    positionAtMiddleCopy();
+
+    let previousTime = performance.now();
+    let animationFrame = 0;
+    const pixelsPerSecond = 34;
+
+    const animate = (currentTime: number) => {
+      const elapsed = Math.min(currentTime - previousTime, 64);
+      previousTime = currentTime;
+
+      if (
+        !interactionRef.current.active &&
+        currentTime >= interactionRef.current.resumeAt
+      ) {
+        marquee.scrollLeft += (pixelsPerSecond * elapsed) / 1000;
+      }
+
+      normalizeScrollPosition(marquee);
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      normalizeScrollPosition(marquee);
+    });
+    resizeObserver.observe(marquee);
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    interactionRef.current.active = true;
+    interactionRef.current.resumeAt = Number.POSITIVE_INFINITY;
+
+    if (event.pointerType !== "mouse") {
+      dragRef.current.moved = false;
+      return;
+    }
 
     dragRef.current = {
       active: true,
@@ -52,9 +121,15 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
     if (Math.abs(distance) > 4) dragRef.current.moved = true;
     event.currentTarget.scrollLeft =
       dragRef.current.startScrollLeft - distance;
+    normalizeScrollPosition(event.currentTarget);
+    dragRef.current.startScrollLeft =
+      event.currentTarget.scrollLeft + distance;
   };
 
   const finishDrag = (event: PointerEvent<HTMLDivElement>) => {
+    interactionRef.current.active = false;
+    interactionRef.current.resumeAt = performance.now() + 450;
+
     if (!dragRef.current.active) return;
 
     dragRef.current.active = false;
@@ -79,16 +154,20 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
 
     event.preventDefault();
     event.currentTarget.scrollLeft += event.deltaX || event.deltaY;
+    normalizeScrollPosition(event.currentTarget);
+    interactionRef.current.resumeAt = performance.now() + 220;
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
     event.preventDefault();
-    marqueeRef.current?.scrollBy({
-      left: event.key === "ArrowRight" ? 180 : -180,
-      behavior: "smooth",
-    });
+    if (!marqueeRef.current) return;
+
+    marqueeRef.current.scrollLeft +=
+      event.key === "ArrowRight" ? 180 : -180;
+    normalizeScrollPosition(marqueeRef.current);
+    interactionRef.current.resumeAt = performance.now() + 220;
   };
 
   return (
@@ -107,11 +186,11 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
       onWheel={handleWheel}
     >
       <div className="partner-marquee-track">
-        {[0, 1].map((groupIndex) => (
+        {[0, 1, 2].map((groupIndex) => (
           <div
             className="partner-logo-group"
             key={groupIndex}
-            aria-hidden={groupIndex === 1 ? "true" : undefined}
+            aria-hidden={groupIndex === 1 ? undefined : "true"}
           >
             {logos.map((partner) => (
               <a
@@ -122,13 +201,13 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={
-                  groupIndex === 0 ? `Visit ${partner.name}` : undefined
+                  groupIndex === 1 ? `Visit ${partner.name}` : undefined
                 }
-                tabIndex={groupIndex === 1 ? -1 : undefined}
+                tabIndex={groupIndex === 1 ? undefined : -1}
               >
                 <Image
                   src={partner.image}
-                  alt={groupIndex === 0 ? partner.name : ""}
+                  alt={groupIndex === 1 ? partner.name : ""}
                   draggable={false}
                   width={partner.width}
                   height={partner.height}
