@@ -6,6 +6,8 @@ export type TicketGiveawayInput = {
   email: string;
   heard_about_us: string;
   source: "poster_qr";
+  marketing_opt_in: boolean;
+  marketing_opt_in_at: string | null;
 };
 
 export type TicketGiveawaySyncStatus = "pending" | "synced" | "failed";
