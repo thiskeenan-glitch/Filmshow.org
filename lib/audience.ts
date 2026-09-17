@@ -22,7 +22,11 @@ type AudienceConfig = {
   secretKey: string;
   brevoApiKey: string | null;
   brevoListId: number | null;
+  brevoFormAction: string;
 };
+
+const DEFAULT_BREVO_FORM_ACTION =
+  "https://5f97f476.sibforms.com/v2/serve/MUIFACa5WCz3YIdoebcEbBotBCCFwZiSOGXVyXnzqsT-zrrPU5jPRccb9FN26BBOQAAVWRmhHbI2ikVfcPISsnrBNeXxrlHs29ywW3Ve5cgKMQcitms4QKQxeB8JXYZOsgP6EORU8n5_q71WJ0F-DW50QlECxR52p1XYXF0ajLZlno7AlCWt5qXJBPg-2nnMvf-mKehO2cVSz8tVKA==";
 
 function getAudienceConfig(): AudienceConfig {
   const supabaseUrl = process.env.SUPABASE_URL?.trim();
@@ -32,6 +36,8 @@ function getAudienceConfig(): AudienceConfig {
   const brevoApiKey = process.env.BREVO_API_KEY?.trim() || null;
   const rawListId = process.env.BREVO_MASTER_LIST_ID?.trim();
   const parsedListId = rawListId ? Number(rawListId) : Number.NaN;
+  const brevoFormAction =
+    process.env.BREVO_FORM_ACTION?.trim() || DEFAULT_BREVO_FORM_ACTION;
 
   if (!supabaseUrl || !secretKey) {
     throw new Error("Audience storage is not configured.");
@@ -43,6 +49,7 @@ function getAudienceConfig(): AudienceConfig {
     brevoApiKey,
     brevoListId:
       Number.isInteger(parsedListId) && parsedListId > 0 ? parsedListId : null,
+    brevoFormAction,
   };
 }
 
@@ -190,56 +197,81 @@ async function markBrevoSync(
   }
 }
 
+async function syncViaBrevoApi(
+  config: AudienceConfig,
+  email: string,
+): Promise<string | null> {
+  if (!config.brevoApiKey) return null;
+
+  const body: Record<string, unknown> = {
+    email,
+    updateEnabled: true,
+    getId: true,
+  };
+  if (config.brevoListId) {
+    body.listIds = [config.brevoListId];
+  }
+
+  const response = await fetch("https://api.brevo.com/v3/contacts", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": config.brevoApiKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+    cache: "no-store",
+  });
+
+  const raw = await response.text();
+  const payload = raw ? (JSON.parse(raw) as { id?: number }) : null;
+
+  if (!response.ok) {
+    throw new Error(`Brevo contact sync returned ${response.status}.`);
+  }
+
+  return payload?.id ? String(payload.id) : null;
+}
+
+async function syncViaBrevoHostedForm(config: AudienceConfig, email: string) {
+  const form = new URLSearchParams({
+    EMAIL: email,
+    email_address_check: "",
+    locale: "en",
+    html_type: "simple",
+  });
+
+  const response = await fetch(config.brevoFormAction, {
+    method: "POST",
+    headers: {
+      accept: "text/html,application/xhtml+xml",
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+    body: form.toString(),
+    redirect: "follow",
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error(`Brevo hosted-form sync returned ${response.status}.`);
+  }
+}
+
 async function syncMarketingContact(
   config: AudienceConfig,
   contactId: string,
   email: string,
 ) {
-  if (!config.brevoApiKey) {
-    await markBrevoSync(
-      config,
-      contactId,
-      "failed",
-      null,
-      new Error("Brevo is not configured."),
-    );
-    return false;
-  }
-
   try {
-    const body: Record<string, unknown> = {
-      email,
-      updateEnabled: true,
-      getId: true,
-    };
-    if (config.brevoListId) {
-      body.listIds = [config.brevoListId];
+    let providerContactId: string | null = null;
+
+    if (config.brevoApiKey) {
+      providerContactId = await syncViaBrevoApi(config, email);
+    } else {
+      await syncViaBrevoHostedForm(config, email);
     }
 
-    const response = await fetch("https://api.brevo.com/v3/contacts", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "api-key": config.brevoApiKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-      cache: "no-store",
-    });
-
-    const raw = await response.text();
-    const payload = raw ? (JSON.parse(raw) as { id?: number }) : null;
-
-    if (!response.ok) {
-      throw new Error(`Brevo contact sync returned ${response.status}.`);
-    }
-
-    await markBrevoSync(
-      config,
-      contactId,
-      "synced",
-      payload?.id ? String(payload.id) : null,
-    );
+    await markBrevoSync(config, contactId, "synced", providerContactId);
     return true;
   } catch (error) {
     try {
