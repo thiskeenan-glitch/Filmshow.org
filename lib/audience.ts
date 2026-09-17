@@ -20,6 +20,8 @@ type AudienceTouchInput = {
 type AudienceConfig = {
   supabaseUrl: string;
   secretKey: string;
+  resendApiKey: string | null;
+  resendSegmentId: string | null;
   brevoApiKey: string | null;
   brevoListId: number | null;
   brevoFormAction: string;
@@ -33,6 +35,9 @@ function getAudienceConfig(): AudienceConfig {
   const secretKey =
     process.env.SUPABASE_SECRET_KEY?.trim() ||
     process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const resendApiKey = process.env.RESEND_API_KEY?.trim() || null;
+  const resendSegmentId =
+    process.env.RESEND_MARKETING_SEGMENT_ID?.trim() || null;
   const brevoApiKey = process.env.BREVO_API_KEY?.trim() || null;
   const rawListId = process.env.BREVO_MASTER_LIST_ID?.trim();
   const parsedListId = rawListId ? Number(rawListId) : Number.NaN;
@@ -46,6 +51,8 @@ function getAudienceConfig(): AudienceConfig {
   return {
     supabaseUrl: supabaseUrl.replace(/\/$/, ""),
     secretKey,
+    resendApiKey,
+    resendSegmentId,
     brevoApiKey,
     brevoListId:
       Number.isInteger(parsedListId) && parsedListId > 0 ? parsedListId : null,
@@ -59,6 +66,17 @@ function normalizeEmail(email: string) {
 
 function normalizeTag(tag: string) {
   return tag.trim().toLowerCase().replace(/[^a-z0-9_-]+/g, "_").slice(0, 80);
+}
+
+function splitName(name?: string | null) {
+  const normalized = name?.trim().replace(/\s+/g, " ") || "";
+  if (!normalized) return { firstName: null, lastName: null };
+
+  const parts = normalized.split(" ");
+  return {
+    firstName: parts[0] || null,
+    lastName: parts.length > 1 ? parts.slice(1).join(" ") : null,
+  };
 }
 
 async function supabaseRequest(
@@ -167,9 +185,10 @@ async function saveAudienceEvent(
   }
 }
 
-async function markBrevoSync(
+async function markMarketingSync(
   config: AudienceConfig,
   contactId: string,
+  provider: "resend" | "brevo",
   status: "synced" | "failed",
   providerContactId?: string | null,
   error?: unknown,
@@ -183,6 +202,7 @@ async function markBrevoSync(
       method: "PATCH",
       headers: { Prefer: "return=minimal" },
       body: JSON.stringify({
+        marketing_provider: provider,
         marketing_sync_status: status,
         marketing_synced_at: status === "synced" ? new Date().toISOString() : null,
         marketing_provider_contact_id: providerContactId || null,
@@ -195,6 +215,63 @@ async function markBrevoSync(
   if (!response.ok) {
     throw new Error("The audience marketing sync status could not be saved.");
   }
+}
+
+async function syncViaResendApi(
+  config: AudienceConfig,
+  email: string,
+  name?: string | null,
+): Promise<string | null> {
+  if (!config.resendApiKey) return null;
+
+  const { firstName, lastName } = splitName(name);
+  const createBody: Record<string, unknown> = {
+    email,
+    unsubscribed: false,
+  };
+  if (firstName) createBody.first_name = firstName;
+  if (lastName) createBody.last_name = lastName;
+  if (config.resendSegmentId) {
+    createBody.segments = [{ id: config.resendSegmentId }];
+  }
+
+  let response = await fetch("https://api.resend.com/contacts", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${config.resendApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(createBody),
+    cache: "no-store",
+  });
+
+  if (response.status === 409) {
+    const updateBody: Record<string, unknown> = { unsubscribed: false };
+    if (firstName) updateBody.first_name = firstName;
+    if (lastName) updateBody.last_name = lastName;
+
+    response = await fetch(
+      `https://api.resend.com/contacts/${encodeURIComponent(email)}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${config.resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateBody),
+        cache: "no-store",
+      },
+    );
+  }
+
+  const raw = await response.text();
+  const payload = raw ? (JSON.parse(raw) as { id?: string }) : null;
+
+  if (!response.ok) {
+    throw new Error(`Resend contact sync returned ${response.status}.`);
+  }
+
+  return payload?.id || null;
 }
 
 async function syncViaBrevoApi(
@@ -261,21 +338,41 @@ async function syncMarketingContact(
   config: AudienceConfig,
   contactId: string,
   email: string,
+  name?: string | null,
 ) {
+  const provider: "resend" | "brevo" = config.resendApiKey
+    ? "resend"
+    : "brevo";
+
   try {
     let providerContactId: string | null = null;
 
-    if (config.brevoApiKey) {
+    if (config.resendApiKey) {
+      providerContactId = await syncViaResendApi(config, email, name);
+    } else if (config.brevoApiKey) {
       providerContactId = await syncViaBrevoApi(config, email);
     } else {
       await syncViaBrevoHostedForm(config, email);
     }
 
-    await markBrevoSync(config, contactId, "synced", providerContactId);
+    await markMarketingSync(
+      config,
+      contactId,
+      provider,
+      "synced",
+      providerContactId,
+    );
     return true;
   } catch (error) {
     try {
-      await markBrevoSync(config, contactId, "failed", null, error);
+      await markMarketingSync(
+        config,
+        contactId,
+        provider,
+        "failed",
+        null,
+        error,
+      );
     } catch {
       // The durable Filmshow contact is still saved even if sync status recording fails.
     }
@@ -295,7 +392,7 @@ export async function recordAudienceTouch(input: AudienceTouchInput) {
 
   const marketingSynced =
     input.marketingOptIn === true
-      ? await syncMarketingContact(config, contactId, email)
+      ? await syncMarketingContact(config, contactId, email, input.name)
       : null;
 
   return { contactId, marketingSynced };
