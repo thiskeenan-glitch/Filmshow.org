@@ -59,7 +59,7 @@ async function supabaseRequest(
   path: string,
   init: RequestInit,
 ) {
-  const response = await fetch(`${config.supabaseUrl}/rest/v1/${path}`, {
+  return fetch(`${config.supabaseUrl}/rest/v1/${path}`, {
     ...init,
     headers: {
       apikey: config.secretKey,
@@ -69,8 +69,6 @@ async function supabaseRequest(
     },
     cache: "no-store",
   });
-
-  return response;
 }
 
 async function upsertContact(
@@ -213,7 +211,6 @@ async function syncMarketingContact(
       email,
       updateEnabled: true,
       getId: true,
-      emailBlacklisted: false,
     };
     if (config.brevoListId) {
       body.listIds = [config.brevoListId];
