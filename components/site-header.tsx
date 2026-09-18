@@ -25,10 +25,10 @@ type NavItem = {
 const navItems: NavItem[] = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
+  { href: "/team", label: "Team", sectionId: "team" },
+  { href: "/#why-submit", label: "Why?" },
   { href: "/#submit", label: "Submit" },
   ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Grant" }] : []),
-  { href: "/#why-submit", label: "Why?" },
-  { href: "/team", label: "Team", sectionId: "team" },
   { href: NEWS_URL, label: "News" },
   { href: "/live", label: "Live" },
 ];
@@ -36,10 +36,10 @@ const navItems: NavItem[] = [
 const mobileNavItems: NavItem[] = [
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
-  ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Originals" }] : []),
-  { href: "/#submit", label: "Submit" },
-  { href: "/#why-submit", label: "Why" },
   { href: "/team", label: "Team", sectionId: "team" },
+  { href: "/#why-submit", label: "Why" },
+  { href: "/#submit", label: "Submit" },
+  ...(SHOW_FILMSHOW_GRANT ? [{ href: "/originals", label: "Originals" }] : []),
   { href: NEWS_URL, label: "News" },
   { href: "/live", label: "Live" },
 ];

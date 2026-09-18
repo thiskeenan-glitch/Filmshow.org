@@ -156,6 +156,22 @@ const partnerLogos = [
     className: "partner-logo-image--dcp-works",
     url: "https://www.thedcpworks.com/",
   },
+  {
+    name: "Bluebird Films",
+    image: "/images/partners/bluebird-cowboy.png",
+    width: 2400,
+    height: 1350,
+    className: "partner-logo-image--bluebird-cowboy",
+    url: "https://www.thisbird.org/",
+  },
+  {
+    name: "Rollin Studios",
+    image: "/images/partners/rollin-studios.png",
+    width: 1500,
+    height: 820,
+    className: "partner-logo-image--rollin-studios",
+    url: "https://www.rollin-studios.com/",
+  },
 ] as const;
 
 function Divider() {
@@ -265,13 +281,90 @@ export default function Home() {
 
       <Divider />
 
+      <section id="team" className="section-pad home-team-section">
+        <div className="container-page">
+          <SectionLabel number="02" title="Team" />
+          <div className="home-team-heading">
+            <h2 className="section-kicker text-stone-100">
+              The team.
+            </h2>
+            <ButtonLink href="/team" variant="secondary">
+              Meet the Team
+            </ButtonLink>
+          </div>
+          <div className="home-team-grid">
+            {teamMembers.map((member) => (
+              <Link
+                key={member.name}
+                href="/team"
+                className="team-card-link"
+                aria-label={`Meet ${member.name} on the Team page`}
+              >
+                <PlasticCard
+                  className="team-card home-team-card"
+                >
+                  <div className="team-card-image-wrap">
+                    <Image
+                      src={member.image}
+                      alt={`${member.name} headshot`}
+                      fill
+                      sizes="(min-width: 1024px) 15vw, (min-width: 768px) 24vw, 50vw"
+                      className={`team-card-image ${member.imageClassName}`}
+                      style={{ objectPosition: member.imagePosition }}
+                    />
+                  </div>
+                  <div className="team-card-copy">
+                    <h3 className="team-card-name text-stone-100">
+                      {member.name}
+                    </h3>
+                    <p className="copy-wide small-label mt-3 text-red-300">
+                      {member.role}
+                    </p>
+                  </div>
+                </PlasticCard>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="why-submit" className="section-pad why-submit-section">
+        <div className="container-page">
+          <SectionLabel number="03" title="Why Filmshow" />
+          <div className="why-submit-grid">
+            <h2 className="section-kicker why-submit-title text-center text-stone-100">
+              Why now
+            </h2>
+            <div className="why-submit-list why-submit-story">
+              {whySubmitBody.map((paragraph, index) => (
+                <p
+                  key={paragraph}
+                  className={`why-submit-story-copy ${
+                    index === 2 || index === 4 || index === whySubmitBody.length - 1
+                      ? "text-stone-100"
+                      : "text-stone-300"
+                  }`}
+                >
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Divider />
+
       <section id="submit" className="section-pad submit-section">
         <div className="container-page">
-          <SectionLabel number="02" title="Filmmakers" />
+          <SectionLabel number="04" title="Filmmakers" />
           <div className="submit-intro" data-reveal="text">
             <div>
               <p className="section-kicker text-stone-100">
                 Submit your film.
+              </p>
+              <p className="copy-wide mt-4 text-sm text-red-300">
+                Submissions are closed.
               </p>
               <p className="body-copy mt-8 max-w-xl text-stone-300">
                 On October 3rd, 2026, selected short films will screen in front
@@ -306,10 +399,9 @@ export default function Home() {
         </div>
       </section>
 
-      <Divider />
-
       {SHOW_FILMSHOW_GRANT ? (
         <>
+          <Divider />
           <section className="section-pad originals-teaser-section">
             <div className="container-page">
               <div className="originals-teaser" data-reveal="text">
@@ -335,80 +427,6 @@ export default function Home() {
           <div className="submit-why-fade" aria-hidden="true" />
         </>
       ) : null}
-
-      <section id="why-submit" className="section-pad why-submit-section">
-        <div className="container-page">
-          <SectionLabel number="03" title="Why Filmshow" />
-          <div className="why-submit-grid">
-            <h2 className="section-kicker why-submit-title text-center text-stone-100" data-reveal="text">
-              Why now
-            </h2>
-            <div className="why-submit-list why-submit-story" data-reveal="text">
-              {whySubmitBody.map((paragraph, index) => (
-                <p
-                  key={paragraph}
-                  className={`why-submit-story-copy ${
-                    index === 2 || index === 4 || index === whySubmitBody.length - 1
-                      ? "text-stone-100"
-                      : "text-stone-300"
-                  }`}
-                >
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="team" className="section-pad home-team-section">
-        <div className="container-page">
-          <SectionLabel number="04" title="Team" />
-          <div className="home-team-heading" data-reveal="text">
-            <h2 className="section-kicker text-stone-100">
-              The team.
-            </h2>
-            <ButtonLink href="/team" variant="secondary">
-              Meet the Team
-            </ButtonLink>
-          </div>
-          <div className="home-team-grid">
-            {teamMembers.map((member, index) => (
-              <Link
-                key={member.name}
-                href="/team"
-                className="team-card-link"
-                aria-label={`Meet ${member.name} on the Team page`}
-              >
-                <PlasticCard
-                  className="team-card home-team-card"
-                  style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
-                  reveal
-                >
-                  <div className="team-card-image-wrap" data-reveal="photo">
-                    <Image
-                      src={member.image}
-                      alt={`${member.name} headshot`}
-                      fill
-                      sizes="(min-width: 1024px) 15vw, (min-width: 768px) 24vw, 50vw"
-                      className={`team-card-image ${member.imageClassName}`}
-                      style={{ objectPosition: member.imagePosition }}
-                    />
-                  </div>
-                  <div className="team-card-copy">
-                    <h3 className="team-card-name text-stone-100">
-                      {member.name}
-                    </h3>
-                    <p className="copy-wide small-label mt-3 text-red-300">
-                      {member.role}
-                    </p>
-                  </div>
-                </PlasticCard>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <Divider />
     </main>

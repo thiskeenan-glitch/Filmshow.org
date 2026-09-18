@@ -200,6 +200,7 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
                 key={`${groupIndex}-${partner.name}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                title={`Visit ${partner.name}`}
                 aria-label={
                   groupIndex === 1 ? `Visit ${partner.name}` : undefined
                 }
