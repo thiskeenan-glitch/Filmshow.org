@@ -19,7 +19,8 @@ export function SiteFooter() {
     return null;
   }
 
-  const showSignup = !pathname.startsWith("/originals");
+  const showSignup =
+    !pathname.startsWith("/originals") && !pathname.startsWith("/join");
 
   const handleTopClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const top = document.getElementById("top");

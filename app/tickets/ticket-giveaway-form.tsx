@@ -38,6 +38,7 @@ export function TicketGiveawayForm() {
           name: data.get("name"),
           email: data.get("email"),
           heard_about_us: data.get("heard_about_us"),
+          marketing_opt_in: data.get("marketing_opt_in") === "on",
           company: data.get("company"),
         }),
       });
@@ -96,6 +97,17 @@ export function TicketGiveawayForm() {
           />
         </label>
       </div>
+      <label className="mt-4 flex cursor-pointer items-start gap-3 border border-stone-100/15 bg-black/20 p-4 text-left text-[0.82rem] leading-relaxed text-stone-400">
+        <input
+          className="mt-1 h-4 w-4 shrink-0 accent-red-600"
+          name="marketing_opt_in"
+          type="checkbox"
+        />
+        <span>
+          Keep me in the loop about future Filmshows, ticket drops, and film
+          submission windows.
+        </span>
+      </label>
       <label className="ticket-giveaway-honeypot" aria-hidden="true">
         Company
         <input name="company" type="text" tabIndex={-1} autoComplete="off" />

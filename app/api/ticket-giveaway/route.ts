@@ -1,3 +1,4 @@
+import { recordAudienceTouch } from "@/lib/audience";
 import { checkRateLimit, getRateLimitKey } from "@/lib/rate-limit";
 import { syncTicketGiveawayToGoogleSheet } from "@/lib/google-sheets-ticket-giveaway";
 import {
@@ -10,7 +11,7 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 // Log fixed diagnostic labels only; never log credentials or entry details.
-function logStorageFailure(stage: "database" | "sheet", error: unknown) {
+function logStorageFailure(stage: "database" | "sheet" | "audience", error: unknown) {
   const message = error instanceof Error ? error.message.toLowerCase() : "";
   const reason = message.includes("not configured")
     ? "missing_configuration"
@@ -71,6 +72,7 @@ export async function POST(request: Request) {
   const name = cleanText(payload.name);
   const email = cleanText(payload.email).toLowerCase();
   const heardAboutUs = cleanText(payload.heard_about_us);
+  const marketingOptIn = payload.marketing_opt_in === true;
 
   if (!validUuid(idempotencyKey)) {
     return invalid("Refresh the page and try again.");
@@ -91,6 +93,8 @@ export async function POST(request: Request) {
     email,
     heard_about_us: heardAboutUs,
     source: "poster_qr" as const,
+    marketing_opt_in: marketingOptIn,
+    marketing_opt_in_at: marketingOptIn ? new Date().toISOString() : null,
   };
 
   let entry: TicketGiveawayRecord;
@@ -132,6 +136,29 @@ export async function POST(request: Request) {
       } catch {
         // The entry is already durable in Supabase and remains retryable.
       }
+    }
+
+    try {
+      await recordAudienceTouch({
+        email: entry.email,
+        name: entry.name,
+        source: "ticket_giveaway",
+        eventType: "ticket_giveaway_entered",
+        tags: ["giveaway", "filmshow_vol_1"],
+        marketingOptIn: entry.marketing_opt_in,
+        consentSource: entry.marketing_opt_in
+          ? "ticket_giveaway_checkbox"
+          : null,
+        sourceRecordId: entry.id,
+        occurredAt: entry.created_at,
+        dedupeKey: `ticket-giveaway:${entry.id}`,
+        metadata: {
+          heard_about_us: entry.heard_about_us,
+        },
+      });
+    } catch (audienceError) {
+      logStorageFailure("audience", audienceError);
+      // Never fail a valid giveaway entry because an audience sync needs a retry.
     }
 
     return NextResponse.json(
