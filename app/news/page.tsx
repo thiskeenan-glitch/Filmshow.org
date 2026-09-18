@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { JsonLd } from "@/components/json-ld";
 import {
   buildWebPageJsonLd,
@@ -31,26 +32,35 @@ export default function NewsPage() {
         className="container-page news-article-section"
         aria-label="USA News article"
       >
-        <div className="news-article-frame-shell">
-          <iframe
-            src={USA_NEWS_ARTICLE_URL}
-            title="USA News article: Filmshow Turns Short Films Into a Night Out"
-            className="news-article-frame"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
-        <div className="news-article-fallback">
-          <p className="body-copy text-stone-500">
-            If the article does not load here, open it directly on USA News.
-          </p>
-          <a
-            href={USA_NEWS_ARTICLE_URL}
-            className="button-shift header-cta header-cta--tickets"
-          >
-            Open article
-          </a>
-        </div>
+        <a
+          href={USA_NEWS_ARTICLE_URL}
+          className="news-article-preview"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="news-article-preview-image-wrap">
+            <Image
+              src="/images/news/filmshow-usa-news.jpg"
+              alt="Filmshow featured by USA News"
+              fill
+              sizes="(min-width: 1024px) 56vw, 100vw"
+              className="news-article-preview-image"
+            />
+          </div>
+          <div className="news-article-preview-copy">
+            <p className="copy-wide small-label text-red-300">
+              USA News • Lifestyle • August 5, 2026
+            </p>
+            <h2 className="news-article-preview-title text-stone-100">
+              Filmshow Turns Short Films Into A Night Out
+            </h2>
+            <p className="body-copy text-stone-300">
+              Filmshow brings local films, live theater, and audience voting to
+              Brooklyn&apos;s independent cinema scene.
+            </p>
+            <span className="news-article-preview-cta">Read the full article</span>
+          </div>
+        </a>
       </section>
     </main>
   );
