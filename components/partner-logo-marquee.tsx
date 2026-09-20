@@ -24,6 +24,7 @@ type PartnerLogoMarqueeProps = {
 
 export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const autoScrollPositionRef = useRef(0);
   const interactionRef = useRef({ active: false, resumeAt: 0 });
   const dragRef = useRef({
     active: false,
@@ -58,6 +59,8 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
       if (firstGroup && marquee.scrollLeft === 0) {
         marquee.scrollLeft = firstGroup.offsetWidth;
       }
+
+      autoScrollPositionRef.current = marquee.scrollLeft;
     };
 
     positionAtMiddleCopy();
@@ -74,10 +77,20 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
         !interactionRef.current.active &&
         currentTime >= interactionRef.current.resumeAt
       ) {
-        marquee.scrollLeft += (pixelsPerSecond * elapsed) / 1000;
+        // Keep the fractional position ourselves. Some mobile browsers round
+        // scrollLeft to whole pixels, which otherwise turns each sub-pixel
+        // animation step into zero and leaves the marquee looking static.
+        autoScrollPositionRef.current +=
+          (pixelsPerSecond * elapsed) / 1000;
+        marquee.scrollLeft = autoScrollPositionRef.current;
+      } else {
+        autoScrollPositionRef.current = marquee.scrollLeft;
       }
 
       normalizeScrollPosition(marquee);
+      if (Math.abs(marquee.scrollLeft - autoScrollPositionRef.current) > 1) {
+        autoScrollPositionRef.current = marquee.scrollLeft;
+      }
       animationFrame = requestAnimationFrame(animate);
     };
 
@@ -122,6 +135,7 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
     event.currentTarget.scrollLeft =
       dragRef.current.startScrollLeft - distance;
     normalizeScrollPosition(event.currentTarget);
+    autoScrollPositionRef.current = event.currentTarget.scrollLeft;
     dragRef.current.startScrollLeft =
       event.currentTarget.scrollLeft + distance;
   };
@@ -155,6 +169,7 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
     event.preventDefault();
     event.currentTarget.scrollLeft += event.deltaX || event.deltaY;
     normalizeScrollPosition(event.currentTarget);
+    autoScrollPositionRef.current = event.currentTarget.scrollLeft;
     interactionRef.current.resumeAt = performance.now() + 220;
   };
 
@@ -167,6 +182,7 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
     marqueeRef.current.scrollLeft +=
       event.key === "ArrowRight" ? 180 : -180;
     normalizeScrollPosition(marqueeRef.current);
+    autoScrollPositionRef.current = marqueeRef.current.scrollLeft;
     interactionRef.current.resumeAt = performance.now() + 220;
   };
 
