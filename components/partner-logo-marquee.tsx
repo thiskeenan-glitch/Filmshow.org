@@ -64,17 +64,29 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
 
     let previousTime = performance.now();
     let animationFrame = 0;
+    let pendingPixels = 0;
     const pixelsPerSecond = 34;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const animate = (currentTime: number) => {
       const elapsed = Math.min(currentTime - previousTime, 64);
       previousTime = currentTime;
 
       if (
+        !reducedMotion.matches &&
         !interactionRef.current.active &&
         currentTime >= interactionRef.current.resumeAt
       ) {
-        marquee.scrollLeft += (pixelsPerSecond * elapsed) / 1000;
+        // Keep fractional movement between frames: high-refresh-rate mobile
+        // browsers can round each small scrollLeft increment back to zero.
+        pendingPixels += (pixelsPerSecond * elapsed) / 1000;
+        const wholePixels = Math.floor(pendingPixels);
+        if (wholePixels > 0) {
+          marquee.scrollLeft += wholePixels;
+          pendingPixels -= wholePixels;
+        }
+      } else {
+        pendingPixels = 0;
       }
 
       normalizeScrollPosition(marquee);
