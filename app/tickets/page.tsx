@@ -4,9 +4,9 @@ import Link from "next/link";
 import { TicketGiveawayForm } from "./ticket-giveaway-form";
 
 export const metadata: Metadata = {
-  title: "Win Two Tickets | Filmshow",
+  title: "Win Two Tickets | Filmshow × Brooklyn Roasting Company",
   description:
-    "Enter for a chance to win two tickets to Filmshow Vol. 1 in Brooklyn.",
+    "Filmshow and Brooklyn Roasting Company are giving away two tickets to Filmshow Vol. 1 in Brooklyn.",
   robots: {
     index: false,
     follow: false,
@@ -35,8 +35,30 @@ export default function TicketsPage() {
           />
         </Link>
 
+        <div className="ticket-giveaway-partner">
+          <div className="ticket-giveaway-partner-lockup">
+            <p>Filmshow ×</p>
+            <Image
+              src="/images/partners/brooklyn-roasting-company.png"
+              alt="Brooklyn Roasting Company"
+              width={2160}
+              height={793}
+              className="ticket-giveaway-partner-logo"
+            />
+          </div>
+          <p className="ticket-giveaway-partner-copy">
+            Brooklyn Roasting Company has been roasting specialty coffee in
+            Brooklyn since 2010, fueling the artists, makers, and neighbors who
+            make this city move. Supporting local arts isn&apos;t a side project
+            for us: it&apos;s what we love. We&apos;re honored to be one of
+            Filmshow&apos;s sponsors and to help put this night together.
+          </p>
+        </div>
+
         <div className="ticket-giveaway-copy">
-          <p className="ticket-giveaway-eyebrow">Filmshow Vol. 1 · Brooklyn</p>
+          <p className="ticket-giveaway-eyebrow">
+            Filmshow × Brooklyn Roasting Company
+          </p>
           <h1>
             Win two
             <br />

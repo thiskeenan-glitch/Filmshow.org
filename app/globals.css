@@ -5094,8 +5094,48 @@ html.is-film-scrolling {
   outline-offset: 4px;
 }
 
+.ticket-giveaway-partner {
+  display: grid;
+  grid-template-columns: minmax(13rem, 18rem) minmax(0, 1fr);
+  width: min(100%, 55rem);
+  margin-top: clamp(3.5rem, 8vh, 6rem);
+  border-top: 1px solid rgba(185, 181, 174, 0.22);
+  border-bottom: 1px solid rgba(185, 181, 174, 0.22);
+  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.ticket-giveaway-partner-lockup {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ticket-giveaway-partner-lockup > p {
+  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.ticket-giveaway-partner-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: invert(1);
+}
+
+.ticket-giveaway-partner-copy {
+  max-width: 38rem;
+  color: rgba(205, 201, 194, 0.82);
+  font-size: clamp(0.94rem, 1.25vw, 1.08rem);
+  line-height: 1.72;
+}
+
 .ticket-giveaway-copy {
-  margin-top: clamp(5.5rem, 12vh, 9rem);
+  margin-top: clamp(4rem, 9vh, 6.5rem);
 }
 
 .ticket-giveaway-eyebrow {
@@ -5298,6 +5338,22 @@ html.is-film-scrolling {
 
   .ticket-giveaway-copy {
     margin-top: clamp(4rem, 11vh, 6rem);
+  }
+
+  .ticket-giveaway-partner {
+    grid-template-columns: 1fr;
+    margin-top: 3rem;
+    gap: 1.35rem;
+  }
+
+  .ticket-giveaway-partner-lockup {
+    width: min(100%, 17rem);
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .ticket-giveaway-partner-copy {
+    text-align: center;
   }
 
   .ticket-giveaway-copy h1 {
