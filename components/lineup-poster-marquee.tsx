@@ -1,14 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import type { KeyboardEvent, PointerEvent, WheelEvent } from "react";
+import { useRef, useState } from "react";
+import type { KeyboardEvent, UIEvent } from "react";
 
 type LineupFilm = {
   title: string;
   poster: string;
   width: number;
   height: number;
+  director: string;
+  writer: string;
+  year: string;
+  runtime: string;
+  country: string;
+  language: string;
+  genre: string;
+  logline: string;
 };
 
 type LineupPosterMarqueeProps = {
@@ -16,197 +24,141 @@ type LineupPosterMarqueeProps = {
 };
 
 export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const pauseUntilRef = useRef(0);
-  const dragRef = useRef({
-    active: false,
-    startX: 0,
-    startScrollLeft: 0,
-  });
-  const [isDragging, setIsDragging] = useState(false);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const normalizeScrollPosition = (marquee: HTMLDivElement) => {
-    const firstGroup = marquee.querySelector<HTMLElement>(
-      ".lineup-poster-group",
+  const goToFilm = (index: number) => {
+    const rail = railRef.current;
+    if (!rail) return;
+
+    const nextIndex = (index + films.length) % films.length;
+    const slide = rail.children.item(nextIndex) as HTMLElement | null;
+    if (!slide) return;
+
+    setActiveIndex(nextIndex);
+    rail.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
+  };
+
+  const handleScroll = (event: UIEvent<HTMLDivElement>) => {
+    const rail = event.currentTarget;
+    const slides = Array.from(rail.children) as HTMLElement[];
+    if (!slides.length) return;
+
+    let nearestIndex = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    slides.forEach((slide, index) => {
+      const distance = Math.abs(slide.offsetLeft - rail.scrollLeft);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    setActiveIndex((current) =>
+      current === nearestIndex ? current : nearestIndex,
     );
-    const cycleWidth = firstGroup?.offsetWidth ?? 0;
-    if (!cycleWidth) return;
-
-    if (marquee.scrollLeft >= cycleWidth * 2) {
-      marquee.scrollLeft -= cycleWidth;
-    } else if (marquee.scrollLeft < cycleWidth * 0.5) {
-      marquee.scrollLeft += cycleWidth;
-    }
-  };
-
-  const pauseAutoScroll = (milliseconds = 700) => {
-    pauseUntilRef.current = performance.now() + milliseconds;
-  };
-
-  useEffect(() => {
-    const marquee = marqueeRef.current;
-    if (!marquee) return;
-
-    const positionAtMiddleCopy = () => {
-      const firstGroup = marquee.querySelector<HTMLElement>(
-        ".lineup-poster-group",
-      );
-      if (firstGroup && marquee.scrollLeft === 0) {
-        marquee.scrollLeft = firstGroup.offsetWidth;
-      }
-    };
-
-    positionAtMiddleCopy();
-
-    let previousTime = performance.now();
-    let animationFrame = 0;
-    let pendingPixels = 0;
-    const pixelsPerSecond = 32;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const animate = (currentTime: number) => {
-      const elapsed = Math.min(currentTime - previousTime, 64);
-      previousTime = currentTime;
-
-      if (
-        !reducedMotion.matches &&
-        !dragRef.current.active &&
-        currentTime >= pauseUntilRef.current
-      ) {
-        pendingPixels += (pixelsPerSecond * elapsed) / 1000;
-        const wholePixels = Math.floor(pendingPixels);
-        if (wholePixels > 0) {
-          marquee.scrollLeft += wholePixels;
-          pendingPixels -= wholePixels;
-        }
-      } else {
-        pendingPixels = 0;
-      }
-
-      normalizeScrollPosition(marquee);
-      animationFrame = requestAnimationFrame(animate);
-    };
-
-    const resizeObserver = new ResizeObserver(positionAtMiddleCopy);
-    resizeObserver.observe(marquee);
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-      resizeObserver.disconnect();
-    };
-  }, []);
-
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    pauseUntilRef.current = Number.POSITIVE_INFINITY;
-
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
-
-    dragRef.current = {
-      active: true,
-      startX: event.clientX,
-      startScrollLeft: event.currentTarget.scrollLeft,
-    };
-    event.currentTarget.setPointerCapture(event.pointerId);
-    setIsDragging(true);
-  };
-
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (!dragRef.current.active) return;
-
-    const distance = event.clientX - dragRef.current.startX;
-    event.currentTarget.scrollLeft =
-      dragRef.current.startScrollLeft - distance;
-    normalizeScrollPosition(event.currentTarget);
-    dragRef.current.startScrollLeft =
-      event.currentTarget.scrollLeft + distance;
-  };
-
-  const finishInteraction = (event: PointerEvent<HTMLDivElement>) => {
-    if (dragRef.current.active) {
-      dragRef.current.active = false;
-      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-        event.currentTarget.releasePointerCapture(event.pointerId);
-      }
-      setIsDragging(false);
-    }
-
-    pauseAutoScroll();
-  };
-
-  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
-    const horizontalIntent =
-      event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY);
-    if (!horizontalIntent) return;
-
-    event.preventDefault();
-    event.currentTarget.scrollLeft += event.deltaX || event.deltaY;
-    normalizeScrollPosition(event.currentTarget);
-    pauseAutoScroll(350);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
 
     event.preventDefault();
-    const marquee = marqueeRef.current;
-    if (!marquee) return;
-
-    marquee.scrollLeft += event.key === "ArrowRight" ? 260 : -260;
-    normalizeScrollPosition(marquee);
-    pauseAutoScroll();
+    goToFilm(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
   };
 
   return (
-    <div
-      ref={marqueeRef}
-      className={`lineup-poster-marquee ${isDragging ? "is-dragging" : ""}`}
-      role="region"
-      aria-label="Filmshow Vol. 1 film posters — horizontally scrollable"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onPointerCancel={finishInteraction}
-      onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={finishInteraction}
-      onWheel={handleWheel}
-    >
-      <div className="lineup-poster-track">
-        {[0, 1, 2].map((groupIndex) => (
-          <div
-            className="lineup-poster-group"
-            key={groupIndex}
-            aria-hidden={groupIndex === 1 ? undefined : "true"}
+    <div className="lineup-carousel">
+      <div
+        ref={railRef}
+        className="lineup-carousel-rail"
+        role="region"
+        aria-label="Filmshow Vol. 1 film lineup"
+        aria-live="polite"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onScroll={handleScroll}
+      >
+        {films.map((film, index) => (
+          <article
+            className="lineup-film-slide"
+            key={film.title}
+            aria-label={`${index + 1} of ${films.length}: ${film.title}`}
           >
-            {films.map((film, index) => (
-              <figure
-                className="lineup-poster-card"
-                key={`${groupIndex}-${film.title}`}
-              >
-                <div className="lineup-poster-image-wrap">
-                  <Image
-                    src={film.poster}
-                    alt={
-                      groupIndex === 1
-                        ? `${film.title} official poster`
-                        : ""
-                    }
-                    draggable={false}
-                    width={film.width}
-                    height={film.height}
-                    sizes="(min-width: 1024px) 31rem, 78vw"
-                    className="lineup-poster-image"
-                    priority={groupIndex === 1 && index === 0}
-                  />
+            <div className="lineup-film-poster-wrap">
+              <Image
+                src={film.poster}
+                alt={`${film.title} official poster`}
+                draggable={false}
+                width={film.width}
+                height={film.height}
+                sizes="(min-width: 1024px) 35vw, 82vw"
+                className="lineup-film-poster"
+                priority={index === 0}
+              />
+            </div>
+
+            <div className="lineup-film-details">
+              <p className="lineup-film-number">0{index + 1} / 0{films.length}</p>
+              <h3>{film.title}</h3>
+              <p className="lineup-film-byline">A film by {film.director}</p>
+
+              <dl className="lineup-film-facts">
+                <div>
+                  <dt>Year</dt>
+                  <dd>{film.year}</dd>
                 </div>
-                <figcaption>
-                  <span>0{index + 1}</span>
-                  {film.title}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+                <div>
+                  <dt>Runtime</dt>
+                  <dd>{film.runtime}</dd>
+                </div>
+                <div>
+                  <dt>Origin</dt>
+                  <dd>{film.country}</dd>
+                </div>
+                <div>
+                  <dt>Genre</dt>
+                  <dd>{film.genre}</dd>
+                </div>
+                <div>
+                  <dt>Language</dt>
+                  <dd>{film.language}</dd>
+                </div>
+                <div>
+                  <dt>Written by</dt>
+                  <dd>{film.writer}</dd>
+                </div>
+              </dl>
+
+              <div className="lineup-film-logline">
+                <p>Logline</p>
+                <p>{film.logline}</p>
+              </div>
+            </div>
+          </article>
         ))}
+      </div>
+
+      <div className="lineup-carousel-controls">
+        <p aria-hidden="true">
+          0{activeIndex + 1} <span>/ 0{films.length}</span>
+        </p>
+        <div>
+          <button
+            type="button"
+            onClick={() => goToFilm(activeIndex - 1)}
+            aria-label="Show previous film"
+          >
+            <span aria-hidden="true">←</span> Previous
+          </button>
+          <button
+            type="button"
+            onClick={() => goToFilm(activeIndex + 1)}
+            aria-label="Show next film"
+          >
+            Next <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </div>
     </div>
   );
