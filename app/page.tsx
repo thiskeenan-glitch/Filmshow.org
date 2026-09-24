@@ -3,6 +3,7 @@ import { ClippedLoopVideo } from "@/components/clipped-loop-video";
 import { HeroTrailer } from "@/components/hero-trailer";
 import { JsonLd } from "@/components/json-ld";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
+import { LineupPosterMarquee } from "@/components/lineup-poster-marquee";
 import { MotionEffects } from "@/components/motion-effects";
 import { PartnerLogoMarquee } from "@/components/partner-logo-marquee";
 import { PhotoGallery } from "@/components/photo-gallery";
@@ -23,6 +24,33 @@ const HERO_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const HERO_DESKTOP_BACKGROUND_IMAGE = "/images/originals/tootsie-background.jpg";
 const NEWS_URL = "/news";
 const SHOW_FILMSHOW_GRANT = false;
+
+const volumeOneLineup = [
+  {
+    title: "Vultures",
+    poster: "/images/lineup/vultures.jpg",
+    width: 1697,
+    height: 2400,
+  },
+  {
+    title: "Violet and Marlowe",
+    poster: "/images/lineup/violet-and-marlowe.jpg",
+    width: 1620,
+    height: 2400,
+  },
+  {
+    title: "Guzzle Buddies",
+    poster: "/images/lineup/guzzle-buddies.jpg",
+    width: 1706,
+    height: 2400,
+  },
+  {
+    title: "Intimité",
+    poster: "/images/lineup/intimite.jpg",
+    width: 1620,
+    height: 2400,
+  },
+] as const;
 
 const galleryPhotos = [
   {
@@ -205,12 +233,12 @@ export default function Home() {
         videoSrc={HERO_TRAILER_VIDEO}
       />
 
-      <section className="partner-section" aria-labelledby="partner-heading">
-        <div className="container-page partner-heading">
-          <p className="copy-wide small-label text-red-300">With support from</p>
-          <h2 id="partner-heading">In partnership with</h2>
+      <section className="lineup-section" aria-labelledby="lineup-heading">
+        <div className="container-page lineup-heading">
+          <h2 id="lineup-heading">See these films October 3rd.</h2>
         </div>
-        <PartnerLogoMarquee logos={partnerLogos} />
+
+        <LineupPosterMarquee films={volumeOneLineup} />
       </section>
 
       <Divider />
@@ -277,6 +305,14 @@ export default function Home() {
           </div>
         </div>
         <PhotoGallery photos={galleryPhotos} />
+      </section>
+
+      <section className="partner-section" aria-labelledby="partner-heading">
+        <div className="container-page partner-heading">
+          <p className="copy-wide small-label text-red-300">With support from</p>
+          <h2 id="partner-heading">In partnership with</h2>
+        </div>
+        <PartnerLogoMarquee logos={partnerLogos} />
       </section>
 
       <Divider />

@@ -18,7 +18,17 @@ type PhotoGalleryProps = {
   photos: GalleryPhoto[];
 };
 
-function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index: number; total: number }) {
+function PhotoGalleryItem({
+  photo,
+  index,
+  total,
+  decorative = false,
+}: {
+  photo: GalleryPhoto;
+  index: number;
+  total: number;
+  decorative?: boolean;
+}) {
   const [currentSrc, setCurrentSrc] = useState(photo.src);
   const [isHidden, setIsHidden] = useState(false);
   const attemptedFallbackRef = useRef(false);
@@ -36,7 +46,7 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
     >
       <Image
         src={currentSrc}
-        alt={photo.alt}
+        alt={decorative ? "" : photo.alt}
         fill
         sizes={
           photo.portrait
@@ -70,69 +80,81 @@ function PhotoGalleryItem({ photo, index, total }: { photo: GalleryPhoto; index:
 
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const interactionRef = useRef({ active: false, resumeAt: 0 });
+
+  const normalizeScrollPosition = (rail: HTMLDivElement) => {
+    const firstGroup = rail.querySelector<HTMLElement>(
+      ".photo-gallery-group",
+    );
+    const cycleWidth = firstGroup?.offsetWidth ?? 0;
+    if (!cycleWidth) return;
+
+    if (rail.scrollLeft >= cycleWidth * 2) {
+      rail.scrollLeft -= cycleWidth;
+    } else if (rail.scrollLeft < cycleWidth * 0.5) {
+      rail.scrollLeft += cycleWidth;
+    }
+  };
 
   const scrollGallery = (direction: "left" | "right") => {
     const rail = galleryRef.current;
-    const track = trackRef.current;
-    if (!rail || !track) return;
+    if (!rail) return;
 
-    const nextIndex =
-      direction === "left"
-        ? Math.max(activeIndex - 1, 0)
-        : Math.min(activeIndex + 1, photos.length - 1);
-    const cards = track.querySelectorAll<HTMLElement>(".photo-gallery-card");
-    const nextCard = cards[nextIndex];
-    if (!nextCard) return;
-
-    const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
-    rail.scrollTo({
-      left: Math.min(nextCard.offsetLeft, maxScroll),
+    const card = rail.querySelector<HTMLElement>(".photo-gallery-card");
+    const distance = card ? card.offsetWidth + 28 : rail.clientWidth * 0.72;
+    interactionRef.current.resumeAt = performance.now() + 900;
+    rail.scrollBy({
+      left: direction === "right" ? distance : -distance,
       behavior: "smooth",
     });
-    setActiveIndex(nextIndex);
-  };
-
-  const updateDesktopActiveIndex = () => {
-    if (window.matchMedia("(max-width: 767px)").matches) return;
-
-    const rail = galleryRef.current;
-    const track = trackRef.current;
-    if (!rail || !track) return;
-
-    const cards = Array.from(
-      track.querySelectorAll<HTMLElement>(".photo-gallery-card"),
-    );
-    if (!cards.length) return;
-
-    const viewportCenter = rail.scrollLeft + rail.clientWidth / 2;
-    let nearestIndex = 0;
-    let nearestDistance = Number.POSITIVE_INFINITY;
-
-    cards.forEach((card, index) => {
-      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-      const distance = Math.abs(cardCenter - viewportCenter);
-      if (distance < nearestDistance) {
-        nearestDistance = distance;
-        nearestIndex = index;
-      }
-    });
-
-    setActiveIndex(nearestIndex);
   };
 
   useEffect(() => {
     const rail = galleryRef.current;
     if (!rail) return;
 
-    const handleWheel = (event: globalThis.WheelEvent) => {
-      if (window.matchMedia("(max-width: 767px)").matches) return;
+    const firstGroup = rail.querySelector<HTMLElement>(
+      ".photo-gallery-group",
+    );
+    if (firstGroup) {
+      rail.scrollLeft = firstGroup.offsetWidth;
+    }
 
-      const rawDelta =
-        Math.abs(event.deltaX) > Math.abs(event.deltaY)
-          ? event.deltaX
-          : event.deltaY;
+    let previousTime = performance.now();
+    let animationFrame = 0;
+    let pendingPixels = 0;
+    const pixelsPerSecond = 26;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const animate = (currentTime: number) => {
+      const elapsed = Math.min(currentTime - previousTime, 64);
+      previousTime = currentTime;
+
+      if (
+        !reducedMotion.matches &&
+        !interactionRef.current.active &&
+        currentTime >= interactionRef.current.resumeAt
+      ) {
+        pendingPixels += (pixelsPerSecond * elapsed) / 1000;
+        const wholePixels = Math.floor(pendingPixels);
+        if (wholePixels > 0) {
+          rail.scrollLeft += wholePixels;
+          pendingPixels -= wholePixels;
+        }
+      } else {
+        pendingPixels = 0;
+      }
+
+      normalizeScrollPosition(rail);
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    const handleWheel = (event: globalThis.WheelEvent) => {
+      const horizontalIntent =
+        event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY);
+      if (!horizontalIntent) return;
+
+      const rawDelta = event.deltaX || event.deltaY;
       const deltaScale =
         event.deltaMode === 1
           ? 16
@@ -142,27 +164,35 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       const wheelDelta = rawDelta * deltaScale;
       if (Math.abs(wheelDelta) < 0.5) return;
 
-      const maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth);
-      const atStart = rail.scrollLeft <= 1;
-      const atEnd = rail.scrollLeft >= maxScroll - 1;
-
-      if ((wheelDelta < 0 && atStart) || (wheelDelta > 0 && atEnd)) {
-        return;
-      }
-
       event.preventDefault();
-      rail.scrollLeft = Math.max(
-        0,
-        Math.min(maxScroll, rail.scrollLeft + wheelDelta),
-      );
+      rail.scrollLeft += wheelDelta;
+      normalizeScrollPosition(rail);
+      interactionRef.current.resumeAt = performance.now() + 700;
     };
 
+    const resizeObserver = new ResizeObserver(() => {
+      normalizeScrollPosition(rail);
+    });
+
     rail.addEventListener("wheel", handleWheel, { passive: false });
+    resizeObserver.observe(rail);
+    animationFrame = requestAnimationFrame(animate);
 
     return () => {
+      cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
       rail.removeEventListener("wheel", handleWheel);
     };
   }, []);
+
+  const pauseForPointer = () => {
+    interactionRef.current.active = true;
+  };
+
+  const resumeAfterPointer = () => {
+    interactionRef.current.active = false;
+    interactionRef.current.resumeAt = performance.now() + 700;
+  };
 
   return (
     <div className="photo-gallery-shell mt-12" data-reveal="text">
@@ -171,7 +201,6 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
           type="button"
           className="photo-gallery-arrow"
           onClick={() => scrollGallery("left")}
-          disabled={activeIndex === 0}
           aria-label="Previous photo"
         >
           ←
@@ -180,7 +209,6 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
           type="button"
           className="photo-gallery-arrow"
           onClick={() => scrollGallery("right")}
-          disabled={activeIndex === photos.length - 1}
           aria-label="Next photo"
         >
           →
@@ -189,36 +217,29 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
 
       <div
         ref={galleryRef}
-        className="photo-gallery-rail photo-gallery-rail-desktop"
-        onScroll={updateDesktopActiveIndex}
-      >
-        <div
-          ref={trackRef}
-          className="photo-gallery-track"
-        >
-          {photos.map((photo, index) => (
-            <PhotoGalleryItem
-              key={photo.src}
-              photo={photo}
-              index={index}
-              total={photos.length}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div
-        className="photo-gallery-rail photo-gallery-rail-mobile"
+        className="photo-gallery-rail"
         aria-label="Photo gallery"
+        onPointerCancel={resumeAfterPointer}
+        onPointerDown={pauseForPointer}
+        onPointerUp={resumeAfterPointer}
       >
         <div className="photo-gallery-track">
-          {photos.map((photo, index) => (
-            <PhotoGalleryItem
-              key={photo.src}
-              photo={photo}
-              index={index}
-              total={photos.length}
-            />
+          {[0, 1, 2].map((groupIndex) => (
+            <div
+              className="photo-gallery-group"
+              key={groupIndex}
+              aria-hidden={groupIndex === 1 ? undefined : "true"}
+            >
+              {photos.map((photo, index) => (
+                <PhotoGalleryItem
+                  key={`${groupIndex}-${photo.src}`}
+                  photo={photo}
+                  index={index}
+                  total={photos.length}
+                  decorative={groupIndex !== 1}
+                />
+              ))}
+            </div>
           ))}
         </div>
       </div>

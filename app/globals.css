@@ -2693,6 +2693,103 @@ html.is-film-scrolling {
   min-height: 0;
 }
 
+.lineup-section {
+  overflow: hidden;
+  border-top: 1px solid rgba(185, 181, 174, 0.14);
+  border-bottom: 1px solid rgba(185, 181, 174, 0.14);
+  padding-block: clamp(4.5rem, 8vw, 8rem);
+  background:
+    radial-gradient(circle at 12% 16%, rgba(224, 0, 0, 0.09), transparent 25rem),
+    linear-gradient(180deg, #030303 0%, #080505 52%, #030303 100%);
+}
+
+.lineup-heading {
+  margin-bottom: clamp(2.75rem, 6vw, 5rem);
+  text-align: center;
+}
+
+.lineup-heading h2 {
+  max-width: 15ch;
+  margin-inline: auto;
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 6rem);
+  font-weight: 950;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.lineup-poster-marquee {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.lineup-poster-marquee::-webkit-scrollbar {
+  display: none;
+}
+
+.lineup-poster-marquee.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.lineup-poster-track {
+  display: flex;
+  width: max-content;
+}
+
+.lineup-poster-group {
+  display: flex;
+  flex: none;
+  gap: clamp(1rem, 2.25vw, 2rem);
+  padding-right: clamp(1rem, 2.25vw, 2rem);
+}
+
+.lineup-poster-card {
+  flex: 0 0 clamp(18rem, 31vw, 31rem);
+}
+
+.lineup-poster-image-wrap {
+  display: grid;
+  aspect-ratio: 27 / 40;
+  overflow: hidden;
+  border: 1px solid rgba(185, 181, 174, 0.22);
+  background: #000;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.46);
+}
+
+.lineup-poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.lineup-poster-card figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: rgba(226, 221, 212, 0.92);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lineup-poster-card figcaption span {
+  color: var(--accent);
+  font-size: 0.68em;
+  letter-spacing: 0.14em;
+}
+
 .partner-section {
   overflow: hidden;
   padding-block: clamp(4.5rem, 8vw, 7.5rem);
@@ -3575,37 +3672,29 @@ html.is-film-scrolling {
 }
 
 .photo-gallery-rail {
-  overflow: hidden;
-}
-
-.photo-gallery-rail-desktop {
   overflow-x: auto;
   overflow-y: hidden;
   overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
-.photo-gallery-rail-desktop::-webkit-scrollbar {
-  display: none;
-}
-
-.photo-gallery-rail-desktop .photo-gallery-track {
-  transform: none !important;
-  transition: none;
-  will-change: auto;
-}
-
-.photo-gallery-rail-mobile {
+.photo-gallery-rail::-webkit-scrollbar {
   display: none;
 }
 
 .photo-gallery-track {
   display: flex;
   width: max-content;
-  gap: clamp(1rem, 2vw, 1.75rem);
   padding-block: 0.4rem 1rem;
-  transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
+}
+
+.photo-gallery-group {
+  display: flex;
+  flex: none;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  padding-right: clamp(1rem, 2vw, 1.75rem);
 }
 
 .photo-gallery-card {
@@ -4133,8 +4222,9 @@ html.is-film-scrolling {
 }
 
 .motion-effects-ready [data-reveal] {
-  opacity: 0;
-  transform: translate3d(0, 22px, 0);
+  /* Content must never depend on JavaScript/IntersectionObserver to be readable. */
+  opacity: 1;
+  transform: none;
 }
 
 [data-reveal].is-visible {
@@ -4153,8 +4243,8 @@ html.is-film-scrolling {
 }
 
 .motion-effects-ready [data-reveal="line"] {
-  opacity: 0;
-  transform: scaleX(0.72);
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 [data-reveal="line"].is-visible {
@@ -4167,7 +4257,8 @@ html.is-film-scrolling {
 }
 
 .motion-effects-ready [data-reveal="photo"] {
-  transform: translate3d(0, 24px, 0) scale(0.985);
+  opacity: 1;
+  transform: none;
 }
 
 [data-reveal="photo"].is-visible {
@@ -4418,7 +4509,6 @@ html.is-film-scrolling {
   }
 
   .photo-gallery-track {
-    gap: 0.9rem;
     transform: none !important;
     transition: none;
     will-change: auto;
@@ -4426,14 +4516,6 @@ html.is-film-scrolling {
 
   .photo-gallery-controls {
     display: none;
-  }
-
-  .photo-gallery-rail-desktop {
-    display: none;
-  }
-
-  .photo-gallery-rail-mobile {
-    display: block;
   }
 
   .photo-gallery-rail {
@@ -4449,6 +4531,11 @@ html.is-film-scrolling {
 
   .photo-gallery-rail::-webkit-scrollbar {
     display: none;
+  }
+
+  .photo-gallery-group {
+    gap: 0.9rem;
+    padding-right: 0.9rem;
   }
 
   .photo-gallery-card {
@@ -4780,6 +4867,23 @@ html.is-film-scrolling {
     width: 10.75rem;
     height: 6.5rem;
     padding: 0.65rem;
+  }
+
+  .lineup-heading {
+    margin-bottom: 2.5rem;
+  }
+
+  .lineup-heading h2 {
+    font-size: clamp(2.75rem, 13vw, 4.5rem);
+  }
+
+  .lineup-poster-group {
+    gap: 0.9rem;
+    padding-right: 0.9rem;
+  }
+
+  .lineup-poster-card {
+    flex-basis: min(78vw, 22rem);
   }
 
   .brevo-signup--submit {
