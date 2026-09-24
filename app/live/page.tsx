@@ -100,8 +100,8 @@ export default async function LivePage({
 
             {!enabled ? (
               <div className="live-disabled-note">
-                <strong>Broadcast plans are still being finalized.</strong>
-                <span>Filmshow Live is not currently on sale.</span>
+                <strong>Filmshow Live is not available for Vol. 1.</strong>
+                <span>We&apos;re building the live experience for Vol. 2.</span>
               </div>
             ) : !configStatus.ready || !snapshot ? (
               <div className="live-disabled-note">

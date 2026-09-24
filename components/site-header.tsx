@@ -23,6 +23,7 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
+  { href: "/#official-selections", label: "Official Selection" },
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
   { href: "/team", label: "Team", sectionId: "team" },
@@ -34,6 +35,7 @@ const navItems: NavItem[] = [
 ];
 
 const mobileNavItems: NavItem[] = [
+  { href: "/#official-selections", label: "Official Selection" },
   { href: "/#what-is-this", label: "Experience" },
   { href: "/#photos", label: "Photos" },
   { href: "/team", label: "Team", sectionId: "team" },

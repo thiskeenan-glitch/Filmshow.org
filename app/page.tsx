@@ -269,9 +269,14 @@ export default function Home() {
         videoSrc={HERO_TRAILER_VIDEO}
       />
 
-      <section className="lineup-section" aria-labelledby="lineup-heading">
+      <section
+        id="official-selections"
+        className="lineup-section"
+        aria-labelledby="lineup-heading"
+      >
         <div className="container-page lineup-heading">
-          <h2 id="lineup-heading">See these films October 3rd.</h2>
+          <h2 id="lineup-heading">Official Selections Vol. 1</h2>
+          <p>Oct. 3rd</p>
         </div>
 
         <LineupPosterMarquee films={volumeOneLineup} />

@@ -74,7 +74,6 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
         className="lineup-carousel-rail"
         role="region"
         aria-label="Filmshow Vol. 1 film lineup"
-        aria-live="polite"
         tabIndex={0}
         onKeyDown={handleKeyDown}
         onScroll={handleScroll}
@@ -99,7 +98,9 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
             </div>
 
             <div className="lineup-film-details">
-              <p className="lineup-film-number">0{index + 1} / 0{films.length}</p>
+              <p className="lineup-film-number">
+                {index + 1} of {films.length}
+              </p>
               <h3>{film.title}</h3>
               <p className="lineup-film-byline">A film by {film.director}</p>
 
@@ -140,8 +141,12 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
       </div>
 
       <div className="lineup-carousel-controls">
-        <p aria-hidden="true">
-          0{activeIndex + 1} <span>/ 0{films.length}</span>
+        <p
+          className="lineup-carousel-count"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          {activeIndex + 1} <span>of {films.length}</span>
         </p>
         <div>
           <button
