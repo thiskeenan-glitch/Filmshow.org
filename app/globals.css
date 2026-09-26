@@ -3807,7 +3807,8 @@ html.is-film-scrolling {
 
 .photo-gallery-card {
   position: relative;
-  flex: 0 0 min(74vw, 54rem);
+  flex: 0 0 auto;
+  width: min(74vw, 54rem);
   aspect-ratio: 16 / 9.8;
   overflow: hidden;
   border-radius: 0.45rem;
@@ -3833,12 +3834,12 @@ html.is-film-scrolling {
 }
 
 .photo-gallery-card.is-portrait {
-  flex-basis: min(60vw, 32rem);
+  width: min(60vw, 32rem);
   aspect-ratio: 4 / 5.25;
 }
 
 .photo-gallery-card.is-square {
-  flex-basis: min(68vw, 44rem);
+  width: min(68vw, 44rem);
   aspect-ratio: 1 / 1;
 }
 
@@ -4647,18 +4648,18 @@ html.is-film-scrolling {
   }
 
   .photo-gallery-card {
-    flex-basis: 84vw;
+    width: 84vw;
     aspect-ratio: 4 / 3.15;
     border-radius: 0.36rem;
   }
 
   .photo-gallery-card.is-portrait {
-    flex-basis: 76vw;
+    width: 76vw;
     aspect-ratio: 4 / 5.15;
   }
 
   .photo-gallery-card.is-square {
-    flex-basis: 82vw;
+    width: 82vw;
     aspect-ratio: 1 / 1;
   }
 
