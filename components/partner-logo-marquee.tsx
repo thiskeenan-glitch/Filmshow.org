@@ -66,7 +66,7 @@ export function PartnerLogoMarquee({ logos }: PartnerLogoMarqueeProps) {
     let previousTime = performance.now();
     let animationFrame = 0;
     let pendingPixels = 0;
-    const pixelsPerSecond = 34;
+    const pixelsPerSecond = 44;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const animate = (currentTime: number) => {

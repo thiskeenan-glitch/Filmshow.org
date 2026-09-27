@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { useRef, useState } from "react";
-import type { KeyboardEvent, UIEvent } from "react";
+import type { CSSProperties, KeyboardEvent, UIEvent } from "react";
 
 type LineupFilm = {
   title: string;
@@ -10,13 +11,8 @@ type LineupFilm = {
   width: number;
   height: number;
   director: string;
-  writer: string;
-  year: string;
-  runtime: string;
-  country: string;
-  language: string;
-  genre: string;
   logline: string;
+  accent: string;
 };
 
 type LineupPosterMarqueeProps = {
@@ -68,7 +64,18 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
   };
 
   return (
-    <div className="lineup-carousel">
+    <div
+      className="lineup-carousel"
+      style={
+        {
+          "--film-accent": films[activeIndex]?.accent ?? "#e00000",
+        } as CSSProperties
+      }
+    >
+      <LumaCheckoutLink className="lineup-ticket-link">
+        Get a seat
+      </LumaCheckoutLink>
+
       <div
         ref={railRef}
         className="lineup-carousel-rail"
@@ -104,33 +111,6 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
               <h3>{film.title}</h3>
               <p className="lineup-film-byline">A film by {film.director}</p>
 
-              <dl className="lineup-film-facts">
-                <div>
-                  <dt>Year</dt>
-                  <dd>{film.year}</dd>
-                </div>
-                <div>
-                  <dt>Runtime</dt>
-                  <dd>{film.runtime}</dd>
-                </div>
-                <div>
-                  <dt>Origin</dt>
-                  <dd>{film.country}</dd>
-                </div>
-                <div>
-                  <dt>Genre</dt>
-                  <dd>{film.genre}</dd>
-                </div>
-                <div>
-                  <dt>Language</dt>
-                  <dd>{film.language}</dd>
-                </div>
-                <div>
-                  <dt>Written by</dt>
-                  <dd>{film.writer}</dd>
-                </div>
-              </dl>
-
               <div className="lineup-film-logline">
                 <p>Logline</p>
                 <p>{film.logline}</p>
@@ -154,14 +134,16 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
             onClick={() => goToFilm(activeIndex - 1)}
             aria-label="Show previous film"
           >
-            <span aria-hidden="true">←</span> Previous
+            <span className="lineup-control-arrow" aria-hidden="true">←</span>
+            <span className="lineup-control-label">Previous</span>
           </button>
           <button
             type="button"
             onClick={() => goToFilm(activeIndex + 1)}
             aria-label="Show next film"
           >
-            Next <span aria-hidden="true">→</span>
+            <span className="lineup-control-label">Next</span>
+            <span className="lineup-control-arrow" aria-hidden="true">→</span>
           </button>
         </div>
       </div>

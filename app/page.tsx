@@ -38,11 +38,12 @@ const volumeOneLineup = [
     country: "France / South Africa",
     language: "English / Afrikaans",
     genre: "Drama",
+    accent: "#bd7928",
     logline:
       "In the dead of night, a tow-truck driver arrives at an accident scene and discovers that his payday is far more than he bargained for.",
   },
   {
-    title: "Violet and Marlowe",
+    title: "Violet and Marlowe Rob a Bank",
     poster: "/images/lineup/violet-and-marlowe.jpg",
     width: 1620,
     height: 2400,
@@ -53,6 +54,7 @@ const volumeOneLineup = [
     country: "United States",
     language: "English",
     genre: "Action / Animation / Sci-Fi",
+    accent: "#75c9e8",
     logline:
       "After President Rabbit monopolizes the world's carrots, two husband-and-wife rabbits risk their lives in a series of factory heists to take them back.",
   },
@@ -68,6 +70,7 @@ const volumeOneLineup = [
     country: "United States",
     language: "English",
     genre: "Comedy",
+    accent: "#e266b5",
     logline:
       "Two tortured friends spend the day taking care of one another as an existential crisis gives way to a darker realization.",
   },
@@ -83,6 +86,7 @@ const volumeOneLineup = [
     country: "United States",
     language: "English",
     genre: "Drama / Comedy",
+    accent: "#d10838",
     logline:
       "When a movie star crosses the line on set, an intimacy coordinator must wrangle the chaos and get everyone working by the book.",
   },
@@ -93,48 +97,62 @@ const galleryPhotos = [
     src: "/images/optimized/gallery-space.jpg",
     alt: "Filmshow event space before the screening",
     position: "center",
+    width: 1800,
+    height: 2400,
     caption: "Before lights.",
-    portrait: true,
-  },
-  {
-    src: "/images/optimized/gallery-ladder.jpg",
-    alt: "Live performance with a ladder and red costumes",
-    position: "center",
-    caption: "Live performances.",
     portrait: true,
   },
   {
     src: "/images/lots-of-people.jpg",
     alt: "A full Brooklyn audience watching short films at Filmshow",
     position: "center",
-    fallbackSrc: "/images/optimized/gallery-space.jpg",
-  },
-  {
-    src: "/images/the-team.jpg",
-    alt: "Filmshow team gathered near a Toy Gun poster",
-    position: "center 58%",
-    portrait: true,
+    width: 4032,
+    height: 3024,
     fallbackSrc: "/images/optimized/gallery-space.jpg",
   },
   {
     src: "/images/optimized/gallery-high-five.jpg",
     alt: "Performers jumping for a high five beside a ladder",
     position: "center",
+    width: 1400,
+    height: 1871,
     portrait: true,
   },
   {
-    src: "/images/the-crowd.jpg",
-    alt: "Audience watching a film screening in a dark room",
-    position: "center",
+    src: "/images/the-team.jpg",
+    alt: "Filmshow team gathered near a Toy Gun poster",
+    position: "center 58%",
+    width: 5712,
+    height: 4284,
     portrait: true,
-    fallbackSrc: "/images/optimized/gallery-high-five.jpg",
+    fallbackSrc: "/images/optimized/gallery-space.jpg",
+  },
+  {
+    src: "/images/optimized/gallery-ladder.jpg",
+    alt: "Live performance with a ladder and red costumes",
+    position: "center",
+    width: 1400,
+    height: 1866,
+    caption: "Live performances.",
+    portrait: true,
   },
   {
     src: "/images/optimized/gallery-3-people.jpg",
     alt: "Three performers on stage under a projected play symbol",
     position: "center",
+    width: 1400,
+    height: 1400,
     caption: "A room full of strangers.",
     square: true,
+  },
+  {
+    src: "/images/the-crowd.jpg",
+    alt: "Audience watching a film screening in a dark room",
+    position: "center",
+    width: 1536,
+    height: 2048,
+    portrait: true,
+    fallbackSrc: "/images/optimized/gallery-high-five.jpg",
   },
 ];
 
@@ -275,8 +293,9 @@ export default function Home() {
         aria-labelledby="lineup-heading"
       >
         <div className="container-page lineup-heading">
-          <h2 id="lineup-heading">Official Selections Vol. 1</h2>
-          <p>Oct. 3rd</p>
+          <h2 id="lineup-heading">
+            Official Selections <span>Vol. 1</span>
+          </h2>
         </div>
 
         <LineupPosterMarquee films={volumeOneLineup} />

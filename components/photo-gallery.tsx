@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import { createPortal } from "react-dom";
 
 export type GalleryPhoto = {
   src: string;
   alt: string;
   position: string;
+  width: number;
+  height: number;
   caption?: string;
   portrait?: boolean;
   square?: boolean;
@@ -18,231 +20,222 @@ type PhotoGalleryProps = {
   photos: GalleryPhoto[];
 };
 
-function PhotoGalleryItem({
+function GalleryImage({
   photo,
-  index,
-  total,
-  decorative = false,
+  sizes,
+  className,
 }: {
   photo: GalleryPhoto;
-  index: number;
-  total: number;
-  decorative?: boolean;
+  sizes: string;
+  className: string;
 }) {
   const [currentSrc, setCurrentSrc] = useState(photo.src);
-  const [isHidden, setIsHidden] = useState(false);
   const attemptedFallbackRef = useRef(false);
 
-  if (isHidden) {
-    return null;
-  }
+  useEffect(() => {
+    attemptedFallbackRef.current = false;
+    setCurrentSrc(photo.src);
+  }, [photo.src]);
 
   return (
-    <figure
-      className={`photo-gallery-card ${photo.portrait ? "is-portrait" : ""} ${photo.square ? "is-square" : ""}`}
-      style={{ "--reveal-delay": `${index * 70}ms` } as CSSProperties}
-      data-reveal="photo"
-      data-edge={index === 0 ? "first" : index === total - 1 ? "last" : undefined}
-    >
-      <Image
-        src={currentSrc}
-        alt={decorative ? "" : photo.alt}
-        fill
-        sizes={
-          photo.portrait
-            ? "(max-width: 767px) 76vw, 32rem"
-            : photo.square
-              ? "(max-width: 767px) 82vw, 44rem"
-              : "(max-width: 767px) 84vw, 54rem"
+    <Image
+      src={currentSrc}
+      alt={photo.alt}
+      fill
+      sizes={sizes}
+      className={className}
+      style={{ objectPosition: photo.position }}
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        if (
+          !attemptedFallbackRef.current &&
+          photo.fallbackSrc &&
+          currentSrc !== photo.fallbackSrc
+        ) {
+          attemptedFallbackRef.current = true;
+          setCurrentSrc(photo.fallbackSrc);
         }
-        className="photo-gallery-image"
-        style={{ objectPosition: photo.position }}
-        loading="lazy"
-        decoding="async"
-        onError={() => {
-          if (!attemptedFallbackRef.current && photo.fallbackSrc && currentSrc !== photo.fallbackSrc) {
-            attemptedFallbackRef.current = true;
-            setCurrentSrc(photo.fallbackSrc);
-            return;
-          }
+      }}
+    />
+  );
+}
 
-          setIsHidden(true);
-        }}
-      />
-      {photo.caption ? (
-        <figcaption className="photo-gallery-caption">
-          {photo.caption}
-        </figcaption>
-      ) : null}
-    </figure>
+function GalleryThumbnail({ photo }: { photo: GalleryPhoto }) {
+  const [currentSrc, setCurrentSrc] = useState(photo.src);
+  const attemptedFallbackRef = useRef(false);
+
+  return (
+    <Image
+      src={currentSrc}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      sizes="(max-width: 767px) 33vw, 25vw"
+      className="photo-collage-image"
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        if (
+          !attemptedFallbackRef.current &&
+          photo.fallbackSrc &&
+          currentSrc !== photo.fallbackSrc
+        ) {
+          attemptedFallbackRef.current = true;
+          setCurrentSrc(photo.fallbackSrc);
+        }
+      }}
+    />
   );
 }
 
 export function PhotoGallery({ photos }: PhotoGalleryProps) {
-  const galleryRef = useRef<HTMLDivElement>(null);
-  const interactionRef = useRef({ active: false, resumeAt: 0 });
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
-  const normalizeScrollPosition = (rail: HTMLDivElement) => {
-    const firstGroup = rail.querySelector<HTMLElement>(
-      ".photo-gallery-group",
+  const showPreviousPhoto = () => {
+    setSelectedIndex((currentIndex) =>
+      currentIndex === null
+        ? null
+        : (currentIndex - 1 + photos.length) % photos.length,
     );
-    const cycleWidth = firstGroup?.offsetWidth ?? 0;
-    if (!cycleWidth) return;
-
-    if (rail.scrollLeft >= cycleWidth * 2) {
-      rail.scrollLeft -= cycleWidth;
-    } else if (rail.scrollLeft < cycleWidth * 0.5) {
-      rail.scrollLeft += cycleWidth;
-    }
   };
 
-  const scrollGallery = (direction: "left" | "right") => {
-    const rail = galleryRef.current;
-    if (!rail) return;
-
-    const card = rail.querySelector<HTMLElement>(".photo-gallery-card");
-    const distance = card ? card.offsetWidth + 28 : rail.clientWidth * 0.72;
-    interactionRef.current.resumeAt = performance.now() + 900;
-    rail.scrollBy({
-      left: direction === "right" ? distance : -distance,
-      behavior: "smooth",
-    });
+  const showNextPhoto = () => {
+    setSelectedIndex((currentIndex) =>
+      currentIndex === null ? null : (currentIndex + 1) % photos.length,
+    );
   };
 
   useEffect(() => {
-    const rail = galleryRef.current;
-    if (!rail) return;
+    if (selectedIndex === null) return;
 
-    const firstGroup = rail.querySelector<HTMLElement>(
-      ".photo-gallery-group",
-    );
-    if (firstGroup) {
-      rail.scrollLeft = firstGroup.offsetWidth;
-    }
-
-    let previousTime = performance.now();
-    let animationFrame = 0;
-    let pendingPixels = 0;
-    const pixelsPerSecond = 26;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const animate = (currentTime: number) => {
-      const elapsed = Math.min(currentTime - previousTime, 64);
-      previousTime = currentTime;
-
-      if (
-        !reducedMotion.matches &&
-        !interactionRef.current.active &&
-        currentTime >= interactionRef.current.resumeAt
-      ) {
-        pendingPixels += (pixelsPerSecond * elapsed) / 1000;
-        const wholePixels = Math.floor(pendingPixels);
-        if (wholePixels > 0) {
-          rail.scrollLeft += wholePixels;
-          pendingPixels -= wholePixels;
-        }
-      } else {
-        pendingPixels = 0;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedIndex(null);
+      if (event.key === "ArrowLeft") {
+        setSelectedIndex((currentIndex) =>
+          currentIndex === null
+            ? null
+            : (currentIndex - 1 + photos.length) % photos.length,
+        );
       }
-
-      normalizeScrollPosition(rail);
-      animationFrame = requestAnimationFrame(animate);
+      if (event.key === "ArrowRight") {
+        setSelectedIndex((currentIndex) =>
+          currentIndex === null ? null : (currentIndex + 1) % photos.length,
+        );
+      }
     };
 
-    const handleWheel = (event: globalThis.WheelEvent) => {
-      const horizontalIntent =
-        event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY);
-      if (!horizontalIntent) return;
-
-      const rawDelta = event.deltaX || event.deltaY;
-      const deltaScale =
-        event.deltaMode === 1
-          ? 16
-          : event.deltaMode === 2
-            ? rail.clientWidth
-            : 1;
-      const wheelDelta = rawDelta * deltaScale;
-      if (Math.abs(wheelDelta) < 0.5) return;
-
-      event.preventDefault();
-      rail.scrollLeft += wheelDelta;
-      normalizeScrollPosition(rail);
-      interactionRef.current.resumeAt = performance.now() + 700;
-    };
-
-    const resizeObserver = new ResizeObserver(() => {
-      normalizeScrollPosition(rail);
-    });
-
-    rail.addEventListener("wheel", handleWheel, { passive: false });
-    resizeObserver.observe(rail);
-    animationFrame = requestAnimationFrame(animate);
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
 
     return () => {
-      cancelAnimationFrame(animationFrame);
-      resizeObserver.disconnect();
-      rail.removeEventListener("wheel", handleWheel);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
     };
-  }, []);
+  }, [selectedIndex, photos.length]);
 
-  const pauseForPointer = () => {
-    interactionRef.current.active = true;
-  };
+  const selectedPhoto =
+    selectedIndex === null ? null : photos[selectedIndex] ?? null;
 
-  const resumeAfterPointer = () => {
-    interactionRef.current.active = false;
-    interactionRef.current.resumeAt = performance.now() + 700;
-  };
+  const lightbox =
+    selectedPhoto && typeof document !== "undefined"
+      ? createPortal(
+          <div
+            className="photo-lightbox"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Enlarged Filmshow photo"
+            onMouseDown={(event) => {
+              if (event.currentTarget === event.target) setSelectedIndex(null);
+            }}
+          >
+            <button
+              type="button"
+              className="photo-lightbox-close"
+              onClick={() => setSelectedIndex(null)}
+              aria-label="Close enlarged photo"
+              autoFocus
+            >
+              ×
+            </button>
+            <button
+              type="button"
+              className="photo-lightbox-arrow photo-lightbox-arrow-previous"
+              onClick={showPreviousPhoto}
+              aria-label="Show previous photo"
+            >
+              ←
+            </button>
+            <div
+              className="photo-lightbox-image-wrap"
+              onTouchStart={(event) => {
+                const touch = event.touches[0];
+                touchStartXRef.current = touch?.clientX ?? null;
+                touchStartYRef.current = touch?.clientY ?? null;
+              }}
+              onTouchEnd={(event) => {
+                const startX = touchStartXRef.current;
+                const startY = touchStartYRef.current;
+                const touch = event.changedTouches[0];
+
+                touchStartXRef.current = null;
+                touchStartYRef.current = null;
+
+                if (startX === null || startY === null || !touch) return;
+
+                const distanceX = touch.clientX - startX;
+                const distanceY = touch.clientY - startY;
+
+                if (
+                  Math.abs(distanceX) < 42 ||
+                  Math.abs(distanceX) <= Math.abs(distanceY)
+                ) {
+                  return;
+                }
+
+                if (distanceX > 0) showPreviousPhoto();
+                else showNextPhoto();
+              }}
+            >
+              <GalleryImage
+                photo={selectedPhoto}
+                sizes="90vw"
+                className="photo-lightbox-image"
+              />
+            </div>
+            <button
+              type="button"
+              className="photo-lightbox-arrow photo-lightbox-arrow-next"
+              onClick={showNextPhoto}
+              aria-label="Show next photo"
+            >
+              →
+            </button>
+          </div>,
+          document.body,
+        )
+      : null;
 
   return (
     <div className="photo-gallery-shell mt-12" data-reveal="text">
-      <div className="photo-gallery-controls" aria-label="Photo gallery controls">
-        <button
-          type="button"
-          className="photo-gallery-arrow"
-          onClick={() => scrollGallery("left")}
-          aria-label="Previous photo"
-        >
-          ←
-        </button>
-        <button
-          type="button"
-          className="photo-gallery-arrow"
-          onClick={() => scrollGallery("right")}
-          aria-label="Next photo"
-        >
-          →
-        </button>
+      <div className="photo-collage" aria-label="Filmshow photo collage">
+        {photos.map((photo, index) => (
+          <button
+            type="button"
+            className="photo-collage-card"
+            key={photo.src}
+            onClick={() => setSelectedIndex(index)}
+            aria-label={`Enlarge photo: ${photo.alt}`}
+          >
+            <GalleryThumbnail photo={photo} />
+          </button>
+        ))}
       </div>
 
-      <div
-        ref={galleryRef}
-        className="photo-gallery-rail"
-        aria-label="Photo gallery"
-        onPointerCancel={resumeAfterPointer}
-        onPointerDown={pauseForPointer}
-        onPointerUp={resumeAfterPointer}
-      >
-        <div className="photo-gallery-track">
-          {[0, 1, 2].map((groupIndex) => (
-            <div
-              className="photo-gallery-group"
-              key={groupIndex}
-              aria-hidden={groupIndex === 1 ? undefined : "true"}
-            >
-              {photos.map((photo, index) => (
-                <PhotoGalleryItem
-                  key={`${groupIndex}-${photo.src}`}
-                  photo={photo}
-                  index={index}
-                  total={photos.length}
-                  decorative={groupIndex !== 1}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
+      {lightbox}
     </div>
   );
 }
