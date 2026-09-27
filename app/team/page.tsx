@@ -13,7 +13,7 @@ export const metadata = createPageMetadata(routeMetadata.team);
 const teamMembers = [
   {
     name: "Keenan Gray",
-    role: "Founder & Director",
+    role: "Co-Founder & Creative Director",
     image: "/images/team/keenan-gray-2026.jpg",
     imagePosition: "50% 40%",
     imageClassName: "",
@@ -31,7 +31,7 @@ const teamMembers = [
   },
   {
     name: "Sam Ferlo",
-    role: "Theater Producer",
+    role: "Co-Founder & Head of Live Experiences",
     image: "/images/team/sam-ferlo-2026.jpg",
     imagePosition: "50% 50%",
     imageClassName: "",
@@ -49,7 +49,7 @@ const teamMembers = [
   },
   {
     name: "Elena Vuvunikyan",
-    role: "Event Producer",
+    role: "Head of Production & Partnerships",
     image: "/images/team/elena-vuvunikyan.jpg",
     imagePosition: "62% 36%",
     imageClassName: "",
@@ -65,7 +65,7 @@ const teamMembers = [
   },
   {
     name: "Liam Gundlach",
-    role: "Performer",
+    role: "Creative Associate",
     image: "/images/team/liam-gundlach.jpg",
     imagePosition: "50% 30%",
     imageClassName: "team-card-image--liam",
