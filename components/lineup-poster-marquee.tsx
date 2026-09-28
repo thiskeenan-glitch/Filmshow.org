@@ -72,7 +72,7 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
         } as CSSProperties
       }
     >
-      <LumaCheckoutLink className="lineup-ticket-link">
+      <LumaCheckoutLink className="lineup-ticket-link lineup-ticket-link--desktop">
         Get a seat
       </LumaCheckoutLink>
 
@@ -90,6 +90,7 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
             className="lineup-film-slide"
             key={film.title}
             aria-label={`${index + 1} of ${films.length}: ${film.title}`}
+            style={{ "--slide-accent": film.accent } as CSSProperties}
           >
             <div className="lineup-film-poster-wrap">
               <Image
@@ -108,7 +109,12 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
               <p className="lineup-film-number">
                 {index + 1} of {films.length}
               </p>
-              <h3>{film.title}</h3>
+              <div className="lineup-film-title-row">
+                <h3>{film.title}</h3>
+                <LumaCheckoutLink className="lineup-ticket-link lineup-ticket-link--mobile">
+                  Get a seat
+                </LumaCheckoutLink>
+              </div>
               <p className="lineup-film-byline">A film by {film.director}</p>
 
               <div className="lineup-film-logline">

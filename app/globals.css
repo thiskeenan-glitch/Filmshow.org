@@ -2766,6 +2766,14 @@ html.is-film-scrolling {
   background: color-mix(in srgb, var(--film-accent) 12%, transparent);
 }
 
+.lineup-ticket-link--mobile {
+  display: none;
+}
+
+.lineup-film-title-row {
+  display: contents;
+}
+
 .lineup-control-arrow {
   font-size: 1rem;
 }
@@ -5180,6 +5188,10 @@ html.is-film-scrolling {
     font-size: 0.68rem;
   }
 
+  .lineup-ticket-link--desktop {
+    display: none;
+  }
+
   .lineup-carousel {
     width: calc(100vw - 2rem);
   }
@@ -5197,16 +5209,42 @@ html.is-film-scrolling {
     margin-inline: auto;
   }
 
+  .lineup-film-title-row {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    margin-bottom: 0.7rem;
+  }
+
   .lineup-film-details h3 {
     display: block;
     max-width: 100%;
-    margin: 0 0 0.7rem;
-    color: var(--film-accent);
+    margin: 0;
+    color: var(--slide-accent);
     font-size: clamp(1.35rem, 6.5vw, 2rem);
     letter-spacing: -0.025em;
     line-height: 0.95;
     overflow-wrap: anywhere;
     transition: color 260ms ease;
+  }
+
+  .lineup-ticket-link--mobile {
+    display: flex;
+    flex: 0 0 auto;
+    min-height: 1.95rem;
+    margin: 0;
+    padding: 0.5rem 0.72rem;
+    border-color: color-mix(in srgb, var(--slide-accent) 68%, transparent);
+    color: var(--slide-accent);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+  }
+
+  .lineup-ticket-link--mobile:hover,
+  .lineup-ticket-link--mobile:focus-visible {
+    background: color-mix(in srgb, var(--slide-accent) 12%, transparent);
   }
 
   .lineup-film-details {
