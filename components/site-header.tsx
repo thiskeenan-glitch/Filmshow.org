@@ -436,6 +436,10 @@ export function SiteHeader() {
     return null;
   }
 
+  if (pathname.startsWith("/concepts")) {
+    return null;
+  }
+
   return (
     <header
       ref={headerRef}
