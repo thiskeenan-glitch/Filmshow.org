@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type BackgroundVideoProps = {
   src: string;
@@ -10,6 +10,7 @@ type BackgroundVideoProps = {
 };
 
 export function BackgroundVideo({ src, mobileSrc, className, poster }: BackgroundVideoProps) {
+  const [needsPlay, setNeedsPlay] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -24,7 +25,12 @@ export function BackgroundVideo({ src, mobileSrc, className, poster }: Backgroun
       video.defaultMuted = true;
       video.muted = true;
       video.setAttribute("muted", "");
-      video.play().catch(() => { /* Retry on visibility, readiness, or user interaction. */ });
+      if (!video.paused) return;
+      video.play().then(() => {
+        if (!disposed) setNeedsPlay(false);
+      }).catch((error: DOMException) => {
+        if (!disposed && visible && error.name !== "AbortError") setNeedsPlay(true);
+      });
     };
     const updateSource = () => {
       video.defaultMuted = true;
@@ -43,6 +49,12 @@ export function BackgroundVideo({ src, mobileSrc, className, poster }: Backgroun
       else video.pause();
     });
     observer.observe(video);
+    // Safari can suspend a video without a new intersection event.
+    const retry = window.setInterval(play, 2000);
+    const playing = () => setNeedsPlay(false);
+    video.addEventListener("playing", playing);
+    document.addEventListener("click", play);
+    window.addEventListener("pageshow", play);
     video.addEventListener("canplay", play);
     video.addEventListener("loadeddata", play);
     video.addEventListener("ended", play);
@@ -54,6 +66,10 @@ export function BackgroundVideo({ src, mobileSrc, className, poster }: Backgroun
     return () => {
       disposed = true;
       observer.disconnect();
+      window.clearInterval(retry);
+      video.removeEventListener("playing", playing);
+      document.removeEventListener("click", play);
+      window.removeEventListener("pageshow", play);
       video.pause();
       video.removeEventListener("canplay", play);
       video.removeEventListener("loadeddata", play);
@@ -65,5 +81,13 @@ export function BackgroundVideo({ src, mobileSrc, className, poster }: Backgroun
     };
   }, [src, mobileSrc]);
 
-  return <video ref={videoRef} className={className} poster={poster} autoPlay muted loop playsInline preload="auto" controls={false} disablePictureInPicture aria-hidden="true" tabIndex={-1} />;
+  return <>
+    <video src={src} ref={videoRef} className={className} poster={poster} autoPlay muted loop playsInline preload="auto" controls={false} disablePictureInPicture aria-hidden="true" tabIndex={-1} />
+    {needsPlay && <button type="button" className="v2-video-play" onClick={() => {
+      const video = videoRef.current;
+      if (!video) return;
+      video.muted = true;
+      void video.play().then(() => setNeedsPlay(false)).catch(() => setNeedsPlay(true));
+    }}>Play video <span aria-hidden="true">▶</span></button>}
+  </>;
 }

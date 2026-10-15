@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export function DoorTrailer() {
   const [isOpen, setIsOpen] = useState(false);
+  const [needsPlay, setNeedsPlay] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -18,7 +19,9 @@ export function DoorTrailer() {
     video.play().catch(() => {
       soundAllowed.current = false;
       video.muted = true;
-      video.play().catch(() => undefined);
+      video.play().catch((error: DOMException) => {
+        if (error.name !== "AbortError") setNeedsPlay(true);
+      });
     });
   }, []);
 
@@ -32,7 +35,7 @@ export function DoorTrailer() {
 
   useEffect(() => {
     const openTrailer = () => {
-      if (window.location.hash === "#trailer") setIsOpen(true);
+      if (/^#trailer(?:$|#|%23)/i.test(window.location.hash)) setIsOpen(true);
     };
     const onHomeClick = (event: MouseEvent) => {
       const link = (event.target as Element)?.closest("a");
@@ -126,8 +129,16 @@ export function DoorTrailer() {
       const rect = sectionRef.current?.getBoundingClientRect();
       if (!document.hidden && rect && rect.bottom > 0 && rect.top < window.innerHeight) playTrailer();
     };
+    const retry = window.setInterval(() => { if (video.paused) resume(); }, 2000);
     document.addEventListener("visibilitychange", resume);
-    return () => document.removeEventListener("visibilitychange", resume);
+    document.addEventListener("click", resume);
+    window.addEventListener("pageshow", resume);
+    return () => {
+      window.clearInterval(retry);
+      document.removeEventListener("visibilitychange", resume);
+      document.removeEventListener("click", resume);
+      window.removeEventListener("pageshow", resume);
+    };
   }, [isOpen, playTrailer]);
 
   const enableSound = () => {
@@ -152,11 +163,13 @@ export function DoorTrailer() {
       <div className="v2-doors__trailer">
         <video
           ref={videoRef}
+          autoPlay
           loop
           playsInline
           preload="auto"
           muted
           poster="/images/v2/v1-screen.jpg"
+          onPlaying={() => setNeedsPlay(false)}
           onCanPlay={() => { if (isOpen) playTrailer(); }}
           onClick={enableSound}
           onVolumeChange={(event) => setIsMuted(event.currentTarget.muted)}
@@ -185,9 +198,12 @@ export function DoorTrailer() {
       </div>
 
       {!isOpen && (
-        <button type="button" className="v2-doors__open" onClick={() => setIsOpen(true)}>
+        <button type="button" className="v2-doors__open" onClick={() => { setIsOpen(true); playTrailer(); }}>
           Scroll to open <span>↓</span>
         </button>
+      )}
+      {isOpen && needsPlay && (
+        <button type="button" className="v2-video-play" onClick={playTrailer}>Play trailer <span aria-hidden="true">▶</span></button>
       )}
       {isOpen && (
         <button
