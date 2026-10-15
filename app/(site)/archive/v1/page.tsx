@@ -3,6 +3,7 @@ import Link from "next/link";
 import { v1Films, v1Gallery } from "@/lib/v2-archive";
 
 export const metadata = {
+  alternates: { canonical: "/archive/v1" },
   title: "Volume 1 Archive",
   description: "Filmshow Volume 1 — October 3, 2026 in Brooklyn, New York.",
 };
@@ -54,7 +55,7 @@ export default function VolumeOnePage() {
         <p className="v2-kicker">Next</p>
         <h2>V2</h2>
         <p>Date and location to be announced.</p>
-        <div><Link href="/tickets">Ticket information ↗</Link><Link href="/v2/archive">Back to archive →</Link></div>
+        <div><Link href="/tickets">Ticket information ↗</Link><Link href="/archive">Back to archive →</Link></div>
       </section>
     </main>
   );

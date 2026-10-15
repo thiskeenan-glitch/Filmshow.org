@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { V2Footer } from "@/components/v2/v2-footer";
 import { V2Header } from "@/components/v2/v2-header";
 import { MotionEffects } from "@/components/motion-effects";
-import "./v2.css";
+import "../filmshow.css";
 
 export const metadata: Metadata = {
   title: { default: "Filmshow — Short Films and Live Theater", template: "%s — Filmshow" },
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function V2Layout({ children }: { children: ReactNode }) {
+export default function FilmshowLayout({ children }: { children: ReactNode }) {
   return (
     <div className="v2-site">
       <MotionEffects />

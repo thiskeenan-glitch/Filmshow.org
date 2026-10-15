@@ -7,7 +7,13 @@ import { DoorTrailer } from "@/components/v2/door-trailer";
 
 
 
-export default function FilmshowV2Home() {
+export const metadata = {
+  title: "Filmshow — Short Films and Live Theater",
+  description: "Short films and live theater in Brooklyn, New York. Explore past shows, submit your film, and join the next Filmshow.",
+  alternates: { canonical: "/" },
+};
+
+export default function FilmshowHome() {
   return (
     <main>
       <DoorTrailer />
@@ -41,7 +47,7 @@ export default function FilmshowV2Home() {
         </div>
       </section>
 
-      <section className="v2-take-part" aria-labelledby="take-part-title">
+      <section id="take-part" className="v2-take-part" aria-labelledby="take-part-title">
         <p className="v2-kicker">Be part of the next one</p>
         <h2 id="take-part-title">Take part.</h2>
         <div className="v2-take-part__grid">
@@ -70,7 +76,7 @@ export default function FilmshowV2Home() {
         </div>
       </section>
 
-      <section className="v2-photo-collage" aria-label="Moments from Filmshow">
+      <section id="photos" className="v2-photo-collage" aria-label="Moments from Filmshow">
         {[
           { src: "/images/v2/collage/mingling.jpg", alt: "Guests mingling in the Filmshow venue" },
           { src: "/images/v2/collage/arrivals.jpg", alt: "Guests arriving for Filmshow" },
@@ -96,7 +102,7 @@ export default function FilmshowV2Home() {
         </div>
       </section>
 
-      <section className="partner-section v2-partners" aria-labelledby="v2-partner-heading">
+      <section id="partners" className="partner-section v2-partners" aria-labelledby="v2-partner-heading">
         <div className="container-page partner-heading">
           <p className="v2-kicker">With support from</p>
           <h2 id="v2-partner-heading">In partnership with</h2>
@@ -114,8 +120,8 @@ export default function FilmshowV2Home() {
           <p className="v2-kicker">Past shows / 001</p>
           <h2>V1</h2>
           <p>October 3, 2026<br />Brooklyn, New York</p>
-          <Link href="/v2/archive/v1">View Volume 1 <span>→</span></Link>
-          <Link href="/v2/archive" className="v2-archive-preview__all">All volumes</Link>
+          <Link href="/archive/v1">View Volume 1 <span>→</span></Link>
+          <Link href="/archive" className="v2-archive-preview__all">All volumes</Link>
         </div>
       </section>
     </main>

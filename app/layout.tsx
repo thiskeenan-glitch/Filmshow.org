@@ -7,8 +7,6 @@ import { GoogleAnalyticsInteractions } from "@/components/google-analytics-inter
 import { GoogleAnalyticsPageView } from "@/components/google-analytics-page-view";
 import { MetaPixel } from "@/components/meta-pixel";
 import { MetaPixelInteractions } from "@/components/meta-pixel-interactions";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { RouteScrollManager } from "@/components/route-scroll-manager";
 import { GA_MEASUREMENT_ID, IS_GA_ENABLED } from "@/lib/analytics";
 import {
@@ -83,9 +81,7 @@ export default function RootLayout({
       <head />
       <body className="antialiased">
         <RouteScrollManager />
-        <SiteHeader />
         {children}
-        <SiteFooter />
         <MetaPixel />
         <MetaPixelInteractions />
         {IS_GA_ENABLED ? <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> : null}

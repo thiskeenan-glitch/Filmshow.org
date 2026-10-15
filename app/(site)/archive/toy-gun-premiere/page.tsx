@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
+  alternates: { canonical: "/archive/toy-gun-premiere" },
   title: "Toy Gun Premiere Archive",
   description: "The Toy Gun premiere, before Filmshow Volume 1.",
 };
@@ -20,8 +21,8 @@ export default function ToyGunPremierePage() {
         <h2>Where it began.</h2>
         <p>The Toy Gun premiere came before Filmshow Volume 1.</p>
         <Image src="/images/the-team.jpg" alt="The team at the Toy Gun poster" width={5712} height={4284} sizes="(max-width: 760px) 100vw, 80vw" />
-        <Link href="/v2/archive/v1">Next: Volume 1 →</Link>
-        <Link href="/v2/archive">Back to archive →</Link>
+        <Link href="/archive/v1">Next: Volume 1 →</Link>
+        <Link href="/archive">Back to archive →</Link>
       </section>
     </main>
   );
