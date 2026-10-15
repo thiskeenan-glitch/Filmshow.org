@@ -221,6 +221,10 @@ body:has(.v2-site)::after { mix-blend-mode: overlay; opacity: .08; }
 .v2-v1-films__poster img { object-fit: cover; }
 .v2-v1-films h3 { font-size: clamp(1.3rem, 2.1vw, 2.1rem); font-weight: 500; letter-spacing: .015em; margin: 1.5rem 0 .8rem; }
 .v2-v1-films article p { color: var(--v2-muted); font-size: .75rem; line-height: 1.5; }
+.v2-v1-films article.v2-v1-films__winner { border-left-color: var(--v2-red); }
+.v2-v1-films .v2-v1-films__winner h3,
+.v2-v1-films .v2-v1-films__winner > span { color: var(--v2-red); }
+.v2-v1-films__award { margin-left: 1rem; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
 .v2-v1-gallery { background: #111111; padding: 9rem 4vw; }
 .v2-v1-gallery > div { display: grid; gap: .6rem; grid-auto-rows: 15vw; grid-template-columns: repeat(12, 1fr); }
 .v2-v1-gallery__item { margin: 0; overflow: hidden; position: relative; }

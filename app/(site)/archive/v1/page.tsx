@@ -24,8 +24,8 @@ export default function VolumeOnePage() {
         <header><p className="v2-kicker">Screened films</p><h2>The V1 program</h2></header>
         <div>
           {v1Films.map((film, index) => (
-            <article key={film.title}>
-              <span>0{index + 1}</span>
+            <article key={film.title} className={film.title === "Vultures" ? "v2-v1-films__winner" : undefined}>
+              <span>0{index + 1}{film.title === "Vultures" && <strong className="v2-v1-films__award">Winner</strong>}</span>
               <div className="v2-v1-films__poster"><Image src={film.poster} alt={`${film.title} poster`} fill sizes="(max-width: 760px) 50vw, 25vw" /></div>
               <h3>{film.title}</h3>
               <p>Directed by {film.director}<br />{film.runtime} · {film.country}</p>
