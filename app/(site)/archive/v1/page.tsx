@@ -1,3 +1,4 @@
+import { BackgroundVideo } from "@/components/v2/background-video";
 import Image from "next/image";
 import Link from "next/link";
 import { v1Films, v1Gallery } from "@/lib/v2-archive";
@@ -12,9 +13,7 @@ export default function VolumeOnePage() {
   return (
     <main className="v2-v1">
       <section className="v2-v1-hero">
-        <video className="v2-v1-hero__video" autoPlay muted loop playsInline preload="metadata" poster="/images/v2/v1-screen.jpg" aria-hidden="true" tabIndex={-1}>
-          <source src="/videos/winning-filmshow.mp4" type="video/mp4" />
-        </video>
+        <BackgroundVideo className="v2-v1-hero__video" src="/videos/winning-filmshow.mp4" poster="/images/v2/v1-screen.jpg" />
         <div className="v2-v1-hero__shade" />
         <p>Archive / 001</p>
         <h1>V1</h1>

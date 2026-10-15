@@ -1,22 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export function DoorTrailer() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const scrollBlockedUntil = useRef(0);
-  const volumeFrame = useRef<number | null>(null);
+  const soundAllowed = useRef(false);
   const userMuted = useRef(false);
+
+  const playTrailer = useCallback(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = userMuted.current || !soundAllowed.current;
+    video.play().catch(() => {
+      soundAllowed.current = false;
+      video.muted = true;
+      video.play().catch(() => undefined);
+    });
+  }, []);
 
   useEffect(() => {
     try {
       userMuted.current = localStorage.getItem("filmshow-trailer-muted") === "true";
     } catch { /* Keep the in-memory preference if storage is unavailable. */ }
-    if (videoRef.current) videoRef.current.muted = userMuted.current;
-    setIsMuted(userMuted.current);
+    // Start muted until a user gesture successfully enables sound.
+    if (videoRef.current) videoRef.current.muted = true;
   }, []);
 
   useEffect(() => {
@@ -31,8 +42,7 @@ export function DoorTrailer() {
         setIsOpen(true);
         const video = videoRef.current;
         if (video) {
-          video.muted = userMuted.current;
-          video.play().catch(() => undefined);
+          playTrailer();
         }
       }
     };
@@ -43,7 +53,7 @@ export function DoorTrailer() {
       window.removeEventListener("hashchange", openTrailer);
       document.removeEventListener("click", onHomeClick);
     };
-  }, []);
+  }, [playTrailer]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -52,39 +62,15 @@ export function DoorTrailer() {
       document.documentElement.classList.toggle("v2-recap-visible", entry.isIntersecting);
       const video = videoRef.current;
       if (!video) return;
-      if (volumeFrame.current !== null) cancelAnimationFrame(volumeFrame.current);
-      const startVolume = video.muted ? 0 : video.volume;
-      const targetVolume = entry.isIntersecting && !userMuted.current ? 1 : 0;
-      const startTime = performance.now();
-      video.volume = startVolume;
-      if (entry.isIntersecting) video.muted = userMuted.current;
-      const fadeVolume = (now: number) => {
-        const progress = Math.min((now - startTime) / 300, 1);
-        const eased = progress * progress * (3 - 2 * progress);
-        video.volume = startVolume + (targetVolume - startVolume) * eased;
-        if (progress < 1) {
-          volumeFrame.current = requestAnimationFrame(fadeVolume);
-        } else {
-          volumeFrame.current = null;
-          if (targetVolume === 0) video.muted = true;
-        }
-      };
-      volumeFrame.current = requestAnimationFrame(fadeVolume);
-      if (entry.isIntersecting) {
-        video.play().catch(() => {
-          video.muted = true;
-          video.play().catch(() => undefined);
-        });
-      }
+      if (entry.isIntersecting) playTrailer();
+      else video.pause();
     });
     observer.observe(section);
     return () => {
-      if (volumeFrame.current !== null) cancelAnimationFrame(volumeFrame.current);
-      volumeFrame.current = null;
       observer.disconnect();
       document.documentElement.classList.remove("v2-recap-visible");
     };
-  }, [isOpen]);
+  }, [isOpen, playTrailer]);
 
   useEffect(() => {
     let touchY: number | null = null;
@@ -126,7 +112,7 @@ export function DoorTrailer() {
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("keydown", onScrollKey);
     };
-  }, [isOpen]);
+  }, [isOpen, playTrailer]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -135,24 +121,22 @@ export function DoorTrailer() {
       video.pause();
       return;
     }
-    let active = true;
-    video.muted = userMuted.current;
-    video.play().catch((error: DOMException) => {
-      if (!active || error.name !== "NotAllowedError") return;
-      video.muted = true;
-      video.play().catch(() => undefined);
-    });
-    return () => { active = false; };
-  }, [isOpen]);
+    playTrailer();
+    const resume = () => {
+      const rect = sectionRef.current?.getBoundingClientRect();
+      if (!document.hidden && rect && rect.bottom > 0 && rect.top < window.innerHeight) playTrailer();
+    };
+    document.addEventListener("visibilitychange", resume);
+    return () => document.removeEventListener("visibilitychange", resume);
+  }, [isOpen, playTrailer]);
 
   const enableSound = () => {
     const video = videoRef.current;
     if (!video || !isOpen || userMuted.current) return;
-    if (volumeFrame.current !== null) cancelAnimationFrame(volumeFrame.current);
-    volumeFrame.current = null;
+    soundAllowed.current = true;
     video.volume = 1;
     video.muted = false;
-    video.play().catch(() => undefined);
+    playTrailer();
   };
 
   useEffect(() => {
@@ -171,15 +155,9 @@ export function DoorTrailer() {
           loop
           playsInline
           preload="auto"
-          onCanPlay={(event) => {
-            if (!isOpen || !event.currentTarget.paused) return;
-            const video = event.currentTarget;
-            video.play().catch((error: DOMException) => {
-              if (error.name !== "NotAllowedError") return;
-              video.muted = true;
-              video.play().catch(() => undefined);
-            });
-          }}
+          muted
+          poster="/images/v2/v1-screen.jpg"
+          onCanPlay={() => { if (isOpen) playTrailer(); }}
           onClick={enableSound}
           onVolumeChange={(event) => setIsMuted(event.currentTarget.muted)}
           tabIndex={isOpen ? 0 : -1}
@@ -219,8 +197,7 @@ export function DoorTrailer() {
           onClick={() => {
             const video = videoRef.current;
             if (!video) return;
-            if (volumeFrame.current !== null) cancelAnimationFrame(volumeFrame.current);
-            volumeFrame.current = null;
+            soundAllowed.current = true;
             video.volume = 1;
             video.muted = !video.muted;
             userMuted.current = video.muted;
@@ -228,7 +205,7 @@ export function DoorTrailer() {
               localStorage.setItem("filmshow-trailer-muted", String(userMuted.current));
             } catch { /* The preference still persists while this component is mounted. */ }
             setIsMuted(video.muted);
-            if (video.paused) video.play().catch(() => undefined);
+            playTrailer();
           }}
         >
           {isMuted ? "Unmute" : "Mute"}
