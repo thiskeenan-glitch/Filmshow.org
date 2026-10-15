@@ -1,3 +1,4 @@
+import { partnerLogos } from "@/lib/partner-logos";
 import { ButtonLink } from "@/components/button-link";
 import { ClippedLoopVideo } from "@/components/clipped-loop-video";
 import { HeroTrailer } from "@/components/hero-trailer";
@@ -205,56 +206,7 @@ const teamMembers = [
   },
 ] as const;
 
-const partnerLogos = [
-  {
-    name: "Pablo's Mate",
-    image: "/images/partners/pablos-mate.png",
-    width: 2399,
-    height: 2399,
-    className: "partner-logo-image--pablos-mate",
-    url: "https://pablosmate.co/",
-  },
-  {
-    name: "Brooklyn Roasting Company",
-    image: "/images/partners/brooklyn-roasting-company.png",
-    width: 2160,
-    height: 793,
-    className: "partner-logo-image--brooklyn-roasting",
-    url: "https://www.brooklynroasting.com/",
-  },
-  {
-    name: "The Film Fund",
-    image: "/images/partners/the-film-fund.png",
-    width: 3400,
-    height: 1050,
-    className: "partner-logo-image--film-fund",
-    url: "https://www.thefilmfund.co/",
-  },
-  {
-    name: "The DCP Works",
-    image: "/images/partners/the-dcp-works.png",
-    width: 709,
-    height: 750,
-    className: "partner-logo-image--dcp-works",
-    url: "https://www.thedcpworks.com/",
-  },
-  {
-    name: "Bluebird Films",
-    image: "/images/partners/bluebird-cowboy.png",
-    width: 2400,
-    height: 1350,
-    className: "partner-logo-image--bluebird-cowboy",
-    url: "https://www.thisbird.org/",
-  },
-  {
-    name: "Rollin Studios",
-    image: "/images/partners/rollin-studios.png",
-    width: 1500,
-    height: 820,
-    className: "partner-logo-image--rollin-studios",
-    url: "https://www.rollin-studios.com/",
-  },
-] as const;
+
 
 function Divider() {
   return (

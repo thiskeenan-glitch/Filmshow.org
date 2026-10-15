@@ -1,81 +1,51 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { TicketGiveawayForm } from "./ticket-giveaway-form";
+import { MotionEffects } from "@/components/motion-effects";
+import { V2Header } from "@/components/v2/v2-header";
+import { V2Footer } from "@/components/v2/v2-footer";
+import "../v2/v2.css";
 
 export const metadata: Metadata = {
-  title: "Win Two Tickets | Filmshow × Brooklyn Roasting Company",
-  description:
-    "Filmshow and Brooklyn Roasting Company are giving away two tickets to Filmshow Vol. 1 in Brooklyn.",
-  robots: {
-    index: false,
-    follow: false,
-    noarchive: true,
-    nocache: true,
-  },
+  title: "Tickets | Filmshow",
+  description: "Filmshow V2 tickets will be announced soon. V1 sold 225 tickets. Short films and live experimental theater in Brooklyn.",
 };
 
 export default function TicketsPage() {
   return (
-    <main id="top" className="ticket-giveaway-page">
-      <div className="ticket-giveaway-glow" aria-hidden="true" />
-      <section className="ticket-giveaway-shell">
-        <Link
-          href="/"
-          className="ticket-giveaway-brand"
-          aria-label="Go to the Filmshow homepage"
-        >
+    <div className="v2-site">
+      <MotionEffects />
+      <V2Header />
+      <main id="top" className="v2-tickets">
+        <section className="v2-tickets__hero" aria-labelledby="tickets-title">
           <Image
-            src="/images/official-tfs-logo.png"
-            alt="Filmshow"
-            width={8247}
-            height={1889}
-            priority
-            unoptimized
+            src="/images/v2/tickets-audience.jpg"
+            alt="The audience smiling and applauding at Filmshow Volume 1 in Brooklyn"
+            fill priority sizes="100vw"
           />
-        </Link>
-
-        <div className="ticket-giveaway-partner">
-          <div className="ticket-giveaway-partner-lockup">
-            <p>Filmshow ×</p>
-            <Image
-              src="/images/partners/brooklyn-roasting-company.png"
-              alt="Brooklyn Roasting Company"
-              width={2160}
-              height={793}
-              className="ticket-giveaway-partner-logo"
-            />
+          <div className="v2-tickets__shade" />
+          <div className="v2-tickets__heading">
+            <p className="v2-kicker">Filmshow / Volume 2</p>
+            <h1 id="tickets-title">Tickets.<br /><span>Announced soon.</span></h1>
+            <p>Tickets for Filmshow V2 will be announced soon.</p>
           </div>
-          <p className="ticket-giveaway-partner-copy">
-            Brooklyn Roasting Company has been roasting specialty coffee in
-            Brooklyn since 2010, fueling the artists, makers, and neighbors who
-            make this city move. Supporting local arts isn&apos;t a side project
-            for us: it&apos;s what we love. We&apos;re honored to be one of
-            Filmshow&apos;s sponsors and to help put this night together.
-          </p>
-        </div>
-
-        <div className="ticket-giveaway-copy">
-          <p className="ticket-giveaway-eyebrow">
-            Filmshow × Brooklyn Roasting Company
-          </p>
-          <h1>
-            Win two
-            <br />
-            <em>tickets.</em>
-          </h1>
-          <p className="ticket-giveaway-intro">
-            Enter for a chance to win two tickets to Filmshow Vol. 1 on
-            October 3.
-          </p>
-        </div>
-
-        <TicketGiveawayForm />
-
-        <p className="ticket-giveaway-note">
-          One winner. Two seats. We&apos;ll contact the winner by email.
-        </p>
-      </section>
-    </main>
+        </section>
+        <section className="v2-tickets__details" aria-label="Filmshow ticket information">
+          <div className="v2-tickets__stat">
+            <p className="v2-kicker">Volume 1</p>
+            <strong>225</strong>
+            <p>tickets sold.</p>
+          </div>
+          <div className="v2-tickets__next">
+            <p className="v2-kicker">Next up / V2</p>
+            <h2>See you at<br />the next Filmshow.</h2>
+            <p>Date, venue, and ticket details coming soon.</p>
+            <Link href="/v2/archive/v1">Look back at Volume 1 <span>↗</span></Link>
+            <Link href="/v2#trailer">Back to Filmshow <span>↗</span></Link>
+          </div>
+        </section>
+      </main>
+      <V2Footer />
+    </div>
   );
 }

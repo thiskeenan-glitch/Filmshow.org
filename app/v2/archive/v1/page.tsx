@@ -11,20 +11,13 @@ export default function VolumeOnePage() {
   return (
     <main className="v2-v1">
       <section className="v2-v1-hero">
-        <Image src="/images/v2/v1-screen.jpg" alt="Filmshow Volume 1 audience and screen" fill priority sizes="100vw" />
+        <video className="v2-v1-hero__video" autoPlay muted loop playsInline preload="metadata" poster="/images/v2/v1-screen.jpg" aria-hidden="true" tabIndex={-1}>
+          <source src="/videos/winning-filmshow.mp4" type="video/mp4" />
+        </video>
         <div className="v2-v1-hero__shade" />
         <p>Archive / 001</p>
         <h1>V1</h1>
         <div><span>October 3, 2026</span><span>Brooklyn, New York</span></div>
-      </section>
-
-      <section className="v2-v1-intro">
-        <p className="v2-kicker">Volume 1</p>
-        <h2>The first Filmshow paired four short films with live performance.</h2>
-        <div>
-          <p>The program moved between the screen and the stage throughout the night.</p>
-          <p>The archive below documents the films, the room, the audience, and the live show.</p>
-        </div>
       </section>
 
       <section className="v2-v1-films">
