@@ -1,0 +1,40 @@
+[
+  {
+    "id": "target-mondo-event-airtable-contract",
+    "opportunityId": "event-ops-systems-sprint",
+    "observedAt": "2026-10-15",
+    "source": "Mondo via ZipRecruiter",
+    "url": "https://www.ziprecruiter.com/c/Mondo/Job/Airtable/-in-Beaverton%2COR?jid=3f60c88f29ae7322",
+    "status": "ready-awaiting-credentials-and-approval",
+    "qualification": "Current paid remote contract specifically covering Airtable systems for event operations, planning workflows, budgets, logistics, reporting, dashboards, training, and adoption.",
+    "compensation": "$45-$55 per hour",
+    "requirementsToVerify": [
+      "US work authorization",
+      "relevant Airtable base, interface, dashboard, and automation experience",
+      "event-operations experience",
+      "availability for 10-30 hours per week",
+      "scripting or integration experience claimed in the application"
+    ],
+    "externalActionRequiresApproval": true
+  },
+  {
+    "id": "reference-tas-pro-event-project-bible",
+    "opportunityId": "event-ops-systems-sprint",
+    "observedAt": "2026-10-15",
+    "source": "Airtable Community",
+    "url": "https://community.airtable.com/jobs-board-16/event-production-project-mgmt-47630",
+    "status": "reference-only-stale",
+    "qualification": "Strong scope match and useful language for discovery versus build, but the listing is seven months old and already has many public applicants.",
+    "externalActionRequiresApproval": true
+  },
+  {
+    "id": "reference-electric-barge-events-database",
+    "opportunityId": "event-ops-systems-sprint",
+    "observedAt": "2026-10-15",
+    "source": "Airtable Community",
+    "url": "https://community.airtable.com/jobs-board-16/freelance-systems-analyst-needed-for-events-management-database-project-46957",
+    "status": "reference-only-closed",
+    "qualification": "Excellent proof of the workflow and handoff problem, but the community thread is closed and should not be counted as a live validation target.",
+    "externalActionRequiresApproval": true
+  }
+]

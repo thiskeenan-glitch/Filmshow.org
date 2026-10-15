@@ -1,0 +1,42 @@
+{
+  "brand": "Cheese Maker",
+  "mission": "Turn repeated operating problems faced by independent producers into useful, trustworthy products and productized services.",
+  "audiences": [
+    "independent event producers",
+    "small venues and promoters",
+    "independent filmmakers and production teams"
+  ],
+  "currency": "USD",
+  "scoringWeights": {
+    "demand": 0.22,
+    "pain": 0.2,
+    "willingnessToPay": 0.18,
+    "founderFit": 0.16,
+    "competitionGap": 0.14,
+    "buildEase": 0.1
+  },
+  "thresholds": {
+    "buildCandidate": 70,
+    "researchMore": 55
+  },
+  "safety": {
+    "allowNetworkResearch": true,
+    "allowPaidApis": false,
+    "allowAdSpend": false,
+    "allowPublicLaunch": false,
+    "requireApprovalFor": [
+      "paid API use",
+      "store connection",
+      "product upload",
+      "price publication",
+      "email or social distribution",
+      "advertising spend",
+      "public launch"
+    ]
+  },
+  "store": {
+    "platform": "Payhip",
+    "visibilityForDrafts": "invisible",
+    "connected": true
+  }
+}

@@ -1,0 +1,141 @@
+[
+  {
+    "id": "talent-offer-unlisted-001",
+    "opportunityId": "talent-offer-settlement",
+    "status": "paused-competitive-gap",
+    "startedAt": "2026-10-09",
+    "offerUrl": "https://payhip.com/b/XjrgG",
+    "hypothesis": "Independent promoters and small venues will pay $29 for a professional offer and settlement workbook that reduces calculation errors and improves agent-facing presentation.",
+    "audience": "independent concert promoters, small venue operators, and event producers who negotiate talent deals",
+    "price": 29,
+    "channels": [
+      "permission-based direct messages to relevant professional contacts",
+      "one transparent feedback-first post in a community whose rules allow self-promotion",
+      "one post from an owned social account"
+    ],
+    "guardrails": [
+      "no advertising spend",
+      "no scraping or unsolicited bulk outreach",
+      "no use of Filmshow customer data without matching marketing consent",
+      "disclose that the creator made the product",
+      "check community rules before posting"
+    ],
+    "decisionRule": {
+      "minimumQualifiedViews": 100,
+      "continueAtOrders": 3,
+      "reviseAtOrders": 1,
+      "killOrPivotAtOrders": 0
+    },
+    "currentMetrics": {
+      "qualifiedViews": 0,
+      "orders": 0,
+      "revenue": 0,
+      "refunds": 0
+    },
+    "pauseReason": "Fresh competitor research found multiple credible free offer and settlement tools, including a polished multi-tab Excel offer workbook. The $29 version needs a sharper paid advantage before traffic is sent to it.",
+    "nextFalsifiableTest": "After the product adds actual ticket-tier reconciliation, deposit and balance-due logic, signatures, and reusable branded deal terms, compare its value proposition against the free alternatives before requesting distribution approval."
+  },
+  {
+    "id": "production-budget-desk-001",
+    "opportunityId": "production-budget-pro",
+    "status": "killed-before-distribution",
+    "startedAt": "2026-10-10",
+    "completedAt": "2026-10-10",
+    "hypothesis": "Independent producers will pay $39 for a multi-tab Excel production budget with a top sheet, detail, rates, fringes, contingency, and actuals.",
+    "method": "Compare the proposed paid feature set with current free, downloadable, no-signup alternatives and with current community workflow evidence before spending traffic on it.",
+    "result": "Rejected. Multiple current free products match or exceed the proposed feature set, including a 335-line Excel budget, a professional top sheet, and a full browser-based cost report with commitments, ETC, EFC, variance, and exports. Community evidence confirms spreadsheet usage but does not establish willingness to pay for another generic template.",
+    "decisionRule": {
+      "continueIf": "A narrow workflow has repeated buyer complaints and is not covered by a credible free alternative.",
+      "killIf": "Three or more credible free alternatives match the core promise and no observed purchase intent differentiates the paid offer."
+    },
+    "decision": "kill generic standalone production-budget template; preserve the existing workbook only as a bundle component while research moves to a narrower problem"
+  },
+  {
+    "id": "indie-command-center-desk-001",
+    "opportunityId": "film-production-command-center",
+    "status": "killed-before-build",
+    "startedAt": "2026-10-10",
+    "completedAt": "2026-10-10",
+    "hypothesis": "Low-budget film teams will pay $49 for a Google Sheets workspace connecting people, locations, schedules, files, approvals, and printable call sheets.",
+    "method": "Compare the integrated-workspace promise with current free and paid tools, then require evidence of an uncovered urgent workflow before building.",
+    "result": "Rejected in its generic form. Current free tools already connect schedules, cast, locations, crew, and call sheets, while an established paid Google Sheets product automates weather, hospitals, travel, delivery, and confirmations. A newly released integrated desktop beta adds further active competition.",
+    "decisionRule": {
+      "continueIf": "A narrower coordination failure has repeated buyer complaints and no credible free or paid solution.",
+      "killIf": "Existing tools already connect the proposed core records and automate call-sheet output without a compelling migration wedge."
+    },
+    "decision": "kill the generic production command center before build and move research toward a narrower, measurable operational failure"
+  },
+  {
+    "id": "event-operations-suite-desk-001",
+    "opportunityId": "event-operations-suite",
+    "status": "killed-before-build",
+    "startedAt": "2026-10-10",
+    "completedAt": "2026-10-10",
+    "hypothesis": "Independent event teams will pay $59 for a linked workbook covering planning, revenue, sponsors, guests, budgets, run of show, and post-event work.",
+    "method": "Test whether breadth creates paid differentiation by comparing the full proposed scope with current free workbooks and by checking whether a workbook can solve the most urgent repeated-data-entry complaint.",
+    "result": "Rejected. Free current workbooks and template libraries already cover the proposed tabs. The strongest verified pain is not missing tabs but one change requiring updates in many systems; purpose-built platforms already address that with live synchronization, which a standalone workbook cannot provide.",
+    "decisionRule": {
+      "continueIf": "The suite owns a high-value workflow that free templates and existing platforms do not cover.",
+      "killIf": "Free products match the suite breadth and the urgent pain requires integrations the product does not have."
+    },
+    "decision": "kill the generic event-operations suite; retain the one-change-six-touches signal for future integration-first opportunity research"
+  },
+  {
+    "id": "event-ops-sprint-concierge-001",
+    "opportunityId": "event-ops-systems-sprint",
+    "status": "ready-awaiting-outreach-approval",
+    "startedAt": "2026-10-11",
+    "hypothesis": "At least one event operator with a fragmented spreadsheet-and-app workflow will pay $950 for a fixed-scope audit and working Airtable MVP before paying for a larger custom implementation.",
+    "offer": "$950 fixed price for one workflow, up to five connected tables, two automations, a tested operator view, documentation, and a 45-minute handoff; larger integrations are explicitly out of scope.",
+    "method": "Present the offer to ten qualified buyers or relevant paid project listings, with transparent event-domain positioning and no bulk outreach. Record replies, calls, objections, and paid deposits.",
+    "decisionRule": {
+      "minimumQualifiedExposures": 10,
+      "continueAtDiscoveryCalls": 2,
+      "continueAtPaidDeposits": 1,
+      "reviseIf": "Prospects confirm the pain but reject scope, proof, or price.",
+      "killIf": "Ten qualified exposures produce no substantive replies and no discovery calls."
+    },
+    "guardrails": [
+      "no paid lead sources or advertising",
+      "no scraping or unsolicited bulk outreach",
+      "do not claim Airtable certification",
+      "do not access prospect systems or data before an explicit engagement and authorization",
+      "obtain Keenan's approval before any application, message, post, or public page"
+    ],
+    "preparedAssets": [
+      "offers/event-ops-systems-sprint.md",
+      "offers/event-ops-systems-sprint-validation.md",
+      "offers/event-ops-systems-sprint-delivery-blueprint.md",
+      "data/validation-targets.json"
+    ],
+    "currentMetrics": {"qualifiedExposures": 0, "replies": 0, "discoveryCalls": 0, "paidDeposits": 0, "revenue": 0}
+  },
+  {
+    "id": "event-inventory-setup-desk-001",
+    "opportunityId": "event-inventory-setup-sprint",
+    "status": "paused-competitive-gap",
+    "startedAt": "2026-10-13",
+    "hypothesis": "Small event-production teams will pay for a fixed-scope service that cleans their inventory data and connects one real event booking to availability, load-out, and return operations.",
+    "method": "First determine whether current vertical platforms leave a paid setup, migration, or adoption gap; do not build a custom database or seek buyers until that gap is supported by direct buyer evidence.",
+    "result": "Pain is credible, current, and urgent, but Rentman and StageOps already cover the core workflow at accessible subscription prices. The unproven opportunity is implementation help, not another inventory product.",
+    "decisionRule": {
+      "continueIf": "At least two qualified operators explicitly report that setup, migration, data cleanup, or staff adoption prevents them from using an otherwise suitable vertical platform.",
+      "killIf": "Existing vendor onboarding solves those barriers or buyers only want cheaper software rather than paid implementation help."
+    },
+    "decision": "pause before validation; research the implementation-services gap while keeping the broader Event Ops Systems Sprint as the portfolio leader"
+  },
+  {
+    "id": "film-budget-readiness-desk-001",
+    "opportunityId": "film-budget-readiness-review",
+    "status": "paused-founder-fit",
+    "startedAt": "2026-10-14",
+    "hypothesis": "Emerging filmmakers will pay 249 dollars for a focused expert review that makes a draft budget safer and more credible before a grant submission or full line-producer engagement.",
+    "method": "Desk-test demand, pricing, competition, scope, and professional-risk boundaries first. Do not seek buyers until the reviewer can substantiate relevant budgeting experience and the offer avoids implying grant approval, legal advice, union compliance, or a production-ready schedule.",
+    "result": "Current buyer requests and professional packages confirm willingness to pay for budgeting help, but low-cost marketplaces are crowded and no repository evidence yet establishes the founder expertise needed to sell judgment responsibly.",
+    "decisionRule": {
+      "continueIf": "Relevant production-budgeting experience can be substantiated and two qualified filmmakers confirm that a review-only step is useful before a full budget or schedule engagement.",
+      "killIf": "The service cannot establish credible reviewer expertise or buyers only value a finished Movie Magic file at marketplace prices."
+    },
+    "decision": "pause at desk validation; preserve the private offer draft but do not distribute or represent professional budgeting expertise"
+  }
+]

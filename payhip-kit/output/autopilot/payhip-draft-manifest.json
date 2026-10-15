@@ -1,0 +1,93 @@
+[
+  {
+    "id": "event-ops-systems-sprint",
+    "artifact": "offers/event-ops-systems-sprint.md",
+    "title": "Event Ops Systems Sprint",
+    "price": 950,
+    "visibility": "invisible",
+    "headline": "Map an event team's fragmented spreadsheets and tools, then deliver a working Airtable operations MVP with clear handoff documentation.",
+    "audience": "event venues, production teams, conference operators, and small agencies with fragmented operational workflows",
+    "includes": "Fixed-scope productized service: workflow audit, data model, Airtable MVP, automation plan, testing, and handoff",
+    "description": "Map an event team's fragmented spreadsheets and tools, then deliver a working Airtable operations MVP with clear handoff documentation.\n\nBuilt for event venues, production teams, conference operators, and small agencies with fragmented operational workflows. You receive a fixed-scope productized service: workflow audit, data model, airtable mvp, automation plan, testing, and handoff. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  },
+  {
+    "id": "talent-offer-settlement",
+    "artifact": "talent-offer-settlement.xlsx",
+    "title": "Talent Offer & Event Settlement",
+    "price": 29,
+    "visibility": "invisible",
+    "headline": "Build a professional artist offer, model the event net, and settle the final deal from one auditable workbook.",
+    "audience": "small venues, independent promoters, and event producers",
+    "includes": "Two-tab Excel workbook with a clean agent-facing offer and an editable event net model",
+    "description": "Build a professional artist offer, model the event net, and settle the final deal from one auditable workbook.\n\nBuilt for small venues, independent promoters, and event producers. You receive a two-tab excel workbook with a clean agent-facing offer and an editable event net model. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  },
+  {
+    "id": "film-budget-readiness-review",
+    "artifact": "offers/film-budget-readiness-review.md",
+    "title": "Film Budget Readiness Review",
+    "price": 249,
+    "visibility": "invisible",
+    "headline": "Find missing costs, unsupported rates, inconsistent assumptions, and grant-readiness gaps in an emerging filmmaker's draft budget before they pay for a full line-producer package.",
+    "audience": "emerging filmmakers preparing a grant, investor conversation, or first serious production budget",
+    "includes": "Fixed-scope review service: intake, annotated findings, missing-cost register, assumption questions, priority fixes, and a short handoff call; not a full budget or schedule",
+    "description": "Find missing costs, unsupported rates, inconsistent assumptions, and grant-readiness gaps in an emerging filmmaker's draft budget before they pay for a full line-producer package.\n\nBuilt for emerging filmmakers preparing a grant, investor conversation, or first serious production budget. You receive a fixed-scope review service: intake, annotated findings, missing-cost register, assumption questions, priority fixes, and a short handoff call; not a full budget or schedule. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  },
+  {
+    "id": "event-inventory-setup-sprint",
+    "artifact": null,
+    "title": "Event Inventory Setup Sprint",
+    "price": 750,
+    "visibility": "invisible",
+    "headline": "Connect event bookings to equipment availability so a small production company can prevent double-booking and run reliable load-outs without replacing every operating tool at once.",
+    "audience": "small event-production, AV, staging, and equipment-rental teams outgrowing spreadsheets",
+    "includes": "Fixed-scope setup service: workflow audit, inventory data cleanup plan, one live booking-to-availability pilot, load-out and return workflow, tests, and handoff",
+    "description": "Connect event bookings to equipment availability so a small production company can prevent double-booking and run reliable load-outs without replacing every operating tool at once.\n\nBuilt for small event-production, AV, staging, and equipment-rental teams outgrowing spreadsheets. You receive a fixed-scope setup service: workflow audit, inventory data cleanup plan, one live booking-to-availability pilot, load-out and return workflow, tests, and handoff. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  },
+  {
+    "id": "event-operations-suite",
+    "artifact": null,
+    "title": "Event Operations Suite 2.0",
+    "price": 59,
+    "visibility": "invisible",
+    "headline": "Connect planning, revenue, sponsor, guest, budget, run-of-show, and post-event workflows in one operating workbook.",
+    "audience": "independent event producers and small teams",
+    "includes": "Linked Excel and Google Sheets-compatible operating workbook",
+    "description": "Connect planning, revenue, sponsor, guest, budget, run-of-show, and post-event workflows in one operating workbook.\n\nBuilt for independent event producers and small teams. You receive a linked excel and google sheets-compatible operating workbook. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  },
+  {
+    "id": "film-production-command-center",
+    "artifact": null,
+    "title": "Indie Production Command Center",
+    "price": 49,
+    "visibility": "invisible",
+    "headline": "Keep a low-budget film's people, locations, schedule, call sheets, files, and approvals coordinated without a subscription platform.",
+    "audience": "short-film and low-budget production teams",
+    "includes": "Google Sheets-first production workspace with printable call-sheet outputs",
+    "description": "Keep a low-budget film's people, locations, schedule, call sheets, files, and approvals coordinated without a subscription platform.\n\nBuilt for short-film and low-budget production teams. You receive a google sheets-first production workspace with printable call-sheet outputs. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  },
+  {
+    "id": "production-budget-pro",
+    "artifact": "production-budget.xlsx",
+    "title": "Production Budget Pro",
+    "price": 39,
+    "visibility": "invisible",
+    "headline": "Turn a creative brief into a clear production budget with assumptions, crew rates, fringes, contingency, actuals, and a client-ready top sheet.",
+    "audience": "independent producers, production companies, and creator-led shoots",
+    "includes": "Multi-tab Excel workbook with top sheet, detail, rates, and actuals",
+    "description": "Turn a creative brief into a clear production budget with assumptions, crew rates, fringes, contingency, actuals, and a client-ready top sheet.\n\nBuilt for independent producers, production companies, and creator-led shoots. You receive a multi-tab excel workbook with top sheet, detail, rates, and actuals. Clear inputs, visible calculations, and practical instructions make it easy to replace the examples and start working.",
+    "approvalRequiredBeforeUpload": true,
+    "approvalRequiredBeforePublicVisibility": true
+  }
+]

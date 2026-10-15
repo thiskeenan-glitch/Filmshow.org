@@ -10,7 +10,12 @@
     "lint": "eslint",
     "type-check": "tsc --noEmit",
     "seo:check": "node scripts/seo-regression.mjs",
-    "seo:crawl": "node scripts/local-seo-crawl.mjs"
+    "seo:crawl": "node scripts/local-seo-crawl.mjs",
+    "cheese:run": "node payhip-kit/autopilot.mjs run",
+    "cheese:status": "node payhip-kit/autopilot.mjs status",
+    "cheese:test": "node --test payhip-kit/tests/*.test.mjs",
+    "cheese:build:offer": "node payhip-kit/build-talent-offer-settlement.mjs",
+    "cheese:ingest:payhip": "node payhip-kit/ingest-payhip-event.mjs"
   },
   "dependencies": {
     "@next/third-parties": "16.2.9",

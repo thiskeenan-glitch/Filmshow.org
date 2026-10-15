@@ -1,0 +1,86 @@
+[
+  {
+    "id": "event-ops-systems-sprint",
+    "name": "Event Ops Systems Sprint",
+    "job": "Map an event team's fragmented spreadsheets and tools, then deliver a working Airtable operations MVP with clear handoff documentation.",
+    "audience": "event venues, production teams, conference operators, and small agencies with fragmented operational workflows",
+    "format": "Fixed-scope productized service: workflow audit, data model, Airtable MVP, automation plan, testing, and handoff",
+    "price": 950,
+    "scores": {"demand": 4, "pain": 5, "willingnessToPay": 5, "founderFit": 5, "competitionGap": 3, "buildEase": 4},
+    "status": "ready-for-concierge-validation",
+    "artifact": "offers/event-ops-systems-sprint.md"
+  },
+  {
+    "id": "talent-offer-settlement",
+    "name": "Talent Offer & Event Settlement",
+    "job": "Build a professional artist offer, model the event net, and settle the final deal from one auditable workbook.",
+    "audience": "small venues, independent promoters, and event producers",
+    "format": "Two-tab Excel workbook with a clean agent-facing offer and an editable event net model",
+    "price": 29,
+    "scores": {"demand": 5, "pain": 5, "willingnessToPay": 3, "founderFit": 5, "competitionGap": 1, "buildEase": 5},
+    "status": "rework-before-distribution",
+    "artifact": "talent-offer-settlement.xlsx",
+    "store": {
+      "platform": "Payhip",
+      "productId": "XjrgG",
+      "url": "https://payhip.com/b/XjrgG",
+      "visibility": "unlisted",
+      "price": 29
+    }
+  },
+  {
+    "id": "event-inventory-setup-sprint",
+    "name": "Event Inventory Setup Sprint",
+    "job": "Connect event bookings to equipment availability so a small production company can prevent double-booking and run reliable load-outs without replacing every operating tool at once.",
+    "audience": "small event-production, AV, staging, and equipment-rental teams outgrowing spreadsheets",
+    "format": "Fixed-scope setup service: workflow audit, inventory data cleanup plan, one live booking-to-availability pilot, load-out and return workflow, tests, and handoff",
+    "price": 750,
+    "scores": {"demand": 4, "pain": 5, "willingnessToPay": 3, "founderFit": 5, "competitionGap": 2, "buildEase": 3},
+    "status": "paused-competitive-gap",
+    "artifact": null
+  },
+  {
+    "id": "film-budget-readiness-review",
+    "name": "Film Budget Readiness Review",
+    "job": "Find missing costs, unsupported rates, inconsistent assumptions, and grant-readiness gaps in an emerging filmmaker's draft budget before they pay for a full line-producer package.",
+    "audience": "emerging filmmakers preparing a grant, investor conversation, or first serious production budget",
+    "format": "Fixed-scope review service: intake, annotated findings, missing-cost register, assumption questions, priority fixes, and a short handoff call; not a full budget or schedule",
+    "price": 249,
+    "scores": {"demand": 4, "pain": 5, "willingnessToPay": 4, "founderFit": 2, "competitionGap": 2, "buildEase": 4},
+    "status": "paused-founder-fit",
+    "artifact": "offers/film-budget-readiness-review.md"
+  },
+  {
+    "id": "production-budget-pro",
+    "name": "Production Budget Pro",
+    "job": "Turn a creative brief into a clear production budget with assumptions, crew rates, fringes, contingency, actuals, and a client-ready top sheet.",
+    "audience": "independent producers, production companies, and creator-led shoots",
+    "format": "Multi-tab Excel workbook with top sheet, detail, rates, and actuals",
+    "price": 39,
+    "scores": {"demand": 4, "pain": 4, "willingnessToPay": 2, "founderFit": 4, "competitionGap": 1, "buildEase": 3},
+    "status": "killed-generic-template",
+    "artifact": "production-budget.xlsx"
+  },
+  {
+    "id": "event-operations-suite",
+    "name": "Event Operations Suite 2.0",
+    "job": "Connect planning, revenue, sponsor, guest, budget, run-of-show, and post-event workflows in one operating workbook.",
+    "audience": "independent event producers and small teams",
+    "format": "Linked Excel and Google Sheets-compatible operating workbook",
+    "price": 59,
+    "scores": {"demand": 4, "pain": 4, "willingnessToPay": 2, "founderFit": 5, "competitionGap": 1, "buildEase": 2},
+    "status": "killed-generic-suite",
+    "artifact": null
+  },
+  {
+    "id": "film-production-command-center",
+    "name": "Indie Production Command Center",
+    "job": "Keep a low-budget film's people, locations, schedule, call sheets, files, and approvals coordinated without a subscription platform.",
+    "audience": "short-film and low-budget production teams",
+    "format": "Google Sheets-first production workspace with printable call-sheet outputs",
+    "price": 49,
+    "scores": {"demand": 4, "pain": 4, "willingnessToPay": 2, "founderFit": 5, "competitionGap": 1, "buildEase": 2},
+    "status": "killed-generic-workspace",
+    "artifact": null
+  }
+]
