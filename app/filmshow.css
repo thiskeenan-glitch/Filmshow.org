@@ -595,11 +595,11 @@ html.v2-recap-visible .film-scroll-pop-layer { visibility: hidden; }
 
 /* Keep the format a compact transition between the two larger sections. */
 .v2-intro { padding-bottom: 1.5rem; }
-.v2-definition { padding-top: 4rem; padding-bottom: 4.5rem; min-height: 0; }
+.v2-definition { padding-top: 6rem; padding-bottom: 6.5rem; min-height: 0; }
 .v2-format-beats { margin-top: 1.75rem; margin-bottom: 0; }
 .v2-definition + .v2-take-part { padding-top: 2rem; }
 @media (max-width: 760px) {
-  .v2-definition { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .v2-definition { padding-top: 2.5rem; padding-bottom: 2.5rem; }
   .v2-format-beats { margin-top: 1.5rem; row-gap: 2rem; }
   .v2-definition + .v2-take-part { padding-top: 1.5rem; }
 }
