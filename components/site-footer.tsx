@@ -13,7 +13,7 @@ export function SiteFooter() {
   const pathname = usePathname();
   if (
     pathname.startsWith("/admin") ||
-    pathname.startsWith("/concepts") ||
+    (pathname === "/" || pathname.startsWith("/concepts")) ||
     pathname.startsWith("/v2") ||
     pathname.startsWith("/filmmakers") ||
     pathname.startsWith("/tickets")

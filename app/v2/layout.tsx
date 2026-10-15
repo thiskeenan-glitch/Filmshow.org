@@ -8,7 +8,7 @@ import "./v2.css";
 export const metadata: Metadata = {
   title: { default: "Filmshow — Short Films and Live Theater", template: "%s — Filmshow" },
   description: "Filmshow is a twice-yearly Brooklyn event combining short films and live theater.",
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export default function V2Layout({ children }: { children: ReactNode }) {

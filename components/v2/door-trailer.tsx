@@ -27,7 +27,7 @@ export function DoorTrailer() {
       const link = (event.target as Element)?.closest("a");
       if (!link) return;
       const url = new URL(link.href, window.location.href);
-      if (url.origin === window.location.origin && url.pathname === "/v2" && url.hash === "#trailer") {
+      if (url.origin === window.location.origin && (url.pathname === "/" || url.pathname === "/v2") && url.hash === "#trailer") {
         setIsOpen(true);
         const video = videoRef.current;
         if (video) {

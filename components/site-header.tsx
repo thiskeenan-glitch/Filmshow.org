@@ -436,7 +436,7 @@ export function SiteHeader() {
     return null;
   }
 
-  if (pathname.startsWith("/concepts") || pathname.startsWith("/v2")) {
+  if ((pathname === "/" || pathname.startsWith("/concepts")) || pathname.startsWith("/v2")) {
     return null;
   }
 
