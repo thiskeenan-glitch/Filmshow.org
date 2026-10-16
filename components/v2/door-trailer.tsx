@@ -43,11 +43,11 @@ export function DoorTrailer() {
     const viewport = window.matchMedia("(max-width: 760px)");
     const updateSource = () => {
       const src = viewport.matches
-        ? "/videos/filmshow-mobile-hero.mp4"
-        : "/videos/filmshow-v1-recap.mp4";
+        ? "/videos/filmshow-mobile-hero-v2.mp4"
+        : "/videos/filmshow-desktop-hero-v2.mp4";
       video.poster = viewport.matches
-        ? "/images/v2/mobile-hero-poster.jpg"
-        : "/images/v2/v1-screen.jpg";
+        ? "/images/v2/mobile-hero-v2-poster.jpg"
+        : "/images/v2/desktop-hero-v2-poster.jpg";
       if (video.getAttribute("src") !== src) {
         video.src = src;
         video.load();
@@ -188,7 +188,7 @@ export function DoorTrailer() {
           playsInline
           preload="auto"
           muted
-          poster="/images/v2/v1-screen.jpg"
+          poster="/images/v2/desktop-hero-v2-poster.jpg"
           onPlaying={() => setNeedsPlay(false)}
           onCanPlay={() => { if (isOpen) playTrailer(); }}
           onClick={enableSound}
@@ -202,8 +202,8 @@ export function DoorTrailer() {
             }
           }}
         >
-          <source media="(max-width: 760px)" src="/videos/filmshow-mobile-hero.mp4" type="video/mp4" />
-          <source src="/videos/filmshow-v1-recap.mp4" type="video/mp4" />
+          <source media="(max-width: 760px)" src="/videos/filmshow-mobile-hero-v2.mp4" type="video/mp4" />
+          <source src="/videos/filmshow-desktop-hero-v2.mp4" type="video/mp4" />
         </video>
         <div className="v2-doors__trailer-label">
           <span>Volume 1 recap</span>
