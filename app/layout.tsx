@@ -58,16 +58,16 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon-red-cowboy.ico", sizes: "any" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-red-cowboy-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-red-cowboy-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-red-cowboy-48x48.png", sizes: "48x48", type: "image/png" },
-      { url: "/favicon-red-cowboy-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/favicon-red-cowboy-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-red-dot.ico", sizes: "any" },
+      { url: "/favicon-red-dot.svg", type: "image/svg+xml" },
+      { url: "/favicon-red-dot-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-red-dot-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-red-dot-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon-red-dot-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/favicon-red-dot-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: [{ url: "/favicon-red-cowboy.ico" }],
-    apple: [{ url: "/favicon-red-cowboy-180x180.png", sizes: "180x180", type: "image/png" }],
+    shortcut: [{ url: "/favicon-red-dot.ico" }],
+    apple: [{ url: "/favicon-red-dot-180x180.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
