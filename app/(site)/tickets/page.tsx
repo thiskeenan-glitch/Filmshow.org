@@ -1,3 +1,5 @@
+
+import { ArrowIcon } from "@/components/arrow-icon";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,8 +36,8 @@ export default function TicketsPage() {
             <p className="v2-kicker">Next up / V2</p>
             <h2>See you at<br />the next Filmshow.</h2>
             <p>Date, venue, and ticket details coming soon.</p>
-            <Link href="/archive/v1">Look back at Volume 1 <span>↗</span></Link>
-            <Link href="/#trailer">Back to Filmshow <span>↗</span></Link>
+            <Link href="/archive/v1">Look back at Volume 1 <span><ArrowIcon direction="up-right" /></span></Link>
+            <Link href="/#trailer">Back to Filmshow <span><ArrowIcon direction="up-right" /></span></Link>
           </div>
         </section>
       </main>

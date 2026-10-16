@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -62,7 +64,7 @@ export function DoorsExperience() {
             >
               <span className="door__index">{content.index}</span>
               <span className="door__title">{content.title}</span>
-              <span className="door__hint">Enter <span aria-hidden="true">↗</span></span>
+              <span className="door__hint">Enter <span aria-hidden="true"><ArrowIcon direction="up-right" /></span></span>
             </button>
           );
         })}
@@ -92,7 +94,7 @@ export function DoorsExperience() {
                   type="button"
                   onClick={() => setOpenDoor(openDoor === "film" ? "show" : "film")}
                 >
-                  Explore {openDoor === "film" ? "show" : "film"} <span aria-hidden="true">→</span>
+                  Explore {openDoor === "film" ? "show" : "film"} <span aria-hidden="true"><ArrowIcon direction="right" /></span>
                 </button>
               </div>
             </div>
@@ -101,7 +103,7 @@ export function DoorsExperience() {
       </section>
 
       <Link href="/" className="doors__skip">
-        Enter Filmshow <span aria-hidden="true">→</span>
+        Enter Filmshow <span aria-hidden="true"><ArrowIcon direction="right" /></span>
       </Link>
     </main>
   );

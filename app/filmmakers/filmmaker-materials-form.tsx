@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -544,7 +546,7 @@ export function FilmmakerMaterialsForm() {
             </p>
           ) : null}
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Sending…" : "Send it →"}
+            {isSubmitting ? "Sending…" : <>Send it <ArrowIcon direction="right" /></>}
           </button>
           <p>Your answers stay on this device if anything goes wrong.</p>
         </section>

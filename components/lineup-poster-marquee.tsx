@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import Image from "next/image";
 import { LumaCheckoutLink } from "@/components/luma-checkout-link";
 import { useRef, useState } from "react";
@@ -140,7 +142,7 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
             onClick={() => goToFilm(activeIndex - 1)}
             aria-label="Show previous film"
           >
-            <span className="lineup-control-arrow" aria-hidden="true">←</span>
+            <span className="lineup-control-arrow" aria-hidden="true"><ArrowIcon direction="left" /></span>
             <span className="lineup-control-label">Previous</span>
           </button>
           <button
@@ -149,7 +151,7 @@ export function LineupPosterMarquee({ films }: LineupPosterMarqueeProps) {
             aria-label="Show next film"
           >
             <span className="lineup-control-label">Next</span>
-            <span className="lineup-control-arrow" aria-hidden="true">→</span>
+            <span className="lineup-control-arrow" aria-hidden="true"><ArrowIcon direction="right" /></span>
           </button>
         </div>
       </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export function DoorTrailer() {
@@ -196,7 +198,7 @@ export function DoorTrailer() {
 
       {!isOpen && (
         <button type="button" className="v2-doors__open" onClick={openWithSound}>
-          Scroll to open <span>↓</span>
+          Scroll to open <span><ArrowIcon direction="down" /></span>
         </button>
       )}
       {isOpen && needsPlay && (
@@ -221,7 +223,7 @@ export function DoorTrailer() {
           {isMuted ? "Unmute" : "Mute"}
         </button>
       )}
-      <a className="v2-doors__continue" href="#experience">What is Filmshow? <span>↓</span></a>
+      <a className="v2-doors__continue" href="#experience">What is Filmshow? <span><ArrowIcon direction="down" /></span></a>
     </section>
   );
 }

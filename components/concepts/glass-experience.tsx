@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { filmshowV2Config } from "@/lib/filmshow-v2-config";
@@ -62,7 +64,7 @@ export function GlassExperience() {
           </div>
           <div className="glass-stage__resolve">
             <p>This is not a festival.</p>
-            <a href="#glass-home">Enter the room <span>↓</span></a>
+            <a href="#glass-home">Enter the room <span><ArrowIcon direction="down" /></span></a>
           </div>
           <span className="glass-stage__counter" aria-hidden="true">01 — 03</span>
         </div>
@@ -78,10 +80,10 @@ export function GlassExperience() {
           </p>
           <div className="glass-home__actions">
             <Link href={filmshowV2Config.tickets.href}>
-              {filmshowV2Config.tickets.label} <span>↗</span>
+              {filmshowV2Config.tickets.label} <span><ArrowIcon direction="up-right" /></span>
             </Link>
             <a href={filmshowV2Config.submissions.href} target="_blank" rel="noreferrer">
-              {filmshowV2Config.submissions.label} <span>↗</span>
+              {filmshowV2Config.submissions.label} <span><ArrowIcon direction="up-right" /></span>
             </a>
           </div>
         </div>
@@ -113,8 +115,8 @@ export function GlassExperience() {
           <p className="concept-kicker">The next volume</p>
           <h2>Come for the film.<br />Stay for whatever happens next.</h2>
           <div>
-            <Link href="/">Explore the current site <span>→</span></Link>
-            <Link href="/concepts/doors">Try another entrance <span>↗</span></Link>
+            <Link href="/">Explore the current site <span><ArrowIcon direction="right" /></span></Link>
+            <Link href="/concepts/doors">Try another entrance <span><ArrowIcon direction="up-right" /></span></Link>
           </div>
         </section>
       </section>

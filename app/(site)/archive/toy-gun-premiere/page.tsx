@@ -1,3 +1,5 @@
+
+import { ArrowIcon } from "@/components/arrow-icon";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,8 +23,8 @@ export default function ToyGunPremierePage() {
         <h2>Where it began.</h2>
         <p>The Toy Gun premiere came before Filmshow Volume 1.</p>
         <Image src="/images/the-team.jpg" alt="The team at the Toy Gun poster" width={5712} height={4284} sizes="(max-width: 760px) 100vw, 80vw" />
-        <Link href="/archive/v1">Next: Volume 1 →</Link>
-        <Link href="/archive">Back to archive →</Link>
+        <Link href="/archive/v1">Next: Volume 1 <ArrowIcon direction="right" /></Link>
+        <Link href="/archive">Back to archive <ArrowIcon direction="right" /></Link>
       </section>
     </main>
   );

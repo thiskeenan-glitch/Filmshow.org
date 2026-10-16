@@ -1,3 +1,5 @@
+
+import { ArrowIcon } from "@/components/arrow-icon";
 import { BackgroundVideo } from "@/components/v2/background-video";
 import Image from "next/image";
 import Link from "next/link";
@@ -54,7 +56,7 @@ export default function VolumeOnePage() {
         <p className="v2-kicker">Next</p>
         <h2>V2</h2>
         <p>Date and location to be announced.</p>
-        <div><Link href="/tickets">Ticket information ↗</Link><Link href="/archive">Back to archive →</Link></div>
+        <div><Link href="/tickets">Ticket information <ArrowIcon direction="up-right" /></Link><Link href="/archive">Back to archive <ArrowIcon direction="right" /></Link></div>
       </section>
     </main>
   );

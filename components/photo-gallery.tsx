@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -167,7 +169,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
               onClick={showPreviousPhoto}
               aria-label="Show previous photo"
             >
-              ←
+              <ArrowIcon direction="left" />
             </button>
             <div
               className="photo-lightbox-image-wrap"
@@ -212,7 +214,7 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
               onClick={showNextPhoto}
               aria-label="Show next photo"
             >
-              →
+              <ArrowIcon direction="right" />
             </button>
           </div>,
           document.body,

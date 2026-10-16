@@ -1,3 +1,5 @@
+
+import { ArrowIcon } from "@/components/arrow-icon";
 import { IntroBackground } from "@/components/v2/intro-background";
 import { PartnerLogoMarquee } from "@/components/partner-logo-marquee";
 import { partnerLogos } from "@/lib/partner-logos";
@@ -59,7 +61,7 @@ export default function FilmshowHome() {
             <div className="v2-take-part__copy">
               <p className="v2-kicker">Submissions open on November 1</p>
               <p>Selected short films will screen in front of a live audience at Rollin Studios in Brooklyn, on a giant 45 foot cyc wall.</p>
-              <a href="https://filmfreeway.com/TheFilmShow" target="_blank" rel="noreferrer">Submit your film <span aria-hidden="true">↗</span></a>
+              <a href="https://filmfreeway.com/TheFilmShow" target="_blank" rel="noreferrer">Submit your film <span aria-hidden="true"><ArrowIcon direction="up-right" /></span></a>
             </div>
           </article>
           <article>
@@ -70,7 +72,7 @@ export default function FilmshowHome() {
             <div className="v2-take-part__copy">
               <p className="v2-kicker">V2 tickets announced soon</p>
               <p>We set Filmshow in the same space where Beyoncé filmed the Single Ladies music video. Nice.</p>
-              <Link href="/tickets">Get tickets <span aria-hidden="true">↗</span></Link>
+              <Link href="/tickets">Get tickets <span aria-hidden="true"><ArrowIcon direction="up-right" /></span></Link>
             </div>
           </article>
         </div>
@@ -120,7 +122,7 @@ export default function FilmshowHome() {
           <p className="v2-kicker">Past shows / 001</p>
           <h2>V1</h2>
           <p>October 3, 2026<br />Brooklyn, New York</p>
-          <Link href="/archive/v1">View Volume 1 <span>→</span></Link>
+          <Link href="/archive/v1">View Volume 1 <span><ArrowIcon direction="right" /></span></Link>
           <Link href="/archive" className="v2-archive-preview__all">All volumes</Link>
         </div>
       </section>

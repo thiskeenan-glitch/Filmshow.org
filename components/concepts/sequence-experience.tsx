@@ -1,5 +1,7 @@
 "use client";
 
+import { ArrowIcon } from "@/components/arrow-icon";
+
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
@@ -78,7 +80,7 @@ export function SequenceExperience() {
           </div>
           <div className="glass-stage__resolve">
             <p>SHOW / FILM / SHOW / FILM</p>
-            <a href="#movement-1">Continue <span>↓</span></a>
+            <a href="#movement-1">Continue <span><ArrowIcon direction="down" /></span></a>
           </div>
         </div>
       </section>
@@ -103,9 +105,9 @@ export function SequenceExperience() {
         <p className="concept-kicker">Filmshow · Brooklyn</p>
         <h2>This is not<br />a festival.</h2>
         <div className="sequence-end__actions">
-          <Link href="/tickets">Tickets <span>↗</span></Link>
-          <a href="https://filmfreeway.com/TheFilmShow" target="_blank" rel="noreferrer">Submit a film <span>↗</span></a>
-          <Link href="/">Filmshow.org <span>→</span></Link>
+          <Link href="/tickets">Tickets <span><ArrowIcon direction="up-right" /></span></Link>
+          <a href="https://filmfreeway.com/TheFilmShow" target="_blank" rel="noreferrer">Submit a film <span><ArrowIcon direction="up-right" /></span></a>
+          <Link href="/">Filmshow.org <span><ArrowIcon direction="right" /></span></Link>
         </div>
       </section>
     </main>

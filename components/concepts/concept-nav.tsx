@@ -1,3 +1,5 @@
+
+import { ArrowIcon } from "@/components/arrow-icon";
 import Link from "next/link";
 
 const concepts = [
@@ -25,7 +27,7 @@ export function ConceptNav({ current }: { current: "doors" | "sequence" | "glass
         ))}
       </nav>
       <Link href="/" className="concept-nav__enter">
-        Enter site <span aria-hidden="true">↗</span>
+        Enter site <span aria-hidden="true"><ArrowIcon direction="up-right" /></span>
       </Link>
     </header>
   );
