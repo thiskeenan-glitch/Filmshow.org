@@ -38,6 +38,27 @@ export function DoorTrailer() {
   }, [playTrailer]);
 
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const viewport = window.matchMedia("(max-width: 760px)");
+    const updateSource = () => {
+      const src = viewport.matches
+        ? "/videos/filmshow-mobile-hero.mp4"
+        : "/videos/filmshow-v1-recap.mp4";
+      video.poster = viewport.matches
+        ? "/images/v2/mobile-hero-poster.jpg"
+        : "/images/v2/v1-screen.jpg";
+      if (video.getAttribute("src") !== src) {
+        video.src = src;
+        video.load();
+      }
+    };
+    updateSource();
+    viewport.addEventListener("change", updateSource);
+    return () => viewport.removeEventListener("change", updateSource);
+  }, []);
+
+  useEffect(() => {
     const openTrailer = () => {
       if (/^#trailer(?:$|#|%23)/i.test(window.location.hash)) openWithSound();
     };
@@ -181,6 +202,7 @@ export function DoorTrailer() {
             }
           }}
         >
+          <source media="(max-width: 760px)" src="/videos/filmshow-mobile-hero.mp4" type="video/mp4" />
           <source src="/videos/filmshow-v1-recap.mp4" type="video/mp4" />
         </video>
         <div className="v2-doors__trailer-label">
