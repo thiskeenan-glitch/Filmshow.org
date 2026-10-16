@@ -9,14 +9,15 @@ export function DoorTrailer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const scrollBlockedUntil = useRef(0);
-  const soundAllowed = useRef(false);
+  const soundAllowed = useRef(true);
   const userMuted = useRef(false);
 
   const playTrailer = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = userMuted.current || !soundAllowed.current;
-    video.play().catch(() => {
+    video.play().catch((error: DOMException) => {
+      if (error.name === "AbortError") return;
       soundAllowed.current = false;
       video.muted = true;
       video.play().catch((error: DOMException) => {
@@ -25,28 +26,25 @@ export function DoorTrailer() {
     });
   }, []);
 
-  useEffect(() => {
-    try {
-      userMuted.current = localStorage.getItem("filmshow-trailer-muted") === "true";
-    } catch { /* Keep the in-memory preference if storage is unavailable. */ }
-    // Start muted until a user gesture successfully enables sound.
-    if (videoRef.current) videoRef.current.muted = true;
-  }, []);
+  const openWithSound = useCallback(() => {
+    userMuted.current = false;
+    soundAllowed.current = true;
+    if (videoRef.current) videoRef.current.volume = 1;
+    setIsOpen(true);
+    // Start inside the opening gesture so browsers can allow audio.
+    playTrailer();
+  }, [playTrailer]);
 
   useEffect(() => {
     const openTrailer = () => {
-      if (/^#trailer(?:$|#|%23)/i.test(window.location.hash)) setIsOpen(true);
+      if (/^#trailer(?:$|#|%23)/i.test(window.location.hash)) openWithSound();
     };
     const onHomeClick = (event: MouseEvent) => {
       const link = (event.target as Element)?.closest("a");
       if (!link) return;
       const url = new URL(link.href, window.location.href);
       if (url.origin === window.location.origin && (url.pathname === "/" || url.pathname === "/v2") && url.hash === "#trailer") {
-        setIsOpen(true);
-        const video = videoRef.current;
-        if (video) {
-          playTrailer();
-        }
+        openWithSound();
       }
     };
     openTrailer();
@@ -56,7 +54,7 @@ export function DoorTrailer() {
       window.removeEventListener("hashchange", openTrailer);
       document.removeEventListener("click", onHomeClick);
     };
-  }, [playTrailer]);
+  }, [openWithSound]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -87,7 +85,7 @@ export function DoorTrailer() {
       if (!isOpen && delta > 0) {
         event.preventDefault();
         scrollBlockedUntil.current = performance.now() + 1400;
-        setIsOpen(true);
+        openWithSound();
       }
     };
     const onWheel = (event: WheelEvent) => {
@@ -115,7 +113,7 @@ export function DoorTrailer() {
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("keydown", onScrollKey);
     };
-  }, [isOpen, playTrailer]);
+  }, [isOpen, openWithSound]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -163,7 +161,6 @@ export function DoorTrailer() {
       <div className="v2-doors__trailer">
         <video
           ref={videoRef}
-          autoPlay
           loop
           playsInline
           preload="auto"
@@ -198,7 +195,7 @@ export function DoorTrailer() {
       </div>
 
       {!isOpen && (
-        <button type="button" className="v2-doors__open" onClick={() => { setIsOpen(true); playTrailer(); }}>
+        <button type="button" className="v2-doors__open" onClick={openWithSound}>
           Scroll to open <span>↓</span>
         </button>
       )}
@@ -217,9 +214,6 @@ export function DoorTrailer() {
             video.volume = 1;
             video.muted = !video.muted;
             userMuted.current = video.muted;
-            try {
-              localStorage.setItem("filmshow-trailer-muted", String(userMuted.current));
-            } catch { /* The preference still persists while this component is mounted. */ }
             setIsMuted(video.muted);
             playTrailer();
           }}
