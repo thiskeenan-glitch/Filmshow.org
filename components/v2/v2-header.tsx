@@ -3,7 +3,7 @@ import Link from "next/link";
 export function V2Header() {
   return (
     <header className="v2-header">
-      <Link href="/#trailer" className="v2-header__brand"><i />FILMSHOW</Link>
+      <Link href="/#trailer" className="v2-header__brand" aria-label="Filmshow — back to top"><i aria-hidden="true" />FILMSHOW</Link>
       <nav aria-label="Filmshow navigation">
         <Link href="/#experience">Experience</Link>
         <Link href="/archive">Archive</Link>

@@ -3,7 +3,7 @@ import Link from "next/link";
 export function V2Footer() {
   return (
     <footer className="v2-footer">
-      <div><i />FILMSHOW</div>
+      <Link href="/#trailer" className="v2-footer__brand" aria-label="Filmshow — back to top"><i aria-hidden="true" />FILMSHOW</Link>
       <p>Short films and live theater.<br />Brooklyn, New York.</p>
       <div className="v2-footer__links">
         <Link href="/archive">Archive</Link>
