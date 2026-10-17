@@ -259,7 +259,6 @@ body:has(.v2-site)::after { mix-blend-mode: overlay; opacity: .08; }
   .v2-doors__close { right: 1rem; top: 4.5rem; }
   .v2-doors__continue { bottom: 4.2rem; white-space: nowrap; }
   .v2-doors__trailer { inset: 5rem 1rem 9rem; }
-  .v2-doors__trailer video { box-sizing: border-box; border: 1px solid rgba(255, 255, 255, .55); }
   .v2-doors__trailer-label { bottom: -2.5rem; left: 0; right: 0; }
   .v2-intro { display: block; padding: 8rem 1.2rem 6rem; }
   .v2-intro h1 { font-size: 17vw; margin: 4rem 0 6rem; }
