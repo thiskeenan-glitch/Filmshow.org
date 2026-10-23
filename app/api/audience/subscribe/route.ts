@@ -44,6 +44,10 @@ export async function POST(request: Request) {
     return invalid("That signup did not come through cleanly. Try again.");
   }
 
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return invalid("That signup did not come through cleanly. Try again.");
+  }
+
   if (cleanText(payload.company)) {
     return invalid("That signup did not come through cleanly. Try again.");
   }
@@ -51,6 +55,11 @@ export async function POST(request: Request) {
   const email = cleanText(payload.email).toLowerCase();
   const placement = cleanText(payload.placement) === "submit" ? "submit" : "footer";
   const sourceContext = cleanSourceContext(payload.source_context);
+  const interest = cleanText(payload.interest);
+  // Older forms may omit interest; never infer consent to a specific topic.
+  if (interest && !["filmmaker", "fan", "both"].includes(interest)) {
+    return invalid("Choose Filmmaker, Fan, or Both.");
+  }
 
   if (!/^\S+@\S+\.\S+$/.test(email) || email.length > 254) {
     return invalid("Add a valid email to join the list.");
@@ -58,6 +67,12 @@ export async function POST(request: Request) {
 
   const tags = ["newsletter", "website_signup"];
   if (sourceContext) tags.push(sourceContext);
+  if (interest === "filmmaker" || interest === "both") {
+    tags.push("filmmaker", "submission_news");
+  }
+  if (interest === "fan" || interest === "both") {
+    tags.push("fan", "ticket_news");
+  }
 
   if (sourceContext?.startsWith("filmfreeway")) {
     tags.push("filmmaker", "filmfreeway_submitter", "filmshow_vol_1");
@@ -71,9 +86,10 @@ export async function POST(request: Request) {
       tags,
       marketingOptIn: true,
       consentSource: sourceContext || `website_${placement}`,
-      dedupeKey: `website-subscribe:${email}:${sourceContext || placement}`,
+      dedupeKey: `website-subscribe:${email}:${sourceContext || placement}:${interest || "general"}`,
       metadata: {
         placement,
+        interest: interest || null,
         source_context: sourceContext,
       },
     });

@@ -716,3 +716,8 @@ html.v2-recap-visible .film-scroll-pop-layer { visibility: hidden; }
   border-radius: 99px; background: rgba(0,0,0,.75); color: #fff;
   font: 700 .75rem/1.2 Arial, sans-serif; cursor: pointer;
 }
+
+.v2-newsletter { border-top: 1px solid var(--v2-line); padding: 5rem 5vw; }
+.v2-newsletter .brevo-signup { margin-bottom: 0; }
+.v2-newsletter .brevo-signup-copy h2 { color: var(--v2-red); font-family: var(--font-title-original); }
+.v2-newsletter .brevo-signup-copy p { color: var(--v2-muted); }

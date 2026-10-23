@@ -1,7 +1,10 @@
+import { BrevoSignup } from "@/components/brevo-signup";
 import Link from "next/link";
 
 export function V2Footer() {
   return (
+    <>
+    <div id="stay-in-the-loop" className="v2-newsletter"><BrevoSignup placement="footer" /></div>
     <footer className="v2-footer">
       <Link href="/#trailer" className="v2-footer__brand" aria-label="Filmshow — back to top"><i aria-hidden="true" />FILMSHOW</Link>
       <p>Short films and live theater.<br />Brooklyn, New York.</p>
@@ -12,5 +15,6 @@ export function V2Footer() {
       </div>
       <span>© {new Date().getFullYear()} Filmshow</span>
     </footer>
+    </>
   );
 }
