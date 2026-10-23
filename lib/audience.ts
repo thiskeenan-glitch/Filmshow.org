@@ -115,6 +115,9 @@ async function upsertContact(
 
   const raw = await response.text();
   if (!response.ok) {
+    let code: string | null = null;
+    try { code = (JSON.parse(raw) as { code?: string }).code || null; } catch {}
+    console.error("audience_contact_storage_error", { status: response.status, code });
     throw new Error("The audience contact could not be saved.");
   }
 
