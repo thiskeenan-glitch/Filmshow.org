@@ -6440,7 +6440,7 @@ html.is-film-scrolling {
 .brevo-signup-interests input:focus-visible + span { outline: 2px solid white; outline-offset: 4px; }
 .brevo-signup-consent { font-size: .75rem; line-height: 1.6; color: #bdbdbd; margin-top: .5rem; }
 .brevo-signup-status { margin-top: 1rem; }
-@media (max-width: 480px) {
+@media (max-width: 760px) {
   .brevo-signup-email-row { flex-direction: column; }
   .brevo-signup-email-row .brevo-signup-input { flex: auto; width: 100%; }
 }
