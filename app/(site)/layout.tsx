@@ -6,7 +6,7 @@ import { MotionEffects } from "@/components/motion-effects";
 import "../filmshow.css";
 
 export const metadata: Metadata = {
-  title: { default: "Filmshow — Short Films and Live Theater", template: "%s — Filmshow" },
+  title: { default: "Filmshow | Short Films and Live Theater", template: "%s | Filmshow" },
   description: "Filmshow is a twice-yearly Brooklyn event combining short films and live theater.",
   robots: { index: true, follow: true },
 };

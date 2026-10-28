@@ -10,7 +10,7 @@ import { DoorTrailer } from "@/components/v2/door-trailer";
 
 
 export const metadata = {
-  title: "Filmshow — Short Films and Live Theater",
+  title: "Filmshow | Short Films and Live Theater",
   description: "Short films and live theater in Brooklyn, New York. Explore past shows, submit your film, and join the next Filmshow.",
   alternates: { canonical: "/" },
 };
