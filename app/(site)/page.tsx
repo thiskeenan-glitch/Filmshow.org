@@ -10,7 +10,7 @@ import { DoorTrailer } from "@/components/v2/door-trailer";
 
 
 export const metadata = {
-  title: "Filmshow — Short Films and Live Theater",
+  title: "Filmshow | Short Films and Live Theater",
   description: "Short films and live theater in Brooklyn, New York. Explore past shows, submit your film, and join the next Filmshow.",
   alternates: { canonical: "/" },
 };
@@ -59,7 +59,7 @@ export default function FilmshowHome() {
               <h3>Filmmakers.</h3>
             </div>
             <div className="v2-take-part__copy">
-              <p className="v2-kicker">Submissions open on November 1</p>
+              <p className="v2-kicker">Submissions are now open</p>
               <p>Selected short films will screen in front of a live audience at Rollin Studios in Brooklyn, on a giant 45 foot cyc wall.</p>
               <a href="https://filmfreeway.com/TheFilmShow" target="_blank" rel="noreferrer">Submit your film <span aria-hidden="true"><ArrowIcon direction="up-right" /></span></a>
             </div>

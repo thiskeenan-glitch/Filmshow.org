@@ -5,8 +5,8 @@ export const filmshowV2Config = {
     href: "/tickets",
   },
   submissions: {
-    status: "check-current-page" as const,
-    label: "Submission details",
+    status: "open" as const,
+    label: "Submissions are now open",
     href: "https://filmfreeway.com/TheFilmShow",
   },
   editions: [

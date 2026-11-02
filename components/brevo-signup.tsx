@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useId } from "react";
 
 type SubmitState = "idle" | "sending" | "success" | "error";
 
@@ -10,7 +10,7 @@ type BrevoSignupProps = {
 };
 
 export function BrevoSignup({ placement, sourceContext }: BrevoSignupProps) {
-  const inputId = `brevo-email-${placement}`;
+  const inputId = useId();
   const [state, setState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
 
@@ -34,6 +34,7 @@ export function BrevoSignup({ placement, sourceContext }: BrevoSignupProps) {
           email: data.get("EMAIL"),
           company: data.get("company"),
           placement,
+          interest: data.get("interest"),
           source_context: sourceContext || urlSource,
         }),
       });
@@ -59,9 +60,9 @@ export function BrevoSignup({ placement, sourceContext }: BrevoSignupProps) {
   return (
     <section className={`brevo-signup brevo-signup--${placement}`}>
       <div className="brevo-signup-copy">
-        <h2>Stay in the room</h2>
+        <h2>Stay in the loop</h2>
         <p>
-          just the important stuff. Behind the scenes, when seats open up, and film submission windows
+          Submission news for filmmakers. Ticket news for fans. Pick what you want to hear about.
         </p>
       </div>
       <form
@@ -69,6 +70,20 @@ export function BrevoSignup({ placement, sourceContext }: BrevoSignupProps) {
         className="brevo-signup-form"
         onSubmit={handleSubmit}
       >
+        <fieldset className="brevo-signup-interests" disabled={state === "sending"}>
+          <legend>I&apos;m a...</legend>
+          {[
+            { value: "filmmaker", label: "Filmmaker", detail: "Submission news" },
+            { value: "fan", label: "Fan", detail: "Ticket news" },
+            { value: "both", label: "Both", detail: "All of the above" },
+          ].map((option) => (
+            <label key={option.value}>
+              <input type="radio" name="interest" value={option.value} required />
+              <span><strong>{option.label}</strong><small>{option.detail}</small></span>
+            </label>
+          ))}
+        </fieldset>
+        <div className="brevo-signup-email-row">
         <label className="sr-only" htmlFor={inputId}>
           Email address
         </label>
@@ -89,6 +104,8 @@ export function BrevoSignup({ placement, sourceContext }: BrevoSignupProps) {
         >
           {state === "sending" ? "Joining…" : "Join the List"}
         </button>
+        </div>
+        <p className="brevo-signup-consent">By joining, you agree to receive Filmshow emails about your selections. Unsubscribe anytime.</p>
         <input
           className="brevo-signup-honeypot"
           type="text"

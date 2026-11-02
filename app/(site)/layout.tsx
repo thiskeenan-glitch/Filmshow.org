@@ -3,10 +3,11 @@ import type { ReactNode } from "react";
 import { V2Footer } from "@/components/v2/v2-footer";
 import { V2Header } from "@/components/v2/v2-header";
 import { MotionEffects } from "@/components/motion-effects";
+import { SubmissionInvitation } from "@/components/v2/submission-invitation";
 import "../filmshow.css";
 
 export const metadata: Metadata = {
-  title: { default: "Filmshow — Short Films and Live Theater", template: "%s — Filmshow" },
+  title: { default: "Filmshow | Short Films and Live Theater", template: "%s | Filmshow" },
   description: "Filmshow is a twice-yearly Brooklyn event combining short films and live theater.",
   robots: { index: true, follow: true },
 };
@@ -18,6 +19,7 @@ export default function FilmshowLayout({ children }: { children: ReactNode }) {
       <V2Header />
       {children}
       <V2Footer />
+      <SubmissionInvitation />
     </div>
   );
 }
