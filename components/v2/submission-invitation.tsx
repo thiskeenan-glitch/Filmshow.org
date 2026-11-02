@@ -20,7 +20,7 @@ export function SubmissionInvitation() {
       dialog.showModal();
       try { localStorage.setItem(SEEN_KEY, "seen"); } catch { /* Private browser settings. */ }
       try { sessionStorage.setItem(SEEN_KEY, "seen"); } catch { /* Storage is optional. */ }
-    }, 3000);
+    }, 10000);
 
     return () => {
       window.clearTimeout(timer);
